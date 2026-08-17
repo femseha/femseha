@@ -8,6 +8,7 @@ import Doctor from "@/pages/Doctor";
 import Contact from "@/pages/Contact";
 import Search from "@/pages/Search";
 import NotFound from "@/pages/NotFound";
+import Admin from "@/pages/Admin";
 import { About, MedicalDisclaimer, MedicalReview, Privacy, Sources } from "@/pages/Static";
 
 const TOPIC_ROUTES = [
@@ -27,6 +28,11 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* مسار لوحة التحكم */}
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/login" element={<Admin />} />
+
+        {/* باقي مسارات الموقع */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           {TOPIC_ROUTES.map((slug) => (
