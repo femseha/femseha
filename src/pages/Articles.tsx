@@ -9,18 +9,19 @@ export default function Articles() {
   const categories = [
     { id: 'all', name: 'جميع المقالات' },
     { id: 'womens-health', name: 'صحة المرأة والحمل' },
-    { id: 'pregnancy', name: 'أعراض وفحوصات الحمل' },
-    { id: 'cycles', name: 'الدورة الشهرية والتبويض' }
+    { id: 'pregnancy', name: 'أعراض وفحوصات الحمل' }
   ];
 
-  const filteredArticles = articles.filter((article) => {
-    const matchesSearch =
-      article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      article.summary.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (article.primaryKeyword && article.primaryKeyword.toLowerCase().includes(searchTerm.toLowerCase()));
+  const articleList = Array.isArray(articles) ? articles : [];
+
+  const filteredArticles = articleList.filter((article) => {
+    const titleMatch = article?.title?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
+    const summaryMatch = article?.summary?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
+    const keywordMatch = article?.primaryKeyword?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
+    const matchesSearch = titleMatch || summaryMatch || keywordMatch;
     
     const matchesCategory =
-      selectedCategory === 'all' || article.category === selectedCategory;
+      selectedCategory === 'all' || article?.category === selectedCategory;
 
     return matchesSearch && matchesCategory;
   });
@@ -28,7 +29,6 @@ export default function Articles() {
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
       <div className="max-w-6xl mx-auto">
-        {/* رأس الصفحة */}
         <div className="text-center mb-10">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
             المقالات والأدلة الطبية المتخصصة
@@ -38,10 +38,8 @@ export default function Articles() {
           </p>
         </div>
 
-        {/* شريط البحث والتصنيفات */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-10">
           <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
-            {/* حقل البحث */}
             <div className="w-full md:w-1/2">
               <input
                 type="text"
@@ -52,7 +50,6 @@ export default function Articles() {
               />
             </div>
 
-            {/* أزرار الفلترة */}
             <div className="flex flex-wrap gap-2 w-full md:w-auto justify-center">
               {categories.map((cat) => (
                 <button
@@ -71,7 +68,6 @@ export default function Articles() {
           </div>
         </div>
 
-        {/* قائمة المقالات */}
         {filteredArticles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredArticles.map((article) => (
@@ -121,3 +117,5 @@ export default function Articles() {
     </div>
   );
 }
+
+export { Articles };
