@@ -29,7 +29,6 @@ export default function Articles() {
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
       <div className="max-w-6xl mx-auto">
-        {/* رأس الصفحة */}
         <div className="text-center mb-10">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
             المقالات والأدلة الطبية المتخصصة
@@ -39,7 +38,6 @@ export default function Articles() {
           </p>
         </div>
 
-        {/* شريط البحث والفلترة */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-10">
           <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
             <div className="w-full md:w-1/2">
@@ -70,7 +68,6 @@ export default function Articles() {
           </div>
         </div>
 
-        {/* شبكة المقالات */}
         {filteredArticles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredArticles.map((article) => (
