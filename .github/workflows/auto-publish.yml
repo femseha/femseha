@@ -1,10 +1,13 @@
-name: 🚀 Auto Publish Medical Articles (Autopilot)
+name: 🚀 Auto Publish Medical Articles (3 Times Daily)
 
 on:
   schedule:
-    # يعمل تلقائياً كل يوم الساعة 9:00 صباحاً بتوقيت مكة المكرمة
-    - cron: '0 6 * * *'
-  # يتيح لك تشغيله يدوياً في أي وقت
+    # يعمل تلقائياً 3 مرات في اليوم بتوقيت مكة المكرمة:
+    # 1) الساعة 9:00 صباحاً (06:00 UTC)
+    # 2) الساعة 3:00 عصراً  (12:00 UTC)
+    # 3) الساعة 9:00 مساءً (18:00 UTC)
+    - cron: '0 6,12,18 * * *'
+  # يتيح لك تشغيله يدوياً في أي وقت بضغطة زر
   workflow_dispatch:
 
 permissions:
