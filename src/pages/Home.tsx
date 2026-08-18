@@ -71,9 +71,9 @@ export default function Home() {
   ];
 
   return (
-    <div className="space-y-14 py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" dir="rtl">
+    <div className="space-y-12 py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" dir="rtl">
       
-      {/* 1. الواجهة الترحيبية الأنيقة */}
+      {/* 1. الواجهة الترحيبية الأنيقة (مربع المنصة الطبية) */}
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-rose-900 via-rose-800 to-slate-900 text-white p-8 sm:p-12 lg:p-14 shadow-xl">
         <div className="relative z-10 max-w-3xl space-y-6">
           <div className="inline-flex items-center gap-2 bg-white/15 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold text-rose-100">
@@ -114,36 +114,51 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. قسم من نحن مع صورة الطبيب بحجم مصغر وأنيق */}
-      <section className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
-        
-        {/* الصورة بحجم بطاقة مصغرة ومتناسقة */}
-        <div className="w-full md:w-auto flex-shrink-0 flex justify-center">
-          <div className="relative group">
-            <div className="w-64 sm:w-72 h-80 rounded-2xl overflow-hidden border-2 border-rose-100 shadow-lg bg-slate-50">
-              <img
-                src="/banner.jpg.png"
-                alt="د. هيثم الخطيب"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  if (target.src.endsWith('/banner.jpg.png')) {
-                    target.src = '/banner.jpg';
-                  } else {
-                    target.src = '/banner.png';
-                  }
-                }}
-                className="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300"
-              />
-            </div>
-            <div className="absolute -bottom-2.5 right-3 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
-              ● متاح للاستشارات
+      {/* 2. الصورة كبانر مستطيل أنيق تحت مربع المنصة مباشرة */}
+      <section className="relative overflow-hidden rounded-3xl border border-slate-200 shadow-xl bg-slate-950 group">
+        <a
+          href="https://wa.me/966599287172"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block relative"
+        >
+          {/* مقاس مستطيل متناسق (ارتفاع 260px على الجوال و 360px على الشاشات الكبيرة) */}
+          <div className="w-full h-56 sm:h-72 md:h-80 lg:h-96 relative overflow-hidden">
+            <img
+              src="/banner.jpg.png"
+              alt="د. هيثم الخطيب - استشارات طبية متخصصة"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                if (target.src.endsWith('/banner.jpg.png')) {
+                  target.src = '/banner.png';
+                } else if (target.src.endsWith('/banner.png')) {
+                  target.src = '/banner.jpg';
+                } else {
+                  target.src = '/doctor.jpg';
+                }
+              }}
+              className="w-full h-full object-cover object-center group-hover:scale-[1.01] transition-transform duration-500"
+            />
+            
+            {/* طبقة تظليل خفيفة مع شريط التواصل المباشر */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none"></div>
+            
+            <div className="absolute bottom-4 right-4 left-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <span className="text-white text-xs sm:text-sm font-bold bg-black/50 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20">
+                🩺 استشارات ورعاية سريرية بإشراف د. هيثم الخطيب
+              </span>
+              <span className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-xl shadow-lg text-xs sm:text-sm flex items-center gap-2 transition">
+                <span>💬</span> اضغطي هنا للتواصل الفوري عبر الواتساب
+              </span>
             </div>
           </div>
-        </div>
+        </a>
+      </section>
 
-        {/* النبذة والتعريف السريري */}
-        <div className="space-y-4 flex-grow">
-          <div className="inline-block bg-rose-50 text-rose-700 text-xs font-bold px-3 py-1 rounded-full border border-rose-100">
+      {/* 3. قسم من نحن والتعريف بالطبيب والعيادة */}
+      <section className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="space-y-4 max-w-2xl">
+          <div className="inline-block bg-rose-50 text-rose-700 text-xs font-bold px-3.5 py-1 rounded-full border border-rose-100">
             👨‍⚕️ المشرف الطبي العام للمنصة
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
@@ -172,9 +187,31 @@ export default function Home() {
             </a>
           </div>
         </div>
+
+        {/* بطاقة العيادة المصغرة */}
+        <div className="bg-gradient-to-br from-rose-50 to-slate-100 p-7 rounded-3xl border border-rose-100 text-center w-full md:w-80 space-y-3 shadow-inner">
+          <img
+            src="/logo.png.png"
+            alt="شعار Femseha"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/logo.png';
+            }}
+            className="w-20 h-20 mx-auto object-contain drop-shadow-sm"
+          />
+          <div>
+            <div className="font-extrabold text-slate-900 text-base">العيادة والاستشارات السريرية</div>
+            <p className="text-xs text-slate-500 mt-0.5">مواعيد المراجعة والتقارير الطبية</p>
+          </div>
+          <a
+            href="tel:00966599287172"
+            className="block w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-xs shadow transition"
+          >
+            📞 00966599287172
+          </a>
+        </div>
       </section>
 
-      {/* 3. إحصائيات سريعة */}
+      {/* 4. إحصائيات سريعة */}
       <section className="bg-gradient-to-r from-rose-900 to-slate-900 text-white p-6 sm:p-8 rounded-2xl shadow-md">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
           {stats.map((s, i) => (
@@ -186,7 +223,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. شبكة الخدمات التخصصية */}
+      {/* 5. شبكة الخدمات التخصصية */}
       <section className="space-y-6">
         <div className="text-center space-y-2">
           <span className="text-xs font-bold text-rose-600 bg-rose-50 px-3.5 py-1 rounded-full border border-rose-100">
@@ -226,7 +263,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. الأدلة والمقالات الطبية */}
+      {/* 6. الأدلة والمقالات الطبية */}
       <section className="space-y-6 bg-slate-100/70 -mx-4 sm:-mx-6 lg:-mx-8 p-6 sm:p-10 rounded-3xl">
         <div className="max-w-7xl mx-auto space-y-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3">
@@ -281,7 +318,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. الأسئلة الشائعة */}
+      {/* 7. الأسئلة الشائعة */}
       <section className="space-y-6 max-w-4xl mx-auto">
         <div className="text-center space-y-2">
           <span className="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1 rounded-full">
