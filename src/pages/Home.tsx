@@ -65,7 +65,6 @@ export default function Home() {
 
   return (
     <div className="space-y-16 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" dir="rtl">
-      
       {/* 1. Hero Section */}
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-rose-900 via-rose-800 to-slate-900 text-white p-8 sm:p-12 lg:p-16 shadow-xl">
         <div className="relative z-10 max-w-3xl space-y-6">
@@ -86,7 +85,7 @@ export default function Home() {
               href="https://wa.me/966599287172"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3.5 rounded-2xl shadow-lg hover:shadow-emerald-600/30 transition flex items-center gap-2 text-sm sm:text-base"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3.5 rounded-2xl shadow-lg transition flex items-center gap-2 text-sm sm:text-base"
             >
               💬 استشارة واتساب سريرية
             </a>
@@ -102,19 +101,6 @@ export default function Home() {
             >
               📞 00966599287172
             </a>
-          </div>
-
-          {/* Quick Trust Highlights */}
-          <div className="pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs sm:text-sm text-slate-300">
-            <div className="flex items-center gap-2">
-              <span className="text-emerald-400 font-bold">✓</span> استشارات طبية معتمدة
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-emerald-400 font-bold">✓</span> خصوصية وسرية تامة
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-emerald-400 font-bold">✓</span> متابعة تشخيصية دقيقة
-            </div>
           </div>
         </div>
       </section>
@@ -134,7 +120,7 @@ export default function Home() {
           <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
             خبرة سريرية واسعة في إدارة حالات الحمل عالي الخطورة، بروتوكولات الحقن المجهري، مناظير البطن والرحم، وعلاج اضطرابات التبويض وفق أحدث الإرشادات الطبية المعتمدة.
           </p>
-          <div className="flex items-center gap-4 pt-2">
+          <div className="pt-2">
             <Link
               to="/doctor"
               className="text-rose-600 font-bold text-sm hover:underline flex items-center gap-1"
@@ -158,7 +144,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. Clinical Services Grid */}
+      {/* 3. Services Grid */}
       <section className="space-y-8">
         <div className="text-center space-y-2">
           <span className="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1 rounded-full">
@@ -167,9 +153,6 @@ export default function Home() {
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
             رعاية سريرية شاملة لصحة المرأة في كل مرحلة
           </h2>
-          <p className="text-slate-500 text-sm max-w-xl mx-auto">
-            بروتوكولات تشخيصية وعلاجية مبنية على البراهين الطبية لضمان سلامتك وسلامة جنينك.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -201,7 +184,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. Featured Medical Articles */}
+      {/* 4. Featured Articles */}
       <section className="space-y-8 bg-slate-100/60 -mx-4 sm:-mx-6 lg:-mx-8 p-6 sm:p-10 rounded-3xl">
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
@@ -256,7 +239,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. FAQ Section */}
+      {/* 5. FAQs */}
       <section className="space-y-6 max-w-4xl mx-auto">
         <div className="text-center space-y-2">
           <span className="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1 rounded-full">
@@ -280,33 +263,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
-      {/* 6. Bottom Emergency / Direct Contact CTA */}
-      <section className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 text-center space-y-6 shadow-xl">
-        <h2 className="text-2xl sm:text-3xl font-black">
-          هل تحتاجين إلى استشارة طبية أو تقييم سريري عاجل؟
-        </h2>
-        <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-          فريقنا الطبي المباشر بإشراف د. هيثم الخطيب جاهز للرد على استفساراتك ومتابعة حالتك بأعلى درجات الخصوصية والاحترافية.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4 pt-2">
-          <a
-            href="https://wa.me/966599287172"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg transition text-sm sm:text-base"
-          >
-            💬 محادثة واتساب مباشرة (00966599287172)
-          </a>
-          <a
-            href="tel:00966599287172"
-            className="bg-rose-600 hover:bg-rose-700 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg transition text-sm sm:text-base"
-          >
-            📞 اتصال هاتفي مباشر
-          </a>
-        </div>
-      </section>
-
     </div>
   );
 }
