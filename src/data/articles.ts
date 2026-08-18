@@ -3,18 +3,29 @@ export interface Article {
   slug: string;
   title: string;
   category: string;
-  categoryName: string;
-  author: string;
-  authorTitle: string;
-  publishDate: string;
-  readingTime: number;
-  seoTitle: string;
-  metaDescription: string;
-  primaryKeyword: string;
+  categoryName?: string;
+  author?: string;
+  authorTitle?: string;
+  publishDate?: string;
+  date?: string;
+  readingTime?: number;
+  seoTitle?: string;
+  metaDescription?: string;
+  primaryKeyword?: string;
   summary: string;
   content: string;
   image?: string;
+  imageUrl?: string;
 }
+
+export const categories = [
+  { id: 'all', name: 'جميع المقالات', slug: 'all' },
+  { id: 'womens-health', name: 'صحة المرأة والحمل', slug: 'womens-health' },
+  { id: 'pregnancy', name: 'أعراض وفحوصات الحمل', slug: 'pregnancy' },
+  { id: 'cycles', name: 'الدورة الشهرية والتبويض', slug: 'cycles' }
+];
+
+export const CATEGORIES = categories;
 
 export const articles: Article[] = [
   {
@@ -26,6 +37,7 @@ export const articles: Article[] = [
     author: "د. هيثم الخطيب",
     authorTitle: "طبيب اختصاصي جراحة النساء والتوليد والعقم",
     publishDate: "2026-08-18",
+    date: "2026-08-18",
     readingTime: 6,
     seoTitle: "حبوب سايتوتك في السعودية والخليج | د. هيثم الخطيب",
     metaDescription: "دليل طبي سريري يوضح محاذير استخدام سايتوتك والفرق بين الأصلي والمغشوش واستشارة د. هيثم الخطيب 00966599287172.",
@@ -48,7 +60,8 @@ export const articles: Article[] = [
 📱 هاتف العيادة: 00966599287172
 🌐 المنصة الرسمية: femseha.com
 
-⚠️ إخلاء مسؤولية طبية: هذا المحتوى مخصص للتوعية الصحية فقط ولا يغني عن الاستشارة السريرية المباشرة مع الطبيب.`
+⚠️ إخلاء مسؤولية طبية: هذا المحتوى مخصص للتوعية الصحية فقط ولا يغني عن الاستشارة السريرية المباشرة مع الطبيب.`,
+    image: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1200&q=80"
   },
   {
     id: "guide-pregnancy-signs",
@@ -59,9 +72,10 @@ export const articles: Article[] = [
     author: "د. هيثم الخطيب",
     authorTitle: "طبيب اختصاصي جراحة النساء والتوليد والعقم",
     publishDate: "2026-08-18",
+    date: "2026-08-18",
     readingTime: 5,
     seoTitle: "علامات الحمل المبكرة قبل الدورة بـ 7 أيام | د. هيثم الخطيب",
-    metaDescription: "تعرفي على أهم أعراض وععلامات الحمل المبكرة المؤكدة قبل موعد الدورة بـ 7 أيام مع د. هيثم الخطيب 00966599287172.",
+    metaDescription: "تعرفي على أهم أعراض وعلامات الحمل المبكرة المؤكدة قبل موعد الدورة بـ 7 أيام مع د. هيثم الخطيب 00966599287172.",
     primaryKeyword: "علامات الحمل المبكرة جدا",
     summary: "شرح طبي مفصل لأبرز التغيرات الهرمونية والجسدية الدالة على انغراس البويضة وحدوث الحمل المبكر قبل موعد الدورة الشهرية.",
     content: `تظهر بعض العلامات الفسيولوجية المبكرة نتيجة ارتفاع هرموني البروجستيرون و hCG في الدم بعد انغراس البويضة المخصبة.
@@ -72,6 +86,10 @@ export const articles: Article[] = [
 3. تقلصات خفيفة أسفل البطن تشبه نغزات التبويض.
 
 ### للتواصل والاستشارة:
-د. هيثم الخطيب: 00966599287172`
+د. هيثم الخطيب: 00966599287172`,
+    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1200&q=80"
   }
 ];
+
+export const ARTICLES = articles;
+export default articles;
