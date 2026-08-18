@@ -18,24 +18,25 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 py-10 px-4" dir="rtl">
       <div className="max-w-4xl mx-auto space-y-8">
         
+        {/* البانر الكبير الذي رفعته */}
+        <div className="rounded-3xl overflow-hidden shadow-2xl bg-white border-4 border-white">
+          <img src="/doctor.jpg.png" alt="بانر د. هيثم" className="w-full h-auto block" />
+        </div>
+
+        {/* اللوجو */}
+        <div className="flex justify-center">
+          <img src="/logo.png.png" alt="شعار المنصة" className="w-24 h-24 object-contain" />
+        </div>
+
         {/* المربع الترحيبي */}
         <div className="bg-rose-900 text-white p-8 rounded-3xl text-center shadow-2xl">
           <h1 className="text-4xl font-bold">منصة د. هيثم الخطيب الطبية</h1>
           <p className="mt-2 opacity-90">اختصاصي جراحة النساء والتوليد والعقم وتأخر الإنجاب</p>
         </div>
 
-        {/* الصورة الرئيسية (باستخدام الاسم الصحيح المرفوع) */}
-        <div className="rounded-3xl overflow-hidden shadow-2xl bg-white border-2 border-gray-100">
-          <img 
-            src="/doctor.jpg.png" 
-            alt="د. هيثم الخطيب" 
-            className="w-full h-auto block"
-          />
-        </div>
-
         {/* أزرار التواصل */}
-        <div className="flex justify-center gap-4">
-          <a href="https://wa.me/966599287172" className="bg-emerald-600 text-white px-8 py-4 rounded-full text-xl font-bold hover:bg-emerald-700 transition shadow-lg">
+        <div className="flex justify-center">
+          <a href="https://wa.me/966599287172" className="bg-emerald-600 text-white px-10 py-5 rounded-full text-xl font-bold hover:bg-emerald-700 transition shadow-lg">
             💬 تواصل عبر واتساب
           </a>
         </div>
@@ -68,9 +69,6 @@ export default function Home() {
                 <Link to={`/articles/${art.slug || art.id}`} className="text-rose-700 font-bold hover:underline">قراءة ←</Link>
               </div>
             ))}
-          </div>
-          <div className="mt-6 text-center">
-            <Link to="/articles" className="text-rose-900 font-bold underline">عرض جميع المقالات</Link>
           </div>
         </div>
 
