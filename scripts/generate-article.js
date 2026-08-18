@@ -4,15 +4,37 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const articlesFilePath = path.join(__dirname, '../src/data/articles.ts');
 
-const TOPICS = [
+// بنك الكلمات المفتاحية ومواضيع السيو المستهدفة
+const TOPIC_BANK = [
   {
-    topic: "بروتوكول التعامل مع الإجهاض المنذر والنزيف في الثلث الأول من الحمل",
+    topic: "سايتوتك في السعودية والرياض: دواعي الاستعمال والمحاذير السريرية",
     cat: "clinical-guides",
     catName: "إرشادات الأدوية والبروتوكولات"
   },
   {
-    topic: "أدوية تنشيط التبويض والحقن المجهري: متى وكيف تستخدم بأمان؟",
+    topic: "أدوية وموانع استخدام ميزوبروستول في الكويت، البحرين، والإمارات",
+    cat: "clinical-guides",
+    catName: "إرشادات الأدوية والبروتوكولات"
+  },
+  {
+    topic: "حبوب وأدوية إجهاض الحمل: المخاطر السريرية وضرورة الفحص بالسونار",
+    cat: "clinical-guides",
+    catName: "إرشادات الأدوية والبروتوكولات"
+  },
+  {
+    topic: "البروتوكول الطبي المعتمد لعلاج الإجهاض المنسي بالمستشفيات",
+    cat: "clinical-guides",
+    catName: "إرشادات الأدوية والبروتوكولات"
+  },
+  {
+    topic: "أعراض متلازمة تكيس المبايض والبروتوكول العلاجي الحديث للحمل",
+    cat: "womens-health",
+    catName: "صحة المرأة والخصوبة"
+  },
+  {
+    topic: "تحليل مخزون المبيض AMH: قراءة الأرقام ودلالتها للخصوبة",
     cat: "womens-health",
     catName: "صحة المرأة والخصوبة"
   },
@@ -22,43 +44,43 @@ const TOPICS = [
     catName: "رعاية ومتابعة الحمل"
   },
   {
+    topic: "أسباب النزيف في الثلث الأول من الحمل وطرق التدخل العاجل",
+    cat: "pregnancy-care",
+    catName: "رعاية ومتابعة الحمل"
+  },
+  {
     topic: "علاج بطانة الرحم المهاجرة (الأندومتريوزيس) وتأثيرها على الإنجاب",
     cat: "womens-health",
     catName: "صحة المرأة والخصوبة"
   },
   {
-    topic: "الفحوصات الهرمونية الشاملة قبل بدء بروتوكول علاج العقم وتأخر الحمل",
+    topic: "نصائح سريرية لزيادة فرص نجاح الحقن المجهري وترجيع الأجنة",
     cat: "womens-health",
     catName: "صحة المرأة والخصوبة"
-  },
-  {
-    topic: "علامات الولادة المبكرة وكيفية إيقاف الطلق المبكر سريرياً",
-    cat: "pregnancy-care",
-    catName: "رعاية ومتابعة الحمل"
   }
 ];
 
-async function generateArticle() {
+async function generateAndPublish() {
   const apiKey = process.env.GEMINI_API_KEY;
-  const selected = TOPICS[Math.floor(Math.random() * TOPICS.length)];
+  const selected = TOPIC_BANK[Math.floor(Math.random() * TOPIC_BANK.length)];
   const timestamp = Date.now();
   const today = new Date().toISOString().split('T')[0];
 
   let newArticle = {
     id: `art-${timestamp}`,
     slug: `guide-${timestamp}`,
-    title: `${selected.topic} | د. هيثم الخطيب`,
+    title: `${selected.topic} | إشراف د. هيثم الخطيب`,
     category: selected.cat,
     categoryName: selected.catName,
-    summary: `دليل طبي سريري يستعرض بالتفصيل ${selected.topic}، مع إرشادات الفحص والتشخيص بإشراف د. هيثم الخطيب.`,
+    summary: `دليل طبي سريري موسع يستعرض بالتفصيل ${selected.topic}، مع توضيح المحاذير السريرية وخطوات التشخيص المعتمدة برعاية د. هيثم الخطيب.`,
     publishDate: today,
-    readTime: 6,
-    content: `بقلم: د. هيثم الخطيب\nطبيب اختصاصي جراحة النساء والتوليد والعقم\nللاستشارات السريرية المباشرة: 00966599287172\n\nيعد موضوع "${selected.topic}" من المسائل الطبية الدقيقة التي تتطلب تقييماً سريرياً شاملاً.\n\n### أولاً: التقييم السريري والأسباب\n- دراسة التاريخ المرضي وإجراء الفحص السريري المباشر.\n- إجراء فحوصات الموجات فوق الصوتية والتحاليل المخبرية المعتمدة.\n\n### ثانياً: التوصيات الطبية والمتابعة\nيجب الامتناع عن أخذ أي أدوية دون إشراف طبي مباشر لتجنب المضاعفات الصحية.\n\n📞 للتواصل مع د. هيثم الخطيب: 00966599287172`
+    readTime: 7,
+    content: `بقلم: د. هيثم الخطيب\nطبيب اختصاصي جراحة النساء والتوليد والعقم\nللاستشارات السريرية المباشرة: 00966599287172\n\nتعتبر المسائل المتعلقة بـ "${selected.topic}" من المواضيع الطبية الهامة التي تتطلب تقييماً سريرياً دقيقاً ومتابعة مباشرة من الطبيب المختص.\n\n### أولاً: التقييم السريري والبروتوكول المعتمد\n1. ضرورة إجراء فحص الموجات فوق الصوتية (السونار) لتشخيص الحالة بدقة.\n2. الالتزام التام بعدم تناول أي عقاقير أو أدوية دون إشراف طبي مباشر داخل المنشآت الصحية المعتمدة.\n3. مراقبة مؤشرات النزيف والعلامات الحيوية للحفاظ على صحة وسلامة المرأة.\n\n### ثانياً: متى يجب مراجعة العيادة فوراً؟ 🚨\nعند الشعور بآلام حادة ومفاجئة أسفل البطن أو حدوث نزيف مهبلي غير معتاد.\n\n---\n📞 للتواصل المباشر والاستشارات مع د. هيثم الخطيب:\nهاتف / واتساب: 00966599287172`
   };
 
   if (apiKey) {
     try {
-      const prompt = `أنت طبيب استشاري نساء وتوليد للمنصة الطبية "فيم صحة" بإشراف د. هيثم الخطيب (00966599287172). اكتب مقالاً طبياً دقيقاً حول: "${selected.topic}". أرجع الرد بصيغة JSON فقط: {"title": "عنوان المقال", "summary": "ملخص سريري مركز", "content": "نص المقال الطبي الكامل بأسلوب سريري مع ذكر رقم التواصل 00966599287172"}`;
+      const prompt = `أنت طبيب استشاري نساء وتوليد وخبير سيو لمنصة د. هيثم الخطيب (00966599287172). اكتب مقالاً طبياً احترافياً حول: "${selected.topic}". أرجع الرد بصيغة JSON فقط: {"title": "العنوان", "summary": "الملخص", "content": "نص المقال الطبي المنسق مع ذكر رقم د. هيثم الخطيب 00966599287172"}`;
 
       const res = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
@@ -71,6 +93,7 @@ async function generateArticle() {
           })
         }
       );
+
       const data = await res.json();
       const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
       if (text) {
@@ -79,23 +102,45 @@ async function generateArticle() {
         newArticle.summary = parsed.summary || newArticle.summary;
         newArticle.content = parsed.content || newArticle.content;
       }
-    } catch (e) {
-      console.log('استخدام القالب التلقائي البديل.');
+    } catch (err) {
+      console.log('استخدام القالب السريري المدمج.');
     }
   }
 
-  const filePath = path.join(__dirname, '../src/data/articles.ts');
-  const fileContent = fs.readFileSync(filePath, 'utf8');
-
-  // استبدال مصفوفة المقالات بدقة
-  const match = fileContent.match(/export const articles:\s*Article\[\]\s*=\s*\[([\s\S]*?)\];/);
-  if (match) {
-    const newEntry = `  ${JSON.stringify(newArticle, null, 2)},\n`;
-    const newArticlesArray = `export const articles: Article[] = [\n${newEntry}${match[1].trim()}\n];`;
-    const updatedFile = fileContent.replace(/export const articles:\s*Article\[\]\s*=\s*\[[\s\S]*?\];/, newArticlesArray);
-    fs.writeFileSync(filePath, updatedFile, 'utf8');
-    console.log(`✅ تم نشر المقال بنجاح: ${newArticle.title}`);
+  // قراءة المقالات الحالية بأمان
+  let currentArticles = [];
+  try {
+    const fileText = fs.readFileSync(articlesFilePath, 'utf8');
+    const match = fileText.match(/export const articles:\s*Article\[\]\s*=\s*(\[[\s\S]*\]);/);
+    if (match) {
+      currentArticles = (new Function(`return ${match[1]}`))();
+    }
+  } catch (e) {
+    console.log('تهيئة قائمة المقالات.');
   }
+
+  // إضافة المقال الجديد في أول القائمة
+  currentArticles.unshift(newArticle);
+
+  // توليد ملف TypeScript نظيف وخالٍ من الأخطاء
+  const outputCode = `export interface Article {
+  id: string;
+  slug: string;
+  title: string;
+  category: string;
+  categoryName?: string;
+  summary: string;
+  publishDate: string;
+  readTime?: number;
+  content: string;
+  image?: string;
 }
 
-generateArticle();
+export const articles: Article[] = ${JSON.stringify(currentArticles, null, 2)};
+`;
+
+  fs.writeFileSync(articlesFilePath, outputCode, 'utf8');
+  console.log(`✅ تم نشر المقال بنجاح وتحديث الموقع: ${newArticle.title}`);
+}
+
+generateAndPublish();
