@@ -71,130 +71,153 @@ export default function Home() {
   ];
 
   return (
-    <div className="space-y-16 py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" dir="rtl">
+    <div className="space-y-14 py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" dir="rtl">
       
-      {/* 1. البانر الإعلاني والطبي المرفوع في أعلى الصفحة */}
-      <section className="relative overflow-hidden rounded-3xl border border-slate-200 shadow-2xl bg-slate-900 group">
-        <a href="https://wa.me/966599287172" target="_blank" rel="noopener noreferrer" className="block relative">
-          <img
-            src="/banner.jpg.png"
-            alt="د. هيثم الخطيب - استشارات سايتوتك والنساء والتوليد"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              if (target.src.endsWith('/banner.jpg.png')) {
-                target.src = '/banner.jpg';
-              } else {
-                target.src = '/banner.png';
-              }
-            }}
-            className="w-full h-auto object-cover max-h-[580px] group-hover:scale-[1.01] transition-transform duration-300"
-          />
-          <div className="absolute bottom-4 right-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-2xl shadow-xl flex items-center gap-2 text-sm sm:text-base">
-            <span>💬</span> اضغطي هنا للاستشارة الفورية عبر الواتساب (00966599287172)
+      {/* 1. الواجهة الترحيبية الأنيقة */}
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-rose-900 via-rose-800 to-slate-900 text-white p-8 sm:p-12 lg:p-14 shadow-xl">
+        <div className="relative z-10 max-w-3xl space-y-6">
+          <div className="inline-flex items-center gap-2 bg-white/15 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold text-rose-100">
+            <span>✨</span> المنصة الطبية المعتمدة لصحة المرأة والخصوبة
           </div>
-        </a>
+          
+          <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight tracking-normal">
+            رعايتك الصحية والسريرية <br className="hidden sm:inline" />
+            بأعلى المعايير الطبية المعتمدة
+          </h1>
+          
+          <p className="text-slate-100 text-base sm:text-lg leading-loose font-normal max-w-2xl">
+            بإشراف <span className="font-bold text-white underline decoration-rose-300 underline-offset-4">د. هيثم الخطيب</span>، اختصاصي جراحة النساء والتوليد وعلاج العقم. نوفر لك أدلة طبية موثوقة، واستشارات سريرية مباشرة لمتابعة الحمل الحرج، الخصوبة، وصحة المرأة.
+          </p>
+
+          <div className="flex flex-wrap gap-3 pt-2">
+            <a
+              href="https://wa.me/966599287172"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg transition flex items-center gap-2 text-sm sm:text-base"
+            >
+              💬 استشارة واتساب سريرية
+            </a>
+            <Link
+              to="/articles"
+              className="bg-white hover:bg-slate-100 text-slate-900 font-bold px-6 py-3.5 rounded-xl shadow-lg transition flex items-center gap-2 text-sm sm:text-base"
+            >
+              📚 تصفح الأدلة والمقالات
+            </Link>
+            <a
+              href="tel:00966599287172"
+              className="bg-white/15 hover:bg-white/25 text-white font-bold px-5 py-3.5 rounded-xl border border-white/20 transition text-sm sm:text-base"
+            >
+              📞 00966599287172
+            </a>
+          </div>
+        </div>
       </section>
 
-      {/* 2. قسم من نحن والتعريف بالدكتور واللوجو */}
-      <section className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10">
-        <div className="space-y-4 max-w-2xl">
-          <div className="inline-block bg-rose-50 text-rose-700 text-sm font-bold px-4 py-1.5 rounded-full border border-rose-100">
+      {/* 2. قسم من نحن مع صورة الطبيب بحجم مصغر وأنيق */}
+      <section className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
+        
+        {/* الصورة بحجم بطاقة مصغرة ومتناسقة */}
+        <div className="w-full md:w-auto flex-shrink-0 flex justify-center">
+          <div className="relative group">
+            <div className="w-64 sm:w-72 h-80 rounded-2xl overflow-hidden border-2 border-rose-100 shadow-lg bg-slate-50">
+              <img
+                src="/banner.jpg.png"
+                alt="د. هيثم الخطيب"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  if (target.src.endsWith('/banner.jpg.png')) {
+                    target.src = '/banner.jpg';
+                  } else {
+                    target.src = '/banner.png';
+                  }
+                }}
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300"
+              />
+            </div>
+            <div className="absolute -bottom-2.5 right-3 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+              ● متاح للاستشارات
+            </div>
+          </div>
+        </div>
+
+        {/* النبذة والتعريف السريري */}
+        <div className="space-y-4 flex-grow">
+          <div className="inline-block bg-rose-50 text-rose-700 text-xs font-bold px-3 py-1 rounded-full border border-rose-100">
             👨‍⚕️ المشرف الطبي العام للمنصة
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
             د. هيثم الخطيب
           </h2>
-          <p className="text-lg font-bold text-rose-600">
+          <p className="text-base font-bold text-rose-600">
             اختصاصي جراحة النساء والتوليد والعقم وتأخر الإنجاب
           </p>
-          <p className="text-slate-600 text-base sm:text-lg leading-loose">
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
             خبرة سريرية متقدمة في إدارة حالات الحمل عالي الخطورة، بروتوكولات الحقن المجهري، مناظير البطن والرحم، وعلاج متلازمة تكيس المبايض وفق أحدث المعايير الطبية الدولية المعتمدة في المملكة والخليج.
           </p>
-          <div className="flex flex-wrap gap-4 pt-3">
+          <div className="flex flex-wrap gap-3 pt-2">
             <Link
               to="/doctor"
-              className="bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold px-6 py-3 rounded-xl text-sm transition"
+              className="bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold px-5 py-2.5 rounded-xl text-sm transition"
             >
-              السيرة السريرية والشهادات ←
+              السيرة السريرية الكاملة ←
             </Link>
             <a
               href="https://wa.me/966599287172"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow-sm"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-sm"
             >
-              حجز موعد بالعيادة (واتساب)
+              حجز موعد واتساب (00966599287172)
             </a>
           </div>
         </div>
-
-        {/* بطاقة اللوجو المرفوع */}
-        <div className="bg-gradient-to-br from-rose-50 to-slate-100 p-8 rounded-3xl border border-rose-100 text-center w-full md:w-80 space-y-4 shadow-inner">
-          <img
-            src="/logo.png.png"
-            alt="شعار Femseha"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = '/logo.png';
-            }}
-            className="w-28 h-28 mx-auto object-contain drop-shadow-md"
-          />
-          <div>
-            <div className="font-extrabold text-slate-900 text-lg">العيادة والاستشارات</div>
-            <p className="text-xs text-slate-500 mt-1">حجز المواعيد والاستفسارات الطبية العاجلة</p>
-          </div>
-          <a
-            href="tel:00966599287172"
-            className="block w-full py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-sm shadow-md transition"
-          >
-            📞 00966599287172
-          </a>
-        </div>
       </section>
 
-      {/* 3. إحصائيات المنصة */}
-      <section className="bg-gradient-to-r from-rose-900 to-slate-900 text-white p-8 rounded-3xl shadow-lg">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+      {/* 3. إحصائيات سريعة */}
+      <section className="bg-gradient-to-r from-rose-900 to-slate-900 text-white p-6 sm:p-8 rounded-2xl shadow-md">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
           {stats.map((s, i) => (
             <div key={i} className="space-y-1">
-              <div className="text-2xl sm:text-3xl font-black text-white">{s.val}</div>
-              <div className="text-sm text-rose-200 font-medium">{s.label}</div>
+              <div className="text-xl sm:text-2xl font-black text-white">{s.val}</div>
+              <div className="text-xs text-rose-200 font-medium">{s.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* 4. شبكة الخدمات التخصصية */}
-      <section className="space-y-8">
-        <div className="text-center space-y-3">
-          <span className="text-sm font-bold text-rose-600 bg-rose-50 px-4 py-1.5 rounded-full border border-rose-100">
+      <section className="space-y-6">
+        <div className="text-center space-y-2">
+          <span className="text-xs font-bold text-rose-600 bg-rose-50 px-3.5 py-1 rounded-full border border-rose-100">
             الخدمات والتخصصات السريرية
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
             رعاية سريرية شاملة لصحة المرأة في كل مرحلة
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((srv, idx) => (
             <div
               key={idx}
-              className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-4 flex flex-col justify-between"
+              className="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-3 flex flex-col justify-between"
             >
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 <div className="flex justify-between items-center">
-                  <span className="text-4xl">{srv.icon}</span>
-                  <span className="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1 rounded-lg">
+                  <span className="text-3xl">{srv.icon}</span>
+                  <span className="text-[11px] font-bold text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-lg">
                     {srv.badge}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900">{srv.title}</h3>
-                <p className="text-slate-600 text-base leading-loose">{srv.desc}</p>
+                <h3 className="text-lg font-bold text-slate-900">{srv.title}</h3>
+                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">{srv.desc}</p>
               </div>
               <a
                 href="https://wa.me/966599287172"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-rose-600 text-sm font-bold hover:underline inline-flex items-center gap-1 pt-3"
+                className="text-rose-600 text-xs font-bold hover:underline inline-flex items-center gap-1 pt-2"
               >
                 طلب استشارة حول هذه الخدمة ←
               </a>
@@ -204,50 +227,50 @@ export default function Home() {
       </section>
 
       {/* 5. الأدلة والمقالات الطبية */}
-      <section className="space-y-8 bg-slate-100/70 -mx-4 sm:-mx-6 lg:-mx-8 p-6 sm:p-12 rounded-3xl">
-        <div className="max-w-7xl mx-auto space-y-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+      <section className="space-y-6 bg-slate-100/70 -mx-4 sm:-mx-6 lg:-mx-8 p-6 sm:p-10 rounded-3xl">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3">
             <div>
-              <span className="text-sm font-bold text-rose-600 bg-rose-100 px-4 py-1.5 rounded-full">
+              <span className="text-xs font-bold text-rose-600 bg-rose-100 px-3 py-1 rounded-full">
                 المكتبة الطبية المعتمدة
               </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1.5">
                 أحدث الأدلة والاستشارات الطبية
               </h2>
             </div>
             <Link
               to="/articles"
-              className="bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold px-6 py-3 rounded-xl shadow transition"
+              className="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow transition"
             >
               عرض جميع الأدلة الطبية ({articles.length}) ←
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {featuredArticles.map((art) => (
               <article
                 key={art.id}
-                className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between"
+                className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between"
               >
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center text-xs text-slate-400">
-                    <span className="font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded">
+                <div className="space-y-2.5">
+                  <div className="flex justify-between items-center text-[11px] text-slate-400">
+                    <span className="font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">
                       {art.categoryName || 'دليل طبي'}
                     </span>
                     <span>{art.publishDate}</span>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-lg line-clamp-2 hover:text-rose-600 transition leading-snug">
+                  <h3 className="font-bold text-slate-900 text-base line-clamp-2 hover:text-rose-600 transition leading-snug">
                     <Link to={`/articles/${art.slug || art.id}`}>{art.title}</Link>
                   </h3>
-                  <p className="text-slate-600 text-sm line-clamp-3 leading-loose">
+                  <p className="text-slate-600 text-xs line-clamp-3 leading-relaxed">
                     {art.summary}
                   </p>
                 </div>
-                <div className="pt-4 border-t border-slate-100 mt-4 flex justify-between items-center">
+                <div className="pt-3 border-t border-slate-100 mt-3 flex justify-between items-center">
                   <span className="text-xs text-slate-500 font-medium">د. هيثم الخطيب</span>
                   <Link
                     to={`/articles/${art.slug || art.id}`}
-                    className="text-rose-600 font-bold text-sm hover:underline"
+                    className="text-rose-600 font-bold text-xs hover:underline"
                   >
                     قراءة الدليل ←
                   </Link>
@@ -261,21 +284,21 @@ export default function Home() {
       {/* 6. الأسئلة الشائعة */}
       <section className="space-y-6 max-w-4xl mx-auto">
         <div className="text-center space-y-2">
-          <span className="text-sm font-bold text-rose-600 bg-rose-50 px-4 py-1.5 rounded-full">
+          <span className="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1 rounded-full">
             إجابات سريرية
           </span>
-          <h2 className="text-3xl font-extrabold text-slate-900">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
             الأسئلة الطبية الأكثر شيوعاً
           </h2>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {faqs.map((faq, i) => (
-            <div key={i} className="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-              <h3 className="text-lg font-bold text-slate-900 flex items-start gap-2.5">
+            <div key={i} className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-1.5">
+              <h3 className="text-base font-bold text-slate-900 flex items-start gap-2">
                 <span className="text-rose-600 font-black">؟</span> {faq.q}
               </h3>
-              <p className="text-base text-slate-600 leading-loose pr-6">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed pr-5">
                 {faq.a}
               </p>
             </div>
