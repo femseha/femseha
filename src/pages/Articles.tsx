@@ -1,78 +1,119 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { articles } from '../data/articles';
 
-export default function ArticleDetail() {
-  const { slug } = useParams<{ slug: string }>();
-  const article = articles.find((a) => a.slug === slug || a.id === slug) || articles[0];
+export default function Articles() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
-  if (!article) {
-    return (
-      <div className="min-h-screen bg-slate-50 py-16 text-center" dir="rtl">
-        <h1 className="text-2xl font-bold text-slate-900 mb-4">المقال غير متوفر</h1>
-        <Link to="/articles" className="text-rose-600 font-bold hover:underline">العودة للأدلة الطبية</Link>
-      </div>
-    );
-  }
+  const categories = [
+    { id: 'all', name: 'جميع الأدلة' },
+    { id: 'womens-health', name: 'صحة المرأة والخصوبة' },
+    { id: 'pregnancy-care', name: 'رعاية ومتابعة الحمل' },
+    { id: 'clinical-guides', name: 'إرشادات الأدوية والبروتوكولات' },
+  ];
+
+  const filteredArticles = articles.filter((art) => {
+    const matchesSearch =
+      art.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      art.summary.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === 'all' || art.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
-      <article className="max-w-3xl mx-auto bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-100">
-        <div className="mb-6">
-          <Link to="/articles" className="text-rose-600 text-sm font-bold hover:underline mb-4 inline-block">
-            ← العودة لجميع الأدلة
-          </Link>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight mb-4">
-            {article.title}
+      <div className="max-w-6xl mx-auto">
+        {/* العنوان والترويسة */}
+        <div className="text-center mb-10">
+          <span className="text-xs font-bold text-rose-600 bg-rose-100 px-3 py-1 rounded-full">
+            المكتبة الطبية المعتمدة
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mt-3 mb-3">
+            الأدلة السريرية والاستشارات الطبية
           </h1>
-          <div className="flex items-center gap-4 text-xs text-slate-400 border-b border-slate-100 pb-4">
-            <span>إشراف طبي: د. هيثم الخطيب</span>
-            <span>•</span>
-            <span>{article.publishDate || '2026'}</span>
-          </div>
-        </div>
-
-        {article.image && (
-          <img
-            src={article.image}
-            alt={article.title}
-            className="w-full h-64 sm:h-80 object-cover rounded-2xl mb-8"
-          />
-        )}
-
-        <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-4 text-base">
-          <p className="font-semibold text-slate-800 text-lg leading-relaxed bg-rose-50/50 p-4 rounded-2xl border-r-4 border-rose-500">
-            {article.summary}
+          <p className="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base">
+            مقالات طبية متخصصة ومحدثة يومياً بإشراف د. هيثم الخطيب، اختصاصي جراحة النساء والتوليد والعقم.
           </p>
-          <div className="pt-4 whitespace-pre-line">
-            {article.content || article.summary}
+        </div>
+
+        {/* أدوات البحث والتصنيف */}
+        <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm mb-8 space-y-4">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="ابحثي عن موضوع طبي، تحليل، أو استشارة (مثال: تأخر الحمل، سايتوتك، تكيس المبايض)..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-500 text-sm"
+            />
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition ${
+                  selectedCategory === cat.id
+                    ? 'bg-rose-600 text-white shadow-sm'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* صندوق التواصل داخل المقال */}
-        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center mt-10">
-          <h3 className="font-bold text-slate-900 mb-2 text-base">هل لديكِ استفسار حول هذه الحالة الطبية؟</h3>
-          <p className="text-xs text-slate-500 mb-4">يمكنك استشارة د. هيثم الخطيب مباشرة عبر القنوات المعتمدة</p>
-          <div className="flex justify-center gap-3">
-            <a
-              href="https://wa.me/966599287172"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold"
-            >
-              استشارة واتساب
-            </a>
-            <a
-              href="tel:00966599287172"
-              className="px-4 py-2 bg-rose-600 text-white rounded-xl text-xs font-bold"
-            >
-              اتصال بالعيادة
-            </a>
+        {/* شبكة عرض المقالات */}
+        {filteredArticles.length === 0 ? (
+          <div className="text-center py-16 bg-white rounded-2xl border border-slate-200">
+            <p className="text-slate-500 text-base">لا توجد مقالات مطابقة لبحثك حالياً.</p>
           </div>
-        </div>
-      </article>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredArticles.map((article) => (
+              <article
+                key={article.id}
+                className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-[11px] font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-lg">
+                      {article.categoryName || 'دليل طبي'}
+                    </span>
+                    <span className="text-[11px] text-slate-400">{article.publishDate}</span>
+                  </div>
+
+                  <h2 className="text-lg font-bold text-slate-900 mb-2 line-clamp-2 hover:text-rose-600 transition">
+                    <Link to={`/articles/${article.slug || article.id}`}>
+                      {article.title}
+                    </Link>
+                  </h2>
+
+                  <p className="text-xs sm:text-sm text-slate-600 line-clamp-3 mb-4 leading-relaxed">
+                    {article.summary}
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
+                  <span className="text-[11px] text-slate-400">إشراف: د. هيثم الخطيب</span>
+                  <Link
+                    to={`/articles/${article.slug || article.id}`}
+                    className="text-rose-600 font-bold text-xs hover:underline inline-flex items-center gap-1"
+                  >
+                    قراءة الدليل ←
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
-export { ArticleDetail };
+export { Articles };
