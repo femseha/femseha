@@ -10,7 +10,6 @@ export function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  // القوائم المخصصة للزوار فقط (تمت إزالة لوحة التحكم)
   const navLinks = [
     { name: 'الرئيسية', path: '/' },
     { name: 'الأدلة والمقالات الطبية', path: '/articles' },
@@ -19,10 +18,13 @@ export function App() {
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-800 font-sans" dir="rtl">
-      {/* الشريط الإعلاني والتواصلي */}
+      {/* الشريط الإعلاني العلوي */}
       <div className="bg-rose-800 text-white text-sm py-2.5 px-4 shadow-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <span className="font-bold">🩺 Femseha | إشراف د. هيثم الخطيب - اختصاصي جراحة النساء والتوليد والعقم</span>
+          <span className="font-bold flex items-center gap-2">
+            <span className="bg-rose-700 px-2 py-0.5 rounded text-xs">طبي معتمد</span>
+            منصة Femseha | إشراف د. هيثم الخطيب - اختصاصي جراحة النساء والتوليد والعقم
+          </span>
           <div className="hidden sm:flex items-center gap-6 font-bold">
             <a href="tel:00966599287172" className="hover:text-rose-200">📞 00966599287172</a>
             <span>|</span>
@@ -31,22 +33,30 @@ export function App() {
         </div>
       </div>
 
-      {/* الهيدر والقائمة الرئيسية */}
+      {/* الهيدر مع اللوجو */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-24">
             
-            {/* الشعار بالإنجليزية */}
-            <Link to="/" className="flex items-center gap-2">
-              <span className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-                <span className="text-rose-600">Fem</span><span className="text-slate-900">seha</span>
-              </span>
-              <span className="text-xs bg-rose-100 text-rose-800 font-bold px-2.5 py-1 rounded-full mr-2 hidden sm:inline-block">
-                Medical Hub
-              </span>
+            {/* اللوجو الرسمي بالصورة */}
+            <Link to="/" className="flex items-center gap-3 group">
+              <img
+                src="/logo.png.png"
+                alt="Femseha Logo"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/logo.png';
+                }}
+                className="w-14 h-14 object-contain group-hover:scale-105 transition-transform"
+              />
+              <div className="flex flex-col">
+                <span className="text-3xl sm:text-4xl font-black tracking-tight leading-none">
+                  <span className="text-rose-600">Fem</span><span className="text-slate-900">seha</span>
+                </span>
+                <span className="text-[11px] text-slate-400 font-bold tracking-wider uppercase mt-1">Medical Hub</span>
+              </div>
             </Link>
 
-            {/* روابط التصفح */}
+            {/* روابط التنقل */}
             <nav className="hidden md:flex items-center gap-3">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
@@ -66,7 +76,7 @@ export function App() {
               })}
             </nav>
 
-            {/* أزرار الاتصال والحجز */}
+            {/* أزرار الاتصال */}
             <div className="hidden sm:flex items-center gap-3">
               <a
                 href="https://wa.me/966599287172"
@@ -84,7 +94,7 @@ export function App() {
               </a>
             </div>
 
-            {/* زر القائمة للشاشات الصغيرة */}
+            {/* زر الجوال */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2.5 rounded-xl text-slate-700 hover:bg-slate-100 border border-slate-200"
@@ -100,7 +110,7 @@ export function App() {
           </div>
         </div>
 
-        {/* القائمة المنسدلة للجوال */}
+        {/* قائمة الجوال */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-b border-slate-200 px-6 pt-3 pb-6 space-y-3">
             {navLinks.map((link) => (
@@ -133,7 +143,7 @@ export function App() {
         )}
       </header>
 
-      {/* التوجيه والصفحات (لوحة التحكم تعمل فقط عبر الرابط المباشر) */}
+      {/* المحتوى الرئيسي */}
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -145,13 +155,23 @@ export function App() {
         </Routes>
       </main>
 
-      {/* الفوتر العام */}
+      {/* الفوتر */}
       <footer className="bg-slate-900 text-slate-300 py-14 px-4 sm:px-6 lg:px-8 mt-20 border-t border-slate-800">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="md:col-span-2 space-y-4">
-            <span className="text-3xl font-black text-rose-500 tracking-tight block">
-              Fem<span className="text-white">seha</span>
-            </span>
+            <div className="flex items-center gap-3">
+              <img
+                src="/logo.png.png"
+                alt="Femseha"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/logo.png';
+                }}
+                className="w-12 h-12 object-contain"
+              />
+              <span className="text-3xl font-black text-rose-500 tracking-tight">
+                Fem<span className="text-white">seha</span>
+              </span>
+            </div>
             <p className="text-base text-slate-400 leading-loose max-w-md">
               المرجع الطبي السريري المعتمد لصحة المرأة، متابعة الحمل الحرج، وعلاج العقم وتأخر الإنجاب بأحدث البروتوكولات الطبية الدولية.
             </p>
