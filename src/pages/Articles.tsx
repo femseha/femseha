@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { articles } from '../data/articles';
+import { articles } from '@/data/articles';
+import { SITE, DOCTOR } from '@/data/site';
+import { useSeo, websiteJsonLd } from '@/lib/seo';
 
 export default function Articles() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+
+  // تفعيل إعدادات السيو لمحركات البحث
+  useSeo({
+    title: `المقالات والأدلة الطبية | ${SITE?.name || 'دليل صحة المرأة'}`,
+    description: `دليل طبي سريري شامل لصحة المرأة، متابعة الحمل، وفحوصات الهرمونات بإشراف ${DOCTOR?.name || 'د. هيثم الخطيب'}.`,
+    canonicalPath: '/articles',
+    jsonLd: websiteJsonLd ? websiteJsonLd() : undefined
+  });
 
   const categories = [
     { id: 'all', name: 'جميع المقالات' },
@@ -29,15 +39,17 @@ export default function Articles() {
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
       <div className="max-w-6xl mx-auto">
+        {/* رأس الصفحة */}
         <div className="text-center mb-10">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
             المقالات والأدلة الطبية المتخصصة
           </h1>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            دليل سريري شامل لصحة المرأة، متابعة الحمل، وفحوصات الهرمونات بإشراف د. هيثم الخطيب.
+            دليل سريري شامل لصحة المرأة، متابعة الحمل، وفحوصات الهرمونات بإشراف {DOCTOR?.name || 'د. هيثم الخطيب'}.
           </p>
         </div>
 
+        {/* شريط البحث والفلترة */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-10">
           <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
             <div className="w-full md:w-1/2">
@@ -68,6 +80,7 @@ export default function Articles() {
           </div>
         </div>
 
+        {/* شبكة المقالات */}
         {filteredArticles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredArticles.map((article) => (
@@ -96,7 +109,7 @@ export default function Articles() {
 
                 <div className="px-6 pb-6 pt-2 border-t border-slate-50 flex items-center justify-between">
                   <div className="text-xs text-slate-500">
-                    بإشراف: <span className="font-medium text-slate-700">{article.author || 'د. هيثم الخطيب'}</span>
+                    بإشراف: <span className="font-medium text-slate-700">{article.author || DOCTOR?.name || 'د. هيثم الخطيب'}</span>
                   </div>
                   <Link
                     to={`/articles/${article.slug || article.id}`}
