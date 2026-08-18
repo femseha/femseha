@@ -1,29 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { SITE, DOCTOR } from '../data/site';
 import { articles } from '../data/articles';
-import { ConsultationCTA } from '../components/ConsultationCTA';
 
 export default function Home() {
   const featuredArticles = Array.isArray(articles) ? articles.slice(0, 3) : [];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800" dir="rtl">
-      {/* القسم الرئيسي (Hero Section) */}
-      <section className="bg-gradient-to-b from-rose-50 to-slate-50 py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto text-center">
+    <div className="min-h-screen bg-slate-50" dir="rtl">
+      {/* القسم الترحيبي Hero */}
+      <section className="bg-gradient-to-b from-rose-50 to-slate-50 py-16 px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-rose-100 text-rose-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
             <span>✨</span>
-            <span>المرجع الطبي الموثوق لصحة المرأة والولادة</span>
+            <span>المرجع الطبي المعتمد لصحة المرأة والولادة</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
-            دليلك الطبي الشامل للرعاية الصحية، <br className="hidden sm:block" />
+            دليلك الطبي الموثوق للرعاية الصحية، <br className="hidden sm:block" />
             <span className="text-rose-600">متابعة الحمل، والاستشارات السريرية</span>
           </h1>
 
           <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-8 leading-relaxed">
-            منصة طبية متخصصة تهدف لتقديم أدلة علمية موثوقة بإشراف {DOCTOR?.name || 'د. هيثم الخطيب'}، اختصاصي جراحة النساء والتوليد والعقم.
+            منصة طبية متخصصة تهدف لتقديم أدلة علمية واستشارات مباشرة بإشراف د. هيثم الخطيب، اختصاصي جراحة النساء والتوليد والعقم.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
@@ -43,24 +41,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* نموذج التواصل والاستشارة المباشرة */}
-      <div className="max-w-5xl mx-auto px-4">
-        <ConsultationCTA />
+      {/* بنر الاستشارة المباشرة */}
+      <div className="max-w-5xl mx-auto px-4 my-8">
+        <div className="bg-gradient-to-r from-rose-50 to-pink-50 border border-rose-100 rounded-3xl p-6 sm:p-8 text-center">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">
+            هل تحتاجين إلى استشارة طبية مباشرة؟
+          </h2>
+          <p className="text-slate-600 mb-6 max-w-xl mx-auto text-sm sm:text-base">
+            تواصلي مباشرة مع د. هيثم الخطيب للحصول على تشخيص سريري دقيق وخطة متابعة متكاملة.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a
+              href="https://wa.me/966599287172"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-sm"
+            >
+              <span>💬</span>
+              <span>استشارة واتساب</span>
+            </a>
+            <a
+              href="tel:00966599287172"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold shadow-sm"
+            >
+              <span>📞</span>
+              <span>اتصال: 00966599287172</span>
+            </a>
+          </div>
+        </div>
       </div>
 
-      {/* قسم أحدث المقالات */}
-      <section className="max-w-5xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
+      {/* أحدث المقالات */}
+      <section className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center mb-6">
           <div>
-            <h2 className="text-2xl font-extrabold text-slate-900">أحدث المقالات الطبية</h2>
-            <p className="text-sm text-slate-500">موضوعات سريرية تهم صحتك وسلامة حملك</p>
+            <h2 className="text-2xl font-extrabold text-slate-900">أحدث الأدلة الطبية</h2>
+            <p className="text-sm text-slate-500">معلومات سريرية تهم صحتك وسلامة حملك</p>
           </div>
           <Link to="/articles" className="text-rose-600 font-bold hover:underline text-sm">
             عرض الكل ←
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredArticles.map((article) => (
             <article
               key={article.id}
@@ -81,7 +104,7 @@ export default function Home() {
                 to={`/articles/${article.slug || article.id}`}
                 className="text-rose-600 font-bold text-sm inline-flex items-center gap-1 hover:text-rose-700"
               >
-                قراءة المقال ←
+                قراءة الدليل ←
               </Link>
             </article>
           ))}
