@@ -114,7 +114,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. صورة البانر مستطيلة وواضحة تحت المربع الترحيبي مباشرة */}
+      {/* 2. قسم البانر المستطيل تحت المربع الترحيبي مباشرة */}
       <section className="rounded-3xl overflow-hidden shadow-2xl border-2 border-rose-200 bg-white">
         <a
           href="https://wa.me/966599287172"
@@ -123,24 +123,20 @@ export default function Home() {
           className="block w-full group cursor-pointer"
         >
           <img
-            src="/banner.jpg.png"
+            src="/banner.png"
             alt="د. هيثم الخطيب - استشارات طبية متخصصة"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
-              if (target.src.includes('banner.jpg.png')) {
-                target.src = '/banner.png';
-              } else if (target.src.includes('banner.png')) {
+              if (target.src.endsWith('/banner.png')) {
                 target.src = '/banner.jpg';
-              } else {
-                target.src = encodeURI('/ادويه اجهاض الحمل سايتوتيك cytotec في الامارات دبي.png');
               }
             }}
-            className="w-full h-auto max-h-[500px] block rounded-3xl object-cover group-hover:scale-[1.005] transition-transform duration-300"
+            className="w-full h-auto max-h-[520px] block rounded-3xl object-cover group-hover:scale-[1.005] transition-transform duration-300"
           />
         </a>
       </section>
 
-      {/* 3. قسم من نحن والتعريف بالطبيب وبطاقة العيادة */}
+      {/* 3. قسم من نحن والتعريف بالطبيب */}
       <section className="bg-white rounded-3xl p-8 sm:p-14 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10">
         <div className="space-y-5 max-w-2xl">
           <div className="inline-block bg-rose-50 text-rose-700 text-sm font-black px-4 py-1.5 rounded-full border border-rose-100">
@@ -173,21 +169,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* بطاقة العيادة واللوجو */}
+        {/* بطاقة العيادة */}
         <div className="bg-gradient-to-br from-rose-50 to-slate-100 p-8 sm:p-10 rounded-3xl border border-rose-100 text-center w-full md:w-84 space-y-4 shadow-inner">
-          <img
-            src="/logo.png.png"
-            alt="شعار Femseha"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              if (target.src.includes('logo.png.png')) {
-                target.src = '/logo.png';
-              } else {
-                target.src = encodeURI('/سايتوتك السعوديه.png');
-              }
-            }}
-            className="w-28 h-28 mx-auto object-contain drop-shadow-md"
-          />
+          <div className="w-20 h-20 mx-auto rounded-2xl bg-rose-600 text-white flex items-center justify-center text-4xl shadow-md">
+            🩺
+          </div>
           <div>
             <div className="font-black text-slate-900 text-xl">العيادة والاستشارات السريرية</div>
             <p className="text-sm text-slate-600 mt-1 font-medium">مواعيد المراجعة والتقارير الطبية</p>
