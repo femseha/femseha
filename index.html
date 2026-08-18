@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Femseha | منصة د. هيثم الخطيب</title>
     
-    <!-- خط تجوال الطبي عالي الوضوح والمريح للعين -->
+    <!-- خط Cairo العربي الاحترافي عالي الوضوح -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -17,7 +17,7 @@
         theme: {
           extend: {
             fontFamily: {
-              sans: ['Tajawal', 'sans-serif'],
+              sans: ['Cairo', 'sans-serif'],
             }
           }
         }
@@ -25,16 +25,20 @@
     </script>
     <style>
       * {
-        font-family: 'Tajawal', sans-serif !important;
-        letter-spacing: 0px !important;
+        font-family: 'Cairo', sans-serif !important;
       }
-      body {
-        font-size: 17px;
-        line-height: 1.8;
+      html, body {
+        font-size: 18px !important; /* تكبير الخط الأساسي للموقع بالكامل */
+        line-height: 1.8 !important;
+        background-color: #f8fafc;
+        color: #0f172a;
+      }
+      h1, h2, h3, h4 {
+        line-height: 1.4 !important;
       }
     </style>
   </head>
-  <body class="bg-slate-50 text-slate-800 font-sans antialiased">
+  <body class="bg-slate-50 text-slate-900 font-sans antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
