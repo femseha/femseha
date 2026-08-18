@@ -114,7 +114,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. قسم البانر المستطيل تحت المربع الترحيبي مباشرة */}
+      {/* 2. صورة البانر (banner.jpg.png) */}
       <section className="rounded-3xl overflow-hidden shadow-2xl border-2 border-rose-200 bg-white">
         <a
           href="https://wa.me/966599287172"
@@ -123,20 +123,14 @@ export default function Home() {
           className="block w-full group cursor-pointer"
         >
           <img
-            src="/banner.png"
+            src="/banner.jpg.png"
             alt="د. هيثم الخطيب - استشارات طبية متخصصة"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              if (target.src.endsWith('/banner.png')) {
-                target.src = '/banner.jpg';
-              }
-            }}
-            className="w-full h-auto max-h-[520px] block rounded-3xl object-cover group-hover:scale-[1.005] transition-transform duration-300"
+            className="w-full h-auto block rounded-3xl object-cover group-hover:scale-[1.005] transition-transform duration-300"
           />
         </a>
       </section>
 
-      {/* 3. قسم من نحن والتعريف بالطبيب */}
+      {/* 3. قسم من نحن والتعريف بالطبيب وبطاقة اللوجو (logo.png.png) */}
       <section className="bg-white rounded-3xl p-8 sm:p-14 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10">
         <div className="space-y-5 max-w-2xl">
           <div className="inline-block bg-rose-50 text-rose-700 text-sm font-black px-4 py-1.5 rounded-full border border-rose-100">
@@ -169,11 +163,13 @@ export default function Home() {
           </div>
         </div>
 
-        {/* بطاقة العيادة */}
+        {/* بطاقة العيادة مع اللوجو المرفوع */}
         <div className="bg-gradient-to-br from-rose-50 to-slate-100 p-8 sm:p-10 rounded-3xl border border-rose-100 text-center w-full md:w-84 space-y-4 shadow-inner">
-          <div className="w-20 h-20 mx-auto rounded-2xl bg-rose-600 text-white flex items-center justify-center text-4xl shadow-md">
-            🩺
-          </div>
+          <img
+            src="/logo.png.png"
+            alt="شعار Femseha"
+            className="w-28 h-28 mx-auto object-contain drop-shadow-md"
+          />
           <div>
             <div className="font-black text-slate-900 text-xl">العيادة والاستشارات السريرية</div>
             <p className="text-sm text-slate-600 mt-1 font-medium">مواعيد المراجعة والتقارير الطبية</p>
