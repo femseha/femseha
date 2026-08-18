@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { articles } from '../data/articles';
 
 export default function Home() {
   const featuredArticles = articles.slice(0, 3);
+  const [imgFailed, setImgFailed] = useState(false);
 
   const stats = [
     { label: 'استشارة سريرية منجزة', val: '+12,000' },
@@ -73,7 +74,7 @@ export default function Home() {
   return (
     <div className="space-y-12 py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" dir="rtl">
       
-      {/* 1. الواجهة الترحيبية الأنيقة (مربع المنصة الطبية) */}
+      {/* 1. الواجهة الترحيبية (مربع المنصة الطبية) */}
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-rose-900 via-rose-800 to-slate-900 text-white p-8 sm:p-12 lg:p-14 shadow-xl">
         <div className="relative z-10 max-w-3xl space-y-6">
           <div className="inline-flex items-center gap-2 bg-white/15 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold text-rose-100">
@@ -114,48 +115,71 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. الصورة كبانر مستطيل أنيق تحت مربع المنصة مباشرة */}
-      <section className="relative overflow-hidden rounded-3xl border border-slate-200 shadow-xl bg-slate-950 group">
-        <a
-          href="https://wa.me/966599287172"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block relative"
-        >
-          {/* مقاس مستطيل متناسق (ارتفاع 260px على الجوال و 360px على الشاشات الكبيرة) */}
-          <div className="w-full h-56 sm:h-72 md:h-80 lg:h-96 relative overflow-hidden">
-            <img
-              src="/banner.jpg.png"
-              alt="د. هيثم الخطيب - استشارات طبية متخصصة"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                if (target.src.endsWith('/banner.jpg.png')) {
-                  target.src = '/banner.png';
-                } else if (target.src.endsWith('/banner.png')) {
-                  target.src = '/banner.jpg';
-                } else {
-                  target.src = '/doctor.jpg';
-                }
-              }}
-              className="w-full h-full object-cover object-center group-hover:scale-[1.01] transition-transform duration-500"
-            />
-            
-            {/* طبقة تظليل خفيفة مع شريط التواصل المباشر */}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none"></div>
-            
-            <div className="absolute bottom-4 right-4 left-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-              <span className="text-white text-xs sm:text-sm font-bold bg-black/50 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20">
-                🩺 استشارات ورعاية سريرية بإشراف د. هيثم الخطيب
-              </span>
-              <span className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-xl shadow-lg text-xs sm:text-sm flex items-center gap-2 transition">
-                <span>💬</span> اضغطي هنا للتواصل الفوري عبر الواتساب
-              </span>
+      {/* 2. البانر المستطيل أسفل مربع المنصة مباشرة */}
+      <section className="relative overflow-hidden rounded-3xl border border-rose-100 shadow-xl bg-gradient-to-r from-rose-900 via-rose-800 to-slate-900 text-white">
+        {!imgFailed ? (
+          <a
+            href="https://wa.me/966599287172"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block relative group"
+          >
+            <div className="w-full h-52 sm:h-72 md:h-80 relative overflow-hidden bg-rose-950/40">
+              <img
+                src="/banner.jpg.png"
+                alt="د. هيثم الخطيب - استشارات طبية متخصصة"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  if (target.src.includes('banner.jpg.png')) {
+                    target.src = '/banner.png';
+                  } else if (target.src.includes('banner.png')) {
+                    target.src = '/banner.jpg';
+                  } else if (target.src.includes('banner.jpg')) {
+                    target.src = encodeURI('/ادويه اجهاض الحمل سايتوتيك cytotec في الامارات دبي.png');
+                  } else {
+                    setImgFailed(true);
+                  }
+                }}
+                className="w-full h-full object-cover object-center group-hover:scale-[1.01] transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none"></div>
+              <div className="absolute bottom-4 right-4 left-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <span className="text-white text-xs sm:text-sm font-bold bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20">
+                  🩺 استشارات ورعاية سريرية بإشراف د. هيثم الخطيب
+                </span>
+                <span className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-xl shadow-lg text-xs sm:text-sm flex items-center gap-2 transition">
+                  <span>💬</span> اضغطي هنا للتواصل الفوري عبر الواتساب
+                </span>
+              </div>
             </div>
+          </a>
+        ) : (
+          /* في حال لم تتوفر الصورة: يظهر بانر ترويجي فخم بنفس المقاس */
+          <div className="p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="space-y-3 max-w-xl text-right">
+              <span className="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-3 py-1 rounded-full border border-emerald-400/30">
+                ● الاستشارات المباشرة متاحة الآن
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+                تواصل سريري مباشر مع د. هيثم الخطيب
+              </h3>
+              <p className="text-slate-200 text-sm leading-relaxed">
+                متابعة الحالات الحرجة، استشارات أدوية النساء والولادة، وتنسيق المواعيد في السعودية والخليج.
+              </p>
+            </div>
+            <a
+              href="https://wa.me/966599287172"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-8 py-4 rounded-2xl shadow-xl transition flex items-center gap-2 text-sm sm:text-base flex-shrink-0"
+            >
+              💬 محادثة واتساب فورية (00966599287172)
+            </a>
           </div>
-        </a>
+        )}
       </section>
 
-      {/* 3. قسم من نحن والتعريف بالطبيب والعيادة */}
+      {/* 3. قسم من نحن والتعريف بالطبيب */}
       <section className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="space-y-4 max-w-2xl">
           <div className="inline-block bg-rose-50 text-rose-700 text-xs font-bold px-3.5 py-1 rounded-full border border-rose-100">
@@ -188,13 +212,18 @@ export default function Home() {
           </div>
         </div>
 
-        {/* بطاقة العيادة المصغرة */}
+        {/* بطاقة العيادة واللوجو */}
         <div className="bg-gradient-to-br from-rose-50 to-slate-100 p-7 rounded-3xl border border-rose-100 text-center w-full md:w-80 space-y-3 shadow-inner">
           <img
             src="/logo.png.png"
             alt="شعار Femseha"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = '/logo.png';
+              const target = e.target as HTMLImageElement;
+              if (target.src.includes('logo.png.png')) {
+                target.src = '/logo.png';
+              } else {
+                target.src = encodeURI('/سايتوتك السعوديه.png');
+              }
             }}
             className="w-20 h-20 mx-auto object-contain drop-shadow-sm"
           />
