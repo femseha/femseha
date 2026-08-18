@@ -1,77 +1,47 @@
-import { DOCTOR } from "@/data/site";
+import React from 'react';
+import { DOCTOR, CLINIC_PHONE, WHATSAPP_LINK } from '../data/site';
 
-const PhoneIcon = ({ className = "h-5 w-5" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden="true">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293a.75.75 0 0 1-.921.266 12.05 12.05 0 0 1-5.58-5.58.75.75 0 0 1 .266-.92l1.293-.97c.362-.272.527-.734.417-1.174L8.7 4.852A1.125 1.125 0 0 0 7.61 4H6.24A2.25 2.25 0 0 0 4 6.25v.5Z"
-    />
-  </svg>
-);
-
-export function PhoneButton({
-  className = "",
-  label = "اتصلي الآن",
-  showNumber = true,
-}: {
-  className?: string;
-  label?: string;
-  showNumber?: boolean;
-}) {
+export function PhoneButton({ className = "" }: { className?: string }) {
   return (
     <a
-      href={DOCTOR.phoneLink}
-      className={`inline-flex items-center justify-center gap-2 rounded-xl bg-brand-700 px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-brand-800 ${className}`}
+      href={`tel:${CLINIC_PHONE || '00966599287172'}`}
+      className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold transition-colors shadow-sm text-sm ${className}`}
     >
-      <PhoneIcon />
-      <span>{label}</span>
-      {showNumber && <span className="arabic-numbers text-xs font-semibold opacity-90">{DOCTOR.phoneDisplay}</span>}
+      <span>📞</span>
+      <span>اتصال بالعيادة</span>
     </a>
   );
 }
 
-type Variant = "full" | "compact";
-
-export function ConsultationCTA({ variant = "full" }: { variant?: Variant }) {
-  if (variant === "compact") {
-    return (
-      <aside className="rounded-2xl border border-brand-200 bg-brand-50 p-6">
-        <h2 className="text-lg font-extrabold text-ink-900">تحتاجين إلى استشارة طبية؟</h2>
-        <p className="mt-2 text-sm leading-relaxed text-ink-600">
-          تحدثي مع {DOCTOR.name} — {DOCTOR.profession}. الاستشارة للتقييم الطبي والتوجيه فقط، ولا تتعلق ببيع الأدوية أو
-          الحصول عليها.
-        </p>
-        <PhoneButton className="mt-4 w-full" />
-        <p className="mt-3 text-center arabic-numbers text-sm font-bold text-brand-800">{DOCTOR.phoneDisplay}</p>
-      </aside>
-    );
-  }
-
+export function WhatsAppButton({ className = "" }: { className?: string }) {
   return (
-    <section aria-labelledby="consultation-heading" className="bg-brand-800 py-14 text-white">
-      <div className="mx-auto max-w-4xl px-4 text-center">
-        <p className="text-sm font-semibold text-brand-200">استشارة طبية</p>
-        <h2 id="consultation-heading" className="mt-2 text-2xl font-extrabold sm:text-3xl">
-          تحتاجين إلى استشارة طبية؟
-        </h2>
-        <p className="mt-3 text-base text-brand-100">
-          تحدثي مع {DOCTOR.name} — {DOCTOR.profession}
-        </p>
-        <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a
-            href={DOCTOR.phoneLink}
-            className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-base font-extrabold text-brand-800 transition-colors hover:bg-brand-50"
-          >
-            <PhoneIcon />
-            <span className="arabic-numbers">{DOCTOR.phoneDisplay}</span>
-          </a>
-        </div>
-        <p className="mx-auto mt-6 max-w-2xl text-xs leading-relaxed text-brand-200">
-          هذه الاستشارة للتقييم الطبي والتوجيه التثقيفي. لا يبيع الموقع الأدوية ولا يساعد في الحصول عليها، وفي الحالات
-          الطارئة يجب التوجه مباشرة إلى أقرب قسم طوارئ.
-        </p>
-      </div>
-    </section>
+    <a
+      href={WHATSAPP_LINK || `https://wa.me/966599287172`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold transition-colors shadow-sm text-sm ${className}`}
+    >
+      <span>💬</span>
+      <span>استشارة واتساب</span>
+    </a>
   );
 }
+
+export function ConsultationCTA() {
+  return (
+    <div className="bg-gradient-to-r from-rose-50 to-pink-50 border border-rose-100 rounded-3xl p-6 sm:p-8 text-center my-8">
+      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">
+        هل تحتاجين إلى استشارة طبية مباشرة؟
+      </h3>
+      <p className="text-slate-600 mb-6 max-w-xl mx-auto text-sm sm:text-base">
+        تواصلي مباشرة مع {DOCTOR?.name || 'د. هيثم الخطيب'} للحصول على تشخيص سريري دقيق وخطة متابعة متكاملة.
+      </p>
+      <div className="flex flex-wrap justify-center gap-4">
+        <WhatsAppButton />
+        <PhoneButton />
+      </div>
+    </div>
+  );
+}
+
+export default ConsultationCTA;
