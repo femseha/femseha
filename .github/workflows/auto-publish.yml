@@ -2,6 +2,7 @@ name: Auto Publish 3 Articles Daily
 
 on:
   schedule:
+    # 3 مرات يومياً: الساعة 6 صباحاً، 12 ظهراً، 6 مساءً
     - cron: '0 6,12,18 * * *'
   workflow_dispatch:
 
@@ -20,14 +21,14 @@ jobs:
         with:
           node-version: 18
 
-      - name: Generate & Publish
+      - name: Generate Article
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: node scripts/generate-article.js
 
-      - name: Commit and Push
+      - name: Commit & Push
         run: |
-          git config --global user.name "Femseha Bot"
+          git config --global user.name "Femseha AutoBot"
           git config --global user.email "bot@femseha.com"
           git add src/data/articles.ts
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-publish new article [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-publish medical article [skip ci]" && git push)
