@@ -1,88 +1,78 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { articles, categories } from '../data/articles';
+import React from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { articles } from '../data/articles';
 
-export default function Articles() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+export default function ArticleDetail() {
+  const { slug } = useParams<{ slug: string }>();
+  const article = articles.find((a) => a.slug === slug || a.id === slug) || articles[0];
 
-  const filteredArticles = selectedCategory === 'all'
-    ? articles
-    : articles.filter(article => article.category === selectedCategory);
+  if (!article) {
+    return (
+      <div className="min-h-screen bg-slate-50 py-16 text-center" dir="rtl">
+        <h1 className="text-2xl font-bold text-slate-900 mb-4">المقال غير متوفر</h1>
+        <Link to="/articles" className="text-rose-600 font-bold hover:underline">العودة للأدلة الطبية</Link>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
-            الأدلة والمقالات الطبية السريرية
+      <article className="max-w-3xl mx-auto bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-100">
+        <div className="mb-6">
+          <Link to="/articles" className="text-rose-600 text-sm font-bold hover:underline mb-4 inline-block">
+            ← العودة لجميع الأدلة
+          </Link>
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight mb-4">
+            {article.title}
           </h1>
-          <p className="text-slate-600 max-w-2xl mx-auto text-base">
-            دليلك الموثوق لصحة المرأة، متابعة الحمل، وفحوصات الهرمونات بإشراف د. هيثم الخطيب.
+          <div className="flex items-center gap-4 text-xs text-slate-400 border-b border-slate-100 pb-4">
+            <span>إشراف طبي: د. هيثم الخطيب</span>
+            <span>•</span>
+            <span>{article.publishDate || '2026'}</span>
+          </div>
+        </div>
+
+        {article.image && (
+          <img
+            src={article.image}
+            alt={article.title}
+            className="w-full h-64 sm:h-80 object-cover rounded-2xl mb-8"
+          />
+        )}
+
+        <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-4 text-base">
+          <p className="font-semibold text-slate-800 text-lg leading-relaxed bg-rose-50/50 p-4 rounded-2xl border-r-4 border-rose-500">
+            {article.summary}
           </p>
+          <div className="pt-4 whitespace-pre-line">
+            {article.content || article.summary}
+          </div>
         </div>
 
-        {/* أزرار الفئات */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-5 py-2 rounded-full font-bold text-sm transition-colors ${
-                selectedCategory === cat.id
-                  ? 'bg-rose-600 text-white shadow-sm'
-                  : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
-              }`}
+        {/* صندوق التواصل داخل المقال */}
+        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center mt-10">
+          <h3 className="font-bold text-slate-900 mb-2 text-base">هل لديكِ استفسار حول هذه الحالة الطبية؟</h3>
+          <p className="text-xs text-slate-500 mb-4">يمكنك استشارة د. هيثم الخطيب مباشرة عبر القنوات المعتمدة</p>
+          <div className="flex justify-center gap-3">
+            <a
+              href="https://wa.me/966599287172"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold"
             >
-              {cat.name}
-            </button>
-          ))}
-        </div>
-
-        {/* عرض شبكة المقالات */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredArticles.map((article) => (
-            <article
-              key={article.id}
-              className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-md transition-shadow flex flex-col justify-between"
+              استشارة واتساب
+            </a>
+            <a
+              href="tel:00966599287172"
+              className="px-4 py-2 bg-rose-600 text-white rounded-xl text-xs font-bold"
             >
-              {article.image && (
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="w-full h-48 object-cover"
-                />
-              )}
-              <div className="p-6 flex-grow flex flex-col justify-between">
-                <div>
-                  <span className="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1 rounded-full inline-block mb-3">
-                    {article.categoryName || 'صحة المرأة'}
-                  </span>
-                  <h2 className="text-xl font-bold text-slate-900 mb-3 leading-snug">
-                    <Link to={`/articles/${article.slug || article.id}`} className="hover:text-rose-600 transition-colors">
-                      {article.title}
-                    </Link>
-                  </h2>
-                  <p className="text-sm text-slate-600 line-clamp-3 mb-4 leading-relaxed">
-                    {article.summary}
-                  </p>
-                </div>
-
-                <div className="border-t border-slate-100 pt-4 flex items-center justify-between mt-auto">
-                  <span className="text-xs text-slate-400">{article.publishDate || '2026'}</span>
-                  <Link
-                    to={`/articles/${article.slug || article.id}`}
-                    className="text-rose-600 font-bold text-sm hover:underline"
-                  >
-                    قراءة الدليل ←
-                  </Link>
-                </div>
-              </div>
-            </article>
-          ))}
+              اتصال بالعيادة
+            </a>
+          </div>
         </div>
-      </div>
+      </article>
     </div>
   );
 }
 
-export { Articles };
+export { ArticleDetail };
