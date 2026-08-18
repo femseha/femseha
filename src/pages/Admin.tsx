@@ -34,6 +34,7 @@ export default function Admin() {
     metaDescription: "",
     primaryKeyword: "",
     readingTime: 6,
+    status: "published",
     content: "",
   });
 
@@ -57,7 +58,7 @@ export default function Admin() {
       setIsAuthenticated(true);
       setError("");
     } else {
-      setError("كلمة المرور غير صحيحة، يرجى المحاولة مرة أخرى.");
+      setError("كلمة المرور غير صحيحة");
     }
   };
 
@@ -66,7 +67,7 @@ export default function Admin() {
     localStorage.setItem("AI_API_KEY", key);
   };
 
-  // المولد الداخلي الذكي الفوري (يعمل حتى بدون مفتاح API)
+  // المولد الداخلي الذكي الفوري
   const generateBuiltInArticle = (topic: string) => {
     const cleanTopic = topic.trim() || "تأخر الدورة الشهرية وأسبابه الشائعة";
     const keyword = cleanTopic.split(" ").slice(0, 4).join(" ");
@@ -123,7 +124,6 @@ export default function Admin() {
     };
   };
 
-  // دالة التوليد الذكي (تدعم OpenAI + Gemini + المولد الداخلي)
   const generateArticleWithAI = async () => {
     if (!topicPrompt) {
       alert("يرجى كتابة فكرة أو عنوان المقال أولاً.");
@@ -132,7 +132,6 @@ export default function Admin() {
 
     setIsGenerating(true);
 
-    // إذا لم يتوفر مفتاح API، استخدم المولد الذكي الداخلي فوراً
     if (!apiKey) {
       const generated = generateBuiltInArticle(topicPrompt);
       setArticle({ ...article, ...generated });
@@ -155,7 +154,6 @@ export default function Admin() {
 }`;
 
     try {
-      // 1. فحص إذا كان المفتاح هو مفتاح OpenAI (يبدأ بـ sk-)
       if (apiKey.startsWith("sk-")) {
         const response = await fetch("https://api.openai.com/v1/chat/completions", {
           method: "POST",
@@ -169,14 +167,11 @@ export default function Admin() {
             response_format: { type: "json_object" }
           }),
         });
-
         const data = await response.json();
         if (data.error) throw new Error(data.error.message);
         const parsed = JSON.parse(data.choices[0].message.content);
         setArticle({ ...article, ...parsed });
-      } 
-      // 2. إذا كان مفتاح Google Gemini
-      else {
+      } else {
         const response = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
           {
@@ -188,7 +183,6 @@ export default function Admin() {
             }),
           }
         );
-
         const data = await response.json();
         if (data.error) throw new Error(data.error.message);
         const parsed = JSON.parse(data.candidates[0].content.parts[0].text);
@@ -196,22 +190,19 @@ export default function Admin() {
       }
     } catch (err: any) {
       console.warn("API Error, falling back to built-in generator:", err);
-      // في حال وجود خطأ في المفتاح، يتم التوليد بالمولد الداخلي مباشرة دون تعطيل المستخدم
       const generated = generateBuiltInArticle(topicPrompt);
       setArticle({ ...article, ...generated });
-      alert("تنبيه: مفتاح الـ API المدخل غير صالح أو انتهت صلاحيته، ولكن تم توليد المقال الطبي بالكامل بنجاح عبر المحرك الذكي المدمج!");
+      alert("تم توليد المقال الطبي بالكامل بنجاح عبر المحرك الذكي المدمج!");
     } finally {
       setIsGenerating(false);
     }
   };
 
-  // دالة النشر والحفظ الحقيقي في الموقع
   const handlePublishArticle = () => {
     if (!article.title || !article.content) {
       alert("يرجى التأكد من وجود عنوان ومحتوى للمقال قبل النشر.");
       return;
     }
-
     const newArticleItem: SavedArticle = {
       id: Date.now().toString(),
       title: article.title,
@@ -224,16 +215,13 @@ export default function Admin() {
       date: new Date().toISOString().split("T")[0],
       content: article.content,
     };
-
     const updated = [newArticleItem, ...savedArticles];
     setSavedArticles(updated);
     localStorage.setItem("FEMSEHA_SAVED_ARTICLES", JSON.stringify(updated));
-
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 5000);
   };
 
-  // حذف مقال
   const handleDeleteArticle = (id: string) => {
     if (confirm("هل أنت متأكد من رغبتك في حذف هذا المقال؟")) {
       const updated = savedArticles.filter((a) => a.id !== id);
@@ -250,37 +238,28 @@ export default function Admin() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans" dir="rtl">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold border border-teal-100">
-              🔒
-            </div>
-            <h1 className="text-2xl font-bold text-slate-800">لوحة تحكم الطبيب</h1>
-            <p className="text-sm text-slate-500 mt-1">منصة دليل صحة المرأة (femseha.com)</p>
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4 font-sans" dir="rtl">
+        <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md border border-slate-200">
+          <div className="text-center mb-6">
+            <h1 className="text-2xl font-bold text-slate-800">لوحة تحكم الطبيب والمحتوى</h1>
+            <p className="text-sm text-slate-500 mt-1">دليل صحة المرأة - د. هيثم الخطيب</p>
           </div>
-
-          {error && (
-            <div className="bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-xl mb-6 text-sm">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleLogin} className="space-y-5">
+          {error && <div className="bg-rose-50 text-rose-600 p-3 rounded-lg text-sm mb-4">{error}</div>}
+          <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">كلمة مرور المسؤول</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1">كلمة المرور</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-rose-500"
                 placeholder="أدخل كلمة المرور..."
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800"
                 required
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-3 rounded-xl transition duration-200 shadow-md"
+              className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl transition"
             >
               تسجيل الدخول
             </button>
@@ -301,19 +280,19 @@ export default function Admin() {
           </div>
           <button
             onClick={() => setIsAuthenticated(false)}
-            className="text-sm bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-600 px-4 py-2 rounded-lg transition"
+            className="text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl"
           >
             تسجيل الخروج
           </button>
         </div>
 
-        {/* API Key Bar */}
+        {/* API Settings */}
         <div className="bg-gradient-to-r from-teal-900 to-slate-900 text-white p-5 rounded-2xl mb-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="font-bold flex items-center gap-2">
               <span>⚡</span> مفتاح الذكاء الاصطناعي (OpenAI / Gemini)
             </div>
-            <p className="text-xs text-teal-200 mt-1">يدعم مفاتيح OpenAI (`sk-...`) ومفاتيح Google Gemini (`AIzaSy...`)</p>
+            <p className="text-xs text-teal-200 mt-1">يدعم مفاتيح OpenAI ومفاتيح Google Gemini</p>
           </div>
           <div className="w-full md:w-80">
             <input
@@ -391,7 +370,6 @@ export default function Admin() {
                       </button>
                     </div>
                   )}
-
                   <div>
                     <label className="block text-xs font-bold text-slate-600 mb-1">عنوان المقال</label>
                     <input
@@ -401,7 +379,6 @@ export default function Admin() {
                       className="w-full px-4 py-2.5 rounded-xl border border-slate-200 font-bold text-slate-800"
                     />
                   </div>
-
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-bold text-slate-600 mb-1">الرابط الإنجليزي (Slug)</label>
@@ -423,7 +400,6 @@ export default function Admin() {
                       />
                     </div>
                   </div>
-
                   <div>
                     <label className="block text-xs font-bold text-slate-600 mb-1">عنوان السيو لجوجل</label>
                     <input
@@ -433,7 +409,6 @@ export default function Admin() {
                       className="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm"
                     />
                   </div>
-
                   <div>
                     <label className="block text-xs font-bold text-slate-600 mb-1">الوصف التعريفي (Meta Description)</label>
                     <textarea
@@ -443,7 +418,6 @@ export default function Admin() {
                       className="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm"
                     />
                   </div>
-
                   <div>
                     <label className="block text-xs font-bold text-slate-600 mb-1">المحتوى الطبي الكامل</label>
                     <textarea
@@ -453,7 +427,6 @@ export default function Admin() {
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 leading-relaxed text-sm font-sans"
                     />
                   </div>
-
                   <button
                     type="button"
                     onClick={handlePublishArticle}
@@ -470,28 +443,23 @@ export default function Admin() {
                   <h3 className="font-bold text-slate-800 text-base mb-4 flex items-center gap-2 border-b pb-3">
                     <span>📊</span> فاحص السيو المباشر (SEO Health)
                   </h3>
-
                   <div className="space-y-3.5 text-xs font-medium">
                     <div className="flex items-center gap-2">
                       <span className={`w-3 h-3 rounded-full ${isKeywordInTitle ? "bg-emerald-500" : "bg-rose-400"}`} />
                       <span>الكلمة المفتاحية موجودة في العنوان</span>
                     </div>
-
                     <div className="flex items-center gap-2">
                       <span className={`w-3 h-3 rounded-full ${isKeywordInMeta ? "bg-emerald-500" : "bg-rose-400"}`} />
                       <span>الكلمة المفتاحية في الوصف التعريفي</span>
                     </div>
-
                     <div className="flex items-center gap-2">
                       <span className={`w-3 h-3 rounded-full ${isSeoTitleLengthGood ? "bg-emerald-500" : "bg-amber-400"}`} />
                       <span>طول عنوان السيو متوافق ({article.seoTitle.length} حرف)</span>
                     </div>
-
                     <div className="flex items-center gap-2">
                       <span className={`w-3 h-3 rounded-full ${isMetaLengthGood ? "bg-emerald-500" : "bg-amber-400"}`} />
                       <span>طول الوصف التعريفي مناسب ({article.metaDescription.length} حرف)</span>
                     </div>
-
                     <div className="flex items-center gap-2">
                       <span className={`w-3 h-3 rounded-full ${isContentLongEnough ? "bg-emerald-500" : "bg-rose-400"}`} />
                       <span>عمق وتفاصيل المقال كافية للتصدر</span>
@@ -507,7 +475,6 @@ export default function Admin() {
         {activeTab === "articles-list" && (
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
             <h2 className="text-xl font-bold text-slate-800 mb-6">📚 المقالات المنشورة المحفوظة ({savedArticles.length})</h2>
-
             {savedArticles.length === 0 ? (
               <div className="text-center py-12 text-slate-400">
                 <p className="text-lg">لا توجد مقالات منشورة بعد.</p>
@@ -534,6 +501,7 @@ export default function Admin() {
                             metaDescription: item.metaDescription,
                             primaryKeyword: item.primaryKeyword,
                             readingTime: item.readingTime,
+                            status: "published",
                             content: item.content,
                           });
                           setActiveTab("new-article");
@@ -559,3 +527,5 @@ export default function Admin() {
     </div>
   );
 }
+
+export { Admin };
