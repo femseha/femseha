@@ -1,14 +1,18 @@
 import { useEffect } from 'react';
-import { SITE, DOCTOR } from '@/data/site';
+import { SITE, DOCTOR } from '../data/site';
 
-interface SeoProps {
+export interface SeoProps {
   title?: string;
   description?: string;
   canonicalPath?: string;
-  jsonLd?: object;
+  canonicalUrl?: string;
+  jsonLd?: object | object[];
+  keywords?: string;
+  image?: string;
 }
 
-export function useSeo({ title, description, canonicalPath, jsonLd }: SeoProps = {}) {
+export function useSeo(props: SeoProps = {}) {
+  const { title, description, jsonLd } = props;
   useEffect(() => {
     if (title) {
       document.title = title;
@@ -31,16 +35,16 @@ export function useSeo({ title, description, canonicalPath, jsonLd }: SeoProps =
       }
       script.textContent = JSON.stringify(jsonLd);
     }
-  }, [title, description, canonicalPath, jsonLd]);
+  }, [title, description, jsonLd]);
 }
 
 export function websiteJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": SITE.name,
-    "url": SITE.url,
-    "description": SITE.description
+    "name": SITE?.name || "فيم صحة",
+    "url": SITE?.url || "https://www.femseha.com",
+    "description": SITE?.description || ""
   };
 }
 
@@ -48,9 +52,9 @@ export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "MedicalOrganization",
-    "name": SITE.name,
-    "url": SITE.url,
-    "telephone": SITE.phone
+    "name": SITE?.name || "فيم صحة",
+    "url": SITE?.url || "https://www.femseha.com",
+    "telephone": SITE?.phone || "00966599287172"
   };
 }
 
@@ -58,8 +62,25 @@ export function doctorJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Physician",
-    "name": DOCTOR.name,
+    "name": DOCTOR?.name || "د. هيثم الخطيب",
     "medicalSpecialty": "Obstetrics and Gynecology",
-    "telephone": DOCTOR.phone
+    "telephone": DOCTOR?.phone || "00966599287172"
   };
 }
+
+export function articleJsonLd(article?: any) {
+  if (!article) return {};
+  return {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "headline": article.title || "",
+    "description": article.summary || article.metaDescription || "",
+    "datePublished": article.publishDate || article.date || "",
+    "author": {
+      "@type": "Physician",
+      "name": article.author || DOCTOR?.name || "د. هيثم الخطيب"
+    }
+  };
+}
+
+export default useSeo;
