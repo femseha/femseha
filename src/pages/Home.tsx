@@ -17,30 +17,24 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 py-10 px-4" dir="rtl">
       <div className="max-w-4xl mx-auto space-y-8">
         
-        {/* اللوجو */}
+        {/* 1. اللوجو في الأعلى */}
         <div className="flex justify-center">
-          <img src="/logo.png.png" alt="Logo" className="w-32 h-32 object-contain" />
+          <img src="/logo.png.png" alt="Logo" className="w-28 h-28 object-contain" />
         </div>
 
-        {/* المربع الترحيبي */}
-        <div className="bg-rose-900 text-white p-8 rounded-3xl text-center shadow-2xl">
-          <h1 className="text-3xl font-bold">منصة د. هيثم الخطيب الطبية</h1>
-          <p className="mt-2 opacity-90">اختصاصي جراحة النساء والتوليد والعقم وتأخر الإنجاب</p>
-        </div>
-
-        {/* صورة البانر */}
+        {/* 2. البانر الاحترافي الذي رفعته (تم حذف المربع العنابي نهائياً) */}
         <div className="rounded-3xl overflow-hidden shadow-2xl bg-white border-4 border-white">
           <img src="/banner.jpg.png" alt="بانر د. هيثم" className="w-full h-auto block" />
         </div>
 
-        {/* زر التواصل */}
+        {/* 3. زر التواصل عبر واتساب */}
         <div className="flex justify-center">
           <a href="https://wa.me/966599287172" className="bg-emerald-600 text-white px-10 py-4 rounded-full text-xl font-bold shadow-lg hover:bg-emerald-700 transition">
             💬 تواصل عبر واتساب
           </a>
         </div>
 
-        {/* قسم من نحن */}
+        {/* 4. قسم من نحن */}
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-200">
           <h2 className="text-2xl font-bold mb-4">من نحن</h2>
           <p className="text-gray-600 leading-relaxed">
@@ -48,7 +42,7 @@ export default function Home() {
           </p>
         </div>
 
-        {/* الخدمات */}
+        {/* 5. الخدمات */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {services.map((srv, idx) => (
             <div key={idx} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-200 text-center">
@@ -58,7 +52,7 @@ export default function Home() {
           ))}
         </div>
 
-        {/* المقالات */}
+        {/* 6. المقالات */}
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-200">
           <h2 className="text-2xl font-bold mb-6">أهم المقالات الطبية</h2>
           <div className="space-y-4">
