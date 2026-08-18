@@ -1,0 +1,37 @@
+name: 🚀 Auto Publish Medical Articles (Autopilot)
+
+on:
+  schedule:
+    # يعمل تلقائياً كل يوم الساعة 9:00 صباحاً بتوقيت مكة المكرمة
+    - cron: '0 6 * * *'
+  # يتيح لك تشغيله يدوياً بضغطة زر للتجربة في أي وقت
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 🤖 Generate & Publish Article with AI
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+        run: node scripts/generate-article.js
+
+      - name: 💾 Commit & Push New Article to Site
+        run: |
+          git config --global user.name "FemSeha AI Autopilot"
+          git config --global user.email "bot@femseha.com"
+          git add src/data/articles.ts
+          git commit -m "🚀 Auto-publish new medical article [skip ci]" || echo "No changes to commit"
+          git push origin main
