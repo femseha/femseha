@@ -1,20 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { articles } from '@/data/articles';
-import { SITE, DOCTOR } from '@/data/site';
-import { useSeo, websiteJsonLd } from '@/lib/seo';
+import { articles } from '../data/articles';
 
 export default function Articles() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-
-  // تفعيل إعدادات السيو لمحركات البحث
-  useSeo({
-    title: `المقالات والأدلة الطبية | ${SITE?.name || 'دليل صحة المرأة'}`,
-    description: `دليل طبي سريري شامل لصحة المرأة، متابعة الحمل، وفحوصات الهرمونات بإشراف ${DOCTOR?.name || 'د. هيثم الخطيب'}.`,
-    canonicalPath: '/articles',
-    jsonLd: websiteJsonLd ? websiteJsonLd() : undefined
-  });
 
   const categories = [
     { id: 'all', name: 'جميع المقالات' },
@@ -45,7 +35,7 @@ export default function Articles() {
             المقالات والأدلة الطبية المتخصصة
           </h1>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            دليل سريري شامل لصحة المرأة، متابعة الحمل، وفحوصات الهرمونات بإشراف {DOCTOR?.name || 'د. هيثم الخطيب'}.
+            دليل سريري شامل لصحة المرأة، متابعة الحمل، وفحوصات الهرمونات بإشراف د. هيثم الخطيب.
           </p>
         </div>
 
@@ -109,7 +99,7 @@ export default function Articles() {
 
                 <div className="px-6 pb-6 pt-2 border-t border-slate-50 flex items-center justify-between">
                   <div className="text-xs text-slate-500">
-                    بإشراف: <span className="font-medium text-slate-700">{article.author || DOCTOR?.name || 'د. هيثم الخطيب'}</span>
+                    بإشراف: <span className="font-medium text-slate-700">{article.author || 'د. هيثم الخطيب'}</span>
                   </div>
                   <Link
                     to={`/articles/${article.slug || article.id}`}
