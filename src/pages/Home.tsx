@@ -77,13 +77,17 @@ export default function Home() {
       <section className="relative overflow-hidden rounded-3xl border border-slate-200 shadow-2xl bg-slate-900 group">
         <a href="https://wa.me/966599287172" target="_blank" rel="noopener noreferrer" className="block relative">
           <img
-            src="/banner.jpg"
+            src="/banner.jpg.png"
             alt="د. هيثم الخطيب - استشارات سايتوتك والنساء والتوليد"
             onError={(e) => {
-              // محاولة تحميل الامتداد PNG إذا لم يكن JPG
-              (e.target as HTMLImageElement).src = '/banner.png';
+              const target = e.target as HTMLImageElement;
+              if (target.src.endsWith('/banner.jpg.png')) {
+                target.src = '/banner.jpg';
+              } else {
+                target.src = '/banner.png';
+              }
             }}
-            className="w-full h-auto object-cover max-h-[560px] group-hover:scale-[1.01] transition-transform duration-300"
+            className="w-full h-auto object-cover max-h-[580px] group-hover:scale-[1.01] transition-transform duration-300"
           />
           <div className="absolute bottom-4 right-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-2xl shadow-xl flex items-center gap-2 text-sm sm:text-base">
             <span>💬</span> اضغطي هنا للاستشارة الفورية عبر الواتساب (00966599287172)
@@ -127,8 +131,11 @@ export default function Home() {
         {/* بطاقة اللوجو المرفوع */}
         <div className="bg-gradient-to-br from-rose-50 to-slate-100 p-8 rounded-3xl border border-rose-100 text-center w-full md:w-80 space-y-4 shadow-inner">
           <img
-            src="/logo.png"
+            src="/logo.png.png"
             alt="شعار Femseha"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/logo.png';
+            }}
             className="w-28 h-28 mx-auto object-contain drop-shadow-md"
           />
           <div>
