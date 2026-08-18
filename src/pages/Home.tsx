@@ -73,7 +73,7 @@ export default function Home() {
   return (
     <div className="space-y-16 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" dir="rtl">
       
-      {/* 1. المربع الترحيبي الرئيسي */}
+      {/* 1. الواجهة الترحيبية الرئيسية */}
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-rose-950 via-rose-900 to-slate-950 text-white p-8 sm:p-14 lg:p-16 shadow-2xl border border-rose-800/40">
         <div className="relative z-10 max-w-4xl space-y-6">
           <div className="inline-flex items-center gap-2 bg-white/20 px-5 py-2 rounded-full text-base sm:text-lg font-bold text-rose-100 border border-white/20">
@@ -114,23 +114,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. صورة البانر المستطيلة المرفوعة مباشرة أسفل المربع الترحيبي */}
-      <section className="rounded-3xl overflow-hidden shadow-2xl border-2 border-rose-200 bg-white">
-        <a
-          href="https://wa.me/966599287172"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full group cursor-pointer"
-        >
-          <img
-            src="/banner.jpg.png"
-            alt="د. هيثم الخطيب - استشارات طبية متخصصة"
-            className="w-full h-auto block rounded-3xl object-cover group-hover:scale-[1.005] transition-transform duration-300"
-          />
-        </a>
-      </section>
-
-      {/* 3. قسم من نحن والتعريف بالطبيب وبطاقة اللوجو المرفوع */}
+      {/* 2. قسم من نحن والتعريف بالطبيب وبطاقة التواصل المباشر */}
       <section className="bg-white rounded-3xl p-8 sm:p-14 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10">
         <div className="space-y-5 max-w-2xl">
           <div className="inline-block bg-rose-50 text-rose-700 text-sm font-black px-4 py-1.5 rounded-full border border-rose-100">
@@ -163,13 +147,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* بطاقة العيادة مع اللوجو */}
+        {/* بطاقة العيادة المصممة بأيقونة طبية راقية */}
         <div className="bg-gradient-to-br from-rose-50 to-slate-100 p-8 sm:p-10 rounded-3xl border border-rose-100 text-center w-full md:w-84 space-y-4 shadow-inner">
-          <img
-            src="/logo.png.png"
-            alt="شعار Femseha"
-            className="w-28 h-28 mx-auto object-contain drop-shadow-md"
-          />
+          <div className="w-20 h-20 mx-auto rounded-2xl bg-rose-600 text-white flex items-center justify-center text-4xl shadow-md">
+            🩺
+          </div>
           <div>
             <div className="font-black text-slate-900 text-xl">العيادة والاستشارات السريرية</div>
             <p className="text-sm text-slate-600 mt-1 font-medium">مواعيد المراجعة والتقارير الطبية</p>
@@ -183,7 +165,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. إحصائيات سريعة */}
+      {/* 3. إحصائيات سريعة */}
       <section className="bg-gradient-to-r from-rose-950 to-slate-950 text-white p-8 sm:p-10 rounded-3xl shadow-lg border border-rose-900/50">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
           {stats.map((s, i) => (
@@ -195,7 +177,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. شبكة الخدمات التخصصية */}
+      {/* 4. شبكة الخدمات التخصصية */}
       <section className="space-y-8">
         <div className="text-center space-y-3">
           <span className="text-sm font-black text-rose-600 bg-rose-50 px-4 py-1.5 rounded-full border border-rose-100">
@@ -235,7 +217,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. الأدلة والمقالات الطبية */}
+      {/* 5. الأدلة والمقالات الطبية */}
       <section className="space-y-8 bg-slate-100/70 -mx-4 sm:-mx-6 lg:-mx-8 p-6 sm:p-12 rounded-3xl">
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
@@ -290,7 +272,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. الأسئلة الشائعة */}
+      {/* 6. الأسئلة الشائعة */}
       <section className="space-y-6 max-w-4xl mx-auto">
         <div className="text-center space-y-2">
           <span className="text-sm font-black text-rose-600 bg-rose-50 px-4 py-1.5 rounded-full border border-rose-100">
