@@ -1,38 +1,81 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { articles } from '../data/articles';
 
 export default function Home() {
+  const featuredArticles = articles.slice(0, 3);
+
+  const stats = [
+    { label: 'استشارة سريرية منجزة', val: '+12,000' },
+    { label: 'نسبة نجاح بروتوكولات الخصوبة', val: '94%' },
+    { label: 'أدلة وبروتوكولات معتمدة', val: '+450' },
+    { label: 'سنوات الخبرة الطبية', val: '+18 عاماً' },
+  ];
+
+  const services = [
+    { title: 'علاج العقم وتأخر الإنجاب والحقن المجهري', desc: 'بروتوكولات علاجية متطورة لنِسَب نجاح أعلى.', icon: '🩺' },
+    { title: 'متلازمة تكيس المبايض والاضطرابات الهرمونية', desc: 'خطة تشخيصية وسريرية شاملة لتنظيم التبويض.', icon: '🌸' },
+    { title: 'متابعة الحمل الحرج والمخاطر العالية', desc: 'رعاية دقيقة للحالات التي تتطلب متابعة طبية مكثفة.', icon: '🤰' }
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4" dir="rtl">
-      <div className="max-w-4xl mx-auto space-y-8">
-        
-        {/* اللوجو الجديد */}
-        <div className="flex justify-center">
-          <img src="/logo.png" alt="Logo" className="w-32 h-32 object-contain" />
-        </div>
+    <div className="space-y-16 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" dir="rtl">
+      
+      {/* 1. الواجهة الترحيبية */}
+      <section className="bg-rose-900 text-white p-12 rounded-3xl shadow-2xl text-center">
+        <h1 className="text-4xl sm:text-5xl font-black mb-4">منصة د. هيثم الخطيب الطبية</h1>
+        <p className="text-xl opacity-90">اختصاصي جراحة النساء والتوليد والعقم وتأخر الإنجاب</p>
+      </section>
 
-        {/* المربع الترحيبي */}
-        <div className="bg-rose-900 text-white p-8 rounded-3xl text-center shadow-2xl">
-          <h1 className="text-3xl font-bold">منصة د. هيثم الخطيب الطبية</h1>
-        </div>
+      {/* 2. الصورة (التي تعمل الآن) */}
+      <section className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white">
+        <img src="/doctor.jpg" alt="د. هيثم الخطيب" className="w-full h-auto block" />
+      </section>
 
-        {/* صورة البانر الجديدة */}
-        <div className="rounded-3xl overflow-hidden shadow-2xl bg-white border-4 border-white">
-          <img 
-            src="/banner.jpg" 
-            alt="د. هيثم الخطيب" 
-            className="w-full h-auto block"
-          />
-        </div>
+      {/* 3. الإحصائيات */}
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+        {stats.map((s, i) => (
+          <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <div className="text-3xl font-black text-rose-900">{s.val}</div>
+            <div className="text-sm text-slate-500 font-bold">{s.label}</div>
+          </div>
+        ))}
+      </section>
 
-        {/* زر التواصل */}
-        <div className="flex justify-center">
-          <a href="https://wa.me/966599287172" className="bg-emerald-600 text-white px-10 py-4 rounded-full text-xl font-bold shadow-lg hover:bg-emerald-700 transition">
-            💬 تواصل عبر واتساب
-          </a>
+      {/* 4. الخدمات */}
+      <section>
+        <h2 className="text-3xl font-black mb-8 text-center">خدماتنا التخصصية</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {services.map((srv, idx) => (
+            <div key={idx} className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm text-center">
+              <div className="text-4xl mb-4">{srv.icon}</div>
+              <h3 className="font-bold text-lg mb-2">{srv.title}</h3>
+              <p className="text-slate-600 text-sm">{srv.desc}</p>
+            </div>
+          ))}
         </div>
+      </section>
 
+      {/* 5. المقالات */}
+      <section className="bg-slate-100 p-8 rounded-3xl">
+        <h2 className="text-3xl font-black mb-8 text-center">المكتبة الطبية</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {featuredArticles.map((art) => (
+            <div key={art.id} className="bg-white p-6 rounded-2xl shadow-sm">
+              <h3 className="font-bold mb-2">{art.title}</h3>
+              <Link to={`/articles/${art.slug || art.id}`} className="text-rose-700 font-bold hover:underline">قراءة المزيد ←</Link>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 6. التواصل */}
+      <div className="text-center">
+        <a href="https://wa.me/966599287172" className="bg-emerald-600 text-white px-10 py-4 rounded-full text-xl font-bold shadow-lg hover:bg-emerald-700 transition">
+          💬 تواصل معنا عبر واتساب
+        </a>
       </div>
+
     </div>
   );
 }
