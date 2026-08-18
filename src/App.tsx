@@ -18,11 +18,11 @@ export function App() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 text-slate-800 font-sans antialiased" dir="rtl">
-      {/* شريط الإعلان والتواصل العلوي */}
-      <div className="bg-rose-700 text-white text-xs py-2 px-4">
+    <div className="flex flex-col min-h-screen bg-slate-50 text-slate-800 font-sans" dir="rtl">
+      {/* الشريط العلوي */}
+      <div className="bg-rose-700 text-white text-xs py-2 px-4 shadow-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <span>🩺 منصة فيم صحة | بإشراف د. هيثم الخطيب - اختصاصي جراحة النساء والتوليد والعقم</span>
+          <span className="font-semibold">🩺 منصة فيم صحة | إشراف د. هيثم الخطيب - اختصاصي جراحة النساء والتوليد والعقم</span>
           <div className="hidden sm:flex items-center gap-4">
             <a href="tel:00966599287172" className="hover:underline font-bold">📞 00966599287172</a>
             <span>|</span>
@@ -31,11 +31,10 @@ export function App() {
         </div>
       </div>
 
-      {/* الهيدر والقائمة الرئيسية */}
+      {/* الهيدر والقائمة */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            {/* الشعار */}
             <Link to="/" className="flex items-center gap-2">
               <span className="text-2xl sm:text-3xl font-black text-rose-600 tracking-tight">
                 فيم<span className="text-slate-800">صحة</span>
@@ -45,8 +44,7 @@ export function App() {
               </span>
             </Link>
 
-            {/* روابط التنقل على الشاشات الكبيرة */}
-            <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+            <nav className="hidden md:flex items-center gap-2">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
@@ -65,7 +63,6 @@ export function App() {
               })}
             </nav>
 
-            {/* أزرار الاتصال السريع */}
             <div className="hidden sm:flex items-center gap-3">
               <a
                 href="https://wa.me/966599287172"
@@ -83,11 +80,9 @@ export function App() {
               </a>
             </div>
 
-            {/* زر القائمة للشاشات الصغيرة */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100"
-              aria-label="القائمة"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {mobileMenuOpen ? (
@@ -100,7 +95,6 @@ export function App() {
           </div>
         </div>
 
-        {/* القائمة المنسدلة للجوال */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
             {navLinks.map((link) => (
@@ -113,27 +107,11 @@ export function App() {
                 {link.name}
               </Link>
             ))}
-            <div className="pt-2 flex gap-2">
-              <a
-                href="https://wa.me/966599287172"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 text-center py-2.5 bg-emerald-600 text-white rounded-xl font-bold text-xs"
-              >
-                واتساب
-              </a>
-              <a
-                href="tel:00966599287172"
-                className="flex-1 text-center py-2.5 bg-rose-600 text-white rounded-xl font-bold text-xs"
-              >
-                اتصال
-              </a>
-            </div>
           </div>
         )}
       </header>
 
-      {/* مسارات الصفحات */}
+      {/* المحتوى الرئيسي */}
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -145,7 +123,7 @@ export function App() {
         </Routes>
       </main>
 
-      {/* الفوتر الاحترافي */}
+      {/* الفوتر */}
       <footer className="bg-slate-900 text-slate-300 py-12 px-4 sm:px-6 lg:px-8 mt-16 border-t border-slate-800">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
@@ -156,7 +134,7 @@ export function App() {
               المرجع الطبي المعتمد لصحة المرأة، متابعة الحمل الحرج، وعلاج العقم وتأخر الإنجاب بأحدث البروتوكولات السريرية المعتمدة.
             </p>
             <p className="text-xs text-rose-400 font-bold">
-              👨‍⚕️ الإشراف الطبي العام: د. هيثم الخطيب
+              👨‍⚕️ الإشراف الطبي العام: د. هيثم الخطيب (00966599287172)
             </p>
           </div>
 
@@ -173,7 +151,6 @@ export function App() {
           <div>
             <h4 className="text-white font-bold mb-4 text-sm">التواصل والاستشارات</h4>
             <p className="text-xs text-slate-400 mb-2">هاتف العيادة: 00966599287172</p>
-            <p className="text-xs text-slate-400 mb-4">المملكة العربية السعودية</p>
             <a
               href="https://wa.me/966599287172"
               target="_blank"
@@ -184,7 +161,6 @@ export function App() {
             </a>
           </div>
         </div>
-
         <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
           جميع الحقوق محفوظة © 2026 فيم صحة (femseha.com) - إشراف د. هيثم الخطيب.
         </div>
