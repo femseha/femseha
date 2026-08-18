@@ -114,17 +114,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. الصورة المستطيلة التي رفعتها مباشرة (نظيفة وكاملة ومربوطة بالواتساب) */}
-      <section className="rounded-3xl overflow-hidden shadow-2xl border-2 border-rose-200 bg-white transition hover:shadow-3xl">
+      {/* 2. مستطيل الصورة المرفوعة مباشرة تحت المربع الترحيبي */}
+      <section className="rounded-3xl overflow-hidden shadow-2xl border-2 border-rose-200 bg-white">
         <a
           href="https://wa.me/966599287172"
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full group cursor-pointer"
+          className="block w-full group"
         >
           <img
-            src="/banner.jpg.png"
+            src="/banner.png"
             alt="د. هيثم الخطيب - استشارات طبية متخصصة"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              if (target.src.endsWith('/banner.png')) {
+                target.src = '/banner.jpg.png';
+              } else if (target.src.endsWith('/banner.jpg.png')) {
+                target.src = '/banner.jpg';
+              } else if (target.src.endsWith('/banner.jpg')) {
+                target.src = encodeURI('/ادويه اجهاض الحمل سايتوتيك cytotec في الامارات دبي.png');
+              }
+            }}
             className="w-full h-auto block rounded-3xl object-cover group-hover:scale-[1.005] transition-transform duration-300"
           />
         </a>
@@ -163,11 +173,19 @@ export default function Home() {
           </div>
         </div>
 
-        {/* بطاقة العيادة مع اللوجو الذي رفعته */}
+        {/* بطاقة العيادة واللوجو */}
         <div className="bg-gradient-to-br from-rose-50 to-slate-100 p-8 sm:p-10 rounded-3xl border border-rose-100 text-center w-full md:w-84 space-y-4 shadow-inner">
           <img
-            src="/logo.png.png"
+            src="/logo.png"
             alt="شعار Femseha"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              if (target.src.endsWith('/logo.png')) {
+                target.src = '/logo.png.png';
+              } else {
+                target.src = encodeURI('/سايتوتك السعوديه.png');
+              }
+            }}
             className="w-28 h-28 mx-auto object-contain drop-shadow-md"
           />
           <div>
