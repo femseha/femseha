@@ -114,30 +114,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. بطاقة استشارة سريعة تفاعلية راقية بدلاً من البانر */}
-      <section className="bg-gradient-to-r from-emerald-800 via-teal-900 to-slate-900 rounded-3xl p-8 sm:p-10 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-emerald-700/50">
-        <div className="space-y-2 text-center md:text-right">
-          <span className="bg-emerald-500 text-white text-xs sm:text-sm font-black px-3.5 py-1 rounded-full inline-block">
-            ● الاستشارات الطبية متاحة الآن
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-white">
-            استشارة سريرية ومتابعة مباشرة مع د. هيثم الخطيب
-          </h2>
-          <p className="text-emerald-100 text-sm sm:text-base max-w-2xl">
-            للحصول على استشارة عاجلة بخصوص متابعة الحمل، الخصوبة، أو الأدوية الطبية عبر الواتساب.
-          </p>
-        </div>
+      {/* 2. بانر د. هيثم الخطيب (الصورة المحددة بدقة) */}
+      <section className="rounded-3xl overflow-hidden shadow-2xl border-2 border-rose-200 bg-white">
         <a
           href="https://wa.me/966599287172"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-white hover:bg-emerald-50 text-emerald-900 font-black px-8 py-4 rounded-2xl shadow-2xl text-base sm:text-lg flex items-center gap-3 transition flex-shrink-0"
+          className="block w-full group cursor-pointer"
         >
-          💬 بدء محادثة واتساب
+          <img
+            src="/doctor.jpg.png"
+            alt="د. هيثم الخطيب - استشارات نسائية سايتوتك"
+            className="w-full h-auto block rounded-3xl object-cover group-hover:scale-[1.005] transition-transform duration-300"
+          />
         </a>
       </section>
 
-      {/* 3. قسم من نحن والتعريف بالطبيب واللوجو الطبي الدائري */}
+      {/* 3. قسم من نحن والتعريف بالطبيب واللوجو الطبي */}
       <section className="bg-white rounded-3xl p-8 sm:p-14 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10">
         <div className="space-y-5 max-w-2xl">
           <div className="inline-block bg-rose-50 text-rose-700 text-sm font-black px-4 py-1.5 rounded-full border border-rose-100">
@@ -170,7 +163,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* بطاقة العيادة مع اللوجو الدائري المرفوع */}
+        {/* بطاقة العيادة مع اللوجو */}
         <div className="bg-gradient-to-br from-rose-50 to-slate-100 p-8 sm:p-10 rounded-3xl border border-rose-100 text-center w-full md:w-84 space-y-4 shadow-inner">
           <img
             src="/logo.png.png"
