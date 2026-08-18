@@ -1,13 +1,8 @@
-name: 🚀 Auto Publish Medical Articles (3 Times Daily)
+name: Auto Publish 3 Articles Daily
 
 on:
   schedule:
-    # يعمل تلقائياً 3 مرات في اليوم بتوقيت مكة المكرمة:
-    # 1) الساعة 9:00 صباحاً (06:00 UTC)
-    # 2) الساعة 3:00 عصراً  (12:00 UTC)
-    # 3) الساعة 9:00 مساءً (18:00 UTC)
     - cron: '0 6,12,18 * * *'
-  # يتيح لك تشغيله يدوياً في أي وقت بضغطة زر
   workflow_dispatch:
 
 permissions:
@@ -16,27 +11,23 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-
     steps:
-      - name: 📥 Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          persist-credentials: true
 
-      - name: ⚙️ Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 18
 
-      - name: 🤖 Generate & Publish Article with AI
+      - name: Generate & Publish
         env:
-          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: node scripts/generate-article.js
 
-      - name: 💾 Commit & Push New Article to Site
+      - name: Commit and Push
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "Femseha Bot"
+          git config --global user.email "bot@femseha.com"
           git add src/data/articles.ts
-          git commit -m "🚀 Auto-publish new medical article [skip ci]" || echo "No changes to commit"
-          git push origin main
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-publish new article [skip ci]" && git push)
