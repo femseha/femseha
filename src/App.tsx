@@ -10,16 +10,16 @@ export function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
+  // القوائم المخصصة للزوار فقط (تمت إزالة لوحة التحكم)
   const navLinks = [
     { name: 'الرئيسية', path: '/' },
     { name: 'الأدلة والمقالات الطبية', path: '/articles' },
     { name: 'من نحن (د. هيثم الخطيب)', path: '/doctor' },
-    { name: 'لوحة التحكم', path: '/admin' },
   ];
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-800 font-sans" dir="rtl">
-      {/* شريط الإعلان والتواصل العلوي */}
+      {/* الشريط الإعلاني والتواصلي */}
       <div className="bg-rose-800 text-white text-sm py-2.5 px-4 shadow-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <span className="font-bold">🩺 Femseha | إشراف د. هيثم الخطيب - اختصاصي جراحة النساء والتوليد والعقم</span>
@@ -36,7 +36,7 @@ export function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-24">
             
-            {/* اسم الموقع بالإنجليزية بالشكل الصحيح */}
+            {/* الشعار بالإنجليزية */}
             <Link to="/" className="flex items-center gap-2">
               <span className="text-3xl sm:text-4xl font-extrabold tracking-tight">
                 <span className="text-rose-600">Fem</span><span className="text-slate-900">seha</span>
@@ -46,7 +46,7 @@ export function App() {
               </span>
             </Link>
 
-            {/* روابط التنقل الرئيسية */}
+            {/* روابط التصفح */}
             <nav className="hidden md:flex items-center gap-3">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
@@ -66,7 +66,7 @@ export function App() {
               })}
             </nav>
 
-            {/* أزرار الاتصال السريع */}
+            {/* أزرار الاتصال والحجز */}
             <div className="hidden sm:flex items-center gap-3">
               <a
                 href="https://wa.me/966599287172"
@@ -84,7 +84,7 @@ export function App() {
               </a>
             </div>
 
-            {/* زر القائمة للجوال */}
+            {/* زر القائمة للشاشات الصغيرة */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2.5 rounded-xl text-slate-700 hover:bg-slate-100 border border-slate-200"
@@ -133,7 +133,7 @@ export function App() {
         )}
       </header>
 
-      {/* المحتوى الرئيسي */}
+      {/* التوجيه والصفحات (لوحة التحكم تعمل فقط عبر الرابط المباشر) */}
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -145,7 +145,7 @@ export function App() {
         </Routes>
       </main>
 
-      {/* الفوتر */}
+      {/* الفوتر العام */}
       <footer className="bg-slate-900 text-slate-300 py-14 px-4 sm:px-6 lg:px-8 mt-20 border-t border-slate-800">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="md:col-span-2 space-y-4">
@@ -166,7 +166,6 @@ export function App() {
               <li><Link to="/" className="hover:text-rose-400 transition">الصفحة الرئيسية</Link></li>
               <li><Link to="/articles" className="hover:text-rose-400 transition">الأدلة والمقالات الطبية</Link></li>
               <li><Link to="/doctor" className="hover:text-rose-400 transition">من نحن (د. هيثم الخطيب)</Link></li>
-              <li><Link to="/admin" className="hover:text-rose-400 transition">لوحة تحكم إدارة المحتوى</Link></li>
             </ul>
           </div>
 
