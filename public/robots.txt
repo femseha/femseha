@@ -3,4 +3,4 @@ Allow: /
 Disallow: /search
 Disallow: /search?
 
-Sitemap: https://sehaher.com/sitemap.xml
+Sitemap: https://femseha.com/sitemap.xml
