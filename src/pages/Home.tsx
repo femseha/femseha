@@ -4,7 +4,6 @@ import { articles } from '../data/articles';
 
 export default function Home() {
   const featuredArticles = articles.slice(0, 3);
-
   const services = [
     { title: 'علاج العقم وتأخر الإنجاب', icon: '🩺' },
     { title: 'تكيس المبايض والهرمونات', icon: '🌸' },
@@ -18,25 +17,25 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 py-10 px-4" dir="rtl">
       <div className="max-w-4xl mx-auto space-y-8">
         
-        {/* البانر الكبير الذي رفعته */}
-        <div className="rounded-3xl overflow-hidden shadow-2xl bg-white border-4 border-white">
-          <img src="/doctor.jpg.png" alt="بانر د. هيثم" className="w-full h-auto block" />
-        </div>
-
         {/* اللوجو */}
         <div className="flex justify-center">
-          <img src="/logo.png.png" alt="شعار المنصة" className="w-24 h-24 object-contain" />
+          <img src="/logo.png.png" alt="Logo" className="w-32 h-32 object-contain" />
         </div>
 
         {/* المربع الترحيبي */}
         <div className="bg-rose-900 text-white p-8 rounded-3xl text-center shadow-2xl">
-          <h1 className="text-4xl font-bold">منصة د. هيثم الخطيب الطبية</h1>
+          <h1 className="text-3xl font-bold">منصة د. هيثم الخطيب الطبية</h1>
           <p className="mt-2 opacity-90">اختصاصي جراحة النساء والتوليد والعقم وتأخر الإنجاب</p>
         </div>
 
-        {/* أزرار التواصل */}
+        {/* صورة البانر */}
+        <div className="rounded-3xl overflow-hidden shadow-2xl bg-white border-4 border-white">
+          <img src="/banner.jpg.png" alt="بانر د. هيثم" className="w-full h-auto block" />
+        </div>
+
+        {/* زر التواصل */}
         <div className="flex justify-center">
-          <a href="https://wa.me/966599287172" className="bg-emerald-600 text-white px-10 py-5 rounded-full text-xl font-bold hover:bg-emerald-700 transition shadow-lg">
+          <a href="https://wa.me/966599287172" className="bg-emerald-600 text-white px-10 py-4 rounded-full text-xl font-bold shadow-lg hover:bg-emerald-700 transition">
             💬 تواصل عبر واتساب
           </a>
         </div>
@@ -69,6 +68,9 @@ export default function Home() {
                 <Link to={`/articles/${art.slug || art.id}`} className="text-rose-700 font-bold hover:underline">قراءة ←</Link>
               </div>
             ))}
+          </div>
+          <div className="mt-6 text-center">
+            <Link to="/articles" className="text-rose-900 font-bold underline">عرض جميع المقالات</Link>
           </div>
         </div>
 
