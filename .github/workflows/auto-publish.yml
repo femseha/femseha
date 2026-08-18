@@ -4,7 +4,7 @@ on:
   schedule:
     # يعمل تلقائياً كل يوم الساعة 9:00 صباحاً بتوقيت مكة المكرمة
     - cron: '0 6 * * *'
-  # يتيح لك تشغيله يدوياً بضغطة زر للتجربة في أي وقت
+  # يتيح لك تشغيله يدوياً في أي وقت
   workflow_dispatch:
 
 permissions:
@@ -17,11 +17,13 @@ jobs:
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
 
       - name: 🤖 Generate & Publish Article with AI
         env:
@@ -30,8 +32,8 @@ jobs:
 
       - name: 💾 Commit & Push New Article to Site
         run: |
-          git config --global user.name "FemSeha AI Autopilot"
-          git config --global user.email "bot@femseha.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add src/data/articles.ts
           git commit -m "🚀 Auto-publish new medical article [skip ci]" || echo "No changes to commit"
           git push origin main
