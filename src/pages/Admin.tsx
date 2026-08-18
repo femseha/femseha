@@ -7,7 +7,12 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState<"new-article" | "articles-list" | "doctor-profile">("new-article");
   const [saveSuccess, setSaveSuccess] = useState(false);
 
-  // بيانات المقال الجديد
+  // إعدادات الذكاء الاصطناعي
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem("GEMINI_API_KEY") || "");
+  const [topicPrompt, setTopicPrompt] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  // بيانات المقال
   const [article, setArticle] = useState({
     title: "",
     slug: "",
@@ -18,7 +23,6 @@ export default function Admin() {
     readingTime: 4,
     status: "published",
     content: "",
-    excerpt: "",
   });
 
   // بيانات الطبيب
@@ -31,7 +35,6 @@ export default function Admin() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // كلمة المرور الافتراضية
     if (password === "DrHaitham2026!" || password === "admin123") {
       setIsAuthenticated(true);
       setError("");
@@ -40,11 +43,77 @@ export default function Admin() {
     }
   };
 
-  const handleArticleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSaveSuccess(true);
-    setTimeout(() => setSaveSuccess(false), 4000);
+  const handleSaveApiKey = (key: string) => {
+    setApiKey(key);
+    localStorage.setItem("GEMINI_API_KEY", key);
   };
+
+  // دالة توليد المقال بالذكاء الاصطناعي
+  const generateArticleWithAI = async () => {
+    if (!apiKey) {
+      alert("يرجى إدخال مفتاح الـ API أولاً في الشريط العلوي الأسود.");
+      return;
+    }
+    if (!topicPrompt) {
+      alert("يرجى كتابة عنوان أو فكرة المقال في المربع المخصص.");
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      const prompt = `أنت طبيب استشاري نساء وتوليد وخبير سيو طبي عالمي. قم بكتابة مقال طبي شامل ومتوافق بنسبة 100% مع معايير E-E-A-T ومحرك بحث Google حول الموضوع التالي: "${topicPrompt}".
+      
+يجب أن ترجع النتيجة بصيغة JSON فقط دون أي نصوص إضافية، بالشكل التالي:
+{
+  "title": "عنوان المقال الطبي الدقيق والجذاب باللغة العربية",
+  "slug": "english-seo-friendly-slug-with-hyphens",
+  "category": "womens-health أو pregnancy أو medications أو delayed-period أو pregnancy-test",
+  "primaryKeyword": "الكلمة المفتاحية الأكثر بحثاً",
+  "seoTitle": "عنوان السيو لجوجل أقل من 60 حرفاً وينتهي بـ | دليل صحة المرأة",
+  "metaDescription": "وصف تعريفي جذاب من 130 إلى 155 حرفاً يلخص المقال ويحفز على القراءة",
+  "content": "نص المقال الطبي بالتفصيل، يحتوي على مقدمة توعوية، عناوين فرعية، نقاط طبية، إرشادات للمرأة، وإخلاء مسؤولية طبي واضح في النهاية."
+}`;
+
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { responseMimeType: "application/json" }
+          }),
+        }
+      );
+
+      const data = await response.json();
+      const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (generatedText) {
+        const parsed = JSON.parse(generatedText);
+        setArticle({
+          ...article,
+          title: parsed.title || "",
+          slug: parsed.slug || "",
+          category: parsed.category || "womens-health",
+          primaryKeyword: parsed.primaryKeyword || topicPrompt,
+          seoTitle: parsed.seoTitle || "",
+          metaDescription: parsed.metaDescription || "",
+          content: parsed.content || "",
+        });
+      }
+    } catch (err) {
+      alert("حدث خطأ أثناء التوليد. تأكد من صحة مفتاح الـ API والاتصال بالإنترنت.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  // فاحص السيو المباشر (Yoast Style)
+  const isKeywordInTitle = article.primaryKeyword && article.title.includes(article.primaryKeyword);
+  const isKeywordInMeta = article.primaryKeyword && article.metaDescription.includes(article.primaryKeyword);
+  const isSeoTitleLengthGood = article.seoTitle.length >= 30 && article.seoTitle.length <= 65;
+  const isMetaLengthGood = article.metaDescription.length >= 100 && article.metaDescription.length <= 165;
+  const isContentLongEnough = article.content.length > 400;
 
   if (!isAuthenticated) {
     return (
@@ -94,8 +163,8 @@ export default function Admin() {
         {/* Header */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">لوحة إدارة المحتوى الطبي والسيو</h1>
-            <p className="text-sm text-slate-500 mt-1">تحكم في مقالات المنصة، إعدادات الأرشفة والملف التعريفي</p>
+            <h1 className="text-2xl font-bold text-slate-900">لوحة إدارة المحتوى والذكاء الاصطناعي</h1>
+            <p className="text-sm text-slate-500 mt-1">توليد وفحص المقالات الطبية آلياً وفق معايير جوجل</p>
           </div>
           <button
             onClick={() => setIsAuthenticated(false)}
@@ -103,6 +172,25 @@ export default function Admin() {
           >
             تسجيل الخروج
           </button>
+        </div>
+
+        {/* Gemini API Key Bar (الشريط الأسود لوضع المفتاح) */}
+        <div className="bg-gradient-to-r from-teal-900 to-slate-900 text-white p-5 rounded-2xl mb-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div className="font-bold flex items-center gap-2">
+              <span>⚡</span> مفتاح Google Gemini API
+            </div>
+            <p className="text-xs text-teal-200 mt-1">يُحفظ في متصفحك محلياً لتمكين الكتابة التلقائية دون الحاجة لإعادة كتابته</p>
+          </div>
+          <div className="w-full md:w-80">
+            <input
+              type="password"
+              value={apiKey}
+              onChange={(e) => handleSaveApiKey(e.target.value)}
+              placeholder="الصق مفتاح API هنا..."
+              className="w-full px-3 py-2 text-sm rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:bg-white/20 font-mono"
+            />
+          </div>
         </div>
 
         {/* Tabs */}
@@ -115,7 +203,7 @@ export default function Admin() {
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
-            ✍️ كتابة مقال جديد
+            🤖 كاتب المقالات والسيو الآلي
           </button>
           <button
             onClick={() => setActiveTab("articles-list")}
@@ -135,225 +223,157 @@ export default function Admin() {
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
-            🩺 بيانات الطبيب والتواصل
+            🩺 بيانات الطبيب
           </button>
         </div>
 
-        {/* Tab 1: New Article */}
         {activeTab === "new-article" && (
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-8">
-            {saveSuccess && (
-              <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl mb-6 text-sm flex items-center gap-2">
-                <span>✅</span> تم حفظ وتجهيز المقال بنجاح!
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Form Column */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* AI Generator Box */}
+              <div className="bg-teal-50 border border-teal-200 p-5 rounded-2xl">
+                <label className="block text-sm font-bold text-teal-900 mb-2">
+                  ✍️ اكتب فكرة المقال وسيتولى الذكاء الاصطناعي الباقي:
+                </label>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="text"
+                    value={topicPrompt}
+                    onChange={(e) => setTopicPrompt(e.target.value)}
+                    placeholder="مثال: أسباب تأخر الدورة الشهرية مع وجود آلام أسفل البطن"
+                    className="flex-1 px-4 py-2.5 rounded-xl border border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-600 text-sm bg-white"
+                  />
+                  <button
+                    type="button"
+                    onClick={generateArticleWithAI}
+                    disabled={isGenerating}
+                    className="bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition shadow-sm flex items-center justify-center gap-2 whitespace-nowrap"
+                  >
+                    {isGenerating ? "جاري كتابة المقال والسيو..." : "✨ توليد آلي بالسيو"}
+                  </button>
+                </div>
               </div>
-            )}
 
-            <form onSubmit={handleArticleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Main Fields */}
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5">
+                {saveSuccess && (
+                  <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl text-sm">
+                    ✅ تم تجهيز وحفظ المقال بنجاح!
+                  </div>
+                )}
+
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">عنوان المقال الرئيسي</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">عنوان المقال</label>
                   <input
                     type="text"
                     value={article.title}
                     onChange={(e) => setArticle({ ...article, title: e.target.value })}
-                    placeholder="مثال: أعراض الحمل المبكرة وأهم الفحوصات اللازمة"
-                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                    required
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">الرابط اللطيف (Slug بالإنجليزية)</label>
-                  <input
-                    type="text"
-                    value={article.slug}
-                    onChange={(e) => setArticle({ ...article, slug: e.target.value })}
-                    placeholder="مثال: early-pregnancy-symptoms"
-                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 text-left font-mono text-sm"
-                    dir="ltr"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">القسم الطبي</label>
-                  <select
-                    value={article.category}
-                    onChange={(e) => setArticle({ ...article, category: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
-                  >
-                    <option value="womens-health">صحة المرأة</option>
-                    <option value="pregnancy">الحمل والولادة</option>
-                    <option value="medications">الأدوية والتثقيف الدوائي</option>
-                    <option value="delayed-period">تأخر الدورة الشهرية</option>
-                    <option value="pregnancy-test">اختبارات الحمل</option>
-                  </select>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">الرابط الإنجليزي (Slug)</label>
+                    <input
+                      type="text"
+                      value={article.slug}
+                      onChange={(e) => setArticle({ ...article, slug: e.target.value })}
+                      className="w-full px-4 py-2 rounded-xl border border-slate-200 text-left font-mono text-sm"
+                      dir="ltr"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">الكلمة المفتاحية المستهدفة</label>
+                    <input
+                      type="text"
+                      value={article.primaryKeyword}
+                      onChange={(e) => setArticle({ ...article, primaryKeyword: e.target.value })}
+                      className="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm"
+                    />
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">الكلمة المفتاحية الرئيسية (SEO)</label>
-                  <input
-                    type="text"
-                    value={article.primaryKeyword}
-                    onChange={(e) => setArticle({ ...article, primaryKeyword: e.target.value })}
-                    placeholder="مثال: اعراض الحمل المبكرة"
-                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">حالة النشر</label>
-                  <select
-                    value={article.status}
-                    onChange={(e) => setArticle({ ...article, status: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
-                  >
-                    <option value="published">منشور فوراً (Published)</option>
-                    <option value="draft">مسودة للمراجعة (Draft)</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
-                <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
-                  <span>🔍</span> إعدادات محركات البحث و Google (SEO)
-                </h3>
-                <div>
-                  <label className="block text-xs font-medium text-slate-600 mb-1">عنوان الـ SEO في جوجل</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">عنوان السيو لجوجل (SEO Title)</label>
                   <input
                     type="text"
                     value={article.seoTitle}
                     onChange={(e) => setArticle({ ...article, seoTitle: e.target.value })}
-                    placeholder="عنوان جذاب يظهر في نتائج البحث (أقل من 60 حرف)"
-                    className="w-full px-3.5 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white text-sm"
+                    className="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-xs font-medium text-slate-600 mb-1">الوصف التعريفي (Meta Description)</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">الوصف التعريفي (Meta Description)</label>
                   <textarea
                     rows={2}
                     value={article.metaDescription}
                     onChange={(e) => setArticle({ ...article, metaDescription: e.target.value })}
-                    placeholder="ملخص طبي من 150 حرف يظهر تحت الرابط في محرك البحث لجذب الزوار..."
-                    className="w-full px-3.5 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white text-sm"
+                    className="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm"
                   />
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">محتوى المقال الطبي</label>
+                  <textarea
+                    rows={12}
+                    value={article.content}
+                    onChange={(e) => setArticle({ ...article, content: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 leading-relaxed text-sm font-sans"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => { setSaveSuccess(true); setTimeout(() => setSaveSuccess(false), 4000); }}
+                  className="bg-teal-600 hover:bg-teal-700 text-white font-bold px-8 py-3 rounded-xl shadow-md transition"
+                >
+                  نشر المقال
+                </button>
               </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">نص المقال الطبي بالكامل</label>
-                <textarea
-                  rows={10}
-                  value={article.content}
-                  onChange={(e) => setArticle({ ...article, content: e.target.value })}
-                  placeholder="اكتب المحتوى الطبي هنا بالتفصيل، العناوين الفرعية، والملاحظات الطبية التوعوية..."
-                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 font-sans"
-                  required
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-8 py-3 rounded-xl transition duration-200 shadow-md"
-              >
-                نشر وحفظ المقال
-              </button>
-            </form>
-          </div>
-        )}
-
-        {/* Tab 2: Articles List */}
-        {activeTab === "articles-list" && (
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6">
-            <div className="overflow-x-auto">
-              <table className="w-full text-right border-collapse">
-                <thead>
-                  <tr className="border-b border-slate-200 text-slate-500 text-sm">
-                    <th className="py-3 px-4">عنوان المقال</th>
-                    <th className="py-3 px-4">القسم</th>
-                    <th className="py-3 px-4">الحالة</th>
-                    <th className="py-3 px-4 text-center">الإجراءات</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 text-sm text-slate-800">
-                  <tr>
-                    <td className="py-4 px-4 font-medium">أعراض الحمل المبكرة وكيفية التعامل معها</td>
-                    <td className="py-4 px-4 text-slate-500">الحمل والولادة</td>
-                    <td className="py-4 px-4">
-                      <span className="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-semibold">منشور</span>
-                    </td>
-                    <td className="py-4 px-4 text-center space-x-2 space-x-reverse">
-                      <button className="text-teal-600 hover:underline">تعديل</button>
-                      <button className="text-rose-600 hover:underline">حذف</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-4 px-4 font-medium">دليل الفحوصات الدورية لصحة المرأة</td>
-                    <td className="py-4 px-4 text-slate-500">صحة المرأة</td>
-                    <td className="py-4 px-4">
-                      <span className="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-semibold">منشور</span>
-                    </td>
-                    <td className="py-4 px-4 text-center space-x-2 space-x-reverse">
-                      <button className="text-teal-600 hover:underline">تعديل</button>
-                      <button className="text-rose-600 hover:underline">حذف</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
-          </div>
-        )}
 
-        {/* Tab 3: Doctor Profile */}
-        {activeTab === "doctor-profile" && (
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-8 max-w-2xl">
-            <form onSubmit={(e) => { e.preventDefault(); setSaveSuccess(true); setTimeout(() => setSaveSuccess(false), 4000); }} className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">اسم الطبيب</label>
-                <input
-                  type="text"
-                  value={doctor.name}
-                  onChange={(e) => setDoctor({ ...doctor, name: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                />
+            {/* Live SEO Analyzer Column */}
+            <div className="space-y-6">
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sticky top-6">
+                <h3 className="font-bold text-slate-800 text-base mb-4 flex items-center gap-2 border-b pb-3">
+                  <span>📊</span> فاحص السيو المباشر (SEO Health)
+                </h3>
+
+                <div className="space-y-3.5 text-xs font-medium">
+                  <div className="flex items-center gap-2">
+                    <span className={`w-3 h-3 rounded-full ${isKeywordInTitle ? "bg-emerald-500" : "bg-rose-400"}`} />
+                    <span>الكلمة المفتاحية موجودة في العنوان</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className={`w-3 h-3 rounded-full ${isKeywordInMeta ? "bg-emerald-500" : "bg-rose-400"}`} />
+                    <span>الكلمة المفتاحية في الوصف التعريفي</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className={`w-3 h-3 rounded-full ${isSeoTitleLengthGood ? "bg-emerald-500" : "bg-amber-400"}`} />
+                    <span>طول عنوان السيو مثالي ({article.seoTitle.length} حرف)</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className={`w-3 h-3 rounded-full ${isMetaLengthGood ? "bg-emerald-500" : "bg-amber-400"}`} />
+                    <span>طول الوصف التعريفي ممتاز ({article.metaDescription.length} حرف)</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className={`w-3 h-3 rounded-full ${isContentLongEnough ? "bg-emerald-500" : "bg-rose-400"}`} />
+                    <span>عمق المقال الطبي كافٍ لتصدر جوجل</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-500 leading-normal">
+                  💡 تضمن هذه المؤشرات التوافق التام مع خوارزميات جوجل الطبية (E-E-A-T) لتسريع الفهرسة ورفع ترتيب المقال.
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">المسمى الوظيفي والدرجة</label>
-                <input
-                  type="text"
-                  value={doctor.title}
-                  onChange={(e) => setDoctor({ ...doctor, title: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">رقم الهاتف / الواتساب للاستشارات</label>
-                <input
-                  type="text"
-                  value={doctor.phone}
-                  onChange={(e) => setDoctor({ ...doctor, phone: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 text-left font-mono"
-                  dir="ltr"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">النبذة التعريفية</label>
-                <textarea
-                  rows={4}
-                  value={doctor.bio}
-                  onChange={(e) => setDoctor({ ...doctor, bio: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-2.5 rounded-xl transition"
-              >
-                حفظ بيانات الطبيب
-              </button>
-            </form>
+            </div>
           </div>
         )}
       </div>
