@@ -1,166 +1,123 @@
-export interface Article {
-  id: string;
-  slug: string;
-  title: string;
-  category: string;
-  categoryName: string;
-  author: string;
-  authorTitle: string;
-  publishDate: string;
-  readingTime: number;
-  seoTitle: string;
-  metaDescription: string;
-  primaryKeyword: string;
-  summary: string;
-  content: string;
-}
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { articles } from '../data/articles';
 
-export const articles: Article[] = [
-  {
-    id: "early-pregnancy-signs-before-period",
-    slug: "early-pregnancy-signs-before-period",
-    title: "علامات الحمل المبكرة جداً قبل موعد الدورة بـ 7 أيام: 5 أعراض مؤكدة لا تخطئ",
-    category: "womens-health",
-    categoryName: "صحة المرأة والحمل",
-    author: "د. هيثم الخطيب",
-    authorTitle: "طبيب اختصاصي جراحة النساء والتوليد والعقم",
-    publishDate: "2026-08-18",
-    readingTime: 6,
-    seoTitle: "علامات الحمل المبكرة قبل موعد الدورة | د. هيثم الخطيب",
-    metaDescription: "تعرفي على أبرز علامات الحمل المبكرة قبل موعد الدورة بـ 7 أيام والفرق بينها وبين الدورة الشهرية مع استشارة د. هيثم الخطيب 00966599287172.",
-    primaryKeyword: "علامات الحمل المبكرة قبل موعد الدورة",
-    summary: "دليل سريري شامل يوضح أهم 5 علامات لانغراس البويضة وحدوث الحمل قبل موعد الدورة بأسبوع، والفرق الدقيق بين دم التعشيش ودم الطمث.",
-    content: `تعد الفترة التي تسبق موعد الدورة الشهرية بأسبوع من أكثر الفترات التي تترقب فيها المرأة أي تغير جسدي قد يشير إلى حدوث الحمل. علمياً وسريرياً، تتزامن هذه الفترة مع مرحلة "انغراس البويضة الملقحة" (Implantation) في بطانة الرحم، وهي اللحظة الفعلية التي يبدأ فيها الجسم بإفراز هرمون الحمل (hCG) والبروجسترون بمستويات مرتفعة.
+export default function Articles() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
-### أولاً: ماذا يحدث فسيولوجياً قبل موعد الدورة بـ 7 أيام؟
-بعد إخصاب البويضة في قناة فالوب، تستغرق الرحلة نحو 6 إلى 9 أيام للوصول إلى تجويف الرحم. عند انغراس الكيسة الأريمية في جدار الرحم المغذي، تبدأ المشيمة الأولية بإفراز هرمون الحمل، مما يؤدي إلى:
-1. الحفاظ على بطانة الرحم ومنع انسلاخها (منع نزول الدورة).
-2. مضاعفة تدفق الدم لمنطقة الحوض والثديين.
-3. إرخاء عضلات الجهاز الهضمي والأوعية الدموية بتأثير هرمون البروجسترون.
+  const categories = [
+    { id: 'all', name: 'جميع المقالات' },
+    { id: 'womens-health', name: 'صحة المرأة والحمل' },
+    { id: 'pregnancy', name: 'أعراض وفحوصات الحمل' },
+    { id: 'cycles', name: 'الدورة الشهرية والتبويض' }
+  ];
 
-### ثانياً: 5 علامات مبكرة جداً تؤكد احتمالية الحمل
-1. **دم الانغراس أو التعشيش (Implantation Bleeding):** قطرات خفيفة جداً ذات لون وردي فاتح أو بني، تستمر لساعات قليلة أو يوم واحد فقط بدون كتل أو تجلطات دموية.
-2. **وخز وتقلصات أسفل البطن:** نبضات متقطعة على شكل نكزات أو شد خفيف في جانب واحد من الحوض وليست تشنجات طمث مستمرة.
-3. **ثقل وتغير حساسية الثديين:** نتيجة الارتفاع السريع لهرموني الإستروجين والبروجسترون مع اغمقاق طفيف في لون الهالة المحيطة بالحلمة.
-4. **الخمول والرغبة المفاجئة في النوم:** نتيجة التأثير المهدئ لهرمون البروجسترون على الجهاز العصبي وانخفاض ضغط الدم الخفيف.
-5. **النفور من الروائح وتغير حاسة التذوق:** حساسية استثنائية تجاه روائح القهوة أو العطور وظهور طعم معدني خفيف في الفم.
+  const filteredArticles = articles.filter((article) => {
+    const matchesSearch =
+      article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      article.summary.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (article.primaryKeyword && article.primaryKeyword.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    const matchesCategory =
+      selectedCategory === 'all' || article.category === selectedCategory;
 
-### ثالثاً: جدول مقارنة سريري: دم الحمل مقابل دم الدورة
-- **التوقيت:** دم الحمل ينزل قبل موعد الدورة بـ 5 إلى 7 أيام، بينما دم الحيض ينزل في موعد الدورة المعتاد.
-- **اللون:** دم الحمل وردي أو بني فاتح جداً، بينما دم الدورة أحمر داكن.
-- **الكمية:** دم الحمل عبارة عن مسحات أو قطرات لا تملأ الفوطة، بينما دم الدورة تدفق مستمر لعدة أيام.
+    return matchesSearch && matchesCategory;
+  });
 
-### رابعاً: متى تجرين فحص الحمل لضمان دقة النتيجة؟
-- **فحص الدم الرقمي (Beta-hCG):** هو الفحص الأدق مخبرياً ويمكن إجراؤه قبل موعد الدورة بـ 3 إلى 4 أيام بدقة 100%.
-- **اختبار البول المنزلي:** يُفضل إجراؤه في يوم موعد الدورة المتوقع أو بعد تأخرها بيوم، باستخدام عينة البول الصباحية الأولى.
+  return (
+    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
+      <div className="max-w-6xl mx-auto">
+        {/* رأس الصفحة */}
+        <div className="text-center mb-10">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
+            المقالات والأدلة الطبية المتخصصة
+          </h1>
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            دليل سريري شامل لصحة المرأة، متابعة الحمل، وفحوصات الهرمونات بإشراف د. هيثم الخطيب.
+          </p>
+        </div>
 
----
+        {/* شريط البحث والتصنيفات */}
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-10">
+          <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
+            {/* حقل البحث */}
+            <div className="w-full md:w-1/2">
+              <input
+                type="text"
+                placeholder="ابحثي عن موضوع طبي، أعراض حمل، أو تحليل..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-rose-500 focus:outline-none text-slate-800"
+              />
+            </div>
 
-### للتواصل والاستشارة الطبية المباشرة:
-👨‍⚕️ **المشرف الطبي:** د. هيثم الخطيب  
-🩺 **الصفة:** طبيب اختصاصي جراحة النساء والتوليد والعقم  
-📱 **هاتف العيادة والاستشارات المباشرة:** 00966599287172  
-🌐 **المنصة الرسمية:** femseha.com
+            {/* أزرار الفلترة */}
+            <div className="flex flex-wrap gap-2 w-full md:w-auto justify-center">
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                    selectedCategory === cat.id
+                      ? 'bg-rose-600 text-white shadow-sm'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
 
-⚠️ *إخلاء مسؤولية طبية: المعلومات الواردة في هذا المقال هي لأغراض التوعية والتثقيف الصحي فقط، ولا تغني عن الاستشارة السريرية المباشرة والفحص لدى الطبيب المختص.*`
-  },
-  {
-    id: "delayed-period-causes-and-tests",
-    slug: "delayed-period-causes-and-tests",
-    title: "أسباب تأخر الدورة الشهرية مع وجود ألم أسفل البطن: دليل سريري",
-    category: "womens-health",
-    categoryName: "صحة المرأة والحمل",
-    author: "د. هيثم الخطيب",
-    authorTitle: "طبيب اختصاصي جراحة النساء والتوليد والعقم",
-    publishDate: "2026-08-15",
-    readingTime: 5,
-    seoTitle: "أسباب تأخر الدورة مع ألم أسفل البطن | د. هيثم الخطيب",
-    metaDescription: "دليل طبي يوضح أسباب تأخر الدورة الشهرية مع ألم أسفل البطن والظهر، وطرق التمييز بين أعراض الحمل وتكيس المبايض مع استشارة د. هيثم الخطيب 00966599287172.",
-    primaryKeyword: "تأخر الدورة مع ألم أسفل البطن",
-    summary: "شرح طبي مفصل لأسباب تأخر الحيض المترافق مع تقلصات حوضية، متى يكون مؤشراً للحمل، ومتى يتطلب استشارة طبية عاجلة.",
-    content: `يُعد تزامن تأخر الدورة الشهرية مع الشعور بتقلصات أو آلام في أسفل البطن والظهر من الشكاوى السريرية الشائعة لدى الكثير من النساء. في حين أن أول ما يتبادر إلى الذهن هو احتمالية الحمل، إلا أن هناك عوامل هرمونية وفيزيولوجية متعددة قد تؤدي إلى نفس النتيجة.
+        {/* قائمة المقالات */}
+        {filteredArticles.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredArticles.map((article) => (
+              <article
+                key={article.id}
+                className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-md transition-shadow flex flex-col justify-between"
+              >
+                <div className="p-6">
+                  <div className="flex items-center justify-between text-xs text-rose-600 font-semibold mb-3">
+                    <span className="bg-rose-50 px-3 py-1 rounded-full">
+                      {article.categoryName || 'صحة المرأة'}
+                    </span>
+                    <span className="text-slate-400">{article.publishDate}</span>
+                  </div>
 
-### أولاً: الأسباب المحتملة
-1. **الحمل المبكر وانغراس الجنين:** يفرز الجسم هرمونات ترخي الأربطة الحوضية مع شد خفيف في جدار الرحم.
-2. **متلازمة تكيس المبايض (PCOS):** تسبب خللاً في انتظام الإباضة واحتقاناً حوضياً مزمناً.
-3. **التوتر والإجهاد العصبي:** يؤثر الضغط النفسي على منطقة تحت المهاد بالدماغ، مما يعيق إفراز الهرمونات المنشطة للتبويض.
-4. **أكياس المبيض الوظيفية:** قد تؤخر نزول الطمث لبضعة أيام مع ثقل وألم في أحد جانبي الحوض.
+                  <h2 className="text-xl font-bold text-slate-900 mb-3 line-clamp-2 hover:text-rose-600 transition-colors">
+                    <Link to={`/articles/${article.slug || article.id}`}>
+                      {article.title}
+                    </Link>
+                  </h2>
 
-### ثانياً: خطوات الفحص الموصى بها
-- إجراء فحص الحمل المنزلي الصباحي بعد تأخر الدورة بيومين.
-- عمل فحص الدم الرقمي (Beta-hCG) للتشخيص المؤكد.
-- الفحص بالموجات فوق الصوتية لتقييم بطانة الرحم والمبيضين.
+                  <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                    {article.summary}
+                  </p>
+                </div>
 
----
-
-👨‍⚕️ **المشرف الطبي:** د. هيثم الخطيب (00966599287172)`
-  },
-  {
-    id: "ectopic-pregnancy-warning-signs",
-    slug: "ectopic-pregnancy-warning-signs",
-    title: "الحمل خارج الرحم: الأعراض التحذيرية وطرق التشخيص المبكر",
-    category: "pregnancy",
-    categoryName: "الحمل والولادة",
-    author: "د. هيثم الخطيب",
-    authorTitle: "طبيب اختصاصي جراحة النساء والتوليد والعقم",
-    publishDate: "2026-08-10",
-    readingTime: 5,
-    seoTitle: "أعراض الحمل خارج الرحم وعلاجه | د. هيثم الخطيب",
-    metaDescription: "تعرفي على الأعراض المبكرة للحمل خارج الرحم، وعلامات الخطورة التي تستوجب التدخل السريع بإشراف د. هيثم الخطيب 00966599287172.",
-    primaryKeyword: "أعراض الحمل خارج الرحم",
-    summary: "دليل توعوي عن الحمل الهاجر وأهميته السريرية وكيفية اكتشافه مبكراً لحماية صحة المرأة وخصوبتها المستقبلية.",
-    content: `يحدث الحمل خارج الرحم عندما تنغرس البويضة الملقحة خارج تجويف الرحم، وفي أغلب الأحيان داخل إحدى قناتي فالوب. يعتبر هذا التشخيص حالة طبية تستوجب الكشف الدقيق والمبكر.
-
-### العلامات التحذيرية المبكرة:
-- ألم حاد وطاعن في جانب واحد من أسفل البطن.
-- نزيف مهبلي غير معتاد يختلف عن دم الدورة الشهرية.
-- شعور بألم في طرف الكتف ناتج عن تهيج العصب الحجابي.
-- دوخة شديدة أو إغماء نتيجة انخفاض ضغط الدم.
-
-### التشخيص الطبي:
-يتم تأكيد الحالة من خلال مقارنة مستويات هرمون الحمل الرقمي (Beta-hCG) مع الفحص بالسونار المهبلي الدقيق.
-
----
-
-👨‍⚕️ **المشرف الطبي:** د. هيثم الخطيب (00966599287172)`
-  },
-  {
-    id: "cytotec-misoprostol-medical-guide",
-    slug: "cytotec-misoprostol-medical-guide",
-    title: "الميزوبروستول (سايتوتك): الاستخدامات الطبية المعتمدة ومحاذير السلامة",
-    category: "medications",
-    categoryName: "الأدوية وصحة المرأة",
-    author: "د. هيثم الخطيب",
-    authorTitle: "طبيب اختصاصي جراحة النساء والتوليد والعقم",
-    publishDate: "2026-08-01",
-    readingTime: 6,
-    seoTitle: "دليل الميزوبروستول الطبي ومحاذير الاستخدام | د. هيثم الخطيب",
-    metaDescription: "دليل طبي توعوي شامل حول عقار الميزوبروستول واستخداماته المعتمدة وموانع الاستخدام بإشراف د. هيثم الخطيب 00966599287172.",
-    primaryKeyword: "الميزوبروستول سايتوتك الطبي",
-    summary: "معلومات تثقيفية قائمة على الأدلة العلمية حول الميزوبروستول ومحاذير السلامة الدوائية وإشراف الطبيب الإلزامي.",
-    content: `يُعد عقار الميزوبروستول (المعروف تجارياً بأسماء متعددة) من الأدوية التي تُستخدم تحت إشراف طبي صارم داخل المؤسسات الصحية المعتمدة لعدة دواعي نسائية وتوليدية.
-
-### الاستخدامات السريرية المعتمدة:
-1. المساعدة في علاج حالات الإجهاض المتروك أو غير المكتمل بإشراف طبي.
-2. تحفيز نضج عنق الرحم في حالات ولادية محددة.
-3. الوقاية من نزيف ما بعد الولادة وعلاجه.
-
-### محاذير وإرشادات السلامة:
-- يمنع منعاً باتاً تناول الدواء دون استشارة وفحص سريري مباشر.
-- يُحظر استخدامه في حال وجود حساسية للدواء أو اشتباه حمل خارج الرحم.
-- الاستخدام العشوائي يعرض المرأة لمخاطر النزيف الشديد والتمزقات الرحمية.
-
----
-
-👨‍⚕️ **المشرف الطبي:** د. هيثم الخطيب (00966599287172)`
-  }
-];
-
-export function getArticleBySlug(slug: string): Article | undefined {
-  return articles.find((a) => a.slug === slug);
-}
-
-export function getArticlesByCategory(category: string): Article[] {
-  if (!category || category === "all") return articles;
-  return articles.filter((a) => a.category === category);
+                <div className="px-6 pb-6 pt-2 border-t border-slate-50 flex items-center justify-between">
+                  <div className="text-xs text-slate-500">
+                    بإشراف: <span className="font-medium text-slate-700">{article.author || 'د. هيثم الخطيب'}</span>
+                  </div>
+                  <Link
+                    to={`/articles/${article.slug || article.id}`}
+                    className="text-rose-600 hover:text-rose-700 text-sm font-bold inline-flex items-center gap-1"
+                  >
+                    قراءة الدليل ←
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16 bg-white rounded-2xl border border-slate-100">
+            <p className="text-slate-500 text-lg">لم يتم العثور على مقالات تطابق بحثك حالياً.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
