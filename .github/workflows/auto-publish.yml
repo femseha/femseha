@@ -1,38 +1,28 @@
-name: Auto Publish Articles
+name: Auto Publish
 
 on:
-  schedule:
-    - cron: '0 6,12,18 * * *'
   workflow_dispatch:
-
-permissions:
-  contents: write
+  schedule:
+    - cron: '0 6 * * *'
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 22
-
-      - name: Install dependencies & Google GenAI SDK
-        run: |
-          npm install
-          npm install @google/genai
-
-      - name: Generate & Publish Medical Article
+          node-version: '20'
+      - run: npm install @google/genai
+      - run: node scripts/generate-article.js
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: node scripts/generate-article.js
-
-      - name: Commit and Push Changes
+      - name: Push changes
         run: |
-          git config --global user.name "Femseha AutoBot"
-          git config --global user.email "bot@femseha.com"
+          git config --global user.name "bot"
+          git config --global user.email "bot@bot.com"
           git add src/data/articles.ts
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto: Publish new medical article [skip ci]" && git push)
+          git commit -m "Auto publish article" || exit 0
+          git push
