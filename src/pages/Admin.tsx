@@ -1,117 +1,68 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useSeo } from "@/lib/seo";
-import { ARTICLES } from "@/data/articles";
 
 const ADMIN_PIN = "DrHaitham2026!";
 
 export default function Admin() {
-  useSeo({
-    title: "لوحة الإدارة والتحكم | د. هيثم الخطيب",
-    description: "إدارة ونشر المحتوى الطبي",
-    path: "/admin",
-    robots: "noindex, nofollow",
-  });
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState<"new-article" | "articles-list">("new-article");
-  const [saveSuccess, setSaveSuccess] = useState(false);
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem("AI_API_KEY") || "");
-  const [topicPrompt, setTopicPrompt] = useState("");
-  const [isGenerating, setIsGenerating] = useState(false);
   const [article, setArticle] = useState({
-    title: "",
-    slug: "",
-    category: "womens-health",
-    seoTitle: "",
-    metaDescription: "",
-    primaryKeyword: "",
-    readingTime: 6,
-    content: "",
+    title: "", slug: "", category: "womens-health", seoTitle: "",
+    metaDescription: "", primaryKeyword: "", content: "",
   });
-  const [savedArticles, setSavedArticles] = useState<any[]>([]);
 
-  useEffect(() => {
-    const loaded = localStorage.getItem("FEMSEHA_SAVED_ARTICLES");
-    if (loaded) setSavedArticles(JSON.parse(loaded));
-  }, []);
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password === ADMIN_PIN) {
-      setIsAuthenticated(true);
-    } else {
-      setError("كلمة المرور غير صحيحة");
-    }
-  };
+  const isKeywordInTitle = article.primaryKeyword && article.title.includes(article.primaryKeyword);
+  const isKeywordInMeta = article.primaryKeyword && article.metaDescription.includes(article.primaryKeyword);
+  const isSeoTitleLengthGood = article.seoTitle.length >= 25 && article.seoTitle.length <= 75;
+  const isMetaLengthGood = article.metaDescription.length >= 80 && article.metaDescription.length <= 175;
+  const isContentLongEnough = article.content.length > 500;
 
   const handlePublishArticle = () => {
-    if (!article.title || !article.content) {
-      alert("يرجى التأكد من وجود عنوان ومحتوى للمقال قبل النشر.");
-      return;
-    }
-
-    const newArticleItem = {
-      slug: article.slug || `art-${Date.now()}`,
-      title: article.title,
-      excerpt: article.metaDescription,
-      category: article.category === "womens-health" ? "صحة المرأة" : "الأدوية",
-      categoryHref: `/${article.category}`,
-      primaryKeyword: article.primaryKeyword,
-      author: "فريق تحرير دليل صحة المرأة",
-      medicalReviewer: "د. هيثم الخطيب",
-      datePublished: new Date().toISOString().split("T")[0],
-      dateModified: new Date().toISOString().split("T")[0],
-      readingTime: article.readingTime || 5,
-      content: article.content
-    };
-
+    if (!article.title || !article.content) { alert("أكمل البيانات أولاً"); return; }
+    const newArticleItem = { ...article, date: new Date().toISOString().split("T")[0] };
     const articleCode = JSON.stringify(newArticleItem, null, 2);
     navigator.clipboard.writeText(articleCode);
-    
-    alert("تم نسخ كود المقال! اذهب الآن لملف 'articles.ts' في جيت هب والصق الكود داخل المصفوفة، ثم احفظ الملف.");
-
-    const updated = [newArticleItem, ...savedArticles];
-    setSavedArticles(updated);
-    localStorage.setItem("FEMSEHA_SAVED_ARTICLES", JSON.stringify(updated));
-    setSaveSuccess(true);
-    setTimeout(() => setSaveSuccess(false), 5000);
+    alert("تم نسخ كود المقال! الصقه في articles.ts");
   };
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4" dir="rtl">
-        <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md border border-slate-200">
-          <h1 className="text-xl font-bold text-center mb-6">دخول لوحة تحكم د. هيثم الخطيب</h1>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full p-3 border rounded-xl" placeholder="كلمة المرور" />
-            <button type="submit" className="w-full bg-teal-600 text-white py-3 rounded-xl font-bold">دخول</button>
-          </form>
-          {error && <p className="text-red-500 text-sm mt-4 text-center">{error}</p>}
-        </div>
+      <div className="p-10 text-center" dir="rtl">
+        <input type="password" placeholder="كلمة المرور" onChange={(e) => setPassword(e.target.value)} className="p-3 border rounded-xl" />
+        <button onClick={() => password === ADMIN_PIN ? setIsAuthenticated(true) : alert("خطأ")} className="bg-teal-600 text-white p-3 rounded-xl mr-2">دخول</button>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4" dir="rtl">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white p-6 rounded-2xl shadow-sm mb-6 flex justify-between items-center">
-          <h1 className="text-xl font-bold">لوحة الإدارة - د. هيثم الخطيب</h1>
-          <button onClick={() => setIsAuthenticated(false)} className="text-sm text-slate-500 underline">خروج</button>
-        </div>
+    <div className="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8" dir="rtl">
+      <div className="lg:col-span-2 space-y-4">
+        <input placeholder="عنوان المقال" value={article.title} onChange={(e) => setArticle({...article, title: e.target.value})} className="w-full p-3 border rounded-xl" />
+        <input placeholder="الكلمة المفتاحية" value={article.primaryKeyword} onChange={(e) => setArticle({...article, primaryKeyword: e.target.value})} className="w-full p-3 border rounded-xl" />
+        <input placeholder="عنوان السيو" value={article.seoTitle} onChange={(e) => setArticle({...article, seoTitle: e.target.value})} className="w-full p-3 border rounded-xl" />
+        <textarea placeholder="الوصف التعريفي" value={article.metaDescription} onChange={(e) => setArticle({...article, metaDescription: e.target.value})} className="w-full p-3 border rounded-xl" />
+        <textarea placeholder="المحتوى الطبي" value={article.content} onChange={(e) => setArticle({...article, content: e.target.value})} className="w-full p-6 border rounded-xl h-96" />
+        <button onClick={handlePublishArticle} className="w-full bg-emerald-600 text-white py-4 rounded-xl font-bold">🚀 نشر وحفظ المقال</button>
+      </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-          <label className="block font-bold">عنوان المقال</label>
-          <input type="text" value={article.title} onChange={(e) => setArticle({...article, title: e.target.value})} className="w-full p-3 border rounded-xl" />
-          
-          <label className="block font-bold">المحتوى</label>
-          <textarea rows={10} value={article.content} onChange={(e) => setArticle({...article, content: e.target.value})} className="w-full p-3 border rounded-xl" />
-
-          <button onClick={handlePublishArticle} className="w-full bg-emerald-600 text-white py-4 rounded-2xl font-bold text-lg">
-            🚀 نشر وحفظ المقال (نسخ الكود تلقائياً)
-          </button>
+      <div className="bg-white p-6 rounded-2xl border border-teal-200 h-fit sticky top-6">
+        <h3 className="font-bold mb-4">📊 فاحص السيو المباشر</h3>
+        <div className="space-y-3 text-sm">
+          <div className="flex items-center gap-2">
+            <span className={`w-3 h-3 rounded-full ${isKeywordInTitle ? "bg-emerald-500" : "bg-rose-400"}`} /> الكلمة في العنوان
+          </div>
+          <div className="flex items-center gap-2">
+            <span className={`w-3 h-3 rounded-full ${isKeywordInMeta ? "bg-emerald-500" : "bg-rose-400"}`} /> الكلمة في الوصف
+          </div>
+          <div className="flex items-center gap-2">
+            <span className={`w-3 h-3 rounded-full ${isSeoTitleLengthGood ? "bg-emerald-500" : "bg-amber-400"}`} /> طول عنوان السيو
+          </div>
+          <div className="flex items-center gap-2">
+            <span className={`w-3 h-3 rounded-full ${isMetaLengthGood ? "bg-emerald-500" : "bg-amber-400"}`} /> طول الوصف التعريفي
+          </div>
+          <div className="flex items-center gap-2">
+            <span className={`w-3 h-3 rounded-full ${isContentLongEnough ? "bg-emerald-500" : "bg-rose-400"}`} /> عمق المحتوى
+          </div>
         </div>
       </div>
     </div>
