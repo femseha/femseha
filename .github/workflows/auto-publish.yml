@@ -1,10 +1,9 @@
-name: Auto Publish 3 Articles Daily
+name: Auto Publish Articles
 
 on:
   schedule:
-    # يعمل 3 مرات يومياً (الساعة 9:00 صباحاً، 3:00 عصراً، 9:00 مساءً بتوقيت السعودية والأردن)
     - cron: '0 6,12,18 * * *'
-  workflow_dispatch: # يتيح زر تشغيل يدوي للتجربة في أي وقت
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -19,7 +18,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
+
+      - name: Install dependencies & Google GenAI SDK
+        run: |
+          npm install
+          npm install @google/genai
 
       - name: Generate & Publish Medical Article
         env:
