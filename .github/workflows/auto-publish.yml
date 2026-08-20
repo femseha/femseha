@@ -3,7 +3,7 @@ name: Auto Publish
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '0 */5 * * *'  # يعمل تلقائياً كل 5 ساعات
 
 jobs:
   build:
@@ -24,5 +24,5 @@ jobs:
           git config --global user.name "bot"
           git config --global user.email "bot@bot.com"
           git add src/data/articles.ts
-          git commit -m "Auto publish article" || exit 0
+          git commit -m "Auto publish 1500w SEO article" || exit 0
           git push
