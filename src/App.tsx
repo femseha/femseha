@@ -1,31 +1,29 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-// صفحات مؤقتة آمنة لضمان عمل الموقع فوراً
-function Home() {
-  return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4" dir="rtl">
-      <div className="bg-white p-8 rounded-xl shadow-md text-center max-w-lg w-full">
-        <h1 className="text-3xl font-bold text-slate-900 mb-4">منصة فصيحة الطبية</h1>
-        <p className="text-slate-600 mb-6">الموقع قيد التحديث والصيانة الدورية لتقديم أفضل خدمة طبية.</p>
-        <a href="/admin" className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition">
-          تسجيل الدخول للوحة التحكم
-        </a>
-      </div>
-    </div>
-  );
-}
-
-import { Admin } from './pages/Admin';
+import React, { useState, useEffect } from 'react';
 
 export function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/admin" element={<Admin />} />
-      </Routes>
-    </Router>
+    <div className="min-h-screen bg-slate-50 text-slate-900" dir="rtl">
+      {/* هيدر الموقع */}
+      <header className="bg-white shadow-sm py-4 px-6 mb-8">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-blue-600">منصة فصيحة الطبية</h1>
+          <span className="text-sm text-slate-500">إشراف د. هيثم الخطيب</span>
+        </div>
+      </header>
+
+      {/* المحتوى الرئيسي */}
+      <main className="max-w-4xl mx-auto px-4 pb-12">
+        <div className="bg-white rounded-2xl shadow-sm p-8 text-center border border-slate-100">
+          <h2 className="text-3xl font-extrabold mb-4 text-slate-800">مرحباً بك في منصة فصيحة</h2>
+          <p className="text-lg text-slate-600 mb-6">
+            الموقع يعمل الآن بنظام مستقر ونظيف وجاهز لعرض المقالات الطبية والمدونة.
+          </p>
+          <div className="inline-block bg-blue-50 text-blue-700 px-6 py-3 rounded-xl font-medium">
+            النظام يعمل بكفاءة عالية 🚀
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }
 
