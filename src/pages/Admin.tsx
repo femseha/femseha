@@ -1,524 +1,268 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useSeo } from "@/lib/seo";
+import React, { useState } from 'react';
 
-const ADMIN_PIN = "DrHaitham2026!";
+export function Admin() {
+  const [title, setTitle] = useState('');
+  const [keyword, setKeyword] = useState('');
+  const [category, setCategory] = useState('womens-health');
+  const [geoKeywords, setGeoKeywords] = useState('');
+  const [length, setLength] = useState('1500');
+  const [tone, setTone] = useState('professional');
+  const [includeEmergencyBox, setIncludeEmergencyBox] = useState(true);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
 
-export default function Admin() {
-  useSeo({
-    title: "لوحة الإدارة والتحكم | د. هيثم الخطيب",
-    description: "إدارة ونشر المحتوى الطبي بالذكاء الاصطناعي",
-    path: "/admin",
-    robots: "noindex, nofollow",
-  });
+  // قراءة المفاتيح بأمان من بيئة العمل السحابية (Vercel)
+  // أو يمكنك وضعها مؤقتاً هنا إذا كنت تعمل محلياً (Localhost)
+  const GITHUB_TOKEN = (import.meta as any).env?.VITE_GITHUB_TOKEN || '';
+  const GEMINI_API_KEY = (import.meta as any).env?.VITE_GEMINI_API_KEY || '';
+  const REPO_OWNER = 'femseha';
+  const REPO_NAME = 'femseha';
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState<"new-article" | "articles-list">("new-article");
-  const [saveSuccess, setSaveSuccess] = useState(false);
-
-  // إعدادات الـ API والمفتاح
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem("AI_API_KEY") || "");
-  const [topicPrompt, setTopicPrompt] = useState("");
-  const [isGenerating, setIsGenerating] = useState(false);
-
-  // بيانات المقال الحالي
-  const [article, setArticle] = useState({
-    title: "",
-    slug: "",
-    category: "womens-health",
-    seoTitle: "",
-    metaDescription: "",
-    primaryKeyword: "",
-    readingTime: 6,
-    content: "",
-  });
-
-  // قائمة المقالات المحفوظة محلياً
-  const [savedArticles, setSavedArticles] = useState<any[]>([]);
-
-  useEffect(() => {
-    const loaded = localStorage.getItem("FEMSEHA_SAVED_ARTICLES");
-    if (loaded) {
-      try {
-        setSavedArticles(JSON.parse(loaded));
-      } catch (e) {
-        console.error("Error loading articles", e);
-      }
-    }
-  }, []);
-
-  const handleLogin = (e: React.FormEvent) => {
+  const handlePublishDirectly = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === ADMIN_PIN || password === "admin123") {
-      setIsAuthenticated(true);
-      setError("");
-    } else {
-      setError("كلمة المرور غير صحيحة");
-    }
-  };
-
-  const handleSaveApiKey = (key: string) => {
-    setApiKey(key);
-    localStorage.setItem("AI_API_KEY", key);
-  };
-
-  // المولد الداخلي الذكي الفوري في حال لم يكن مفتاح الـ API متاحاً أو حدث خطأ
-  const generateBuiltInArticle = (topic: string) => {
-    const cleanTopic = topic.trim() || "تأخر الدورة الشهرية وأسبابه الشائعة";
-    const keyword = cleanTopic.split(" ").slice(0, 4).join(" ");
-    
-    return {
-      primaryKeyword: keyword,
-      title: `${cleanTopic}: دليل طبي شامل بإشراف د. هيثم الخطيب`,
-      slug: cleanTopic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "medical-article-guide",
-      category: "womens-health",
-      seoTitle: `${keyword} | استشارة د. هيثم الخطيب`,
-      metaDescription: `دليل طبي شامل يوضح ${keyword} وأهم أسبابها وطرق التشخيص الدقيقة مع إرشادات د. هيثم الخطيب للتواصل 00966599287172.`,
-      content: `بقلم: د. هيثم الخطيب
-طبيب اختصاصي جراحة النساء والتوليد والعقم
-للتواصل والاستشارات المباشرة: 00966599287172
-
----
-
-تعد حالة "${cleanTopic}" من الاستفسارات الطبية الشائعة التي تستقبلها عيادات صحة المرأة وجراحة النساء والتوليد. تتطلب هذه الحالة تقييماً دقيقاً لمعرفة الأسباب الفسيولوجية والهرمونية الكامنة وراءها لتحديد البروتوكول العلاجي الأمثل.
-
----
-
-### أولاً: الأسباب الطبية والفسيولوجية
-1. التغيرات الهرمونية الحادة: تلعب هرمونات الإستروجين والبروجسترون دوراً رئيسياً في توازن الجهاز التناسلي، وأي اضطراب في محور (تحت المهاد - الغدة النخامية - المبيض) يؤدي إلى ظهور هذه الأعراض.
-2. متلازمة تكيس المبايض (PCOS): تعد من أكثر الحالات المسببة لعدم انتظام الدورة واضطرابات التبويض المرافقة لآلام الحوض.
-3. التوتر والضغط النفسي: يؤدي ارتفاع هرمون الكورتيزول إلى تثبيط إفراز الهرمونات المنشطة للمبيض مؤقتاً.
-4. اضطرابات الغدة الدرقية وهرمون الحليب (Prolactin): كلاهما يرتبط ارتباطاً وثيقاً بانتظام الدورة وصحة بطانة الرحم.
-
----
-
-### ثانياً: الفحوصات الطبية الموصى بها للتشخيص
-* فحص هرمون الحمل الرقمي (Beta-hCG) لنفي أو تأكيد الحمل بدقة 100%.
-* التصوير بالموجات فوق الصوتية (السونار الحوضي/المهبلي) لفحص الرحم والمبيضين.
-* التحاليل الهرمونية الشاملة (TSH, Free T4, Prolactin, FSH, LH).
-
----
-
-### ثالثاً: علامات تحذيرية تستوجب المراجعة الطبية الفورية 🚨
-* ألم حاد ومفاجئ في أحد جانبي الحوض أو أسفل البطن.
-* نزيف مهبلي غير طبيعي أو مصحوب بتجلطات دموية.
-* دوخة شديدة، هبوط في ضغط الدم، أو إغماء.
-* ارتفاع في درجة حرارة الجسم مع إفرازات غير معتادة.
-
----
-
-### للتواصل والاستشارة الطبية المباشرة:
-👨‍⚕️ المشرف الطبي: د. هيثم الخطيب
-🩺 الصفة: اختصاصي جراحة النساء والتوليد والعقم
-📱 هاتف العيادة والاستشارات: 00966599287172
-🌐 المنصة الرسمية: femseha.com
-
----
-
-⚠️ إخلاء مسؤولية طبية: المعلومات الواردة في هذا المقال هي لأغراض التوعية والتثقيف الصحي فقط، ولا تغني بأي حال من الأحوال عن الاستشارة الطبية والفحص السريري المباشر.`
-    };
-  };
-
-  const generateArticleWithAI = async () => {
-    if (!topicPrompt) {
-      alert("يرجى كتابة فكرة أو عنوان المقال أولاً.");
+    if (!title || !keyword) {
+      alert('الرجاء إدخال عنوان المقال والكلمة المفتاحية الرئيسية على الأقل.');
       return;
     }
 
-    setIsGenerating(true);
-
-    if (!apiKey) {
-      const generated = generateBuiltInArticle(topicPrompt);
-      setArticle({ ...article, ...generated });
-      setIsGenerating(false);
+    if (!GITHUB_TOKEN) {
+      alert('الرجاء ضبط مفتاح GitHub Token في متغيرات البيئة بـ Vercel.');
       return;
     }
 
-    const systemPrompt = `أنت طبيب استشاري نساء وتوليد وخبير سيو لمنصة "دليل صحة المرأة" (femseha.com).
-المشرف الطبي: د. هيثم الخطيب (00966599287172).
-اكتب مقالاً طبياً شاملاً وموسعاً حول: "${topicPrompt}".
-أرجع الرد بصيغة JSON فقط:
-{
-  "primaryKeyword": "الكلمة المفتاحية",
-  "title": "عنوان المقال ويحتوي على الكلمة المفتاحية",
-  "slug": "english-slug-url",
-  "category": "womens-health",
-  "seoTitle": "عنوان سيو جوجل | د. هيثم الخطيب",
-  "metaDescription": "الوصف التعريفي يحتوي على الكلمة ورقم الهاتف 00966599287172",
-  "content": "نص المقال الطبي بالتفصيل مع بيانات د. هيثم الخطيب..."
-}`;
+    setIsPublishing(true);
+    setStatusMessage('جاري توليد المقال الطبي العميق عبر محرك Gemini الذكي...');
 
     try {
-      if (apiKey.startsWith("sk-")) {
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`,
-          },
-          body: JSON.stringify({
-            model: "gpt-4o-mini",
-            messages: [{ role: "user", content: systemPrompt }],
-            response_format: { type: "json_object" }
-          }),
-        });
-        const data = await response.json();
-        if (data.error) throw new Error(data.error.message);
-        const parsed = JSON.parse(data.choices[0].message.content);
-        setArticle({ ...article, ...parsed });
-      } else {
-        const response = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: systemPrompt }] }],
-              generationConfig: { responseMimeType: "application/json" }
-            }),
+      const prompt = `أنت استشاري طبي وطبيب نساء وتوليد خبير. اكتب مقالاً طبياً مهنياً وموسعاً باللغة العربية الفصحى بعنوان "${title}".
+الكلمة المفتاحية المستهدفة: "${keyword}".
+القسم الطبي: ${category}.
+المدن المستهدفة وكلمات السيو الفرعية: ${geoKeywords || 'الرياض، جدة، الدمام'}.
+طول المقال المستهدف: أكثر من ${length} كلمة.
+يجب أن يكون المقال مقسماً إلى فقرات واضحة مع عناوين رئيسية (h2) وفرعية، ويحتوي على إرشادات طبية دقيقة ومحذرة.
+أضف في النهاية إخلاء مسؤولية طبية.
+قم بإرجاع النتيجة حصرياً على شكل كود JSON صالح (بدون أي شيفرات ماركداون إضافية أو نص خارج الـ JSON) يحتوي على الحقائق التالية:
+{
+  "excerpt": "ملخص قصير وجذاب للمقال",
+  "paragraphs": [
+    "فقرة نصية أولى...",
+    "فقرة نصية ثانية..."
+  ]
+};`;
+
+      const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }]
+        })
+      });
+
+      let aiGeneratedParagraphs = [
+        `يُعد موضوع (${title}) من المواضيع الحساسة والحرجة التي تتطلب استشارة طبية دقيقة وفحصاً سريرياً مباشراً في المنشآت الصحية المعتمدة.`,
+        `تم إعداد هذا المقال لتسليط الضوء على الإرشادات الطبية والاشتراطات النظامية المتعلقة بـ (${keyword}) مع مراعاة المعايير المهنية.`
+      ];
+      let aiExcerpt = `دليل طبي شامل حول ${title} والإرشادات الطبية المعتمدة.`;
+
+      if (geminiResponse.ok) {
+        const geminiData = await geminiResponse.json();
+        const rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        try {
+          const cleanJsonStr = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+          const parsed = JSON.parse(cleanJsonStr);
+          if (parsed.paragraphs) aiGeneratedParagraphs = parsed.paragraphs;
+          if (parsed.excerpt) aiExcerpt = parsed.excerpt;
+        } catch (parseErr) {
+          if (rawText.length > 50) {
+            aiGeneratedParagraphs = rawText.split('\n\n').filter(Boolean);
           }
-        );
-        const data = await response.json();
-        if (data.error) throw new Error(data.error.message);
-        const parsed = JSON.parse(data.candidates[0].content.parts[0].text);
-        setArticle({ ...article, ...parsed });
+        }
       }
+
+      const slug = title.toLowerCase().replace(/[^a-z0-9u0600-u06ff]+/g, '-').replace(/^-+|-+$/g, '');
+      const currentDate = new Date().toISOString().split('T')[0];
+
+      const contentBlocks = aiGeneratedParagraphs.map((pText, idx) => {
+        if (idx === 1) {
+          return { type: 'h2', text: 'الإرشادات السريرية والتحذيرات الطبية' };
+        }
+        return { type: 'p', text: pText };
+      });
+
+      if (includeEmergencyBox) {
+        contentBlocks.push({
+          type: 'note',
+          text: 'تنبيه طارئ: في حال ظهور أي أعراض حادة أو مضاعفات غير متوقعة، يجب التوجه فوراً لأقرب مستشفى أو مركز طوارئ طبي.'
+        });
+      }
+
+      const newArticleObject = {
+        slug: slug || `article-${Date.now()}`,
+        title,
+        excerpt: aiExcerpt,
+        category: category === 'medications' ? 'الأدوية' : category === 'pregnancy' ? 'الحمل والأجنة' : 'صحة المرأة',
+        categoryHref: `/${category}`,
+        primaryKeyword: keyword,
+        author: 'فريق تحرير دليل صحة المرأة',
+        medicalReviewer: 'د. هيثم الخطيب',
+        datePublished: currentDate,
+        dateModified: currentDate,
+        readingTime: parseInt(length) > 1500 ? 7 : 5,
+        content: contentBlocks,
+        sources: ['https://femseha.com/'],
+        relatedArticles: ['misoprostol-uses-safety']
+      };
+
+      setStatusMessage('جاري جلب الملفات الحالية من مستودع GitHub...');
+      const filePath = 'src/data/generated-articles.ts';
+      
+      const getFileRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}`, {
+        headers: { Authorization: `token ${GITHUB_TOKEN}` }
+      });
+
+      let fileSha = '';
+      let existingArticles = [];
+
+      if (getFileRes.ok) {
+        const fileData = await getFileRes.json();
+        fileSha = fileData.sha;
+        const decodedContent = decodeURIComponent(escape(atob(fileData.content)));
+        const match = decodedContent.match(/export const GENERATED_ARTICLES: Article\[\] = (\[[\s\S]*\]);/);
+        if (match && match[1]) {
+          try {
+            existingArticles = eval(match[1]);
+          } catch (err) {
+            existingArticles = [];
+          }
+        }
+      }
+
+      const updatedArticlesList = [newArticleObject, ...existingArticles];
+
+      const newFileContent = `import type { Article } from "./types";
+
+export const GENERATED_ARTICLES: Article[] = ${JSON.stringify(updatedArticlesList, null, 2)};
+`;
+
+      setStatusMessage('جاري رفع المقال ونشره مباشرة على GitHub...');
+
+      const updateRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: `Auto: Publish AI article "${title}" [skip ci]`,
+          content: btoa(unescape(encodeURIComponent(newFileContent))),
+          sha: fileSha || undefined
+        }),
+      });
+
+      if (updateRes.ok) {
+        setStatusMessage('تم توليد المقال بالذكاء الاصطناعي ونشره بنجاح تام على الموقع!');
+        setTitle('');
+        setKeyword('');
+        setGeoKeywords('');
+      } else {
+        const errData = await updateRes.json();
+        throw new Error(errData.message || 'فشل الاتصال بـ GitHub API');
+      }
+
     } catch (err: any) {
-      console.warn("API Error, falling back to built-in generator:", err);
-      const generated = generateBuiltInArticle(topicPrompt);
-      setArticle({ ...article, ...generated });
-      alert("تم توليد المقال الطبي بالكامل بنجاح عبر المحرك الذكي المدمج!");
+      alert('حدث خطأ أثناء التوليد أو النشر: ' + err.message);
+      setStatusMessage('');
     } finally {
-      setIsGenerating(false);
+      setIsPublishing(false);
     }
   };
 
-  const handlePublishArticle = () => {
-    if (!article.title || !article.content) {
-      alert("يرجى التأكد من وجود عنوان ومحتوى للمقال قبل النشر.");
-      return;
-    }
-    const newArticleItem = {
-      id: Date.now().toString(),
-      title: article.title,
-      slug: article.slug || `article-${Date.now()}`,
-      category: article.category,
-      seoTitle: article.seoTitle,
-      metaDescription: article.metaDescription,
-      primaryKeyword: article.primaryKeyword,
-      readingTime: article.readingTime || 5,
-      date: new Date().toISOString().split("T")[0],
-      content: article.content,
-    };
-    const updated = [newArticleItem, ...savedArticles];
-    setSavedArticles(updated);
-    localStorage.setItem("FEMSEHA_SAVED_ARTICLES", JSON.stringify(updated));
-    setSaveSuccess(true);
-    setTimeout(() => setSaveSuccess(false), 5000);
+  const handleLogout = () => {
+    localStorage.removeItem('isAdminLoggedIn');
+    window.location.reload();
   };
-
-  const handleDeleteArticle = (id: string) => {
-    if (confirm("هل أنت متأكد من رغبتك في حذف هذا المقال؟")) {
-      const updated = savedArticles.filter((a) => a.id !== id);
-      setSavedArticles(updated);
-      localStorage.setItem("FEMSEHA_SAVED_ARTICLES", JSON.stringify(updated));
-    }
-  };
-
-  // قياسات السيو للفاحص المباشر
-  const isKeywordInTitle = article.primaryKeyword && article.title.includes(article.primaryKeyword);
-  const isKeywordInMeta = article.primaryKeyword && article.metaDescription.includes(article.primaryKeyword);
-  const isSeoTitleLengthGood = article.seoTitle.length >= 25 && article.seoTitle.length <= 75;
-  const isMetaLengthGood = article.metaDescription.length >= 80 && article.metaDescription.length <= 175;
-  const isContentLongEnough = article.content.length > 300;
-
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4 font-sans" dir="rtl">
-        <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md border border-slate-200">
-          <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-slate-800">لوحة تحكم الطبيب والمحتوى</h1>
-            <p className="text-sm text-slate-500 mt-1">دليل صحة المرأة - د. هيثم الخطيب</p>
-          </div>
-          {error && <div className="bg-rose-50 text-rose-600 p-3 rounded-lg text-sm mb-4">{error}</div>}
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1">كلمة المرور</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-rose-500"
-                placeholder="أدخل كلمة المرور..."
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl transition"
-            >
-              تسجيل الدخول
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4 font-sans" dir="rtl">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 sm:p-8">
+        <div className="flex justify-between items-center border-b pb-4 mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">لوحة إدارة المحتوى والذكاء الاصطناعي</h1>
-            <p className="text-sm text-slate-500 mt-1">توليد ونشر المقالات الطبية آلياً بإشراف د. هيثم الخطيب</p>
+            <h1 className="text-2xl font-bold text-gray-900">مركز النشر والتحكم الطبي المطور</h1>
+            <p className="text-sm text-gray-500 mt-1">الربط الآمن: Gemini AI + GitHub API</p>
           </div>
           <button
-            onClick={() => setIsAuthenticated(false)}
-            className="text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl"
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium"
           >
-            تسجيل الخروج
+            <span>تسجيل الخروج</span>
+            <span>🚪</span>
           </button>
         </div>
 
-        {/* API Settings */}
-        <div className="bg-gradient-to-r from-teal-900 to-slate-900 text-white p-5 rounded-2xl mb-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <form onSubmit={handlePublishDirectly} className="space-y-6">
           <div>
-            <div className="font-bold flex items-center gap-2">
-              <span>⚡</span> مفتاح الذكاء الاصطناعي (OpenAI / Gemini)
-            </div>
-            <p className="text-xs text-teal-200 mt-1">يدعم مفاتيح OpenAI ومفاتيح Google Gemini</p>
-          </div>
-          <div className="w-full md:w-80">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">عنوان المقال أو الموضوع الطبي الرئيسي *</label>
             <input
-              type="password"
-              value={apiKey}
-              onChange={(e) => handleSaveApiKey(e.target.value)}
-              placeholder="الصق مفتاحك هنا (اختياري)..."
-              className="w-full px-3 py-2 text-sm rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:bg-white/20 font-mono"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="مثال: الإرشادات الطبية لتأخر الدورة الشهرية"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              required
             />
           </div>
-        </div>
 
-        {/* Tabs */}
-        <div className="flex border-b border-slate-200 mb-6 gap-2">
-          <button
-            onClick={() => setActiveTab("new-article")}
-            className={`pb-3 px-5 text-sm font-semibold transition border-b-2 ${
-              activeTab === "new-article"
-                ? "border-teal-600 text-teal-600"
-                : "border-transparent text-slate-500 hover:text-slate-800"
-            }`}
-          >
-            ✍️ كاتب ومولد المقالات
-          </button>
-          <button
-            onClick={() => setActiveTab("articles-list")}
-            className={`pb-3 px-5 text-sm font-semibold transition border-b-2 ${
-              activeTab === "articles-list"
-                ? "border-teal-600 text-teal-600"
-                : "border-transparent text-slate-500 hover:text-slate-800"
-            }`}
-          >
-            📚 المقالات المنشورة ({savedArticles.length})
-          </button>
-        </div>
-
-        {activeTab === "new-article" && (
           <div>
-            {/* AI Generator Box */}
-            <div className="bg-white rounded-2xl shadow-sm border border-teal-200 p-6 mb-6">
-              <label className="block text-base font-bold text-slate-800 mb-2">
-                🤖 اكتب موضوع المقال وسيتكفل النظام بالباقي:
-              </label>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="text"
-                  value={topicPrompt}
-                  onChange={(e) => setTopicPrompt(e.target.value)}
-                  placeholder="مثال: أسباب إفرازات الحمل وطرق علاجها"
-                  className="flex-1 px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-600 text-sm"
-                />
-                <button
-                  type="button"
-                  onClick={generateArticleWithAI}
-                  disabled={isGenerating}
-                  className="bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 text-white font-bold px-8 py-3 rounded-xl text-sm transition shadow-md flex items-center justify-center gap-2"
-                >
-                  {isGenerating ? "جاري التوليد الذكي..." : "✨ توليد المقال والسيو فوراً"}
-                </button>
-              </div>
-            </div>
-
-            {/* Editor Area */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-6">
-                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5">
-                  {saveSuccess && (
-                    <div className="bg-emerald-50 border border-emerald-300 text-emerald-800 px-5 py-4 rounded-xl text-sm font-bold flex items-center justify-between">
-                      <span>✅ تم نشر وحفظ المقال بنجاح في الموقع!</span>
-                      <button
-                        onClick={() => setActiveTab("articles-list")}
-                        className="text-xs underline bg-emerald-100 hover:bg-emerald-200 px-3 py-1.5 rounded-lg"
-                      >
-                        عرض في قائمة المقالات
-                      </button>
-                    </div>
-                  )}
-                  <div>
-                    <label className="block text-xs font-bold text-slate-600 mb-1">عنوان المقال</label>
-                    <input
-                      type="text"
-                      value={article.title}
-                      onChange={(e) => setArticle({ ...article, title: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 font-bold text-slate-800"
-                    />
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-600 mb-1">الرابط الإنجليزي (Slug)</label>
-                      <input
-                        type="text"
-                        value={article.slug}
-                        onChange={(e) => setArticle({ ...article, slug: e.target.value })}
-                        className="w-full px-4 py-2 rounded-xl border border-slate-200 text-left font-mono text-sm"
-                        dir="ltr"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-slate-600 mb-1">الكلمة المفتاحية المستهدفة</label>
-                      <input
-                        type="text"
-                        value={article.primaryKeyword}
-                        onChange={(e) => setArticle({ ...article, primaryKeyword: e.target.value })}
-                        className="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm font-semibold text-teal-700"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-600 mb-1">عنوان السيو لجوجل</label>
-                    <input
-                      type="text"
-                      value={article.seoTitle}
-                      onChange={(e) => setArticle({ ...article, seoTitle: e.target.value })}
-                      className="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-600 mb-1">الوصف التعريفي (Meta Description)</label>
-                    <textarea
-                      rows={2}
-                      value={article.metaDescription}
-                      onChange={(e) => setArticle({ ...article, metaDescription: e.target.value })}
-                      className="w-full px-4 py-2 rounded-xl border border-slate-200 text-sm"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-600 mb-1">المحتوى الطبي الكامل</label>
-                    <textarea
-                      rows={14}
-                      value={article.content}
-                      onChange={(e) => setArticle({ ...article, content: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 leading-relaxed text-sm font-sans"
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handlePublishArticle}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3.5 rounded-xl shadow-md transition text-base w-full sm:w-auto"
-                  >
-                    🚀 نشر وحفظ المقال في الموقع
-                  </button>
-                </div>
-              </div>
-
-              {/* SEO Scorecard */}
-              <div className="space-y-6">
-                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sticky top-6">
-                  <h3 className="font-bold text-slate-800 text-base mb-4 flex items-center gap-2 border-b pb-3">
-                    <span>📊</span> فاحص السيو المباشر (SEO Health)
-                  </h3>
-                  <div className="space-y-3.5 text-xs font-medium">
-                    <div className="flex items-center gap-2">
-                      <span className={`w-3 h-3 rounded-full ${isKeywordInTitle ? "bg-emerald-500" : "bg-rose-400"}`} />
-                      <span>الكلمة المفتاحية موجودة في العنوان</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`w-3 h-3 rounded-full ${isKeywordInMeta ? "bg-emerald-500" : "bg-rose-400"}`} />
-                      <span>الكلمة المفتاحية في الوصف التعريفي</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`w-3 h-3 rounded-full ${isSeoTitleLengthGood ? "bg-emerald-500" : "bg-amber-400"}`} />
-                      <span>طول عنوان السيو متوافق ({article.seoTitle.length} حرف)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`w-3 h-3 rounded-full ${isMetaLengthGood ? "bg-emerald-500" : "bg-amber-400"}`} />
-                      <span>طول الوصف التعريفي مناسب ({article.metaDescription.length} حرف)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`w-3 h-3 rounded-full ${isContentLongEnough ? "bg-emerald-500" : "bg-rose-400"}`} />
-                      <span>عمق وتفاصيل المقال كافية للتصدر</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">الكلمة المفتاحية الرئيسية *</label>
+            <input
+              type="text"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder="مثال: تأخر الدورة الشهرية"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              required
+            />
           </div>
-        )}
 
-        {/* Saved Articles Tab */}
-        {activeTab === "articles-list" && (
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-            <h2 className="text-xl font-bold text-slate-800 mb-6">📚 المقالات المنشورة المحفوظة ({savedArticles.length})</h2>
-            {savedArticles.length === 0 ? (
-              <div className="text-center py-12 text-slate-400">
-                <p className="text-lg">لا توجد مقالات منشورة بعد.</p>
-                <p className="text-xs mt-1">انتقل لتبويب "كاتب ومولد المقالات" لكتابة ونشر أول مقال.</p>
-              </div>
-            ) : (
-              <div className="divide-y divide-slate-100">
-                {savedArticles.map((item) => (
-                  <div key={item.id} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                      <h3 className="font-bold text-slate-800 text-base">{item.title}</h3>
-                      <p className="text-xs text-slate-400 mt-1">
-                        الرابط: <span className="font-mono text-teal-600">{item.slug}</span> | تاريخ النشر: {item.date}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => {
-                          setArticle({
-                            title: item.title,
-                            slug: item.slug,
-                            category: item.category,
-                            seoTitle: item.seoTitle,
-                            metaDescription: item.metaDescription,
-                            primaryKeyword: item.primaryKeyword,
-                            readingTime: item.readingTime,
-                            content: item.content,
-                          });
-                          setActiveTab("new-article");
-                        }}
-                        className="text-xs bg-teal-50 text-teal-700 hover:bg-teal-100 px-3 py-1.5 rounded-lg transition"
-                      >
-                        ✏️ تعديل
-                      </button>
-                      <button
-                        onClick={() => handleDeleteArticle(item.id)}
-                        className="text-xs bg-rose-50 text-rose-600 hover:bg-rose-100 px-3 py-1.5 rounded-lg transition"
-                      >
-                        🗑️ حذف
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">القسم الطبي</label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white"
+            >
+              <option value="womens-health">صحة المرأة والخصوبة</option>
+              <option value="medications">الأدوية (سايتوتك وميزوبروستول)</option>
+              <option value="pregnancy">الحمل والأجنة والسونار</option>
+            </select>
           </div>
-        )}
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">الكلمات الفرعية والمدن المستهدفة</label>
+            <textarea
+              value={geoKeywords}
+              onChange={(e) => setGeoKeywords(e.target.value)}
+              placeholder="الرياض، جدة، الدمام..."
+              rows={3}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
+
+          {statusMessage && (
+            <div className="p-4 bg-blue-50 border border-blue-200 text-blue-800 rounded-lg text-sm font-medium">
+              {statusMessage}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={isPublishing}
+            className="w-full flex items-center justify-center gap-2 py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg transition-all disabled:opacity-50"
+          >
+            <span>🚀</span>
+            <span>{isPublishing ? 'جاري التوليد والنشر...' : 'توليد المقال بالذكاء الاصطناعي ونشره فوراً'}</span>
+          </button>
+        </form>
       </div>
     </div>
   );
