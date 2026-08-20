@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export function Admin() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  
   const [title, setTitle] = useState('');
   const [keyword, setKeyword] = useState('');
   const [category, setCategory] = useState('womens-health');
@@ -11,8 +14,24 @@ export function Admin() {
   const [isPublishing, setIsPublishing] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
 
-  // قراءة المفاتيح بأمان من بيئة العمل السحابية (Vercel)
-  // أو يمكنك وضعها مؤقتاً هنا إذا كنت تعمل محلياً (Localhost)
+  useEffect(() => {
+    const authStatus = localStorage.getItem('isAdminLoggedIn');
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    // يمكنك تعديل كلمة المرور الافتتاحية هنا أو جعلها مرتبطة بمتغير البيئة
+    if (passwordInput === 'admin123' || passwordInput === 'Femseha2026!') {
+      localStorage.setItem('isAdminLoggedIn', 'true');
+      setIsAuthenticated(true);
+    } else {
+      alert('كلمة المرور غير صحيحة.');
+    }
+  };
+
   const GITHUB_TOKEN = (import.meta as any).env?.VITE_GITHUB_TOKEN || '';
   const GEMINI_API_KEY = (import.meta as any).env?.VITE_GEMINI_API_KEY || '';
   const REPO_OWNER = 'femseha';
@@ -179,11 +198,40 @@ export const GENERATED_ARTICLES: Article[] = ${JSON.stringify(updatedArticlesLis
 
   const handleLogout = () => {
     localStorage.removeItem('isAdminLoggedIn');
-    window.location.reload();
+    setIsAuthenticated(false);
   };
 
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" dir="rtl">
+        <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">تسجيل دخول لوحة التحكم</h2>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">كلمة المرور</label>
+              <input
+                type="password"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                placeholder="أدخل كلمة المرور"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow transition-all"
+            >
+              دخول
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8" dir="rtl">
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 sm:p-8">
         <div className="flex justify-between items-center border-b pb-4 mb-6">
           <div>
@@ -267,3 +315,5 @@ export const GENERATED_ARTICLES: Article[] = ${JSON.stringify(updatedArticlesLis
     </div>
   );
 }
+
+export default Admin;
