@@ -1,28 +1,23 @@
-name: Auto Publish
+name: Auto-publish article
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: "0 5,9,13,17,21 * * *"
+  workflow_dispatch:
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '24'
-      - run: npm install @google/genai
-      - run: node scripts/generate-article.js
+          node-version: "20"
+
+      - name: Run Official Generator Script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      - name: Push changes
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          git config --global user.name "bot"
-          git config --global user.email "bot@bot.com"
-          git add src/data/articles.ts
-          git commit -m "Auto publish article" || exit 0
-          git push
+          npm ci
+          node scripts/generate-article.mjs
