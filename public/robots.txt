@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /search
 Disallow: /search?
+Disallow: /admin
 
 Sitemap: https://femseha.com/sitemap.xml

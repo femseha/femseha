@@ -1,0 +1,73 @@
+# نسخة محسّنة من سير العمل auto-publish.yml — يطبّقها مالك المستودع فقط
+
+## لماذا هذا الملف هنا؟
+
+توكن الوكيل الذي ينفذ هذا العمل لا يملك صلاحية `workflows` في GitHub،
+لذا لا يمكن تعديل `.github/workflows/auto-publish.yml` آلياً من داخل هذه الجلسة.
+السير العمل القائم **يعمل كما هو** مع `scripts/generate-article.mjs` (المسار الذي
+يستدعيه أصلاً)، ويقوم السكربت نفسه بالرفع داخل GitHub Actions.
+
+هذه النسخة المحسّنة اختيارية وتنقل مسؤولية الرفع من السكربت إلى سير العمل
+(أوضح وأسهل صيانة)، وتضبط الجدولة على 3 مرات يومياً بدل 5.
+
+## طريقة التطبيق
+
+1. افتح `.github/workflows/auto-publish.yml` في GitHub (زر القلم ✏️ في واجهة الويب).
+2. استبدل محتواه بالكامل بالمحتوى أدناه.
+3. Commit changes إلى `main`.
+
+```yaml
+name: Auto-publish article
+
+on:
+  schedule:
+    # ثلاث دورات نشر يومياً (بتوقيت UTC) ≈ 3 مقالات يومياً من خطة المحتوى
+    - cron: "0 5,13,21 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run Official Generator Script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: node scripts/generate-article.mjs
+
+      - name: Commit and push published article
+        run: |
+          git config user.name "femseha-auto-publisher"
+          git config user.email "auto-publisher@femseha.com"
+          git add src/data/articles.json public/sitemap.xml
+          if git diff --cached --quiet; then
+            echo "لا توجد تغييرات لنشرها."
+            exit 0
+          fi
+          git commit -m "chore(auto-publish): publish article $(date -u +%F)"
+          git pull --rebase origin ${GITHUB_REF_NAME} || true
+          git push origin HEAD:${GITHUB_REF_NAME}
+```
+
+## ملاحظة صلاحيات مهمة (تخص النسختين معاً)
+
+حتى يعمل الرفع (من السكربت أو من خطوة الرفع أعلاه) يجب أن يسمح المستودع
+لـ GITHUB_TOKEN بالكتابة:
+
+**Settings → Actions → General → Workflow permissions → "Read and write permissions"**
+
+إن بقيت على "Read repository contents" فسيُولَّد المقال وتُجتاز الفحوصات لكن
+الرفع سيفشل بشكل ظاهر في سجل التشغيل (ولن يُدّعى نجاح زائف).
