@@ -32,6 +32,28 @@ export type Article = {
   relatedArticles: string[];
 };
 
+/**
+ * سجل المقال المنشور — الشكل المعتمد في src/data/articles.json
+ * وهو المصدر الوحيد لبيانات المقالات على الموقع العام.
+ * يحدّثه خط النشر الآلي scripts/generate-article.js بعد اجتياز جميع الفحوصات.
+ */
+export type ArticleRecord = {
+  id: string;
+  slug: string;
+  title: string;
+  category: string;
+  categoryName: string;
+  summary: string;
+  publishDate: string;
+  readTime: number;
+  content: string;
+  primaryKeyword?: string;
+  image?: string;
+  faq?: { q: string; a: string }[];
+  sources?: SourceRef[];
+  related?: string[];
+};
+
 export type TopicPage = {
   slug: string;
   path: string;
