@@ -16,10 +16,10 @@ export default function HomePage() {
   const featuredArticles = articles.slice(0, 3);
 
   const stats = [
-    { label: 'استشارة سريرية منجزة', val: '+12,000' },
-    { label: 'نسبة نجاح بروتوكولات الخصوبة', val: '94%' },
-    { label: 'أدلة وبروتوكولات معتمدة', val: '+450' },
-    { label: 'سنوات الخبرة الطبية', val: '+18 عاماً' },
+    { label: 'لكل استفسار طبي عبر واتساب', val: 'استجابة سريعة' },
+    { label: 'متابعة سريرية بإشراف طبي مختص', val: 'متابعة دقيقة' },
+    { label: 'حفظ كامل لسرية المعلومات', val: 'خصوصية تامة' },
+    { label: 'دعم نفسي وإرشاد طبي موثوق', val: 'إرشاد طبي' },
   ];
 
   const services = [
@@ -39,7 +39,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. الإحصائيات */}
+      {/* 2. مزايا الخدمة (بدون أرقام أو ادعاءات غير موثقة) */}
       <section className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
         {stats.map((s, i) => (
           <div key={i} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
@@ -66,7 +66,7 @@ export default function HomePage() {
       {/* 4. المكتبة الطبية */}
       <section className="bg-slate-100 p-8 rounded-3xl">
         <h2 className="text-3xl font-black mb-2 text-center">المكتبة الطبية</h2>
-        <p className="text-center text-slate-500 font-bold mb-8">أحدث المقالات الطبية والأدلة السريرية المعتمدة</p>
+        <p className="text-center text-slate-500 font-bold mb-8">أحدث المقالات الطبية والأدلة السريرية</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {featuredArticles.map((art) => (
             <div key={art.id} className="bg-white p-6 rounded-2xl shadow-sm">
