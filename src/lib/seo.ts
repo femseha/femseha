@@ -10,6 +10,12 @@ export interface SeoProps {
   keywords?: string;
   image?: string;
   type?: string;
+  /** قيمة وسم robots meta (مثل 'noindex, follow') — للصفحات غير القابلة للفهرسة.
+   *  عند غيابه يُزال الوسم لمنع تسربه إلى صفحة قابلة للفهرسة عند التنقل. */
+  robots?: string;
+  /** إزالة canonical تماماً — للصفحات غير القابلة للفهرسة (404/soft-404/admin)
+   *  حتى لا تحمل canonical موجّهاً لصفحة فهرسية. */
+  noCanonical?: boolean;
 }
 
 function upsertMeta(attr: "name" | "property", key: string, content: string) {
@@ -37,7 +43,7 @@ function upsertCanonical(url: string) {
  * ووسوم Open Graph/Twitter وبيانات JSON-LD المهيكلة.
  */
 export function useSeo(props: SeoProps = {}) {
-  const { title, description, canonicalPath, canonicalUrl, jsonLd, keywords, image, type } = props;
+  const { title, description, canonicalPath, canonicalUrl, jsonLd, keywords, image, type, robots, noCanonical } = props;
 
   useEffect(() => {
     const url = canonicalUrl || (canonicalPath ? `${SITE.url}${canonicalPath}` : SITE.url);
@@ -55,7 +61,20 @@ export function useSeo(props: SeoProps = {}) {
       document.querySelector('meta[name="keywords"]')?.remove();
     }
 
-    upsertCanonical(url);
+    // وسم robots: يُضبط للصفحات غير القابلة للفهرسة ويُزال عند غيابه
+    // (منع تسرب noindex إلى صفحة فهرسية عند التنقل الداخلي).
+    if (robots) {
+      upsertMeta("name", "robots", robots);
+    } else {
+      document.querySelector('meta[name="robots"]')?.remove();
+    }
+
+    // canonical: يُزال كلياً للصفحات غير القابلة للفهرسة (404/admin)، وإلا يُضبط ذاتياً.
+    if (noCanonical) {
+      document.querySelector('link[rel="canonical"]')?.remove();
+    } else {
+      upsertCanonical(url);
+    }
 
     upsertMeta("property", "og:title", title || SITE.title);
     upsertMeta("property", "og:description", description || SITE.description);
@@ -83,7 +102,7 @@ export function useSeo(props: SeoProps = {}) {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, description, canonicalPath, canonicalUrl, JSON.stringify(jsonLd), keywords, image, type]);
+  }, [title, description, canonicalPath, canonicalUrl, JSON.stringify(jsonLd), keywords, image, type, robots, noCanonical]);
 }
 
 /* ── مُنشئات البيانات المهيكلة (JSON-LD) ─────────────────────────────── */

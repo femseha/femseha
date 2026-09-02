@@ -17,7 +17,10 @@ export default function AdminPage() {
 
   useSeo({
     title: 'لوحة الإدارة | منصة فصيحة الطبية',
-    description: 'لوحة إدارة المحتوى لمنصة فصيحة الطبية.'
+    description: 'لوحة إدارة المحتوى لمنصة فصيحة الطبية.',
+    // مسار داخلي غير عام — لا يُفهرس ولا يُحمل بـ canonical يشير لصفحة عامة
+    robots: 'noindex, nofollow',
+    noCanonical: true
   });
 
   const stats = useMemo(() => {

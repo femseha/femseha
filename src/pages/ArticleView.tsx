@@ -148,7 +148,11 @@ export default function ArticleView() {
   useSeo({
     title: article ? `${article.title} | منصة فصيحة الطبية` : 'المقال غير متوفر | منصة فصيحة الطبية',
     description: article ? article.summary.slice(0, 160) : undefined,
-    canonicalPath: article ? `/articles/${article.slug}` : '/articles',
+    // slug غير صحيح = soft-404: يُعرض محتوى 404 مع noindex وبلا canonical،
+    // ولا يسقط أبداً إلى مقال آخر (لا fallback لأول مقال).
+    canonicalPath: article ? `/articles/${article.slug}` : undefined,
+    robots: article ? undefined : 'noindex, follow',
+    noCanonical: !article,
     type: 'article',
     jsonLd: article
       ? [

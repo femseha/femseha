@@ -5,8 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "sitemap:check": "node scripts/generate-sitemap.mjs --check",
+    "build": "node scripts/generate-sitemap.mjs && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "seo:validate": "node scripts/seo-validate.mjs",
+    "seo:ssr": "node scripts/ssr-verify.mjs",
+    "seo:audit": "node scripts/audit-indexing.mjs"
   },
   "dependencies": {
     "clsx": "2.1.1",
