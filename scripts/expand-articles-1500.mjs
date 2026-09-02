@@ -1,6 +1,16 @@
 import fs from "fs";
 import path from "path";
 
+// ─────────────────────────────────────────────────────────────────────────────
+// ⚠ سكربت تاريخي مُعطَّل (one-off) — كان يحشو المقالات بفقرات مكررة متطابقة
+// لبلوغ 1500 كلمة، وهو نمط محتوى مكرر ضار بالـ SEO تم تنظيفه من articles.json
+// في SEO Master Cleanup. لا تعيد تشغيله. للتشغيل القسري: FORCE_REBUILD=1
+// ─────────────────────────────────────────────────────────────────────────────
+if (process.env.FORCE_REBUILD !== "1") {
+  console.error("⚠ محجوب: expand-articles-1500.mjs سكربت حشو تاريخي أُلغي (يولد محتوى مكرراً). استخدم FORCE_REBUILD=1 إذا كنت متأكداً.");
+  process.exit(1);
+}
+
 const ROOT = process.cwd();
 const ARTICLES_PATH = path.join(ROOT, "src", "data", "articles.json");
 

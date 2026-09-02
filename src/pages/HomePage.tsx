@@ -33,9 +33,17 @@ export default function HomePage() {
 
       {/* 1. اللوجو والبانر */}
       <section className="flex flex-col items-center gap-6">
-        <img src="/logo.png.png" alt="Logo" className="w-24 h-24 object-contain" />
+        {/* H1 دلالي وحيد للصفحة الرئيسية — مخفي بصرياً (sr-only) حفاظاً على التصميم المعتمد */}
+        <h1 className="sr-only">FemSeha لصحة المرأة والحمل والخصوبة بإشراف د. هيثم الخطيب</h1>
+        <picture>
+          <source srcSet="/logo.webp" type="image/webp" />
+          <img src="/logo.png.png" alt="FemSeha لصحة المرأة بإشراف د. هيثم الخطيب" className="w-24 h-24 object-contain" />
+        </picture>
         <div className="w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white">
-          <img src="/banner.jpg.png" alt="بانر د. هيثم" className="w-full h-auto block" />
+          <picture>
+            <source srcSet="/banner.webp" type="image/webp" />
+            <img src="/banner.jpg.png" alt="د. هيثم الخطيب - استشارات طب النساء والتوليد وصحة المرأة" className="w-full h-auto block" />
+          </picture>
         </div>
       </section>
 

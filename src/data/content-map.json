@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-25",
+  "updatedAt": "2026-09-02",
   "description": "خطة المحتوى والكلمات المفتاحية لمنصة فصيحة. خط النشر الآلي (scripts/generate-article.js) يسير في هذا الطابور بالترتيب، ويتخطى أي موضوع منشور أو يكافئ كلمة مفتاحية مستهدفة مسبقاً (منع تنافس المقالات على الكلمة نفسها). لا يُضاف موضوع جديد إلا بعد التحقق من عدم تعارضه مع المقالات المنشورة في src/data/articles.json.",
   "categories": {
     "womens-health": "صحة المرأة والخصوبة",
@@ -17,7 +17,10 @@
     { "slug": "healthy-lifestyle-and-balanced-nutrition-guide", "primaryKeyword": "نمط حياة صحي", "intent": "أسس التغذية المتوازنة" },
     { "slug": "how-stress-affects-physical-health", "primaryKeyword": "تأثير الضغوط النفسية", "intent": "أثر التوتر المزمن على الجسد" },
     { "slug": "summer-health-and-heat-safety-tips", "primaryKeyword": "نصائح صحية للصيف", "intent": "الوقاية من الإجهاد الحراري" },
-    { "slug": "managing-chronic-sleep-disorders", "primaryKeyword": "اضطرابات النوم المزمنة", "intent": "إعادة ضبط النوم" }
+    { "slug": "managing-chronic-sleep-disorders", "primaryKeyword": "اضطرابات النوم المزمنة", "intent": "إعادة ضبط النوم" },
+    { "slug": "delayed-period-causes-besides-pregnancy", "primaryKeyword": "تأخر الدورة الشهرية", "intent": "أسباب تأخر الدورة غير الحمل ومتى تلزم مراجعة الطبيب" },
+    { "slug": "subchorionic-hematoma-pregnancy-guide", "primaryKeyword": "التجمع الدموي حول كيس الحمل", "intent": "الورم الدموي تحت المشيمة في الحمل المبكر: الدلالات والمتابعة" },
+    { "slug": "nuchal-cord-pregnancy-safety-guide", "primaryKeyword": "التفاف الحبل السري حول رقبة الجنين", "intent": "حقيقة خطورة التفاف الحبل السري والمتابعة المطلوبة" }
   ],
   "queue": [
     {
@@ -35,22 +38,6 @@
       "mustCover": ["علامات الطوارئ الفورية في كل ثلث", "العلامات التي تستدعي مراجعة في نفس اليوم", "العلامات التي تستحق السؤال في الزيارة القادمة", "أرقام الطوارئ في السعودية", "ماذا تجهزين لزيارة الطوارئ"],
       "relatedSlugs": ["pcos-symptoms-fertility-treatment", "how-stress-affects-physical-health"],
       "safetyNotes": "لا يشخّص الحالات، ويوجه دائماً إلى التقييم الطبي المباشر."
-    },
-    {
-      "slug": "delayed-period-causes-besides-pregnancy",
-      "cluster": "menstrual-health",
-      "priority": 2,
-      "primaryKeyword": "تأخر الدورة الشهرية",
-      "secondaryKeywords": ["تأخر الدورة بدون حمل", "أسباب تأخر الدورة", "انقطاع الدورة", "تنظيم الدورة الشهرية"],
-      "intent": "فهم الأسباب الشائعة لتأخر الدورة غير الحمل ومتى يلزم التقييم الطبي",
-      "title": "تأخر الدورة الشهرية بدون حمل: 12 سبباً طبياً ومتى يصبح التأخر مقلقاً",
-      "metaDescription": "لماذا تتأخر الدورة الشهرية دون حمل؟ شرح طبي لأسباب التوتر، الخمول، اضطراب الغدة، تكيس المبايض وغيرها، والمدة التي بعدها يلزم استشارة طبيب نسائية.",
-      "category": "womens-health",
-      "targetWords": 2000,
-      "angle": "التمييز بين التأخر العارض والتأخر المتكرر، مع جدول منطقي للتفكير بالأسباب حسب العمر والسياق، بعيداً عن التشخيص الذاتي.",
-      "mustCover": ["كيف تعمل الدورة الشهرية ببساطة", "الأسباب السلوكية (توتر، حمية، رياضة مكثفة)", "الأسباب الهرمونية (غدة، تكيس، هرمون حليب)", "متى تجرين اختبار الحمل", "العلامة الحمراء: غياب ثلاث دورات متتالية"],
-      "relatedSlugs": ["pcos-symptoms-fertility-treatment", "how-stress-affects-physical-health"],
-      "safetyNotes": "ينبه إلى أن التشخيص يحتاج تحاليل يحددها الطبيب."
     },
     {
       "slug": "early-pregnancy-symptoms-guide",

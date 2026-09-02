@@ -45,6 +45,9 @@ export type ArticleRecord = {
   categoryName: string;
   summary: string;
   publishDate: string;
+  /** تاريخ آخر تعديل حقيقي للمقال (اختياري). لا يُملأ تلقائياً بتاريخ النشر؛
+   *  يُضاف فقط عند إجراء تعديل فعلي على محتوى المقال. */
+  modifiedDate?: string;
   readTime: number;
   content: string;
   primaryKeyword?: string;

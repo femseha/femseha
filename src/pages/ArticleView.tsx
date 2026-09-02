@@ -296,7 +296,7 @@ export default function ArticleView() {
         {/* الاستشارة الطبية */}
         <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center mt-10">
           <h3 className="font-bold text-slate-900 mb-2 text-base">هل لديكِ استفسار حول هذه الحالة الطبية؟</h3>
-          <p className="text-xs text-slate-500 mb-4">يمكنك استشارة د. هيثم الخطيب مباشرة عبر القنوات المعتمدة</p>
+          <p className="text-xs text-slate-500 mb-4">يمكنك استشارة د. هيثم الخطيب مباشرة عبر قنوات التواصل الرسمية للمنصة</p>
           <div className="flex justify-center gap-3">
             <a
               href={WHATSAPP_LINK}

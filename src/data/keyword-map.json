@@ -1,145 +1,109 @@
-[
-  {
-    "keyword": "سايتوتك في السعودية",
-    "searchIntent": "دليل طبي سريري معتمد حول عقار سايتوتك (ميزوبروستول) في السعودية والرياض، ضوابط ص",
-    "country": "السعودية والخليج",
-    "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
-    "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
-    "priority": "HIGH",
-    "currentPosition": 4,
-    "impressions": 15000,
-    "clicks": 1800,
-    "ctr": "12.0%",
-    "action": "Optimize Cluster & Internal Links"
+{
+  "meta": {
+    "version": 2,
+    "updatedAt": "2026-09-02",
+    "purpose": "مرجع استراتيجي للكلمات المفتاحية (Keyword → URL mapping) لمنع تنافس الصفحات (cannibalization) وتوجيه الربط الداخلي.",
+    "dataPolicy": "لا تُضاف حقول impressions/clicks/ctr/position إلا إذا كانت مأخوذة من بيانات Google Search Console حقيقية مع توثيق المصدر في حقل gscSource. الأرقام السابقة (15000 impressions / 1800 clicks / 12% CTR / position 4) أُزيلت لأنها كانت قيماً ثابتة مولّدة آلياً بلا مصدر."
   },
-  {
-    "keyword": "سايتوتك في الخليج",
-    "searchIntent": "استعراض البروتوكولات السريرية المنظمة لعقار سايتوتك وميزوبروستول في دول الخليج ا",
-    "country": "السعودية والخليج",
-    "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
-    "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
-    "priority": "HIGH",
-    "currentPosition": 4,
-    "impressions": 15000,
-    "clicks": 1800,
-    "ctr": "12.0%",
-    "action": "Optimize Cluster & Internal Links"
-  },
-  {
-    "keyword": "تكيس المبايض وتأخر الحمل",
-    "searchIntent": "دليل علاجي متكامل يوضح أعراض تكيس المبايض (PCOS)، قراءة تحاليل الهرمونات والخصوب",
-    "country": "السعودية والخليج",
-    "currentUrl": "/articles/pcos-symptoms-fertility-treatment",
-    "targetUrl": "/articles/pcos-symptoms-fertility-treatment",
-    "priority": "HIGH",
-    "currentPosition": 4,
-    "impressions": 15000,
-    "clicks": 1800,
-    "ctr": "12.0%",
-    "action": "Optimize Cluster & Internal Links"
-  },
-  {
-    "keyword": "تأخر الدورة الشهرية",
-    "searchIntent": "دليل طبي شامل حول أسباب تأخر الدورة الشهرية غير الحمل: التوتر، الغدة الدرقية، تك",
-    "country": "السعودية والخليج",
-    "currentUrl": "/articles/delayed-period-causes-besides-pregnancy",
-    "targetUrl": "/articles/delayed-period-causes-besides-pregnancy",
-    "priority": "HIGH",
-    "currentPosition": 4,
-    "impressions": 15000,
-    "clicks": 1800,
-    "ctr": "12.0%",
-    "action": "Optimize Cluster & Internal Links"
-  },
-  {
-    "keyword": "التجمع الدموي حول كيس الحمل",
-    "searchIntent": "دليل طبي مفصل حول التجمع الدموي (الورم الدموي تحت المشيمة) في الثلث الأول من الح",
-    "country": "السعودية والخليج",
-    "currentUrl": "/articles/subchorionic-hematoma-pregnancy-guide",
-    "targetUrl": "/articles/subchorionic-hematoma-pregnancy-guide",
-    "priority": "HIGH",
-    "currentPosition": 4,
-    "impressions": 15000,
-    "clicks": 1800,
-    "ctr": "12.0%",
-    "action": "Optimize Cluster & Internal Links"
-  },
-  {
-    "keyword": "التفاف الحبل السري حول رقبة الجنين",
-    "searchIntent": "دليل طبي علمي شامل حول التفاف الحبل السري حول رقبة الجنين (Nuchal Cord): أسبابه،",
-    "country": "السعودية والخليج",
-    "currentUrl": "/articles/nuchal-cord-pregnancy-safety-guide",
-    "targetUrl": "/articles/nuchal-cord-pregnancy-safety-guide",
-    "priority": "HIGH",
-    "currentPosition": 4,
-    "impressions": 15000,
-    "clicks": 1800,
-    "ctr": "12.0%",
-    "action": "Optimize Cluster & Internal Links"
-  },
-  {
-    "keyword": "أهمية الفحص الدوري",
-    "searchIntent": "تعرف على الأسباب الجوهرية التي تجعل الفحص الطبي المنتظم خط الدفاع الأول ضد الأمر",
-    "country": "السعودية والخليج",
-    "currentUrl": "/articles/importance-of-regular-medical-checkups",
-    "targetUrl": "/articles/importance-of-regular-medical-checkups",
-    "priority": "HIGH",
-    "currentPosition": 4,
-    "impressions": 15000,
-    "clicks": 1800,
-    "ctr": "12.0%",
-    "action": "Optimize Cluster & Internal Links"
-  },
-  {
-    "keyword": "نمط حياة صحي وتغذية متوازنة",
-    "searchIntent": "خطوات عملية وعلمية لتحسين جودة طعامك، تنظيم الهرمونات، وزيادة طاقتك اليومية بطرق",
-    "country": "السعودية والخليج",
-    "currentUrl": "/articles/healthy-lifestyle-and-balanced-nutrition-guide",
-    "targetUrl": "/articles/healthy-lifestyle-and-balanced-nutrition-guide",
-    "priority": "HIGH",
-    "currentPosition": 4,
-    "impressions": 15000,
-    "clicks": 1800,
-    "ctr": "12.0%",
-    "action": "Optimize Cluster & Internal Links"
-  },
-  {
-    "keyword": "تأثير الضغوط النفسية على الصحة",
-    "searchIntent": "نظرة علمية على العلاقة المباشرة بين التوتر المستمر ووظائف الجسم واضطرابات الدورة",
-    "country": "السعودية والخليج",
-    "currentUrl": "/articles/how-stress-affects-physical-health",
-    "targetUrl": "/articles/how-stress-affects-physical-health",
-    "priority": "HIGH",
-    "currentPosition": 4,
-    "impressions": 15000,
-    "clicks": 1800,
-    "ctr": "12.0%",
-    "action": "Optimize Cluster & Internal Links"
-  },
-  {
-    "keyword": "نصائح صحية لفصل الصيف",
-    "searchIntent": "أبرز الإرشادات الطبية للحفاظ على ترطيب الجسم، تجنب ضربات الشمس، والإجهاد الحراري",
-    "country": "السعودية والخليج",
-    "currentUrl": "/articles/summer-health-and-heat-safety-tips",
-    "targetUrl": "/articles/summer-health-and-heat-safety-tips",
-    "priority": "HIGH",
-    "currentPosition": 4,
-    "impressions": 15000,
-    "clicks": 1800,
-    "ctr": "12.0%",
-    "action": "Optimize Cluster & Internal Links"
-  },
-  {
-    "keyword": "اضطرابات النوم المزمنة",
-    "searchIntent": "أسباب الأرق، طرق استعادة الساعة البيولوجية للجسم، وأثر قلة النوم على الهرمونات و",
-    "country": "السعودية والخليج",
-    "currentUrl": "/articles/managing-chronic-sleep-disorders",
-    "targetUrl": "/articles/managing-chronic-sleep-disorders",
-    "priority": "HIGH",
-    "currentPosition": 4,
-    "impressions": 15000,
-    "clicks": 1800,
-    "ctr": "12.0%",
-    "action": "Optimize Cluster & Internal Links"
-  }
-]
+  "keywords": [
+    {
+      "keyword": "سايتوتك في السعودية",
+      "searchIntent": "معلوماتي (Informational/YMYL): البحث عن معلومات طبية وتنظيمية حول عقار سايتوتك (ميزوبروستول) في السعودية — الاستخدامات المشروعة، ضوابط الصرف، والمخاطر. يُلبّى بمحتوى تثقيفي آمن فقط دون أي مساعدة شرائية.",
+      "country": "SA",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "HIGH",
+      "action": "Primary pillar — تعزيز الربط الداخلي من مقالات الدعم (الخليج، نزيف الحمل، المتابعة الطبية) وتوسيع المحتوى الفريد في Phase 2."
+    },
+    {
+      "keyword": "سايتوتك في الخليج",
+      "searchIntent": "معلوماتي (Informational/YMYL): البروتوكولات التنظيمية لميزوبروستول في الكويت والبحرين والإمارات وقطر وعُمان. محتوى تثقيفي غير تجاري.",
+      "country": "GCC",
+      "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "priority": "HIGH",
+      "action": "Supporting page للركيزة السعودية — ربط متبادل مع الصفحة الأساسية وتمييز الزاوية الخليجية لمنع التنافس."
+    },
+    {
+      "keyword": "تكيس المبايض وتأخر الحمل",
+      "searchIntent": "معلوماتي: أعراض متلازمة تكيس المبايض، تأثيرها على الخصوبة، وخطوات التشخيص والعلاج.",
+      "country": "SA+GCC",
+      "currentUrl": "/articles/pcos-symptoms-fertility-treatment",
+      "targetUrl": "/articles/pcos-symptoms-fertility-treatment",
+      "priority": "HIGH",
+      "action": "ركيزة عنقود الخصوبة — ربط مع تأخر الدورة ونمط الحياة."
+    },
+    {
+      "keyword": "تأخر الدورة الشهرية",
+      "searchIntent": "معلوماتي: أسباب تأخر الدورة غير الحمل (التوتر، الغدة الدرقية، تكيس المبايض) ومتى تلزم مراجعة الطبيب.",
+      "country": "SA+GCC",
+      "currentUrl": "/articles/delayed-period-causes-besides-pregnancy",
+      "targetUrl": "/articles/delayed-period-causes-besides-pregnancy",
+      "priority": "HIGH",
+      "action": "ركيزة عنقود الدورة الشهرية — ربط مع تكيس المبايض والتوتر؛ Phase 2: مقالات اختبار الحمل وأعراض الحمل المبكرة من خطة المحتوى."
+    },
+    {
+      "keyword": "التجمع الدموي حول كيس الحمل",
+      "searchIntent": "معلوماتي/قلق صحي: الورم الدموي تحت المشيمة في الثلث الأول، دلالاته، ومتى يكون خطراً.",
+      "country": "SA+GCC",
+      "currentUrl": "/articles/subchorionic-hematoma-pregnancy-guide",
+      "targetUrl": "/articles/subchorionic-hematoma-pregnancy-guide",
+      "priority": "HIGH",
+      "action": "ركيزة عنقود نزيف الحمل — Phase 2: ربط مع مقالات علامات الخطر والحمل خارج الرحم عند نشرها."
+    },
+    {
+      "keyword": "التفاف الحبل السري حول رقبة الجنين",
+      "searchIntent": "معلوماتي/طمأنة: معنى التفاف الحبل السري، مدى خطورته الفعلية، والمتابعة المطلوبة.",
+      "country": "SA+GCC",
+      "currentUrl": "/articles/nuchal-cord-pregnancy-safety-guide",
+      "targetUrl": "/articles/nuchal-cord-pregnancy-safety-guide",
+      "priority": "MEDIUM",
+      "action": "صفحة دعم في عنقود سلامة الحمل — ربط مع التجمع الدموي والمتابعة الدورية."
+    },
+    {
+      "keyword": "أهمية الفحص الدوري",
+      "searchIntent": "معلوماتي عام: فوائد الفحوصات الدورية والكشف المبكر.",
+      "country": "SA+GCC",
+      "currentUrl": "/articles/importance-of-regular-medical-checkups",
+      "targetUrl": "/articles/importance-of-regular-medical-checkups",
+      "priority": "MEDIUM",
+      "action": "صفحة دعم عرضية (متابعة طبية) تخدم كل العناقيد."
+    },
+    {
+      "keyword": "نمط حياة صحي وتغذية متوازنة",
+      "searchIntent": "معلوماتي عام: إرشادات التغذية ونمط الحياة الصحي.",
+      "country": "SA+GCC",
+      "currentUrl": "/articles/healthy-lifestyle-and-balanced-nutrition-guide",
+      "targetUrl": "/articles/healthy-lifestyle-and-balanced-nutrition-guide",
+      "priority": "LOW",
+      "action": "محتوى عام داعم — توسيع المحتوى الفريد في Phase 2 (المحتوى الحالي قصير بعد إزالة الحشو المكرر)."
+    },
+    {
+      "keyword": "تأثير الضغوط النفسية على الصحة",
+      "searchIntent": "معلوماتي عام: علاقة التوتر المزمن بالصحة الجسدية والهرمونات والدورة الشهرية.",
+      "country": "SA+GCC",
+      "currentUrl": "/articles/how-stress-affects-physical-health",
+      "targetUrl": "/articles/how-stress-affects-physical-health",
+      "priority": "LOW",
+      "action": "صفحة دعم لعنقود الدورة الشهرية — توسيع المحتوى الفريد في Phase 2."
+    },
+    {
+      "keyword": "نصائح صحية لفصل الصيف",
+      "searchIntent": "معلوماتي موسمي: الوقاية من الحرارة والجفاف صيفاً.",
+      "country": "SA+GCC",
+      "currentUrl": "/articles/summer-health-and-heat-safety-tips",
+      "targetUrl": "/articles/summer-health-and-heat-safety-tips",
+      "priority": "LOW",
+      "action": "محتوى عام موسمي — توسيع المحتوى الفريد في Phase 2."
+    },
+    {
+      "keyword": "اضطرابات النوم المزمنة",
+      "searchIntent": "معلوماتي عام: أسباب اضطرابات النوم المزمنة وطرق تحسين جودة النوم.",
+      "country": "SA+GCC",
+      "currentUrl": "/articles/managing-chronic-sleep-disorders",
+      "targetUrl": "/articles/managing-chronic-sleep-disorders",
+      "priority": "LOW",
+      "action": "محتوى عام داعم — توسيع المحتوى الفريد في Phase 2."
+    }
+  ]
+}
