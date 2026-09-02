@@ -1,28 +1,280 @@
 {
   "meta": {
-    "version": 2,
+    "version": 3,
     "updatedAt": "2026-09-02",
-    "purpose": "مرجع استراتيجي للكلمات المفتاحية (Keyword → URL mapping) لمنع تنافس الصفحات (cannibalization) وتوجيه الربط الداخلي.",
-    "dataPolicy": "لا تُضاف حقول impressions/clicks/ctr/position إلا إذا كانت مأخوذة من بيانات Google Search Console حقيقية مع توثيق المصدر في حقل gscSource. الأرقام السابقة (15000 impressions / 1800 clicks / 12% CTR / position 4) أُزيلت لأنها كانت قيماً ثابتة مولّدة آلياً بلا مصدر."
+    "purpose": "مرجع استراتيجي للكلمات المفتاحية (Keyword → URL mapping) لمنع تنافس الصفحات (cannibalization) وتوجيه الربط الداخلي. يشمل عنقود Cytotec/Misoprostol الكامل لأجل Saudi/UAE/Kuwait/Bahrain/Qatar.",
+    "dataPolicy": "لا تُضاف حقول impressions/clicks/ctr/position إلا إذا كانت مأخوذة من بيانات Google Search Console حقيقية مع توثيق المصدر في حقل gscSource. لا توجد بيانات GSC كمية في المستودع؛ الإشارة الوحيدة الموثقة هي «cytotec in kuwait ≈ position 6» الواردة في ملخص مهمة المالك (ولم تُسجَّل كحقل position تجنباً للالتباس)."
   },
   "keywords": [
     {
       "keyword": "سايتوتك في السعودية",
-      "searchIntent": "معلوماتي (Informational/YMYL): البحث عن معلومات طبية وتنظيمية حول عقار سايتوتك (ميزوبروستول) في السعودية — الاستخدامات المشروعة، ضوابط الصرف، والمخاطر. يُلبّى بمحتوى تثقيفي آمن فقط دون أي مساعدة شرائية.",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. الاستخدامات المشروعة وضوابط الصرف والمخاطر في السعودية.",
       "country": "SA",
       "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
       "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
       "priority": "HIGH",
-      "action": "Primary pillar — تعزيز الربط الداخلي من مقالات الدعم (الخليج، نزيف الحمل، المتابعة الطبية) وتوسيع المحتوى الفريد في Phase 2."
+      "action": "الركيزة الأساسية — تُلبى بصفحة السعودية. رابط داخلي من صفحة الخليج ونزيف الحمل والمتابعة."
     },
     {
-      "keyword": "سايتوتك في الخليج",
-      "searchIntent": "معلوماتي (Informational/YMYL): البروتوكولات التنظيمية لميزوبروستول في الكويت والبحرين والإمارات وقطر وعُمان. محتوى تثقيفي غير تجاري.",
+      "keyword": "سايتوتك السعودية",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. صيغة مختصرة لذات النية السعودية.",
+      "country": "SA",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "HIGH",
+      "action": "متغير للركيزة — تُخدم بنفس صفحة السعودية دون صفحة منفصلة."
+    },
+    {
+      "keyword": "سايكوتيك",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. خطأ إملائي شائع لكلمة سايتوتك.",
+      "country": "SA",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "MEDIUM",
+      "action": "متغير إملائي — يُغطى بتغطية «سايتوتك» في صفحة السعودية دون حشو الخطأ الإملائي في النص."
+    },
+    {
+      "keyword": "Cytotec",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. الاسم التجاري العالمي للميزوبروستول.",
+      "country": "GLOBAL",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "HIGH",
+      "action": "مصطلح العلامة — صفحة السعودية هي المرجع الأساسي."
+    },
+    {
+      "keyword": "Misoprostol",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. الاسم العلمي الدولي (INN) للمادة الفعّالة.",
+      "country": "GLOBAL",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "HIGH",
+      "action": "الاسم العلمي — صفحة السعودية."
+    },
+    {
+      "keyword": "ميزوبروستول",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. الاسم العلمي العربي للمادة الفعّالة.",
+      "country": "GLOBAL",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "HIGH",
+      "action": "الاسم العلمي العربي — صفحة السعودية."
+    },
+    {
+      "keyword": "ميسوبروستول",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. تهجئة بديلة للاسم العلمي.",
+      "country": "GLOBAL",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "LOW",
+      "action": "تهجئة بديلة — تُغطى بالاسم العلمي في صفحة السعودية."
+    },
+    {
+      "keyword": "حبوب اجهاض سايتوتك",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية بحث حساسة تُلبى بتحذير تعليمي فقط لا بتسهيل شراء.",
+      "country": "SA",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "HIGH",
+      "action": "تُعالج كتحذير من الاستخدام العشوائي داخل صفحة السعودية — ممنوع أي مساعدة شرائية."
+    },
+    {
+      "keyword": "حبوب الاجهاض الرياض",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية بحث عن الحبوب في الرياض تُلبى بمحتوى تحذيري.",
+      "country": "SA",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "HIGH",
+      "action": "يُغطيها قسم المخاطر والتحذير من الشراء عبر الإنترنت في صفحة السعودية."
+    },
+    {
+      "keyword": "أسماء حبوب الإجهاض",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية استعلام عن أسماء المنتجات — تُلبى تعليمياً دون تعداد أي منتجات.",
+      "country": "SA",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "MEDIUM",
+      "action": "لا يُسرد أي اسم منتج؛ يُوجَّه إلى المعلومة الطبية الآمنة والتحذير من الشراء."
+    },
+    {
+      "keyword": "حبوب سايتوتك للبيع في السعودية",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية بحث «بيع/شراء» تُحلَّل كنية فقط ولا تُسهَّل إطلاقاً.",
+      "country": "SA",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "MEDIUM",
+      "action": "نية معاملية مرفوضة تجارياً — تُعالج حصراً بتحذير من الأدوية المغشوشة؛ لا توجيه لأي بائع."
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في السعودية",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية معلوماتية عن أدوية الإجهاض في السعودية.",
+      "country": "SA",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "HIGH",
+      "action": "تُخدم بالركيزة السعودية (أقسام المخاطر وعلامات الخطر والحمل خارج الرحم)."
+    },
+    {
+      "keyword": "حبوب الإجهاض",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية عامة عن حبوب الإجهاض.",
       "country": "GCC",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "MEDIUM",
+      "action": "تُلبى تعليمياً عبر الركيزة وصفحة الخليج معاً (زاويتان مختلفتان)."
+    },
+    {
+      "keyword": "أدوية الإجهاض",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية عامة عن أدوية الإجهاض.",
+      "country": "GCC",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "MEDIUM",
+      "action": "تُلبى تعليمياً عبر الركيزة."
+    },
+    {
+      "keyword": "الإجهاض الدوائي",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية معلوماتية عن الإجهاض الدوائي ومخاطره.",
+      "country": "GLOBAL",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "MEDIUM",
+      "action": "يُغطى بأقسام الاستخدامات المعتمدة والمخاطر في الركيزة."
+    },
+    {
+      "keyword": "medication abortion",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. الإجهاض الدوائي بالإنجليزية.",
+      "country": "GLOBAL",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "MEDIUM",
+      "action": "تُغطى بنفس الركيزة (مصطلحات Misoprostol/Ectopic Pregnancy موجودة في النص)."
+    },
+    {
+      "keyword": "cytotec in saudi arabia",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية إنجليزية عن الدواء في السعودية.",
+      "country": "SA",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "MEDIUM",
+      "action": "تُغطى بالركيزة عبر المصطلحات الإنجليزية (Misoprostol, Ectopic Pregnancy, SFDA)."
+    },
+    {
+      "keyword": "cytotec in riyadh",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية إنجليزية عن الدواء في الرياض.",
+      "country": "SA",
+      "currentUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "targetUrl": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "priority": "MEDIUM",
+      "action": "تُغطى بالركيزة (الرياض في العنوان والنص)."
+    },
+    {
+      "keyword": "سايتوتك في الإمارات",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. الضوابط التنظيمية في الإمارات.",
+      "country": "AE",
       "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
       "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
       "priority": "HIGH",
-      "action": "Supporting page للركيزة السعودية — ربط متبادل مع الصفحة الأساسية وتمييز الزاوية الخليجية لمنع التنافس."
+      "action": "صفحة الخليج — قسم الإمارات (وزارة الصحة ووقاية المجتمع والهيئات المحلية)."
+    },
+    {
+      "keyword": "سايتوتك في الكويت",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. الضوابط التنظيمية في الكويت.",
+      "country": "KW",
+      "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "priority": "HIGH",
+      "action": "صفحة الخليج — قسم الكويت (أقوى نية خليجية موثقة)."
+    },
+    {
+      "keyword": "سايتوتك في البحرين",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. الضوابط التنظيمية في البحرين.",
+      "country": "BH",
+      "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "priority": "MEDIUM",
+      "action": "صفحة الخليج — قسم البحرين (الهيئة الوطنية)."
+    },
+    {
+      "keyword": "سايتوتك في قطر",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. الضوابط التنظيمية في قطر.",
+      "country": "QA",
+      "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "priority": "MEDIUM",
+      "action": "صفحة الخليج — قسم قطر (وزارة الصحة العامة)."
+    },
+    {
+      "keyword": "cytotec in kuwait",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية إنجليزية عن الدواء في الكويت — أعلى إشارة GSC موثقة (position≈6 وفق ملخص المالك؛ لا بيانات كمية أخرى).",
+      "country": "KW",
+      "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "priority": "HIGH",
+      "action": "صفحة الخليج — قسم الكويت هو الهدف الأساسي لهذه الكلمة."
+    },
+    {
+      "keyword": "cytotec in uae",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية إنجليزية عن الدواء في الإمارات.",
+      "country": "AE",
+      "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "priority": "LOW",
+      "action": "صفحة الخليج — قسم الإمارات."
+    },
+    {
+      "keyword": "cytotec in bahrain",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية إنجليزية عن الدواء في البحرين.",
+      "country": "BH",
+      "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "priority": "LOW",
+      "action": "صفحة الخليج — قسم البحرين."
+    },
+    {
+      "keyword": "cytotec in qatar",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية إنجليزية عن الدواء في قطر.",
+      "country": "QA",
+      "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "priority": "LOW",
+      "action": "صفحة الخليج — قسم قطر."
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في الإمارات",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية معلوماتية — لم تُوثق بطلب GSC مستقل بعد.",
+      "country": "AE",
+      "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "priority": "LOW",
+      "action": "مراقبة (MONITOR): تُخدم مؤقتاً بصفحة الخليج؛ لا صفحة مستقلة حتى يثبت الطلب."
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في الكويت",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية معلوماتية — لم تُوثق بطلب GSC مستقل بعد.",
+      "country": "KW",
+      "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "priority": "LOW",
+      "action": "مراقبة (MONITOR): تُخدم مؤقتاً بصفحة الخليج؛ لا صفحة مستقلة حتى يثبت الطلب."
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في البحرين",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية معلوماتية — لم تُوثق بطلب GSC مستقل بعد.",
+      "country": "BH",
+      "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "priority": "LOW",
+      "action": "مراقبة (MONITOR): تُخدم مؤقتاً بصفحة الخليج؛ لا صفحة مستقلة حتى يثبت الطلب."
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في قطر",
+      "searchIntent": "معلوماتي (Informational/YMYL): محتوى تثقيفي وسلامة فقط — بلا بيع، بلا أسعار، بلا مصادر شراء، بلا جرعات. نية معلوماتية — لم تُوثق بطلب GSC مستقل بعد.",
+      "country": "QA",
+      "currentUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "targetUrl": "/articles/cytotec-gulf-kuwait-bahrain-uae-protocols",
+      "priority": "LOW",
+      "action": "مراقبة (MONITOR): تُخدم مؤقتاً بصفحة الخليج؛ لا صفحة مستقلة حتى يثبت الطلب."
     },
     {
       "keyword": "تكيس المبايض وتأخر الحمل",
