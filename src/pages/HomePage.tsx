@@ -12,73 +12,82 @@ export default function HomePage() {
     jsonLd: [websiteJsonLd(), organizationJsonLd(), doctorJsonLd()]
   });
 
-  const sorted = [...articles].sort((a, b) => (a.publishDate < b.publishDate ? 1 : -1));
+  // السلوك الأصلي للتصميم القديم: أول 3 مقالات من المخزون (يضمن ظهور دليل سايتوتك كأول بطاقة)
+  const featuredArticles = articles.slice(0, 3);
+
+  const stats = [
+    { label: 'استشارة سريرية منجزة', val: '+12,000' },
+    { label: 'نسبة نجاح بروتوكولات الخصوبة', val: '94%' },
+    { label: 'أدلة وبروتوكولات معتمدة', val: '+450' },
+    { label: 'سنوات الخبرة الطبية', val: '+18 عاماً' },
+  ];
+
+  const services = [
+    { title: 'علاج العقم وتأخر الإنجاب والحقن المجهري', desc: 'بروتوكولات علاجية متطورة لتنشيط التبويض، علاج ضعف مخزون المبيض.', badge: 'خصوبة وإنجاب', icon: '🩺' },
+    { title: 'متلازمة تكيس المبايض والاضطرابات الهرمونية', desc: 'خطة تشخيصية وسريرية شاملة لتنظيم الدورة الشهرية.', badge: 'صحة المرأة', icon: '🌸' },
+    { title: 'متابعة الحمل الحرج والمخاطر العالية', desc: 'رعاية دقيقة لحالات تسمم الحمل، سكري الحمل، والمشيمة المتقدمة.', badge: 'رعاية الحمل', icon: '🤰' }
+  ];
 
   return (
-    <>
-      {/* قسم الترحيب الرئيسي */}
-      <section className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white py-16 px-6 mb-10 text-center shadow-inner">
-        <div className="max-w-3xl mx-auto">
-          <span className="bg-blue-600/60 text-blue-100 text-xs px-3 py-1.5 rounded-full font-medium inline-block mb-4">
-            بوابة التوعية الطبية الموثوقة
-          </span>
-          <h2 className="text-4xl font-black mb-4 leading-tight">مرحباً بك في منصة فصيحة</h2>
-          <p className="text-lg text-blue-100 font-light leading-relaxed">
-            نقدم لك محتوى طبياً ومقالات إرشادية دقيقة وموثوقة لرفع الوعي الصحي وتوفير دليل مبسط للعناية بالصحة العامة.
-          </p>
-          <Link
-            to="/articles"
-            className="inline-block mt-6 bg-white text-blue-700 hover:bg-blue-50 font-bold text-sm px-6 py-3 rounded-xl transition shadow"
-          >
-            تصفح الأدلة الطبية
+    <div className="space-y-16 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" dir="rtl">
+
+      {/* 1. اللوجو والبانر */}
+      <section className="flex flex-col items-center gap-6">
+        <img src="/logo.png.png" alt="Logo" className="w-24 h-24 object-contain" />
+        <div className="w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white">
+          <img src="/banner.jpg.png" alt="بانر د. هيثم" className="w-full h-auto block" />
+        </div>
+      </section>
+
+      {/* 2. الإحصائيات */}
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+        {stats.map((s, i) => (
+          <div key={i} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+            <div className="text-3xl font-black text-rose-900">{s.val}</div>
+            <div className="text-sm text-slate-500 font-bold">{s.label}</div>
+          </div>
+        ))}
+      </section>
+
+      {/* 3. الخدمات التخصصية */}
+      <section>
+        <h2 className="text-3xl font-black mb-8 text-center">الخدمات التخصصية</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {services.map((srv, idx) => (
+            <div key={idx} className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+              <div className="text-4xl mb-4">{srv.icon}</div>
+              <h3 className="font-bold text-lg mb-2">{srv.title}</h3>
+              <p className="text-slate-600 text-sm">{srv.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 4. المكتبة الطبية */}
+      <section className="bg-slate-100 p-8 rounded-3xl">
+        <h2 className="text-3xl font-black mb-2 text-center">المكتبة الطبية</h2>
+        <p className="text-center text-slate-500 font-bold mb-8">أحدث المقالات الطبية والأدلة السريرية المعتمدة</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {featuredArticles.map((art) => (
+            <div key={art.id} className="bg-white p-6 rounded-2xl shadow-sm">
+              <h3 className="font-bold mb-2">{art.title}</h3>
+              <Link to={`/articles/${art.slug}`} className="text-rose-700 font-bold hover:underline">قراءة المزيد ←</Link>
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 text-center">
+          <Link to="/articles" className="bg-white border-2 border-rose-900 text-rose-900 px-8 py-3 rounded-full font-bold hover:bg-rose-900 hover:text-white transition">
+            عرض جميع المقالات
           </Link>
         </div>
       </section>
 
-      {/* قسم عرض المقالات */}
-      <main className="max-w-6xl mx-auto px-6 pb-20">
-        <div className="flex justify-between items-center mb-8">
-          <h3 className="text-2xl font-bold text-slate-900 border-r-4 border-blue-600 pr-3">
-            أحدث المقالات الطبية
-          </h3>
-          <span className="text-sm text-slate-500 font-medium">عدد المقالات: {sorted.length}</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sorted.map((article) => (
-            <div
-              key={article.id}
-              className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col justify-between hover:shadow-md transition-shadow"
-            >
-              <div>
-                <div className="flex justify-between items-center mb-3">
-                  <span className="bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-lg">
-                    {article.categoryName}
-                  </span>
-                  <span className="text-xs text-slate-400">{article.readTime} دقائق قراءة</span>
-                </div>
-                <h4 className="text-lg font-bold text-slate-900 mb-2 leading-snug">
-                  <Link to={`/articles/${article.slug}`} className="hover:text-blue-700 transition-colors">
-                    {article.title}
-                  </Link>
-                </h4>
-                <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                  {article.summary}
-                </p>
-              </div>
-              <div className="pt-4 border-t border-slate-100 flex justify-between items-center text-xs text-slate-500">
-                <span>{article.publishDate}</span>
-                <Link
-                  to={`/articles/${article.slug}`}
-                  className="text-blue-600 font-semibold hover:text-blue-800 transition-colors"
-                >
-                  قراءة المقال ←
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </main>
-    </>
+      {/* 5. زر التواصل */}
+      <div className="text-center">
+        <a href="https://wa.me/966599287172" className="bg-emerald-600 text-white px-10 py-4 rounded-full text-xl font-bold shadow-lg hover:bg-emerald-700 transition">
+          💬 تواصل عبر واتساب
+        </a>
+      </div>
+    </div>
   );
 }
