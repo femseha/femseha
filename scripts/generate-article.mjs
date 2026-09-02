@@ -29,6 +29,9 @@
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
+// مولّد sitemap الموحّد — نفس المصدر الذي يستخدمه npm run build، فلا تتنافس
+// صيغتان على public/sitemap.xml (lastmod المقال = modifiedDate || publishDate).
+import { buildSitemapXml } from "./generate-sitemap.mjs";
 
 const ROOT = process.cwd();
 const MAP_PATH = path.join(ROOT, "src", "data", "content-map.json");
@@ -368,27 +371,13 @@ function runQualityChecks(gen, topic, articles) {
 }
 
 /* ── كتابة الملفات (articles.json + sitemap.xml) ─────────────────────── */
-
-function buildSitemap(articles) {
-  const d = today();
-  const urls = [
-    `  <url>\n    <loc>${SITE_URL}/</loc>\n    <lastmod>${d}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>`,
-    `  <url>\n    <loc>${SITE_URL}/articles</loc>\n    <lastmod>${d}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>`,
-    `  <url>\n    <loc>${SITE_URL}/doctor</loc>\n    <lastmod>${d}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`,
-    `  <url>\n    <loc>${SITE_URL}/consultation</loc>\n    <lastmod>${d}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`,
-    `  <url>\n    <loc>${SITE_URL}/medical-disclaimer</loc>\n    <lastmod>${d}</lastmod>\n    <changefreq>yearly</changefreq>\n    <priority>0.4</priority>\n  </url>`,
-    ...articles.map(
-      (a) =>
-        `  <url>\n    <loc>${SITE_URL}/articles/${a.slug}</loc>\n    <lastmod>${a.publishDate}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>`
-    ),
-  ];
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`;
-}
+/* ملاحظة: بناء sitemap مُوحّد في scripts/generate-sitemap.mjs (المستخدم أيضاً
+   في npm run build) — يُستدعى هنا لضمان تطابق صيغة الملف بين مساري النشر. */
 
 function persist(article, articlesPath, sitemapPath, existingArticles) {
   const nextArticles = [article, ...existingArticles];
   fs.writeFileSync(articlesPath, JSON.stringify(nextArticles, null, 2) + "\n", "utf8");
-  fs.writeFileSync(sitemapPath, buildSitemap(nextArticles), "utf8");
+  fs.writeFileSync(sitemapPath, buildSitemapXml(nextArticles, SITE_URL), "utf8");
   return nextArticles;
 }
 

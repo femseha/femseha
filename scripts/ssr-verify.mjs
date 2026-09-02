@@ -2,22 +2,23 @@
 /**
  * اختبار عرض فعلي لكل مسارات الموقع عبر Vite SSR loader.
  * يرصد أي انهيار (crash) في مكوّنات الصفحات قبل النشر.
+ * المسارات تُشتق ديناميكياً من src/data/articles.json — كل مقال جديد
+ * يُفحص تلقائياً في التشغيل التالي دون تحديث يدوي لهذه القائمة.
  * التشغيل: node scripts/ssr-verify.mjs
  */
+import fs from 'node:fs';
+import path from 'node:path';
 import { createServer } from 'vite';
+
+const ARTICLES_PATH = path.resolve(process.cwd(), 'src/data/articles.json');
+const articlesData = JSON.parse(fs.readFileSync(ARTICLES_PATH, 'utf8'));
+const articleRoutes = articlesData.map((a) => `/articles/${a.slug}`);
 
 const ROUTES = [
   '/',
   '/articles',
-  '/articles/cytotec-misoprostol-saudi-riyadh-guide',
-  '/articles/cytotec-gulf-kuwait-bahrain-uae-protocols',
-  '/articles/pcos-symptoms-fertility-treatment',
-  '/articles/importance-of-regular-medical-checkups',
-  '/articles/healthy-lifestyle-and-balanced-nutrition-guide',
-  '/articles/how-stress-affects-physical-health',
-  '/articles/summer-health-and-heat-safety-tips',
-  '/articles/managing-chronic-sleep-disorders',
-  '/articles/مقال-غير-موجود',
+  ...articleRoutes,
+  '/مقال-غير-موجود-اختبار',
   '/doctor',
   '/consultation',
   '/medical-disclaimer',
@@ -67,6 +68,12 @@ checks.push(['صفحة الطبيب تعرض الاسم', doctor.includes('د. �
 checks.push(['صفحة الطبيب تعرض الاختصاص', doctor.includes('جراحة النساء والتوليد')]);
 const notFound = renderRoute('/صفحة-غير-موجودة');
 checks.push(['صفحة 404 تعمل', notFound.includes('الصفحة غير موجودة')]);
+const invalidArticle = renderRoute('/articles/مقال-غير-موجود-اختبار');
+checks.push(['slug غير صحيح يعرض 404 (منع soft-404)', invalidArticle.includes('الصفحة غير موجودة')]);
+checks.push([
+  'slug غير صحيح لا يسقط إلى مقال آخر (لا fallback لأول مقال)',
+  !invalidArticle.includes(articlesData[0].title)
+]);
 const admin = renderRoute('/admin');
 checks.push(['لوحة الإدارة تعرض تسجيل الدخول', admin.includes('لوحة الإدارة والتحكم')]);
 
