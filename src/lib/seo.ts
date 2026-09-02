@@ -43,9 +43,18 @@ export function useSeo(props: SeoProps = {}) {
     const url = canonicalUrl || (canonicalPath ? `${SITE.url}${canonicalPath}` : SITE.url);
     const ogImage = image || `${SITE.url}/banner.jpg.png`;
 
-    if (title) document.title = title;
-    if (description) upsertMeta("name", "description", description);
-    if (keywords) upsertMeta("name", "keywords", keywords);
+    // العنوان والوصف: تُضبط دائماً (مع قيمة افتراضية) حتى لا تبقى قيم الصفحة
+    // السابقة عالقة عند التنقل بين الصفحات داخل التطبيق.
+    document.title = title || SITE.title;
+    upsertMeta("name", "description", description || SITE.description);
+
+    // وسم keywords: يُحدَّث عند توفره ويُزال عند عدمه (منع تسربه بين الصفحات).
+    if (keywords) {
+      upsertMeta("name", "keywords", keywords);
+    } else {
+      document.querySelector('meta[name="keywords"]')?.remove();
+    }
+
     upsertCanonical(url);
 
     upsertMeta("property", "og:title", title || SITE.title);
@@ -60,9 +69,11 @@ export function useSeo(props: SeoProps = {}) {
     upsertMeta("name", "twitter:description", description || SITE.description);
     upsertMeta("name", "twitter:image", ogImage);
 
+    // بيانات JSON-LD الخاصة بالصفحة: تُنظَّف دائماً قبل الحقن — حتى عندما لا
+    // تملك الصفحة الجديدة بيانات مهيكلة (منع بقاء Schema صفحة سابقة).
+    document.querySelectorAll('script[data-seo="page"]').forEach((n) => n.remove());
     if (jsonLd) {
       const items = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
-      document.querySelectorAll('script[data-seo="page"]').forEach((n) => n.remove());
       for (const obj of items) {
         const script = document.createElement("script");
         script.setAttribute("type", "application/ld+json");
@@ -126,11 +137,14 @@ export function breadcrumbJsonLd(crumbs: { name: string; href: string }[]) {
 
 /**
  * بيانات مقال طبي مهيكلة — تعبّأ من سجل المقال المنشور (ArticleRecord).
+ * dateModified: يُرسل فقط عند وجود modifiedDate حقيقي في سجل المقال؛
+ * لا نساويه بتاريخ النشر تلقائياً ولا نخترع تاريخ تعديل غير موجود.
  */
 export function articleJsonLd(article?: {
   title?: string;
   summary?: string;
   publishDate?: string;
+  modifiedDate?: string;
   slug?: string;
   readTime?: number;
   primaryKeyword?: string;
@@ -142,7 +156,7 @@ export function articleJsonLd(article?: {
     headline: article.title || "",
     description: article.summary || "",
     datePublished: article.publishDate || "",
-    dateModified: article.publishDate || "",
+    ...(article.modifiedDate ? { dateModified: article.modifiedDate } : {}),
     inLanguage: "ar",
     url: `${SITE?.url || "https://femseha.com"}/articles/${article.slug || ""}`,
     keywords: article.primaryKeyword || undefined,

@@ -56,7 +56,7 @@ const checks = [
 ];
 const articles = renderRoute('/articles');
 checks.push(['صفحة الأدلة تعرض عنوان المكتبة', articles.includes('الأدلة السريرية والاستشارات الطبية')]);
-checks.push(['صفحة الأدلة تعرض عدد المقالات', articles.includes('المكتبة الطبية المعتمدة')]);
+checks.push(['صفحة الأدلة تعرض شارة المكتبة', articles.includes('مكتبة طبية بإشراف طبي')]);
 const article = renderRoute('/articles/cytotec-misoprostol-saudi-riyadh-guide');
 checks.push(['صفحة المقال تعرض العنوان', article.includes('سايتوتك في السعودية والرياض')]);
 checks.push(['صفحة المقال تعرض إخلاء المسؤولية', article.includes('إخلاء مسؤولية طبية')]);

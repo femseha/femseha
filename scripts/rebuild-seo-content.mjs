@@ -1,6 +1,16 @@
 import fs from "fs";
 import path from "path";
 
+// ─────────────────────────────────────────────────────────────────────────────
+// ⚠ سكربت ترحيل تاريخي (one-off migration) — لا يُشغَّل ضمن أي خط نشر.
+// إعادة تشغيله ستستبدل src/data/articles.json المنظَّف بنسخ قديمة، وستعيد
+// كتابة sitemap/keyword-map. للتشغيل القسري الواعي: FORCE_REBUILD=1 node ...
+// ─────────────────────────────────────────────────────────────────────────────
+if (process.env.FORCE_REBUILD !== "1") {
+  console.error("⚠ محجوب: rebuild-seo-content.mjs سكربت ترحيل تاريخي لمرة واحدة. استخدم FORCE_REBUILD=1 إذا كنت متأكداً.");
+  process.exit(1);
+}
+
 const ROOT = process.cwd();
 const ARTICLES_PATH = path.join(ROOT, "src", "data", "articles.json");
 const KEYWORD_MAP_PATH = path.join(ROOT, "src", "data", "keyword-map.json");
@@ -924,20 +934,26 @@ articlesData.forEach(art => {
 // Write articles.json
 fs.writeFileSync(ARTICLES_PATH, JSON.stringify(articlesData, null, 2) + "\n", "utf8");
 
-// Generate keyword-map.json
-const keywordMap = articlesData.map(a => ({
-  keyword: a.primaryKeyword,
-  searchIntent: a.summary.slice(0, 80),
-  country: "السعودية والخليج",
-  currentUrl: `/articles/${a.slug}`,
-  targetUrl: `/articles/${a.slug}`,
-  priority: "HIGH",
-  currentPosition: 4,
-  impressions: 15000,
-  clicks: 1800,
-  ctr: "12.0%",
-  action: "Optimize Cluster & Internal Links"
-}));
+// Generate keyword-map.json — مرجع استراتيجي فقط.
+// ملاحظة إلزامية: لا تُضاف حقول impressions/clicks/ctr/position هنا إطلاقاً
+// إلا من بيانات Google Search Console حقيقية موثقة بحقل gscSource.
+const keywordMap = {
+  meta: {
+    version: 2,
+    updatedAt: new Date().toISOString().split("T")[0],
+    purpose: "مرجع استراتيجي للكلمات المفتاحية لمنع تنافس الصفحات وتوجيه الربط الداخلي.",
+    dataPolicy: "لا مقاييس GSC بدون مصدر موثق (gscSource)."
+  },
+  keywords: articlesData.map(a => ({
+    keyword: a.primaryKeyword,
+    searchIntent: "معلوماتي (Informational) — محتوى تثقيفي طبي غير تجاري.",
+    country: "SA+GCC",
+    currentUrl: `/articles/${a.slug}`,
+    targetUrl: `/articles/${a.slug}`,
+    priority: "MEDIUM",
+    action: "Optimize Cluster & Internal Links"
+  }))
+};
 
 fs.writeFileSync(KEYWORD_MAP_PATH, JSON.stringify(keywordMap, null, 2) + "\n", "utf8");
 

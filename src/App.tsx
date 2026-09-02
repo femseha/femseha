@@ -37,7 +37,7 @@ export function App() {
       <div className="bg-rose-800 text-white text-sm py-2.5 px-4 shadow-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <span className="font-bold flex items-center gap-2">
-            <span className="bg-rose-700 px-2 py-0.5 rounded text-xs">طبي معتمد</span>
+            <span className="bg-rose-700 px-2 py-0.5 rounded text-xs">بإشراف طبي</span>
             منصة Femseha | إشراف د. هيثم الخطيب - اختصاصي جراحة النساء والتوليد والعقم
           </span>
           <div className="hidden sm:flex items-center gap-6 font-bold">
@@ -55,14 +55,17 @@ export function App() {
 
             {/* اللوجو الرسمي بالصورة */}
             <Link to="/" className="flex items-center gap-3 group">
-              <img
-                src="/logo.png.png"
-                alt="Femseha Logo"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/logo.png';
-                }}
-                className="w-14 h-14 object-contain group-hover:scale-105 transition-transform"
-              />
+              <picture>
+                <source srcSet="/logo.webp" type="image/webp" />
+                <img
+                  src="/logo.png.png"
+                  alt="شعار FemSeha | فيم صحة"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/logo.png';
+                  }}
+                  className="w-14 h-14 object-contain group-hover:scale-105 transition-transform"
+                />
+              </picture>
               <div className="flex flex-col">
                 <span className="text-3xl sm:text-4xl font-black tracking-tight leading-none">
                   <span className="text-rose-600">Fem</span><span className="text-slate-900">seha</span>
@@ -177,20 +180,23 @@ export function App() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <img
-                src="/logo.png.png"
-                alt="Femseha"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/logo.png';
-                }}
-                className="w-12 h-12 object-contain"
-              />
+              <picture>
+                <source srcSet="/logo.webp" type="image/webp" />
+                <img
+                  src="/logo.png.png"
+                  alt="شعار FemSeha | فيم صحة"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/logo.png';
+                  }}
+                  className="w-12 h-12 object-contain"
+                />
+              </picture>
               <span className="text-3xl font-black text-rose-500 tracking-tight">
                 Fem<span className="text-white">seha</span>
               </span>
             </div>
             <p className="text-base text-slate-400 leading-loose max-w-md">
-              المرجع الطبي السريري المعتمد لصحة المرأة، متابعة الحمل الحرج، وعلاج العقم وتأخر الإنجاب بأحدث البروتوكولات الطبية الدولية.
+              مرجع طبي تثقيفي لصحة المرأة، متابعة الحمل الحرج، وعلاج العقم وتأخر الإنجاب وفق البروتوكولات الطبية الدولية.
             </p>
             <p className="text-sm text-rose-300 font-bold">
               👨‍⚕️ الإشراف الطبي العام: د. هيثم الخطيب (00966599287172)

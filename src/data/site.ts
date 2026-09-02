@@ -1,6 +1,6 @@
 export const SITE = {
-  name: "فيم صحة | Femseha",
-  title: "فيم صحة | Femseha",
+  name: "FemSeha | فيم صحة",
+  title: "FemSeha | فيم صحة",
   url: "https://femseha.com",
   description: "دليل طبي سريري موثوق لصحة المرأة، متابعة الحمل، وفحوصات الهرمونات بإشراف د. هيثم الخطيب.",
   phone: "00966599287172",
@@ -16,7 +16,7 @@ export const siteConfig = SITE;
 export const DOCTOR = {
   name: "د. هيثم الخطيب",
   title: "طبيب اختصاصي جراحة النساء والتوليد والعقم",
-  profession: "اختصصاصي جراحة النساء والتوليد والعقم",
+  profession: "اختصاصي جراحة النساء والتوليد والعقم",
   phone: "00966599287172",
   whatsapp: "00966599287172",
   phoneLink: "tel:00966599287172",

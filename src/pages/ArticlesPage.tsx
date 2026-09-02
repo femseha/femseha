@@ -43,7 +43,7 @@ export default function ArticlesPage() {
         {/* العنوان والترويسة */}
         <div className="text-center mb-10">
           <span className="text-xs font-bold text-blue-600 bg-blue-100 px-3 py-1 rounded-full">
-            المكتبة الطبية المعتمدة
+            مكتبة طبية بإشراف طبي
           </span>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mt-3 mb-3">
             الأدلة السريرية والاستشارات الطبية
