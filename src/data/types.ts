@@ -51,6 +51,12 @@ export type ArticleRecord = {
   readTime: number;
   content: string;
   primaryKeyword?: string;
+  /** كلمات مفتاحية مساندة اختيارية أُدخلت من لوحة الإدارة (بيانات فقط — لا تُحقن
+   *  في أي وسم meta؛ وسوم المقالات وSEO الخاص بها كما هي دون تغيير). */
+  secondaryKeywords?: string[];
+  /** رمز الدولة/السوق المستهدف (sa|ae|kw|bh|qa|om) — انظر src/data/countries.json.
+   *  اختياري: غيابه = مقال عام غير مرتبط بسوق محدد (كل المقالات الحالية عامة). */
+  country?: string;
   image?: string;
   faq?: { q: string; a: string }[];
   sources?: SourceRef[];
