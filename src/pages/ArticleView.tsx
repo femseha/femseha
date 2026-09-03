@@ -218,7 +218,7 @@ export default function ArticleView() {
           </div>
         </div>
 
-        {article.image && (
+        {article.image && !article.image.includes('banner.jpg.png') && (
           <img
             src={article.image}
             alt={article.title}
