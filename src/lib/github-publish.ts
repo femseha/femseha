@@ -124,6 +124,90 @@ function utf8ToB64(text: string): string {
   return btoa(binary);
 }
 
+function describeError(error: unknown): string {
+  if (error instanceof Error && error.message) return error.message;
+  return String(error || "سبب غير معروف");
+}
+
+function assertTextualFieldsMatch(original: unknown, candidate: unknown, fieldPath = "request"): void {
+  if (typeof original === "string") {
+    if (candidate !== original) {
+      throw new Error(`تغيّر النص في ${fieldPath} بعد تحويل JSON حرفياً.`);
+    }
+    return;
+  }
+
+  if (Array.isArray(original)) {
+    if (!Array.isArray(candidate)) {
+      throw new Error(`البنية في ${fieldPath} تغيّرت بعد تحويل JSON.`);
+    }
+    if (candidate.length !== original.length) {
+      throw new Error(`عدد العناصر في ${fieldPath} تغيّر بعد تحويل JSON.`);
+    }
+    original.forEach((item, index) => assertTextualFieldsMatch(item, candidate[index], `${fieldPath}[${index}]`));
+    return;
+  }
+
+  if (original && typeof original === "object") {
+    if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) {
+      throw new Error(`البنية في ${fieldPath} تغيّرت بعد تحويل JSON.`);
+    }
+    const originalEntries = Object.entries(original as Record<string, unknown>);
+    const candidateRecord = candidate as Record<string, unknown>;
+    if (Object.keys(candidateRecord).length !== originalEntries.length) {
+      throw new Error(`عدد الحقول في ${fieldPath} تغيّر بعد تحويل JSON.`);
+    }
+    for (const [key, value] of originalEntries) {
+      assertTextualFieldsMatch(value, candidateRecord[key], `${fieldPath}.${key}`);
+    }
+  }
+}
+
+function parseRequestJsonText(text: string, label: string): PublishRequest {
+  try {
+    return JSON.parse(text) as PublishRequest;
+  } catch (error) {
+    throw new Error(`تعذر قراءة ${label}: ${describeError(error)}`);
+  }
+}
+
+function encodeRequestContent(req: PublishRequest): string {
+  const jsonText = JSON.stringify(req, null, 2);
+  const directParsed = parseRequestJsonText(jsonText, `JSON الطلب ${req.id} بعد JSON.stringify`);
+  assertTextualFieldsMatch(req, directParsed, `request(${req.id})`);
+
+  const base64 = utf8ToB64(jsonText);
+  const decodedText = b64ToUtf8(base64);
+  if (decodedText !== jsonText) {
+    throw new Error(`تغيّر نص JSON للطلب ${req.id} بعد UTF-8/base64.`);
+  }
+
+  const decodedParsed = parseRequestJsonText(decodedText, `JSON الطلب ${req.id} بعد فك base64`);
+  assertTextualFieldsMatch(req, decodedParsed, `request(${req.id})`);
+  return base64;
+}
+
+function corruptedStoredRequest(pathName: string, fileName: string, sha: string, reason: string): StoredRequest {
+  return {
+    path: pathName,
+    fileName,
+    sha,
+    data: {
+      id: `corrupt-${fileName.replace(/[^a-z0-9.-]+/gi, "-")}`,
+      mode: "manual",
+      createdAt: "",
+      title: `ملف طلب تالف: ${fileName}`,
+      primaryKeyword: "",
+      secondaryKeywords: [],
+      country: null,
+      category: "",
+      image: null,
+      status: "failed",
+      error: `تعذر قراءة ${fileName}: ${reason}`,
+    },
+  };
+}
+
 /* ── اختبار الاتصال ─────────────────────────────────────────────────────── */
 
 export async function testConnection(conn: GithubConnection): Promise<{ login: string; defaultBranch: string }> {
@@ -203,20 +287,32 @@ export async function listRequests(conn: GithubConnection): Promise<StoredReques
   }
   const out: StoredRequest[] = [];
   for (const entry of entries.filter((f) => f.type === "file" && (f.name || "").endsWith(".json"))) {
+    const pathName = entry.path || `${REQUESTS_DIR}/${entry.name || "unknown.json"}`;
+    const fileName = entry.name || pathName.split("/").pop() || "unknown.json";
+    let full: ContentResponse;
     try {
-      const full = await gh<ContentResponse>(
+      full = await gh<ContentResponse>(
         conn,
-        `/repos/${conn.owner}/${conn.repo}/contents/${entry.path}?ref=${MAIN_BRANCH}`
+        `/repos/${conn.owner}/${conn.repo}/contents/${pathName}?ref=${MAIN_BRANCH}`
       );
-      if (!full.content) continue;
+    } catch (error) {
+      if (error instanceof GithubApiError && (error.status === 401 || error.status === 403)) throw error;
+      out.push(corruptedStoredRequest(pathName, fileName, entry.sha, describeError(error)));
+      continue;
+    }
+    if (!full.content) {
+      out.push(corruptedStoredRequest(pathName, fileName, full.sha || entry.sha, "محتوى الملف فارغ أو غير متاح من GitHub API."));
+      continue;
+    }
+    try {
       out.push({
-        path: entry.path || `${REQUESTS_DIR}/${entry.name}`,
-        fileName: entry.name || "",
+        path: pathName,
+        fileName,
         sha: full.sha,
-        data: JSON.parse(b64ToUtf8(full.content)) as PublishRequest,
+        data: parseRequestJsonText(b64ToUtf8(full.content), fileName),
       });
-    } catch {
-      /* طلب تالف/تعذرت قراءته — يُتجاوز ويُعالج أو يُصحح من المستودع */
+    } catch (error) {
+      out.push(corruptedStoredRequest(pathName, fileName, full.sha, describeError(error)));
     }
   }
   return out.sort((a, b) => a.fileName.localeCompare(b.fileName));
@@ -227,7 +323,7 @@ export async function putRequestFile(conn: GithubConnection, req: PublishRequest
     method: "PUT",
     body: JSON.stringify({
       message: `chore(admin): طلب نشر مباشر ${req.mode === "ai" ? "بالذكاء الاصطناعي" : "يدوي"} — ${req.title.slice(0, 60)}`,
-      content: utf8ToB64(JSON.stringify(req, null, 2) + "\n"),
+      content: encodeRequestContent(req),
       branch: MAIN_BRANCH,
     }),
   });

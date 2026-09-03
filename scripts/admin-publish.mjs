@@ -37,6 +37,7 @@
 
 import fs from "fs";
 import path from "path";
+import { pathToFileURL } from "url";
 import {
   ROOT,
   MAP_PATH,
@@ -67,6 +68,19 @@ const STATIC_ROUTES = ["/", "/articles", "/doctor", "/consultation", "/medical-d
 /* ── أدوات مساعدة ─────────────────────────────────────────────────────── */
 
 class RequestFailure extends Error {}
+
+function describeError(error) {
+  return error instanceof Error && error.message ? error.message : String(error || "سبب غير معروف");
+}
+
+function parseRequestFile(file, name) {
+  const raw = fs.readFileSync(file, "utf8");
+  try {
+    return { file, name, req: JSON.parse(raw) };
+  } catch (error) {
+    return { file, name, error: `ملف طلب تالف: ${name} — ${describeError(error)}` };
+  }
+}
 
 function loadCountries() {
   if (!fs.existsSync(COUNTRIES_PATH)) return [];
@@ -467,22 +481,14 @@ function selfTestGen(req, topic) {
 
 /* ── الحلقة الرئيسية: تنفيذ كل الطلبات المعلقة ─────────────────────────── */
 
-function readPendingRequests(requestsDir) {
+export function readPendingRequests(requestsDir) {
   if (!fs.existsSync(requestsDir)) return [];
   return fs
     .readdirSync(requestsDir)
     .filter((f) => f.endsWith(".json"))
     .sort()
-    .map((f) => ({ file: path.join(requestsDir, f), name: f }))
-    .map(({ file, name }) => {
-      try {
-        const req = JSON.parse(fs.readFileSync(file, "utf8"));
-        return { file, name, req };
-      } catch {
-        return null; // ملف تالف — يُتجاهل ولا يعطل بقية الطلبات
-      }
-    })
-    .filter((x) => x && x.req && !x.req.status);
+    .map((name) => parseRequestFile(path.join(requestsDir, name), name))
+    .filter((entry) => entry.error || (entry.req && !entry.req.status));
 }
 
 function markFailed(file, req, message) {
@@ -516,8 +522,16 @@ export async function processRequests({ requestsDir, articlesPath, sitemapPath, 
     return summary;
   }
 
-  for (const { file, name, req } of pending) {
+  for (const entry of pending) {
     summary.processed += 1;
+
+    if (entry.error) {
+      summary.failed += 1;
+      log(`\n✖ ${entry.error}`);
+      continue;
+    }
+
+    const { file, name, req } = entry;
     const mode = req.mode === "ai" ? "AI" : "يدوي";
     log(`\n▶ طلب نشر مباشر (${mode}): ${name} — «${req.title || "(بلا عنوان)"}»`);
     try {
@@ -699,22 +713,26 @@ async function selfTest() {
 
 /* ── CLI ─────────────────────────────────────────────────────────────── */
 
-const args = process.argv.slice(2);
-if (args.includes("--self-test")) {
-  selfTest().catch((e) => {
-    console.error(`✖ فشل الاختبار الذاتي: ${e.message}`);
-    process.exit(1);
-  });
-} else if (args.includes("--process-requests")) {
-  processRequests({
-    requestsDir: ADMIN_REQUESTS_DIR,
-    articlesPath: ARTICLES_PATH,
-    sitemapPath: SITEMAP_PATH,
-  }).catch((e) => {
-    console.error(`✖ فشل معالجة طلبات لوحة الإدارة: ${e.message}`);
-    process.exit(1);
-  });
-} else {
-  console.log("الاستخدام: node scripts/admin-publish.mjs --process-requests | --self-test");
-  process.exit(0);
+const isDirectRun = process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
+
+if (isDirectRun) {
+  const args = process.argv.slice(2);
+  if (args.includes("--self-test")) {
+    selfTest().catch((e) => {
+      console.error(`✖ فشل الاختبار الذاتي: ${e.message}`);
+      process.exit(1);
+    });
+  } else if (args.includes("--process-requests")) {
+    processRequests({
+      requestsDir: ADMIN_REQUESTS_DIR,
+      articlesPath: ARTICLES_PATH,
+      sitemapPath: SITEMAP_PATH,
+    }).catch((e) => {
+      console.error(`✖ فشل معالجة طلبات لوحة الإدارة: ${e.message}`);
+      process.exit(1);
+    });
+  } else {
+    console.log("الاستخدام: node scripts/admin-publish.mjs --process-requests | --self-test");
+    process.exit(0);
+  }
 }
