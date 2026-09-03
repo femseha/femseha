@@ -20,17 +20,17 @@ export default function ConsultationPage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
+    <div className="bg-slate-950 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
       <div className="max-w-3xl mx-auto">
         <nav aria-label="مسار التنقل" className="text-xs text-slate-400 mb-6">
-          <Link to="/" className="hover:text-blue-600">الرئيسية</Link>
+          <Link to="/" className="hover:text-sky-400">الرئيسية</Link>
           <span className="mx-2">‹</span>
-          <span className="text-slate-600 font-semibold">الاستشارة الطبية</span>
+          <span className="text-slate-300 font-semibold">الاستشارة الطبية</span>
         </nav>
 
-        <section className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white rounded-3xl p-8 sm:p-10 text-center shadow-inner mb-8">
+        <section className="bg-gradient-to-b from-slate-900 via-sky-950 to-slate-950 border border-sky-800/60 text-white rounded-3xl p-8 sm:p-10 text-center shadow-xl mb-8">
           <h1 className="text-3xl font-black mb-3">الاستشارة الطبية مع {DOCTOR.name}</h1>
-          <p className="text-blue-100 leading-relaxed max-w-xl mx-auto">
+          <p className="text-slate-300 leading-relaxed max-w-xl mx-auto">
             استشارات طبية تخصصية في صحة المرأة، الحمل، الخصوبة، واضطرابات الدورة الشهرية — بسرية وخصوصية
             تامة.
           </p>
@@ -39,13 +39,13 @@ export default function ConsultationPage() {
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm"
+              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold text-sm transition-colors shadow"
             >
               💬 استشارة واتساب
             </a>
             <a
               href={DOCTOR.phoneLink}
-              className="px-6 py-3 bg-white text-blue-700 hover:bg-blue-50 rounded-xl font-bold text-sm transition-colors shadow-sm"
+              className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl font-bold text-sm transition-colors shadow"
             >
               📞 {DOCTOR.phoneDisplay}
             </a>
@@ -53,9 +53,9 @@ export default function ConsultationPage() {
         </section>
 
         <div className="grid gap-5 sm:grid-cols-2">
-          <div className="bg-white border border-slate-200 rounded-2xl p-6">
-            <h2 className="text-base font-bold text-slate-900 mb-3">ماذا تغطي الاستشارة؟</h2>
-            <ul className="list-disc pr-5 space-y-2 text-sm text-slate-600 leading-relaxed">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <h2 className="text-base font-bold text-white mb-3">ماذا تغطي الاستشارة؟</h2>
+            <ul className="list-disc pr-5 space-y-2 text-sm text-slate-300 leading-relaxed">
               <li>متابعة الحمل وعلامات الخطر التي تستدعي تقييماً عاجلاً.</li>
               <li>اضطرابات الدورة الشهرية وتأخرها.</li>
               <li>الخصوبة وتأخر الإنجاب وخيارات التقييم الأولي.</li>
@@ -64,9 +64,9 @@ export default function ConsultationPage() {
             </ul>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-2xl p-6">
-            <h2 className="text-base font-bold text-slate-900 mb-3">كيف تستعدين للاستشارة؟</h2>
-            <ol className="list-decimal pr-5 space-y-2 text-sm text-slate-600 leading-relaxed">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <h2 className="text-base font-bold text-white mb-3">كيف تستعدين للاستشارة؟</h2>
+            <ol className="list-decimal pr-5 space-y-2 text-sm text-slate-300 leading-relaxed">
               <li>جهّزي تاريخك الطبي المختصر والأدوية الحالية.</li>
               <li>أرفقي نتائج الفحوصات أو تقارير السونار إن وُجدت.</li>
               <li>دوّني أسئلتك مسبقاً حتى لا يفوتك شيء أثناء الحوار.</li>
@@ -74,17 +74,17 @@ export default function ConsultationPage() {
             </ol>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:col-span-2">
-            <h2 className="text-base font-bold text-slate-900 mb-3">السرية والخصوصية</h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:col-span-2">
+            <h2 className="text-base font-bold text-white mb-3">السرية والخصوصية</h2>
+            <p className="text-sm text-slate-300 leading-relaxed">
               تُعامل جميع التواصلات بسرية تامة. لا نطلب معلومات أكثر مما تحتاجه الحالة، ولا نشارك أي بيانات
               مع أي جهة.
             </p>
           </div>
         </div>
 
-        <div className="mt-6 border border-slate-200 bg-white rounded-2xl p-4 text-xs leading-relaxed text-slate-500">
-          <strong className="text-slate-700">تنبيه مهم:</strong> الاستشارة عن بُعد لا تغني عن الفحص
+        <div className="mt-6 border border-slate-800 bg-slate-900 rounded-2xl p-4 text-xs leading-relaxed text-slate-300">
+          <strong className="text-white">تنبيه مهم:</strong> الاستشارة عن بُعد لا تغني عن الفحص
           السريري المباشر عند الحاجة، ولا تصلح للحالات الطارئة. في الحالات الطارئة (نزيف غزير، ألم شديد،
           إغماء، حمى مرتفعة) توجهي فوراً إلى أقرب قسم طوارئ أو اتصلي بالطوارئ الموحد.
         </div>
