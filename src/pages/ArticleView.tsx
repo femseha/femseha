@@ -141,9 +141,23 @@ function ContentBlocks({ content }: { content: string }) {
   return <>{blocks}</>;
 }
 
+/**
+ * صورة المقالات الافتراضية (بانر واتساب) — مرتبطة برابط الواتساب الرسمي.
+ * ملاحظة: banner.jpg.png يبقى حصراً للـHero الرئيسية وصورة OG، ولا يُستخدم كصورة مقال.
+ */
+const WHATSAPP_ARTICLE_BANNER = '/whatsapp-consult.png';
+const LEGACY_DEFAULT_ARTICLE_IMAGES = ['banner.jpg.png', 'banner.webp', 'banner.png'];
+
+/** هل يملك المقال صورة أصلية خاصة به؟ (دعم صور المقالات المستقبلية) */
+function hasCustomImage(image?: string): boolean {
+  if (!image) return false;
+  return !LEGACY_DEFAULT_ARTICLE_IMAGES.some((f) => image.includes(f));
+}
+
 export default function ArticleView() {
   const { slug } = useParams<{ slug: string }>();
   const article = getArticleBySlug(slug);
+  const hasOwnImage = hasCustomImage(article?.image);
 
   useSeo({
     title: article ? `${article.title} | منصة فصيحة الطبية` : 'المقال غير متوفر | منصة فصيحة الطبية',
@@ -218,12 +232,27 @@ export default function ArticleView() {
           </div>
         </div>
 
-        {article.image && (
+        {hasOwnImage ? (
           <img
             src={article.image}
             alt={article.title}
             className="w-full h-64 sm:h-80 object-cover rounded-2xl mb-8"
           />
+        ) : (
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="استشارة طبية عبر واتساب مع د. هيثم الخطيب"
+            className="block mb-8"
+          >
+            <img
+              src={WHATSAPP_ARTICLE_BANNER}
+              alt="تواصل معنا عبر واتساب - استشارة طبية آمنة وسرية مع د. هيثم الخطيب"
+              className="w-full h-auto rounded-2xl"
+              loading="lazy"
+            />
+          </a>
         )}
 
         <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-4 text-base">
