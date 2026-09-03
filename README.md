@@ -44,6 +44,20 @@ src/data/content-map.json            طابور الموضوعات المعتم�
 node scripts/generate-article.mjs --self-test
 ```
 
+## النشر المباشر من لوحة الإدارة (/admin)
+
+لوحة الإدارة تنشئ المقالات وتنشرها **مباشرة** (AI أو يدوياً) عبر نفس البنية القائمة:
+الطلب يُحفظ في `admin/requests/` ويُشغَّل `auto-publish.yml` القائم (workflow_dispatch)،
+فينفذه `scripts/admin-publish.mjs` بنفس فحوصات الجودة والسلامة ومنع تنافس الكلمات،
+ويحفظ في `articles.json` + `sitemap.xml` ويرفع إلى main. لا Review ولا Approval ولا Draft.
+مفتاح `GEMINI_API_KEY` لا يصل للمتصفح أبداً (يبقى في GitHub Secrets).
+
+التفاصيل الكاملة وإعداد توكن النشر: `docs/admin-publishing.md` — واختبار الخط:
+
+```bash
+npm run admin:selftest
+```
+
 ## متغيرات البيئة
 
 | المتغير | مكان الضبط | الاستخدام |
@@ -55,3 +69,4 @@ node scripts/generate-article.mjs --self-test
 
 - `docs/competitor-analysis.md` — تحليل المنافسين الثلاثة والفرص.
 - `docs/content-map.md` — معمارية العناقيد وقواعد الجودة ومنع التنافس.
+- `docs/admin-publishing.md` — النشر المباشر من لوحة الإدارة (AI + يدوي) ومعماريته وأمانه.

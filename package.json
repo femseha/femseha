@@ -14,7 +14,8 @@
     "seo:ssr": "node scripts/ssr-verify.mjs",
     "seo:audit": "node scripts/audit-indexing.mjs",
     "verify:ssr": "node scripts/ssr-verify.mjs",
-    "audit:indexing": "node scripts/audit-indexing.mjs"
+    "audit:indexing": "node scripts/audit-indexing.mjs",
+    "admin:selftest": "node scripts/admin-publish.mjs --self-test"
   },
   "dependencies": {
     "clsx": "2.1.1",
