@@ -141,10 +141,12 @@ function ContentBlocks({ content }: { content: string }) {
   return <>{blocks}</>;
 }
 
-/* صورة المقالات العامة (هيرو الرئيسية) — لا تُعرض أبداً كصورة افتراضية لمقال */
+/* صورة المقالات العامة (هيرو الرئيسية) — لا تُعرض أبداً كصورة افتراضية لمقال.
+   تلتقط أيضاً الملفات الواردة من أرشيف البيانات مثل banner.jpg.png */
 function isHomepageBanner(url: string): boolean {
-  return /banner\.(jpg|jpeg|png|webp)$/i.test(url.split('?')[0]) ||
-    /dr-haitham-hero\.(jpg|jpeg|png|webp)$/i.test(url.split('?')[0]);
+  const clean = url.split('?')[0];
+  const base = clean.split('/').pop() || clean;
+  return /^banner\./i.test(base) || /^dr-haitham-hero\./i.test(base);
 }
 
 export default function ArticleView() {
