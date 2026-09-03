@@ -49,7 +49,7 @@ export function App() {
       </div>
 
       {/* الهيدر مع اللوجو */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+      <header className="bg-[#0a1f3d] border-b border-slate-700 sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-24">
 
@@ -68,9 +68,9 @@ export function App() {
               </picture>
               <div className="flex flex-col">
                 <span className="text-3xl sm:text-4xl font-black tracking-tight leading-none">
-                  <span className="text-rose-600">Fem</span><span className="text-slate-900">seha</span>
+                  <span className="text-rose-400">Fem</span><span className="text-white">seha</span>
                 </span>
-                <span className="text-[11px] text-slate-400 font-bold tracking-wider uppercase mt-1">Medical Hub</span>
+                <span className="text-[11px] text-slate-300 font-bold tracking-wider uppercase mt-1">Medical Hub</span>
               </div>
             </Link>
 
@@ -84,8 +84,8 @@ export function App() {
                     to={link.path}
                     className={`px-4 py-2.5 rounded-xl text-base font-bold transition-all ${
                       isActive
-                        ? 'bg-rose-50 text-rose-600 border border-rose-200'
-                        : 'text-slate-700 hover:text-rose-600 hover:bg-slate-100'
+                        ? 'bg-rose-900/50 text-rose-300 border border-rose-700'
+                        : 'text-slate-200 hover:text-rose-300 hover:bg-slate-800'
                     }`}
                   >
                     {link.name}
@@ -115,7 +115,7 @@ export function App() {
             {/* زر الجوال */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2.5 rounded-xl text-slate-700 hover:bg-slate-100 border border-slate-200"
+              className="md:hidden p-2.5 rounded-xl text-white hover:bg-slate-800 border border-slate-600"
             >
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {mobileMenuOpen ? (
@@ -130,13 +130,13 @@ export function App() {
 
         {/* قائمة الجوال */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-slate-200 px-6 pt-3 pb-6 space-y-3">
+          <div className="md:hidden bg-[#0a1f3d] border-b border-slate-700 px-6 pt-3 pb-6 space-y-3">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 rounded-xl text-base font-bold text-slate-800 hover:bg-rose-50 hover:text-rose-600 border border-slate-100"
+                className="block px-4 py-3 rounded-xl text-base font-bold text-white hover:bg-rose-900/30 hover:text-rose-300 border border-slate-700"
               >
                 {link.name}
               </Link>
