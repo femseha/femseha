@@ -10,6 +10,7 @@
  * لا تعتمد هذه الوحدة على أي API خاص بـ Node (تعمل في المتصفح وفي SSR).
  */
 import countriesData from "../data/countries.json";
+import cannibalizationExceptions from "../data/cannibalization-exceptions.json";
 import type { ArticleRecord } from "../data/types";
 
 /* ── الدول/الأسواق (src/data/countries.json — المصدر الوحيد) ───────────── */
@@ -129,11 +130,41 @@ export function keywordCoverage(existingKeyword: string, newText: string): numbe
  * يعيد المقال المنشور الذي يتنافس مع الموضوع الجديد، أو null إن لا يوجد تنافس.
  * excludeSlug: لاستبعاد المقال نفسه في وضع التعديل.
  */
+export interface CannibalizationException {
+  title?: string;
+  primaryKeyword?: string;
+  reason?: string;
+}
+
+/**
+ * استثناءات فحص التنافس فقط — مرآة loadCannibalizationExceptions في
+ * scripts/generate-article.mjs (نفس الملف ونفس منطق المطابقة بعد التطبيع).
+ * لا تعطّل أي فحص آخر (سلامة طبية، جودة، روابط، تكرار وصف…).
+ */
+export const CANNIBALIZATION_EXCEPTIONS: CannibalizationException[] =
+  ((cannibalizationExceptions as { exceptions?: CannibalizationException[] }).exceptions || []).filter(
+    (e) => e && (e.title || e.primaryKeyword)
+  );
+
+export function isCannibalizationExempt(topic: { title: string; primaryKeyword: string }): boolean {
+  const key = normalizeArabic(topic.primaryKeyword || "");
+  const title = normalizeArabic(topic.title || "");
+  return CANNIBALIZATION_EXCEPTIONS.some((e) => {
+    const ek = normalizeArabic(e.primaryKeyword || "");
+    const et = normalizeArabic(e.title || "");
+    const keyOk = ek ? ek === key : true;
+    const titleOk = et ? et === title : true;
+    return keyOk && titleOk && Boolean(ek || et);
+  });
+}
+
 export function findCannibalization(
   topic: { title: string; primaryKeyword: string },
   articles: ArticleRecord[],
   excludeSlug?: string | null
 ): ArticleRecord | null {
+  // استثناء تحريري صريح لهذا الموضوع تحديداً — تخطي فحص التنافس وحده.
+  if (isCannibalizationExempt(topic)) return null;
   const topicKey = normalizeArabic(topic.primaryKeyword || "");
   const topicText = `${topic.primaryKeyword || ""} ${topic.title || ""}`;
   for (const a of articles) {

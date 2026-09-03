@@ -600,6 +600,37 @@ async function selfTest() {
     content: filler,
   });
 
+  // 2ب) الموضوع المستثنى صراحةً من فحص التنافس → يجب أن يمر إلى النشر
+  //     (باقي فحوصات السلامة/الجودة تبقى مطبقة عليه بالكامل)
+  writeReq("req-0004-manual-exempt", {
+    id: "req-0004-manual-exempt",
+    mode: "manual",
+    title: "أدوية إجهاض الحمل في السعودية",
+    primaryKeyword: "أدوية إجهاض الحمل في السعودية",
+    secondaryKeywords: [],
+    country: "sa",
+    category: "clinical-guides",
+    image: null,
+    slug: "abortion-medications-saudi-arabia",
+    summary:
+      "دليل تثقيفي مسؤول عن أدوية إجهاض الحمل في السعودية: الإطار التنظيمي، المخاطر الطبية الموثقة، علامات الخطر التي تستوجب طوارئ فورية، ومتى يلزم تقييم طبي مباشر.",
+    content: filler,
+  });
+
+  // 2ج) موضوع متنافس غير مستثنى → يجب أن يظل مرفوضاً (لم يُعطَّل الفحص عموماً)
+  writeReq("req-0005-manual-cannibal-2", {
+    id: "req-0005-manual-cannibal-2",
+    mode: "manual",
+    title: "مقال تجريبي ثانٍ يستهدف كلمة مفتاحية منشورة أخرى داخل المنصة للاختبار",
+    primaryKeyword: realArticles[1].primaryKeyword,
+    country: null,
+    category: realArticles[1].category,
+    slug: "self-test-cannibal-slug-2",
+    summary:
+      "ملخص تجريبي ثانٍ مختلف تماماً عن أوصاف المقالات المنشورة، الغرض منه التحقق من أن فحص تنافس الكلمات المفتاحية ما زال فعالاً لكل المواضيع غير المستثناة صراحةً.",
+    content: filler,
+  });
+
   // 3) طلب AI (يُحاكى بمولد تجريبي) → يجب أن يُنشر
   writeReq("req-0003-ai-ok", {
     id: "req-0003-ai-ok",
@@ -622,7 +653,22 @@ async function selfTest() {
   // إثبات أن مسار AI مربوط بموديل Gemini الحالي وليس الموديل المتوقف.
   const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
   const assertions = [
-    ["نُشر طلبان (يدوي + AI)", summary.published === 2 && summary.failed === 1 && summary.processed === 3],
+    ["نُشرت الطلبات الصالحة ورُفض المتنافسان", summary.published === 3 && summary.failed === 2 && summary.processed === 5],
+    [
+      "المقال المستثنى من فحص التنافس وصل للنشر فعلياً",
+      nextArticles.some(
+        (a) => a.slug === "abortion-medications-saudi-arabia" && a.primaryKeyword === "أدوية إجهاض الحمل في السعودية"
+      ),
+    ],
+    [
+      "فحص التنافس ما زال يرفض المواضيع غير المستثناة",
+      (() => {
+        const f = path.join(requestsDir, "req-0005-manual-cannibal-2.json");
+        if (!fs.existsSync(f)) return false;
+        const marked = JSON.parse(fs.readFileSync(f, "utf8"));
+        return marked.status === "failed" && /تنافس/.test(marked.error || "");
+      })(),
+    ],
     ["المقال اليدوي موجود في articles.json", nextArticles.some((a) => a.slug === "self-test-manual-csection-recovery")],
     ["مقال AI موجود في articles.json مع دولته", nextArticles.some((a) => a.country === "om")],
     ["حقل الدولة محفوظ في المقال اليدوي", nextArticles.find((a) => a.slug === "self-test-manual-csection-recovery")?.country === "sa"],
