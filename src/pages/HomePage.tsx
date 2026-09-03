@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { articles } from '../data/articles';
-import { DOCTOR, WHATSAPP_LINK } from '../data/site';
+import { WHATSAPP_LINK } from '../data/site';
 import { useSeo, websiteJsonLd, organizationJsonLd, doctorJsonLd } from '../lib/seo';
 import {
   ShieldCheckIcon,
@@ -347,7 +347,7 @@ export default function HomePage() {
               <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between text-xs">
                 <span className="flex items-center gap-1 text-slate-400 text-[11px]">
                   <UserIcon className="w-3.5 h-3.5 text-sky-400" />
-                  {DOCTOR.name}
+                  دكتور هيثم الخطيب
                 </span>
                 <Link
                   to={`/articles/${article.slug}`}
