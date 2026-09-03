@@ -12,7 +12,9 @@
     "typecheck": "tsc --noEmit",
     "seo:validate": "node scripts/seo-validate.mjs",
     "seo:ssr": "node scripts/ssr-verify.mjs",
-    "seo:audit": "node scripts/audit-indexing.mjs"
+    "seo:audit": "node scripts/audit-indexing.mjs",
+    "verify:ssr": "node scripts/ssr-verify.mjs",
+    "audit:indexing": "node scripts/audit-indexing.mjs"
   },
   "dependencies": {
     "clsx": "2.1.1",

@@ -22,6 +22,26 @@ export default function ConsultationPage() {
   return (
     <div className="bg-slate-950 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
       <div className="max-w-3xl mx-auto">
+        {/* بانر استشارة واتساب الأصلي — Header → Banner → Title → Content */}
+        <div className="flex justify-center mb-6">
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
+            className="block w-full max-w-[500px]"
+          >
+            <img
+              src="/images/whatsapp-consultation.png"
+              alt="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
+              width={1024}
+              height={683}
+              loading="lazy"
+              className="w-full h-auto rounded-2xl shadow-xl"
+            />
+          </a>
+        </div>
+
         <nav aria-label="مسار التنقل" className="text-xs text-slate-400 mb-6">
           <Link to="/" className="hover:text-sky-400">الرئيسية</Link>
           <span className="mx-2">‹</span>
