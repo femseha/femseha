@@ -87,3 +87,19 @@ npm run seo:validate && npm run verify:ssr && npm run audit:indexing
 | `scripts/admin-publish.mjs` | خط النشر المباشر (AI + يدوي + تعديل) — يستورد قواعد الخط الآلي نفسها |
 | `scripts/generate-article.mjs` | +exports وإعادة استخدام، واكتشاف طلبات اللوحة قبل الطابور (السلوك المجدول دون تغيير) |
 | `src/data/types.ts` | +حقلين اختياريين في `ArticleRecord`: `country` و`secondaryKeywords` |
+
+## استثناءات فحص تنافس الكلمات المفتاحية (Cannibalization) فقط
+
+ملف `src/data/cannibalization-exceptions.json` هو المصدر الوحيد لقائمة المواضيع
+المسموح لها بتجاوز **فحص التنافس وحده** بقرار تحريري صريح من المشرف.
+
+- المطابقة على `title` و/أو `primaryKeyword` بعد التطبيع العربي (`normalizeArabic`).
+- يُستخدم في الخادم عبر `findCannibalization` في `scripts/generate-article.mjs`
+  (ومن ثم `scripts/admin-publish.mjs`)، وفي المتصفح عبر مرآته في
+  `src/lib/article-rules.ts` — فلا يختلف سلوك اللوحة عن سلوك خط النشر.
+- **ما لا يتأثر إطلاقاً:** قواعد السلامة الطبية (`SAFETY_RULES`)، حارس YMYL
+  التجاري، فحوصات الجودة (عدد الكلمات/العنوان/الوصف/تفرّد الـ slug/الروابط
+  الداخلية/تكرار الوصف والعنوان)، JSON validation، أخطاء Gemini API، وأخطاء
+  النشر الحقيقية — كلها تبقى فعّالة وتمنع النشر عند فشلها.
+- التغطية الاختبارية: `npm run admin:selftest` يتحقق من أن الموضوع المستثنى يصل
+  للنشر فعلياً، وأن موضوعاً متنافساً غير مستثنى ما زال يُرفض.

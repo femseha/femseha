@@ -194,7 +194,50 @@ export function runSafetyChecks(content) {
  * نفسه دون أي اختلاف في العتبات أو القواعد.
  * يُرجع المقال المنشور المتنافس، أو null عند عدم وجود تنافس.
  */
+export const CANNIBALIZATION_EXCEPTIONS_PATH = path.join(
+  ROOT,
+  "src",
+  "data",
+  "cannibalization-exceptions.json"
+);
+
+/**
+ * استثناءات فحص التنافس فقط (قرار تحريري صريح في
+ * src/data/cannibalization-exceptions.json). لا تمسّ أي فحص آخر:
+ * السلامة الطبية والجودة و JSON validation وأخطاء Gemini/النشر تبقى كما هي.
+ */
+export function loadCannibalizationExceptions() {
+  try {
+    const raw = fs.readFileSync(CANNIBALIZATION_EXCEPTIONS_PATH, "utf8");
+    const data = JSON.parse(raw);
+    const list = Array.isArray(data.exceptions) ? data.exceptions : [];
+    return list.filter((e) => e && (e.title || e.primaryKeyword));
+  } catch {
+    return [];
+  }
+}
+
+/** هل هذا الموضوع مستثنى صراحةً من فحص التنافس؟ */
+export function isCannibalizationExempt(topic, exceptions = loadCannibalizationExceptions()) {
+  const key = normalizeArabic(topic.primaryKeyword || "");
+  const title = normalizeArabic(topic.title || "");
+  return exceptions.some((e) => {
+    const ek = normalizeArabic(e.primaryKeyword || "");
+    const et = normalizeArabic(e.title || "");
+    const keyOk = ek ? ek === key : true;
+    const titleOk = et ? et === title : true;
+    return keyOk && titleOk && (ek || et);
+  });
+}
+
 export function findCannibalization(topic, articles) {
+  // استثناء تحريري صريح لهذا الموضوع تحديداً — تخطي فحص التنافس وحده.
+  if (isCannibalizationExempt(topic)) {
+    log(
+      `  ℹ تخطي فحص تنافس الكلمات المفتاحية باستثناء تحريري صريح للموضوع «${topic.title || topic.primaryKeyword}» (باقي الفحوصات سارية).`
+    );
+    return null;
+  }
   const topicKey = normalizeArabic(topic.primaryKeyword || "");
   const topicText = `${topic.primaryKeyword || ""} ${topic.title || ""}`;
 
