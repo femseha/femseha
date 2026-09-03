@@ -6,7 +6,7 @@
  * المعمارية (محفوظة من النظام السابق مع إصلاح الأعطال):
  *   1. اختيار الموضوع التالي من خطة المحتوى src/data/content-map.json
  *   2. سقف يومي للنشر (3 مقالات) مهما تكرر تشغيل الجدولة
- *   3. توليد المقال عبر Gemini (gemini-2.5-flash)
+ *   3. توليد المقال عبر Gemini (gemini-3.6-flash)
  *   4. فحوصات الجودة والسلامة الإلزامية (لا نشر عند فشل أي فحص)
  *   5. إضافة إخلاء المسؤولية الدائم + دعوة الاستشارة + الروابط الداخلية
  *   6. حفظ المقال في src/data/articles.json وتحديث public/sitemap.xml
@@ -47,7 +47,7 @@ export const MAP_PATH = path.join(ROOT, "src", "data", "content-map.json");
 export const ARTICLES_PATH = path.join(ROOT, "src", "data", "articles.json");
 export const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
 export const SITE_URL = "https://femseha.com";
-export const MODEL = "gemini-2.5-flash";
+export const MODEL = "gemini-3.6-flash";
 export const DOCTOR_NAME = "د. هيثم الخطيب";
 export const MIN_WORDS = 1400;          // الحد الأدنى المقبول للنشر
 export const TARGET_WORDS_DEFAULT = 2000;
@@ -487,6 +487,14 @@ async function main() {
 
   log("═══ خط النشر الآلي — منصة فصيحة ═══");
   log(`التاريخ: ${today()}  |  النموذج: ${MODEL}${selfTest ? "  |  وضع الاختبار الذاتي" : ""}\n`);
+
+  // تحقق صريح من معرّف الموديل — يمنع الرجوع إلى gemini-2.5-flash المتوقف.
+  if (MODEL !== "gemini-3.6-flash") {
+    fail(`موديل Gemini غير متوقع: «${MODEL}» — المتوقع gemini-3.6-flash`);
+  }
+  if (selfTest) {
+    log("✔ تحقق الموديل: gemini-3.6-flash (لا gemini-2.5-flash)");
+  }
 
   if (!fs.existsSync(MAP_PATH)) fail(`ملف خطة المحتوى غير موجود: ${MAP_PATH}`);
   if (!fs.existsSync(ARTICLES_PATH)) fail(`ملف المقالات غير موجود: ${ARTICLES_PATH}`);
