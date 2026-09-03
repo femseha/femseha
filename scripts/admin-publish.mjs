@@ -43,6 +43,7 @@ import {
   ARTICLES_PATH,
   SITEMAP_PATH,
   SITE_URL,
+  MODEL,
   MIN_WORDS,
   TARGET_WORDS_DEFAULT,
   ADMIN_REQUESTS_DIR,
@@ -618,6 +619,8 @@ async function selfTest() {
   // التحقق من النتائج
   const nextArticles = JSON.parse(fs.readFileSync(articlesPath, "utf8"));
   const sitemap = fs.readFileSync(sitemapPath, "utf8");
+  // إثبات أن مسار AI مربوط بموديل Gemini الحالي وليس الموديل المتوقف.
+  const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
   const assertions = [
     ["نُشر طلبان (يدوي + AI)", summary.published === 2 && summary.failed === 1 && summary.processed === 3],
     ["المقال اليدوي موجود في articles.json", nextArticles.some((a) => a.slug === "self-test-manual-csection-recovery")],
@@ -634,6 +637,9 @@ async function selfTest() {
     ["sitemap يتضمن المقالين الجديدين", sitemap.includes("/articles/self-test-manual-csection-recovery")],
     ["slugs فريدة وصالحة", new Set(nextArticles.map((a) => a.slug)).size === nextArticles.length && nextArticles.every((a) => /^[a-z0-9-]+$/.test(a.slug))],
     ["لا مساس بالملفات الحقيقية", JSON.parse(fs.readFileSync(ARTICLES_PATH, "utf8")).length === realArticles.length],
+    ["موديل Gemini للمسار AI هو gemini-3.6-flash", MODEL === "gemini-3.6-flash"],
+    ["مسار AI لا يستخدم gemini-2.5-flash", MODEL !== "gemini-2.5-flash" && !/gemini-2\.5-flash/.test(modelUrl)],
+    ["URL التوليد يضم models/gemini-3.6-flash", /\/models\/gemini-3\.6-flash:generateContent$/.test(modelUrl)],
   ];
 
   let failures = 0;
