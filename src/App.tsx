@@ -1,5 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, Link, NavLink, useLocation } from 'react-router-dom';
+import { DOCTOR, WHATSAPP_LINK } from './data/site';
+import {
+  HeartIcon,
+  MenuIcon,
+  XIcon,
+  ChevronDownIcon,
+  ShieldCheckIcon,
+  ShieldAlertIcon,
+  PhoneIcon,
+  MapPinIcon,
+  MessageCircleIcon,
+} from './components/Icons';
 import HomePage from './pages/HomePage';
 import ArticlesPage from './pages/ArticlesPage';
 import ArticleView from './pages/ArticleView';
@@ -18,143 +30,238 @@ function ScrollToTop() {
   return null;
 }
 
+/* ── روابط أقسام التوعية (نقل بصري فقط: لا مسارات جديدة، تُوجَّه لأحدث المقالات المعنية) ── */
+const TOPIC_LINKS = [
+  { name: 'صحة المرأة', href: '/articles/pcos-symptoms-fertility-treatment' },
+  { name: 'الصحة الإنجابية', href: '/articles/healthy-lifestyle-and-balanced-nutrition-guide' },
+  { name: 'الحمل والولادة', href: '/articles/subchorionic-hematoma-pregnancy-guide' },
+  { name: 'أعراض الحمل', href: '/articles/delayed-period-causes-besides-pregnancy' },
+  { name: 'تأخر وانقطاع الدورة', href: '/articles/delayed-period-causes-besides-pregnancy' },
+  { name: 'سايتوتك في السعودية', href: '/articles/cytotec-misoprostol-saudi-riyadh-guide' },
+  { name: 'ميسوبروستول', href: '/articles/cytotec-gulf-kuwait-bahrain-uae-protocols' },
+  { name: 'سلامة الإجهاض الدوائي', href: '/articles/cytotec-misoprostol-saudi-riyadh-guide' },
+  { name: 'الحمل خارج الرحم', href: '/articles/subchorionic-hematoma-pregnancy-guide' },
+  { name: 'دليل السلامة والطوارئ', href: '/articles/cytotec-misoprostol-saudi-riyadh-guide' },
+  { name: 'الأسئلة الشائعة', href: '/articles' },
+];
+
+const FOOTER_MAIN_LINKS = [
+  { label: 'الرئيسية', href: '/', accent: false },
+  { label: 'من نحن', href: '/doctor', accent: false },
+  { label: 'عن دكتور هيثم الخطيب', href: '/doctor', accent: false },
+  { label: 'الاستشارات الطبية', href: '/consultation', accent: true },
+  { label: 'صحة المرأة', href: '/articles/pcos-symptoms-fertility-treatment', accent: false },
+  { label: 'الصحة الإنجابية', href: '/articles/healthy-lifestyle-and-balanced-nutrition-guide', accent: false },
+  { label: 'الحمل والولادة', href: '/articles/subchorionic-hematoma-pregnancy-guide', accent: false },
+  { label: 'أعراض الحمل', href: '/articles/delayed-period-causes-besides-pregnancy', accent: false },
+  { label: 'تأخر وانقطاع الدورة', href: '/articles/delayed-period-causes-besides-pregnancy', accent: false },
+  { label: 'الموسوعة الطبية', href: '/articles', accent: false },
+];
+
+const FOOTER_TOPIC_LINKS = [
+  { label: 'سايتوتك في السعودية', href: '/articles/cytotec-misoprostol-saudi-riyadh-guide' },
+  { label: 'ميسوبروستول', href: '/articles/cytotec-gulf-kuwait-bahrain-uae-protocols' },
+  { label: 'سلامة الإجهاض الدوائي', href: '/articles/cytotec-misoprostol-saudi-riyadh-guide' },
+  { label: 'الحمل خارج الرحم', href: '/articles/subchorionic-hematoma-pregnancy-guide' },
+  { label: 'دليل السلامة والطوارئ', href: '/articles/cytotec-misoprostol-saudi-riyadh-guide' },
+  { label: 'الأسئلة الشائعة', href: '/articles' },
+  { label: 'اتصل بنا', href: '/consultation' },
+  { label: 'إخلاء المسؤولية الطبية', href: '/medical-disclaimer' },
+  { label: 'سياسة الخصوصية', href: '/medical-disclaimer' },
+  { label: 'شروط الاستخدام', href: '/medical-disclaimer' },
+];
+
+const CITIES = [
+  'الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام', 'الخبر',
+  'القطيف', 'صفوى', 'الأحساء', 'الهفوف', 'القصيم', 'بريدة', 'تبوك', 'أبها', 'جازان',
+];
+
+/** صورة استشارة واتساب الأصلية — تظهر تلقائياً فور إضافة الملف الثنائي */
+const WHATSAPP_CONSULT_IMAGE = '/images/whatsapp-consultation.jpg';
+
 export function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [topicsOpen, setTopicsOpen] = useState(false);
   const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
 
-  const navLinks = [
-    { name: 'الرئيسية', path: '/' },
-    { name: 'الأدلة والمقالات الطبية', path: '/articles' },
-    { name: 'من نحن (د. هيثم الخطيب)', path: '/doctor' },
-    { name: 'الاستشارة الطبية', path: '/consultation' },
-  ];
+  const closeMenus = () => {
+    setMobileMenuOpen(false);
+    setTopicsOpen(false);
+  };
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 text-slate-800 font-sans" dir="rtl">
+    <div
+      className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased flex flex-col justify-between selection:bg-sky-500 selection:text-white"
+      dir="rtl"
+    >
       <ScrollToTop />
 
-      {/* الشريط الإعلاني العلوي */}
-      <div className="bg-rose-800 text-white text-sm py-2.5 px-4 shadow-sm">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <span className="font-bold flex items-center gap-2">
-            <span className="bg-rose-700 px-2 py-0.5 rounded text-xs">بإشراف طبي</span>
-            منصة Femseha | إشراف د. هيثم الخطيب - اختصاصي جراحة النساء والتوليد والعقم
-          </span>
-          <div className="hidden sm:flex items-center gap-6 font-bold">
-            <a href="tel:00966599287172" className="hover:text-rose-200">📞 00966599287172</a>
-            <span>|</span>
-            <a href="https://wa.me/966599287172" target="_blank" rel="noopener noreferrer" className="hover:text-rose-200">💬 واتساب مباشر</a>
+      {/* ── الهيدر الرئيسي (مطابق للإنتاج القديم: أزرق داكن + شريط علوي) ── */}
+      <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md">
+        <div className="bg-gradient-to-r from-sky-900 via-teal-900 to-slate-900 text-slate-200 text-xs py-1.5 px-4 text-center border-b border-sky-800/40">
+          <div className="max-w-7xl mx-auto flex items-center justify-between font-medium">
+            <div className="flex items-center gap-2">
+              <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>FemSeha — استشارات وتثقيف صحي بالمملكة العربية السعودية</span>
+            </div>
+            <div className="hidden md:flex items-center gap-4 text-sky-200">
+              <span className="flex items-center gap-1">
+                <ShieldCheckIcon className="w-3.5 h-3.5 text-sky-400" />
+                تثقيف واستشارات طبية متخصصة
+              </span>
+              <a
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber-300 font-bold hover:underline ltr"
+              >
+                {DOCTOR.phoneDisplay}
+              </a>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* الهيدر مع اللوجو */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-24">
-
-            {/* اللوجو الرسمي بالصورة */}
-            <Link to="/" className="flex items-center gap-3 group">
-              <picture>
-                <source srcSet="/logo.webp" type="image/webp" />
-                <img
-                  src="/logo.png.png"
-                  alt="شعار FemSeha | فيم صحة"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/logo.png';
-                  }}
-                  className="w-14 h-14 object-contain group-hover:scale-105 transition-transform"
-                />
-              </picture>
-              <div className="flex flex-col">
-                <span className="text-3xl sm:text-4xl font-black tracking-tight leading-none">
-                  <span className="text-rose-600">Fem</span><span className="text-slate-900">seha</span>
+          <div className="flex items-center justify-between h-20">
+            {/* الشعار */}
+            <Link to="/" className="flex items-center gap-3 group" aria-label="FemSeha — الرئيسية">
+              <img
+                src="/logo.png"
+                alt="FemSeha - FemSeha"
+                width={48}
+                height={48}
+                className="w-12 h-12 rounded-xl shadow-lg group-hover:scale-105 transition-transform"
+              />
+              <div>
+                <span className="block text-2xl font-black tracking-tight text-white group-hover:text-sky-300 transition-colors">
+                  FemSeha
                 </span>
-                <span className="text-[11px] text-slate-400 font-bold tracking-wider uppercase mt-1">Medical Hub</span>
+                <span className="block text-xs text-sky-300 font-semibold tracking-wide">FemSeha</span>
               </div>
             </Link>
 
-            {/* روابط التنقل */}
-            <nav className="hidden md:flex items-center gap-3">
-              {navLinks.map((link) => {
-                const isActive = location.pathname === link.path;
-                return (
-                  <NavLink
-                    key={link.path}
-                    to={link.path}
-                    className={`px-4 py-2.5 rounded-xl text-base font-bold transition-all ${
-                      isActive
-                        ? 'bg-rose-50 text-rose-600 border border-rose-200'
-                        : 'text-slate-700 hover:text-rose-600 hover:bg-slate-100'
-                    }`}
+            {/* التنقل */}
+            <nav className="hidden lg:flex items-center gap-6 font-medium text-sm">
+              <NavLink to="/" className="text-slate-200 hover:text-sky-400 transition-colors">
+                الرئيسية
+              </NavLink>
+              <NavLink to="/doctor" className="text-slate-200 hover:text-sky-400 transition-colors">
+                عن دكتور هيثم الخطيب
+              </NavLink>
+              <NavLink to="/consultation" className="text-slate-200 hover:text-sky-400 transition-colors">
+                الاستشارات الطبية
+              </NavLink>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setTopicsOpen((v) => !v)}
+                  onMouseEnter={() => setTopicsOpen(true)}
+                  className="flex items-center gap-1.5 text-slate-200 hover:text-sky-400 transition-colors py-2"
+                >
+                  <span>أقسام التوعية</span>
+                  <ChevronDownIcon className="w-4 h-4 text-sky-400" />
+                </button>
+                {topicsOpen && (
+                  <div
+                    onMouseLeave={() => setTopicsOpen(false)}
+                    className="absolute top-full right-0 w-72 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl py-3 px-2 grid grid-cols-1 gap-1 z-50 animate-in fade-in duration-200"
                   >
-                    {link.name}
-                  </NavLink>
-                );
-              })}
+                    {TOPIC_LINKS.map((item) => (
+                      <Link
+                        key={item.href + item.name}
+                        to={item.href}
+                        onClick={closeMenus}
+                        className="px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-sky-950 hover:text-sky-300 rounded-lg transition-colors flex items-center justify-between"
+                      >
+                        <span>{item.name}</span>
+                        <span className="text-slate-600 text-[10px]">←</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <NavLink to="/articles" className="text-slate-200 hover:text-sky-400 transition-colors">
+                الموسوعة الطبية
+              </NavLink>
+              <NavLink to="/doctor" className="text-slate-200 hover:text-sky-400 transition-colors">
+                من نحن
+              </NavLink>
+              <NavLink to="/consultation" className="text-slate-200 hover:text-sky-400 transition-colors">
+                اتصل بنا
+              </NavLink>
             </nav>
 
-            {/* أزرار الاتصال */}
+            {/* زر التواصل البرتقالي */}
             <div className="hidden sm:flex items-center gap-3">
               <a
-                href="https://wa.me/966599287172"
+                href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm shadow-sm transition"
+                className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2 text-sm"
               >
-                💬 استشارة واتساب
-              </a>
-              <a
-                href="tel:00966599287172"
-                className="px-5 py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-sm shadow-sm transition"
-              >
-                📞 حجز موعد
+                <HeartIcon className="w-4 h-4 fill-slate-950 text-slate-950" />
+                <span>تواصل مع دكتور هيثم الخطيب</span>
               </a>
             </div>
 
             {/* زر الجوال */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2.5 rounded-xl text-slate-700 hover:bg-slate-100 border border-slate-200"
-            >
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {mobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
+            <div className="lg:hidden flex items-center">
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen((v) => !v)}
+                className="p-2 text-slate-300 hover:text-white focus:outline-none"
+                aria-label="القائمة"
+                aria-expanded={mobileMenuOpen}
+              >
+                {mobileMenuOpen ? <XIcon /> : <MenuIcon />}
+              </button>
+            </div>
           </div>
         </div>
 
         {/* قائمة الجوال */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-slate-200 px-6 pt-3 pb-6 space-y-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 rounded-xl text-base font-bold text-slate-800 hover:bg-rose-50 hover:text-rose-600 border border-slate-100"
-              >
-                {link.name}
+          <div className="lg:hidden bg-slate-950 border-b border-slate-800 px-4 pt-3 pb-6 space-y-3">
+            <Link to="/" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">
+              الرئيسية
+            </Link>
+            <Link to="/doctor" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">
+              عن دكتور هيثم الخطيب
+            </Link>
+            <Link to="/consultation" onClick={closeMenus} className="block py-2 text-amber-400 font-bold text-base">
+              الاستشارات الطبية
+            </Link>
+            <Link to="/articles" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">
+              الموسوعة الطبية
+            </Link>
+            <div className="pt-2 pb-1 border-t border-slate-800">
+              <p className="text-xs font-bold text-sky-400 mb-2">أقسام التوعية والصحة:</p>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                {TOPIC_LINKS.map((item) => (
+                  <Link
+                    key={item.href + item.name}
+                    to={item.href}
+                    onClick={closeMenus}
+                    className="p-2 bg-slate-900 rounded text-slate-300 hover:text-sky-300"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <div className="pt-2 border-t border-slate-800 flex flex-col gap-2">
+              <Link to="/consultation" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-sm">
+                اتصل بنا
               </Link>
-            ))}
-            <div className="pt-2 flex gap-2">
               <a
-                href="https://wa.me/966599287172"
+                href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 text-center py-3 bg-emerald-600 text-white rounded-xl font-bold text-sm"
+                className="w-full bg-amber-500 text-slate-950 font-bold py-3 rounded-xl text-center shadow flex items-center justify-center gap-2"
               >
-                واتساب
-              </a>
-              <a
-                href="tel:00966599287172"
-                className="flex-1 text-center py-3 bg-rose-600 text-white rounded-xl font-bold text-sm"
-              >
-                اتصال
+                <PhoneIcon className="w-4 h-4" />
+                <span>تواصل عبر واتساب</span>
               </a>
             </div>
           </div>
@@ -175,64 +282,173 @@ export function App() {
         </Routes>
       </main>
 
-      {/* الفوتر */}
-      <footer className="bg-slate-900 text-slate-300 py-14 px-4 sm:px-6 lg:px-8 mt-20 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
-          <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <picture>
-                <source srcSet="/logo.webp" type="image/webp" />
-                <img
-                  src="/logo.png.png"
-                  alt="شعار FemSeha | فيم صحة"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/logo.png';
-                  }}
-                  className="w-12 h-12 object-contain"
-                />
-              </picture>
-              <span className="text-3xl font-black text-rose-500 tracking-tight">
-                Fem<span className="text-white">seha</span>
-              </span>
-            </div>
-            <p className="text-base text-slate-400 leading-loose max-w-md">
-              مرجع طبي تثقيفي لصحة المرأة، متابعة الحمل الحرج، وعلاج العقم وتأخر الإنجاب وفق البروتوكولات الطبية الدولية.
-            </p>
-            <p className="text-sm text-rose-300 font-bold">
-              👨‍⚕️ الإشراف الطبي العام: د. هيثم الخطيب (00966599287172)
-            </p>
-          </div>
-
-          <div>
-            <h4 className="text-white font-bold mb-4 text-base">أقسام المنصة</h4>
-            <ul className="space-y-3 text-sm font-medium">
-              <li><Link to="/" className="hover:text-rose-400 transition">الصفحة الرئيسية</Link></li>
-              <li><Link to="/articles" className="hover:text-rose-400 transition">الأدلة والمقالات الطبية</Link></li>
-              <li><Link to="/doctor" className="hover:text-rose-400 transition">من نحن (د. هيثم الخطيب)</Link></li>
-              <li><Link to="/consultation" className="hover:text-rose-400 transition">الاستشارة الطبية</Link></li>
-              <li><Link to="/medical-disclaimer" className="hover:text-rose-400 transition">إخلاء المسؤولية الطبية</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-white font-bold mb-4 text-base">التواصل السريري</h4>
-            <p className="text-sm text-slate-400 mb-2">هاتف العيادة: 00966599287172</p>
-            <a
-              href="https://wa.me/966599287172"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mt-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold transition"
-            >
-              استشارة واتساب فورية
-            </a>
-          </div>
+      {/* بانر استشارة واتساب (كما في النسخة القديمة — فوق الفوتر في كل الصفحات) */}
+      {!isAdmin && (
+        <div className="flex justify-center my-10">
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
+            className="block w-full max-w-[500px]"
+          >
+            <img
+              src={WHATSAPP_CONSULT_IMAGE}
+              alt="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
+              width={1376}
+              height={768}
+              loading="lazy"
+              className="w-full h-auto rounded-2xl shadow-xl"
+              onError={(e) => {
+                // الأصول الثنائية الأصلية غير متاحة بعد — لا صورة مكسورة
+                const el = e.currentTarget.closest('a');
+                if (el) el.parentElement?.remove();
+              }}
+            />
+          </a>
         </div>
+      )}
 
-        <div className="max-w-7xl mx-auto mt-10 pt-6 border-t border-slate-800 text-center text-sm text-slate-500">
-          <p className="mb-1">محتوى تعليمي فقط — لا نبيع الأدوية ولا نقدم جرعات أو خططاً علاجية فردية.</p>
-          جميع الحقوق محفوظة © 2026 Femseha | منصة فصيحة الطبية - إشراف د. هيثم الخطيب.
+      {/* ── الفوتر (مطابق للنسخة القديمة) ── */}
+      <footer className="bg-slate-950 text-slate-300 border-t border-slate-800 pt-16 pb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="my-8 p-6 bg-slate-900 text-slate-100 border-r-4 border-sky-500 rounded-xl shadow-md mb-12">
+            <div className="flex items-center gap-2 mb-2 text-sky-300 font-bold text-base">
+              <ShieldAlertIcon className="w-5 h-5 shrink-0" />
+              <h3>إخلاء مسؤولية طبية</h3>
+            </div>
+            <p className="text-slate-300 text-xs md:text-sm leading-relaxed">
+              إخلاء مسؤولية: المحتوى المنشور في FemSeha مخصص للتثقيف والتوعية الصحية والاستشارات
+              الطبية، ولا يُعد بديلاً عن التشخيص أو التقييم الطبي المباشر. تختلف الحالات الطبية من
+              شخص لآخر، ويُنصح بمراجعة الطبيب المختص عند الحاجة. وفي الحالات الطارئة، يجب طلب
+              الرعاية الطبية العاجلة.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <img
+                  src="/logo.png"
+                  alt="FemSeha - FemSeha"
+                  width={40}
+                  height={40}
+                  className="w-10 h-10 rounded-lg shadow"
+                />
+                <div>
+                  <span className="block text-xl font-bold text-white">FemSeha</span>
+                  <span className="block text-xs text-sky-400 font-semibold">FemSeha</span>
+                </div>
+              </div>
+              <p className="text-xs leading-relaxed text-slate-400 mb-4">
+                منصة **FemSeha** برعاية **دكتور هيثم الخطيب** للتوعية والاستشارات الطبية المتعلقة
+                بصحة المرأة والصحة الإنجابية في المملكة العربية السعودية.
+              </p>
+              <div className="space-y-2 text-xs text-slate-300">
+                <p className="flex items-center gap-2">
+                  <PhoneIcon className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="dir-ltr font-bold text-emerald-400">{DOCTOR.phoneDisplay}</span>
+                </p>
+                <p className="flex items-center gap-2">
+                  <MapPinIcon className="w-4 h-4 text-sky-400 shrink-0" />
+                  <span>المملكة العربية السعودية (السوق الأساسي)</span>
+                </p>
+                <p className="flex items-center gap-2">
+                  <ShieldCheckIcon className="w-4 h-4 text-sky-400 shrink-0" />
+                  <span>تثقيف واستشارات طبية متخصصة</span>
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-white font-bold text-sm mb-4 border-r-2 border-sky-500 pr-2">
+                أقسام الموقع الرئيسية
+              </h4>
+              <ul className="space-y-2 text-xs font-medium">
+                {FOOTER_MAIN_LINKS.map((l) => (
+                  <li key={l.label + l.href}>
+                    <Link
+                      to={l.href}
+                      className={`hover:text-sky-300 transition-colors ${l.accent ? 'text-amber-400' : ''}`}
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-white font-bold text-sm mb-4 border-r-2 border-amber-500 pr-2">
+                مواضيع التوعية والسلامة
+              </h4>
+              <ul className="space-y-2 text-xs font-medium">
+                {FOOTER_TOPIC_LINKS.map((l) => (
+                  <li key={l.label + l.href}>
+                    <Link to={l.href} className="hover:text-amber-300 transition-colors">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-white font-bold text-sm mb-4 border-r-2 border-emerald-500 pr-2">
+                تغطية المملكة العربية السعودية
+              </h4>
+              <p className="text-xs text-slate-400 mb-3 leading-relaxed">
+                تستهدف منصة FemSeha تزويد النساء والمرضى بالاستشارات والمعرفة الصحية التخصصية في
+                مختلف مدن ومناطق المملكة:
+              </p>
+              <div className="flex flex-wrap gap-1.5 text-[11px]">
+                {CITIES.map((c) => (
+                  <span
+                    key={c}
+                    className="bg-slate-900 border border-slate-800 text-slate-300 px-2 py-0.5 rounded"
+                  >
+                    {c}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-900 text-center">
+                <Link to="/consultation" className="text-xs text-sky-400 hover:underline font-semibold">
+                  صفحة الاستشارات والتواصل
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <p>© 2026 منصة فصيحة الطبية | FemSeha (femseha.com) — جميع الحقوق محفوظة.</p>
+            <div className="flex items-center gap-4 text-slate-400">
+              <Link to="/medical-disclaimer" className="hover:underline">إخلاء المسؤولية</Link>
+              <span>•</span>
+              <Link to="/medical-disclaimer" className="hover:underline">سياسة الخصوصية</Link>
+              <span>•</span>
+              <Link to="/medical-disclaimer" className="hover:underline">شروط الاستخدام</Link>
+              <span>•</span>
+              <Link to="/admin" className="hover:underline text-slate-600">لوحة التحكم</Link>
+            </div>
+          </div>
         </div>
       </footer>
+
+      {/* زر واتساب العائم */}
+      <div className="fixed bottom-6 left-6 z-50">
+        <a
+          href={WHATSAPP_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="تواصل عبر واتساب"
+          className="group bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-2 border-2 border-emerald-400/40 animate-pulse hover:animate-none"
+        >
+          <div className="bg-white/20 p-1.5 rounded-full">
+            <MessageCircleIcon className="w-5 h-5 text-white" />
+          </div>
+          <span className="text-sm hidden sm:inline">واتساب</span>
+        </a>
+      </div>
     </div>
   );
 }

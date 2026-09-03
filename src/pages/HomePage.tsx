@@ -1,7 +1,53 @@
-
 import { Link } from 'react-router-dom';
 import { articles } from '../data/articles';
+import { DOCTOR, WHATSAPP_LINK } from '../data/site';
 import { useSeo, websiteJsonLd, organizationJsonLd, doctorJsonLd } from '../lib/seo';
+import {
+  ShieldCheckIcon,
+  ShieldAlertIcon,
+  MessageCircleIcon,
+  BookOpenIcon,
+  CircleCheckIcon,
+  HeartIcon,
+  TriangleAlertIcon,
+  CircleQuestionMarkIcon,
+  ChevronLeftIcon,
+  ClockIcon,
+  UserIcon,
+  ExternalLinkIcon,
+  MapPinIcon,
+  StethoscopeIcon,
+} from '../components/Icons';
+
+const CATEGORY_LINKS = {
+  'سايتوتك في السعودية': '/articles/cytotec-misoprostol-saudi-riyadh-guide',
+  'دليل السلامة والطوارئ': '/articles/nuchal-cord-pregnancy-safety-guide',
+  'صحة المرأة': '/articles/pcos-symptoms-fertility-treatment',
+};
+
+const CITIES = [
+  'الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام', 'الخبر',
+  'القطيف', 'صفوى', 'الأحساء', 'الهفوف', 'القصيم', 'بريدة', 'تبوك', 'أبها', 'جازان',
+];
+
+const FAQS = [
+  {
+    q: 'ما هي الخدمات التي تقدمها منصة FemSeha؟',
+    a: 'FemSeha هي منصة طبية متخصصة في التثقيف الصحي والاستشارات الطبية المتعلقة بصحة المرأة والصحة الإنجابية، تحت إشراف دكتور هيثم الخطيب.',
+  },
+  {
+    q: 'كيف تضمنون سرية الاستشارة الطبية؟',
+    a: 'تُعامل جميع الاستشارات بخصوصية وسرية تامة بين المريضة والطبيب. يمكنك التواصل عبر صفحة الاستشارات.',
+  },
+  {
+    q: 'ما هي الحالات التي تستدعي الرعاية الطبية العاجلة؟',
+    a: 'في حالات النزيف الرحمي الشديد، الألم الحاد بأسفل البطن أو أحد الجانبين، أو ارتفاع الحرارة الشديد، يجب التوجه فوراً لأقرب قسم طوارئ بالمستشفى أو الاتصال بطوارئ وزارة الصحة (937).',
+  },
+  {
+    q: 'كيف أستعد للاستشارة الطبية حول أعراض الحمل أو الدورة؟',
+    a: 'يُفضل تدوين تاريخ آخر دورة شهرية، والأعراض التي تشعرين بها، ونتائج أي فحوصات منزلية أو مخبرية سابقة لمشاركتها مع الدكتور أثناء الاستشارة.',
+  },
+];
 
 export default function HomePage() {
   useSeo({
@@ -12,90 +58,461 @@ export default function HomePage() {
     jsonLd: [websiteJsonLd(), organizationJsonLd(), doctorJsonLd()]
   });
 
-  // السلوك الأصلي للتصميم القديم: أول 3 مقالات من المخزون (يضمن ظهور دليل سايتوتك كأول بطاقة)
-  const featuredArticles = articles.slice(0, 3);
-
-  const stats = [
-    { label: 'لكل استفسار طبي عبر واتساب', val: 'استجابة سريعة' },
-    { label: 'متابعة سريرية بإشراف طبي مختص', val: 'متابعة دقيقة' },
-    { label: 'حفظ كامل لسرية المعلومات', val: 'خصوصية تامة' },
-    { label: 'دعم نفسي وإرشاد طبي موثوق', val: 'إرشاد طبي' },
-  ];
-
-  const services = [
-    { title: 'علاج العقم وتأخر الإنجاب والحقن المجهري', desc: 'بروتوكولات علاجية متطورة لتنشيط التبويض، علاج ضعف مخزون المبيض.', badge: 'خصوبة وإنجاب', icon: '🩺' },
-    { title: 'متلازمة تكيس المبايض والاضطرابات الهرمونية', desc: 'خطة تشخيصية وسريرية شاملة لتنظيم الدورة الشهرية.', badge: 'صحة المرأة', icon: '🌸' },
-    { title: 'متابعة الحمل الحرج والمخاطر العالية', desc: 'رعاية دقيقة لحالات تسمم الحمل، سكري الحمل، والمشيمة المتقدمة.', badge: 'رعاية الحمل', icon: '🤰' }
-  ];
+  // التصميم القديم: شبكة 6 بطاقات مقالات من المخزون الحالي
+  const featuredArticles = articles.slice(0, 6);
 
   return (
-    <div className="space-y-16 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" dir="rtl">
-
-      {/* 1. اللوجو والبانر */}
-      <section className="flex flex-col items-center gap-6">
-        {/* H1 دلالي وحيد للصفحة الرئيسية — مخفي بصرياً (sr-only) حفاظاً على التصميم المعتمد */}
-        <h1 className="sr-only">FemSeha لصحة المرأة والحمل والخصوبة بإشراف د. هيثم الخطيب</h1>
-        <picture>
-          <source srcSet="/logo.webp" type="image/webp" />
-          <img src="/logo.png.png" alt="FemSeha لصحة المرأة بإشراف د. هيثم الخطيب" className="w-24 h-24 object-contain" />
-        </picture>
-        <div className="w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white">
-          <picture>
-            <source srcSet="/banner.webp" type="image/webp" />
-            <img src="/banner.jpg.png" alt="د. هيثم الخطيب - استشارات طب النساء والتوليد وصحة المرأة" className="w-full h-auto block" />
-          </picture>
+    <div className="space-y-16 pb-16">
+      {/* البانر الأساسي: صورة د. هيثم الخطيب كاملة العرض (بدون قص أو تمدد) */}
+      <section className="relative w-full bg-slate-950">
+        <div className="max-w-7xl mx-auto">
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="استشارة طبية نسائية متخصصة - FemSeha"
+          >
+            <img
+              src="/images/dr-haitham-hero.jpg"
+              alt="دكتور هيثم الخطيب - استشارات طبية نسائية متخصصة - FemSeha"
+              width={1408}
+              height={768}
+              className="w-full h-auto object-cover"
+            />
+          </a>
         </div>
       </section>
 
-      {/* 2. مزايا الخدمة (بدون أرقام أو ادعاءات غير موثقة) */}
-      <section className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-        {stats.map((s, i) => (
-          <div key={i} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-            <div className="text-3xl font-black text-rose-900">{s.val}</div>
-            <div className="text-sm text-slate-500 font-bold">{s.label}</div>
+      {/* الهيرو: العنوان والبطاقة التعريفية */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-sky-950 to-slate-950 pt-12 pb-20 border-b border-sky-900/40">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(14,165,233,0.15),transparent_50%)] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7 space-y-6 text-right">
+              <div className="inline-flex items-center gap-2 bg-sky-900/60 border border-sky-700/50 text-sky-300 text-xs font-bold px-3 py-1.5 rounded-full shadow-inner">
+                <ShieldCheckIcon className="w-4 h-4 text-emerald-400" />
+                <span>FemSeha — منصة التثقيف والاستشارات الطبية</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
+                صحة المرأة والصحة الإنجابية في السعودية
+              </h1>
+              <p className="text-lg sm:text-xl text-slate-200 font-normal leading-relaxed">
+                معلومات طبية موثوقة واستشارات متخصصة حول صحة المرأة والصحة الإنجابية.
+              </p>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
+                منصة طبية متخصصة في التثقيف الصحي والاستشارات الطبية المتعلقة بصحة المرأة والصحة
+                الإنجابية مع دكتور هيثم الخطيب.
+              </p>
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                <a
+                  href={WHATSAPP_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-base px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3"
+                >
+                  <MessageCircleIcon className="w-5 h-5 fill-slate-950" />
+                  <span>تواصل مع دكتور هيثم الخطيب</span>
+                </a>
+                <Link
+                  to="/articles"
+                  className="bg-slate-800/80 hover:bg-slate-800 text-slate-100 font-bold text-base px-6 py-4 rounded-xl border border-slate-700 transition-all text-center flex items-center justify-center gap-2"
+                >
+                  <BookOpenIcon className="w-5 h-5 text-sky-400" />
+                  <span>اقرأ المعلومات الطبية</span>
+                </Link>
+              </div>
+              <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-slate-300">
+                <div className="flex items-center gap-2 bg-slate-900/70 p-2.5 rounded-lg border border-slate-800">
+                  <CircleCheckIcon className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>خصوصية وسرية تامة</span>
+                </div>
+                <div className="flex items-center gap-2 bg-slate-900/70 p-2.5 rounded-lg border border-slate-800">
+                  <CircleCheckIcon className="w-4 h-4 text-sky-400 shrink-0" />
+                  <span>إشراف دكتور هيثم الخطيب</span>
+                </div>
+                <div className="flex items-center gap-2 bg-slate-900/70 p-2.5 rounded-lg border border-slate-800 col-span-2 sm:col-span-1">
+                  <CircleCheckIcon className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>تغطية بالمملكة العربية السعودية</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5">
+              <div className="bg-gradient-to-b from-slate-900 to-slate-950 p-6 sm:p-8 rounded-2xl border border-sky-800/50 shadow-2xl space-y-6">
+                <div className="flex items-center gap-4 border-b border-slate-800 pb-5">
+                  <img
+                    src="/logo.png"
+                    alt="FemSeha Logo"
+                    width={64}
+                    height={64}
+                    className="w-16 h-16 rounded-2xl shadow-lg shrink-0"
+                  />
+                  <div>
+                    <h2 className="text-xl font-bold text-white">دكتور هيثم الخطيب</h2>
+                    <p className="text-xs text-sky-300 font-semibold mt-1">Dr. Haitham Al-Khatib</p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">استشارات التثقيف والصحة الإنجابية</p>
+                  </div>
+                </div>
+                <div className="space-y-3 text-xs leading-relaxed text-slate-300">
+                  <p>
+                    تهدف منصة **FemSeha** إلى توفير الاستشارات التوعوية الموثوقة لكل من يبحث عن
+                    الإجابات الطبية الدقيقة في مجالات الحمل، اضطرابات الدورة، وسلامة استخدام
+                    العلاجات.
+                  </p>
+                </div>
+                <a
+                  href={WHATSAPP_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 rounded-xl shadow transition-colors text-sm"
+                >
+                  تواصل عبر واتساب
+                </a>
+              </div>
+            </div>
           </div>
-        ))}
-      </section>
-
-      {/* 3. الخدمات التخصصية */}
-      <section>
-        <h2 className="text-3xl font-black mb-8 text-center">الخدمات التخصصية</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {services.map((srv, idx) => (
-            <div key={idx} className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-              <div className="text-4xl mb-4">{srv.icon}</div>
-              <h3 className="font-bold text-lg mb-2">{srv.title}</h3>
-              <p className="text-slate-600 text-sm">{srv.desc}</p>
-            </div>
-          ))}
         </div>
       </section>
 
-      {/* 4. المكتبة الطبية */}
-      <section className="bg-slate-100 p-8 rounded-3xl">
-        <h2 className="text-3xl font-black mb-2 text-center">المكتبة الطبية</h2>
-        <p className="text-center text-slate-500 font-bold mb-8">أحدث المقالات الطبية والأدلة السريرية</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {featuredArticles.map((art) => (
-            <div key={art.id} className="bg-white p-6 rounded-2xl shadow-sm">
-              <h3 className="font-bold mb-2">{art.title}</h3>
-              <Link to={`/articles/${art.slug}`} className="text-rose-700 font-bold hover:underline">قراءة المزيد ←</Link>
+      {/* عن FemSeha ودكتور هيثم الخطيب */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 sm:p-12 shadow-lg">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-8 space-y-4">
+              <div className="inline-block text-xs font-bold text-sky-400 bg-sky-950 border border-sky-800 px-3 py-1 rounded-full">
+                عن FemSeha ودكتور هيثم الخطيب
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white">
+                رؤيتنا ورسالتنا في التوعية الصحية والاستشارات الطبية
+              </h2>
+              <p className="text-slate-300 text-sm leading-relaxed">
+                منصة **FemSeha** بإشراف **دكتور هيثم الخطيب** هي منصة طبية متخصصة في التثقيف الصحي
+                والاستشارات الطبية المتعلقة بصحة المرأة والصحة الإنجابية بالمملكة العربية السعودية
+                والخليج العربي.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs">
+                <div className="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                  <h3 className="font-bold text-sky-300 mb-1">السرية التامة</h3>
+                  <p className="text-slate-400">نلتزم بأعلى معايير الخصوصية في كافة التواصلات والاستشارات.</p>
+                </div>
+                <div className="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                  <h3 className="font-bold text-sky-300 mb-1">المعرفة الموثوقة</h3>
+                  <p className="text-slate-400">محتوى طبي مبني على المعايير العلمية والإرشادات الطبية المعتمدة.</p>
+                </div>
+              </div>
             </div>
-          ))}
+            <div className="lg:col-span-4 flex justify-center">
+              <Link
+                to="/doctor"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-6 py-3.5 rounded-xl shadow transition-colors text-sm"
+              >
+                <span>تعرف أكثر على دكتور هيثم الخطيب</span>
+                <ChevronLeftIcon className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
         </div>
-        <div className="mt-8 text-center">
-          <Link to="/articles" className="bg-white border-2 border-rose-900 text-rose-900 px-8 py-3 rounded-full font-bold hover:bg-rose-900 hover:text-white transition">
-            عرض جميع المقالات
+      </section>
+
+      {/* المحاور التوعوية والاستشارية الرئيسية */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+            المحاور التوعوية والاستشارية الرئيسية
+          </h2>
+          <p className="text-slate-400 text-sm max-w-2xl mx-auto">
+            تغطي FemSeha أهم الجوانب الصحية والإنجابية التي تهم المرأة مع توفير إرشادات طبية دقيقة مع
+            دكتور هيثم الخطيب.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-md hover:border-sky-600 transition-colors space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-amber-950 border border-amber-800 flex items-center justify-center text-amber-400">
+                <TriangleAlertIcon className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-white">سلامة الأدوية وميسوبروستول</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                معلومات طبية حاسمة وتوعية حقيقية بمخاطر استخدام أدوية سايتوتك وميسوبروستول دون متابعة
+                طبية تخصصية بالمنشآت المعتمدة.
+              </p>
+              <ul className="text-xs text-slate-400 space-y-1.5 pt-2 border-t border-slate-800">
+                <li>• سايتوتك في السعودية والاستخدامات والمخاطر</li>
+                <li>• حقائق مادة الميسوبروستول والأعراض الجانبية</li>
+                <li>• مخاطر الاستخدام غير المباشر دون تقييم طبي</li>
+              </ul>
+            </div>
+            <Link
+              to={CATEGORY_LINKS['سايتوتك في السعودية']}
+              className="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 text-xs font-bold pt-4"
+            >
+              <span>اقرأ المزيد حول الأمان الدوائي</span>
+              <ChevronLeftIcon className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-md hover:border-sky-600 transition-colors space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-rose-950 border border-rose-800 flex items-center justify-center text-rose-400">
+                <HeartIcon className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-white">الحمل والإجهاض والطوارئ</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                دليل شامل لأعراض الحمل المبكر، مؤشرات الإجهاض التلقائي، النزيف في الحمل، وكيفية
+                التصرف السريع عند الحالات الطارئة.
+              </p>
+              <ul className="text-xs text-slate-400 space-y-1.5 pt-2 border-t border-slate-800">
+                <li>• أعراض ومخاطر الحمل خارج الرحم</li>
+                <li>• متى يكون النزيف أثناء الحمل طارئاً؟</li>
+                <li>• العناية والتعافي بعد الإجهاض وتأثير عامل RH</li>
+              </ul>
+            </div>
+            <Link
+              to={CATEGORY_LINKS['دليل السلامة والطوارئ']}
+              className="inline-flex items-center gap-1 text-rose-400 hover:text-rose-300 text-xs font-bold pt-4"
+            >
+              <span>استكشف دليل السلامة والطوارئ</span>
+              <ChevronLeftIcon className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-md hover:border-sky-600 transition-colors space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-sky-950 border border-sky-800 flex items-center justify-center text-sky-400">
+                <StethoscopeIcon className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-white">صحة المرأة وأعراض الحمل</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                معرفة صحية واسعة حول علامات الحمل المبكرة جداً، أسباب تأخر وانقطاع الدورة الشهرية
+                غير الحمل، وتكيس المبايض.
+              </p>
+              <ul className="text-xs text-slate-400 space-y-1.5 pt-2 border-t border-slate-800">
+                <li>• أعراض الحمل الأولى قبل وبعد الدورة</li>
+                <li>• أسباب تأخر الدورة الشهرية الهرمونية والنفسية</li>
+                <li>• حساب أيام التبويض ونافذة الإخصاب</li>
+              </ul>
+            </div>
+            <Link
+              to={CATEGORY_LINKS['صحة المرأة']}
+              className="inline-flex items-center gap-1 text-sky-400 hover:text-sky-300 text-xs font-bold pt-4"
+            >
+              <span>تصفح قسم صحة المرأة</span>
+              <ChevronLeftIcon className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* أحدث المقالات والمعلومات الطبية */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-slate-800 pb-4">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              أحدث المقالات والمعلومات الطبية
+            </h2>
+            <p className="text-slate-400 text-xs sm:text-sm mt-1">
+              أحدث المقالات الطبية: مقالات توعوية شاملة وموثوقة بقلم دكتور هيثم الخطيب
+            </p>
+          </div>
+          <Link
+            to="/articles"
+            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-sky-300 font-bold px-4 py-2 rounded-lg text-xs transition-colors"
+          >
+            <span>جميع المقالات الـ {articles.length}</span>
+            <ChevronLeftIcon className="w-4 h-4" />
           </Link>
         </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredArticles.map((article) => (
+            <article
+              key={article.id}
+              className="bg-slate-900 border border-slate-800 hover:border-sky-600 rounded-xl p-6 flex flex-col justify-between transition-all group"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-[11px] text-slate-400">
+                  <span className="bg-sky-950 text-sky-300 border border-sky-800/80 px-2.5 py-0.5 rounded-md font-semibold">
+                    {article.categoryName}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <ClockIcon className="w-3 h-3 text-slate-500" />
+                    {article.readTime} دقيقة
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-white group-hover:text-sky-300 transition-colors leading-snug">
+                  <Link to={`/articles/${article.slug}`}>{article.title}</Link>
+                </h3>
+                <p className="text-xs text-slate-300 line-clamp-3 leading-relaxed">{article.summary}</p>
+              </div>
+              <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between text-xs">
+                <span className="flex items-center gap-1 text-slate-400 text-[11px]">
+                  <UserIcon className="w-3.5 h-3.5 text-sky-400" />
+                  {DOCTOR.name}
+                </span>
+                <Link
+                  to={`/articles/${article.slug}`}
+                  className="text-amber-400 group-hover:text-amber-300 font-bold flex items-center gap-1 text-xs"
+                >
+                  <span>اقرأ المقال</span>
+                  <ChevronLeftIcon className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
-      {/* 5. زر التواصل */}
-      <div className="text-center">
-        <a href="https://wa.me/966599287172" className="bg-emerald-600 text-white px-10 py-4 rounded-full text-xl font-bold shadow-lg hover:bg-emerald-700 transition">
-          💬 تواصل عبر واتساب
-        </a>
-      </div>
+      {/* مراجع وروابط خارجية توعوية موثوقة */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="my-8 p-5 bg-sky-950/40 border border-sky-800/60 rounded-xl text-xs text-sky-100 shadow-sm">
+          <div className="flex items-center gap-2 mb-3 text-sky-300 font-bold text-sm">
+            <ShieldCheckIcon className="w-4 h-4 text-emerald-400" />
+            <span>مراجع وروابط خارجية توعوية موثوقة</span>
+          </div>
+          <ul className="space-y-2.5">
+            <li className="flex items-start gap-2">
+              <ExternalLinkIcon className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />
+              <div>
+                <a
+                  href="https://taxiporteu.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-amber-300 hover:underline flex items-center gap-1 text-xs"
+                >
+                  وزارة الصحة بالمملكة العربية السعودية - المنصات التوعوية الرسمية
+                </a>
+                <p className="text-slate-300 text-[11px] mt-0.5 leading-snug">
+                  رابط توعوي رسمي للخدمات الصحية والخدمات الطبية الطارئة بالمملكة
+                </p>
+              </div>
+            </li>
+            <li className="flex items-start gap-2">
+              <ExternalLinkIcon className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />
+              <div>
+                <a
+                  href="https://sehaher.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-amber-300 hover:underline flex items-center gap-1 text-xs"
+                >
+                  الهيئة العامة للغذاء والدواء - الدليل الموحد لسلامة الدواء
+                </a>
+                <p className="text-slate-300 text-[11px] mt-0.5 leading-snug">
+                  مرجع رسمي للتحقق من سلامة العلاجات والتحذيرات الدوائية المعتمدة
+                </p>
+              </div>
+            </li>
+            <li className="flex items-start gap-2">
+              <ExternalLinkIcon className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />
+              <div>
+                <a
+                  href="https://femseha.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-amber-300 hover:underline flex items-center gap-1 text-xs"
+                >
+                  منظمة الصحة العالمية - الصحة الإنجابية وصحة المرأة
+                </a>
+                <p className="text-slate-300 text-[11px] mt-0.5 leading-snug">
+                  الإرشادات الدولية المعتمدة في معايير السلامة والتوعية الصحية للنساء
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      {/* خدمة توعوية واستشارية مخصصة للنساء في جميع مدن المملكة */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-gradient-to-br from-slate-900 via-sky-950 to-slate-900 border border-sky-800/60 rounded-2xl p-8 shadow-xl">
+          <div className="max-w-3xl space-y-4 text-right">
+            <div className="inline-flex items-center gap-1.5 text-emerald-400 bg-emerald-950 border border-emerald-800 px-3 py-1 rounded-full text-xs font-bold">
+              <MapPinIcon className="w-4 h-4" />
+              <span>المملكة العربية السعودية — السوق الأساسي</span>
+            </div>
+            <h2 className="text-2xl font-black text-white">
+              خدمة توعوية واستشارية مخصصة للنساء في جميع مدن المملكة
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              نصل بتوعيتنا واستشاراتنا الطبية السرية لكل سيدة في كافة المناطق والمدن السعودية مع دكتور
+              هيثم الخطيب.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-2 text-xs font-semibold text-slate-200">
+              {CITIES.map((c) => (
+                <span
+                  key={c}
+                  className="bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-lg text-sky-200"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* الأسئلة الشائعة والإجابات الطبية */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
+          <CircleQuestionMarkIcon className="w-6 h-6 text-amber-400" />
+          <h2 className="text-2xl font-bold text-white">الأسئلة الشائعة والإجابات الطبية</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {FAQS.map((f, i) => (
+            <div key={i} className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-2">
+              <h3 className="font-bold text-white text-base flex items-start gap-2">
+                <span className="text-amber-400 shrink-0 font-extrabold">س:</span>
+                <span>{f.q}</span>
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed pr-5">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* هل لديك استفسار صحي؟ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 text-center space-y-4">
+          <h2 className="text-2xl font-bold text-white">هل لديك استفسار صحي؟</h2>
+          <p className="text-slate-300 text-sm leading-relaxed max-w-xl mx-auto">
+            يمكنك التواصل مع دكتور هيثم الخطيب للحصول على توجيه واستشارة طبية متخصصة حول صحة المرأة
+            والصحة الإنجابية.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            <a
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-xl text-sm transition-colors"
+            >
+              <MessageCircleIcon className="w-4 h-4" />
+              <span>تواصل عبر واتساب</span>
+            </a>
+            <Link
+              to="/consultation"
+              className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-6 py-3 rounded-xl border border-slate-700 text-sm transition-colors"
+            >
+              صفحة الاستشارات
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* إخلاء مسؤولية طبية */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="my-8 p-6 bg-slate-900 text-slate-100 border-r-4 border-sky-500 rounded-xl shadow-md">
+          <div className="flex items-center gap-2 mb-2 text-sky-300 font-bold text-base">
+            <ShieldAlertIcon className="w-5 h-5 shrink-0" />
+            <h3>إخلاء مسؤولية طبية</h3>
+          </div>
+          <p className="text-slate-300 text-xs md:text-sm leading-relaxed">
+            إخلاء مسؤولية: المحتوى المنشور في FemSeha مخصص للتثقيف والتوعية الصحية والاستشارات الطبية،
+            ولا يُعد بديلاً عن التشخيص أو التقييم الطبي المباشر. تختلف الحالات الطبية من شخص لآخر،
+            ويُنصح بمراجعة الطبيب المختص عند الحاجة. وفي الحالات الطارئة، يجب طلب الرعاية الطبية
+            العاجلة.
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
