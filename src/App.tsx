@@ -76,14 +76,9 @@ const CITIES = [
   'القطيف', 'صفوى', 'الأحساء', 'الهفوف', 'القصيم', 'بريدة', 'تبوك', 'أبها', 'جازان',
 ];
 
-/** صورة استشارة واتساب الأصلية — تظهر تلقائياً فور إضافة الملف الثنائي */
-const WHATSAPP_CONSULT_IMAGE = '/images/whatsapp-consultation.jpg';
-
 export function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [topicsOpen, setTopicsOpen] = useState(false);
-  const location = useLocation();
-  const isAdmin = location.pathname.startsWith('/admin');
 
   const closeMenus = () => {
     setMobileMenuOpen(false);
@@ -281,33 +276,6 @@ export function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
-
-      {/* بانر استشارة واتساب (كما في النسخة القديمة — فوق الفوتر في كل الصفحات) */}
-      {!isAdmin && (
-        <div className="flex justify-center my-10">
-          <a
-            href={WHATSAPP_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
-            className="block w-full max-w-[500px]"
-          >
-            <img
-              src={WHATSAPP_CONSULT_IMAGE}
-              alt="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
-              width={1376}
-              height={768}
-              loading="lazy"
-              className="w-full h-auto rounded-2xl shadow-xl"
-              onError={(e) => {
-                // الأصول الثنائية الأصلية غير متاحة بعد — لا صورة مكسورة
-                const el = e.currentTarget.closest('a');
-                if (el) el.parentElement?.remove();
-              }}
-            />
-          </a>
-        </div>
-      )}
 
       {/* ── الفوتر (مطابق للنسخة القديمة) ── */}
       <footer className="bg-slate-950 text-slate-300 border-t border-slate-800 pt-16 pb-12">

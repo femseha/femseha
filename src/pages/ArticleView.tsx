@@ -205,6 +205,26 @@ export default function ArticleView() {
   return (
     <div className="bg-slate-950 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
       <article className="max-w-3xl mx-auto bg-slate-900 rounded-3xl p-6 sm:p-10 shadow-lg border border-slate-800">
+        {/* بانر استشارة واتساب الأصلي — Header → Banner → Title → Content */}
+        <div className="flex justify-center mb-6">
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
+            className="block w-full max-w-[500px]"
+          >
+            <img
+              src="/images/whatsapp-consultation.png"
+              alt="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
+              width={1024}
+              height={683}
+              loading="lazy"
+              className="w-full h-auto rounded-2xl shadow-xl"
+            />
+          </a>
+        </div>
+
         <div className="mb-6">
           {/* مسار التنقل */}
           <nav aria-label="مسار التنقل" className="text-xs text-slate-400 mb-4">
