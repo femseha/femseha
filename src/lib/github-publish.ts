@@ -383,7 +383,9 @@ export function articleUrl(slug: string): string {
   return `${SITE.url}/articles/${slug}`;
 }
 
-/** البحث عن المقال المنشور بعد نجاح التشغيل (يُستخدم عندما يولّد الخادم الـ slug) */
+/** البحث عن المقال المنشور بعد نجاح التشغيل (يُستخدم عندما يولّد الخادم الـ slug
+ *  أو يوحّده بإضافة لاحقة عند التعارض — الكلمة المفتاحية فريدة بين المقالات
+ *  بحكم فحص منع التنافس، فمطابقتها مع تاريخ اليوم كافية وآمنة). */
 async function findPublishedSlug(
   conn: GithubConnection,
   req: PublishRequest
@@ -391,12 +393,10 @@ async function findPublishedSlug(
   try {
     const fresh = await fetchLatestArticles(conn);
     const todayUtc = new Date().toISOString().split("T")[0];
-    const match = fresh.find(
-      (a) =>
-        a.primaryKeyword === req.primaryKeyword &&
-        (a.publishDate === todayUtc || a.modifiedDate === todayUtc) &&
-        (!req.slug || a.slug === req.slug)
-    );
+    const isToday = (a: ArticleRecord) => a.publishDate === todayUtc || a.modifiedDate === todayUtc;
+    const match =
+      fresh.find((a) => a.primaryKeyword === req.primaryKeyword && isToday(a) && req.slug && a.slug === req.slug) ||
+      fresh.find((a) => a.primaryKeyword === req.primaryKeyword && isToday(a));
     return match?.slug || null;
   } catch {
     return null;
