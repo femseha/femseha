@@ -15,7 +15,8 @@
     "seo:audit": "node scripts/audit-indexing.mjs",
     "verify:ssr": "node scripts/ssr-verify.mjs",
     "audit:indexing": "node scripts/audit-indexing.mjs",
-    "admin:selftest": "node scripts/admin-publish.mjs --self-test"
+    "admin:selftest": "node scripts/admin-publish.mjs --self-test",
+    "test:retry": "node scripts/test-gemini-retry.mjs"
   },
   "dependencies": {
     "clsx": "2.1.1",
