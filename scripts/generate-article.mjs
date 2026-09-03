@@ -292,43 +292,197 @@ ${relatedInfo || "(لا توجد روابط داخلية متاحة الآن —
 }`;
 }
 
+/* ── Retry موحد لاستدعاء Gemini API ────────────────────────────────────── */
+
+export const GEMINI_RETRY_MAX_ATTEMPTS = 4;
+
+/** أكواد HTTP المؤقتة التي تستوجب إعادة المحاولة */
+const TRANSIENT_HTTP_CODES = new Set([429, 502, 503, 504]);
+
+/** أكواد HTTP غير قابلة للاستعادة — لا re-try */
+const NON_RETRYABLE_HTTP_CODES = new Set([400, 401, 403, 404]);
+
+/** رموز الخطأ في body التي تستوجب إعادة المحاولة */
+const TRANSIENT_ERROR_STATUSES = new Set([
+  "UNAVAILABLE",
+  "RESOURCE_EXHAUSTED",
+]);
+
+/**
+ * كشف ما إذا كان خطأ Gemini قابلاً لإعادة المحاولة.
+ * يفحص HTTP status code ونص الاستجابة للبحث عن رموز transient.
+ */
+export function isTransientError(status, bodyText) {
+  if (TRANSIENT_HTTP_CODES.has(status)) return true;
+  // RESOURCE_EXHAUSTED أحياناً يأتي بـ 429 أو حتى 200+body
+  const lower = (bodyText || "").toLowerCase();
+  for (const code of TRANSIENT_ERROR_STATUSES) {
+    if (lower.includes(code.toLowerCase())) return true;
+  }
+  return false;
+}
+
+/**
+ * حساب وقت الانتظار قبل إعادة المحاولة: exponential backoff + jitter.
+ *   base = 1000ms × 2^(attempt-1)  (1s, 2s, 4s)
+ *   jitter عشوائي بين 0 و base/2 لتجنب thundering herd.
+ * الحد الأقصى 15 ثانية.
+ */
+export function computeBackoffMs(attempt) {
+  const base = Math.min(1000 * Math.pow(2, attempt - 1), 15000);
+  const jitter = Math.random() * (base / 2);
+  return Math.round(base + jitter);
+}
+
+/** انتظار غير متزامن */
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export async function generateWithGemini(apiKey, prompt) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.65,
-        topP: 0.95,
-        maxOutputTokens: 32768,
-        responseMimeType: "application/json",
-      },
-    }),
+  const requestBody = JSON.stringify({
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    generationConfig: {
+      temperature: 0.65,
+      topP: 0.95,
+      maxOutputTokens: 32768,
+      responseMimeType: "application/json",
+    },
   });
 
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new Error(`Gemini API HTTP ${res.status}: ${body.slice(0, 300)}`);
+  let lastError = null;
+  for (let attempt = 1; attempt <= GEMINI_RETRY_MAX_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: requestBody,
+      });
+
+      if (!res.ok) {
+        const body = await res.text().catch(() => "");
+        // خطأ غير قابل للاستعادة → فشل فوري بدون retry
+        if (NON_RETRYABLE_HTTP_CODES.has(res.status)) {
+          throw new Error(`Gemini API HTTP ${res.status} (غير قابل للاستعادة): ${body.slice(0, 300)}`);
+        }
+        // خطأ مؤقت → سجل وأعد المحاولة إن وُجدت محاولات متبقية
+        if (isTransientError(res.status, body) && attempt < GEMINI_RETRY_MAX_ATTEMPTS) {
+          const waitMs = computeBackoffMs(attempt);
+          log(`  ⏳ خطأ مؤقت من Gemini (HTTP ${res.status}) — إعادة المحاولة ${attempt + 1}/${GEMINI_RETRY_MAX_ATTEMPTS} بعد ${Math.round(waitMs / 1000)}s…`);
+          await sleep(waitMs);
+          continue;
+        }
+        // إما خطأ مؤقت استُنفدت محاولات إعادة尝试ه، أو كود غير مصنف
+        throw new Error(`Gemini API HTTP ${res.status}: ${body.slice(0, 300)}`);
+      }
+
+      const data = await res.json();
+      if (data.promptFeedback?.blockReason) {
+        throw new Error(`حجب النموذج المحتوى (${data.promptFeedback.blockReason})`);
+      }
+      const candidate = data.candidates?.[0];
+      const text = (candidate?.content?.parts || []).map((p) => p.text || "").join("").trim();
+      if (!text) {
+        throw new Error(`استجابة فارغة من النموذج (finishReason: ${candidate?.finishReason || "غير معروف"})`);
+      }
+      return text;
+    } catch (err) {
+      lastError = err;
+      // أخطاء non-retryable تُرمى فوراً
+      if (NON_RETRYABLE_HTTP_CODES.has(err.message?.match(/HTTP (\d+)/)?.[1] | 0) ||
+          /غير قابل للاستعادة/.test(err.message || "")) {
+        throw err;
+      }
+      // أخطاء شبكة (fetch failure, timeout, DNS) — transient بطبيعتها
+      if (attempt < GEMINI_RETRY_MAX_ATTEMPTS) {
+        const waitMs = computeBackoffMs(attempt);
+        log(`  ⏳ خطأ شبكة من Gemini (${err.message?.slice(0, 80)}) — إعادة المحاولة ${attempt + 1}/${GEMINI_RETRY_MAX_ATTEMPTS} بعد ${Math.round(waitMs / 1000)}s…`);
+        await sleep(waitMs);
+        continue;
+      }
+    }
   }
-  const data = await res.json();
-  if (data.promptFeedback?.blockReason) {
-    throw new Error(`حجب النموذج المحتوى (${data.promptFeedback.blockReason})`);
+  // استُنفدت كل المحاولات
+  throw lastError || new Error("فشل استدعاء Gemini بعد جميع المحاولات");
+}
+
+/**
+ * تنظيف النص JSON من محارف التحكم غير المسموحة داخل القيم النصية.
+ * معالجة "Bad control character in string literal" — بعض مخرجات النموذج
+ * تحتوي على أسطر جديدة أو tab حرفية داخل strings.
+ */
+export function sanitizeJsonControlChars(text) {
+  // إزالة BOM إن وُجد
+  let cleaned = text.replace(/^\uFEFF/, "");
+  // معالجة محارف التحكم (0x00-0x1F) داخل values نصية فقط:
+  // نمرّ على النص حرفاً حرفاً ونتتبّع إن كنا داخل string أم خارجه.
+  let result = "";
+  let inString = false;
+  let escaped = false;
+  for (let i = 0; i < cleaned.length; i++) {
+    const ch = cleaned[i];
+    const code = cleaned.charCodeAt(i);
+    if (escaped) {
+      result += ch;
+      escaped = false;
+      continue;
+    }
+    if (inString) {
+      if (ch === "\\") {
+        escaped = true;
+        result += ch;
+        continue;
+      }
+      if (ch === '"') {
+        inString = false;
+        result += ch;
+        continue;
+      }
+      // محرف تحكم داخل string → استبداله بـ escape
+      if (code < 0x20) {
+        if (code === 0x0A) result += "\\n";
+        else if (code === 0x0D) result += "\\r";
+        else if (code === 0x09) result += "\\t";
+        else if (code === 0x08) result += "\\b";
+        else if (code === 0x0C) result += "\\f";
+        else result += "\\u" + code.toString(16).padStart(4, "0");
+        continue;
+      }
+      result += ch;
+    } else {
+      if (ch === '"') {
+        inString = true;
+        result += ch;
+        continue;
+      }
+      result += ch;
+    }
   }
-  const candidate = data.candidates?.[0];
-  const text = (candidate?.content?.parts || []).map((p) => p.text || "").join("").trim();
-  if (!text) {
-    throw new Error(`استجابة فارغة من النموذج (finishReason: ${candidate?.finishReason || "غير معروف"})`);
-  }
-  return text;
+  return result;
 }
 
 export function parseGeneratedArticle(raw) {
   let text = raw.trim();
   text = text.replace(/^```(json)?/i, "").replace(/```$/, "").trim();
-  const parsed = JSON.parse(text);
-  if (!parsed.title || !parsed.content) throw new Error("الحقول الأساسية ناقصة في الاستجابة");
+
+  // محاولة parse مباشرة أولاً (الأسرع)
+  let parsed;
+  try {
+    parsed = JSON.parse(text);
+  } catch (firstErr) {
+    // إذا فشل بسبب محرف تحكم → نظّف ثم أعد المحاولة
+    try {
+      const sanitized = sanitizeJsonControlChars(text);
+      parsed = JSON.parse(sanitized);
+    } catch (secondErr) {
+      throw new Error(
+        `JSON غير صالح من النموذج — لن يُنشر مقال ناقص: ${secondErr.message}. أول 200 حرف: ${text.slice(0, 200)}`
+      );
+    }
+  }
+
+  if (!parsed.title || !parsed.content) throw new Error("الحقول الأساسية ناقصة في الاستجابة — لن يُنشر مقال ناقص");
   parsed.faq = Array.isArray(parsed.faq) ? parsed.faq.filter((f) => f && f.q && f.a) : [];
   return parsed;
 }
