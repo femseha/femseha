@@ -16,7 +16,8 @@
     "verify:ssr": "node scripts/ssr-verify.mjs",
     "audit:indexing": "node scripts/audit-indexing.mjs",
     "admin:selftest": "node scripts/admin-publish.mjs --self-test",
-    "test:retry": "node scripts/test-gemini-retry.mjs"
+    "test:retry": "node scripts/test-gemini-retry.mjs",
+    "test:manual-json": "node scripts/test-admin-manual-json.mjs"
   },
   "dependencies": {
     "clsx": "2.1.1",

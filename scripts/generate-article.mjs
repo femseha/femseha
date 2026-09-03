@@ -640,7 +640,11 @@ function pushFromCI(extraPaths = [], commitMessage = null) {
 
 /* ── طلبات النشر المباشر من لوحة الإدارة (admin/requests/*.json) ──────── */
 
-/** الطلبات المعلقة = ملفات بلا حقل status (لم تُنفذ ولم تُرفض بعد) */
+/**
+ * الطلبات المعلقة = ملفات بلا حقل status (لم تُنفذ ولم تُرفض بعد).
+ * الملف التالف لا يُسقط بصمت: يُعاد ضمن القائمة ليشغّل child process الذي سيظهر
+ * اسم الملف وسبب فشل قراءته بأمان دون نشر أي محتوى ناقص.
+ */
 export function listPendingAdminRequests() {
   if (!fs.existsSync(ADMIN_REQUESTS_DIR)) return [];
   return fs
@@ -652,7 +656,7 @@ export function listPendingAdminRequests() {
         const req = JSON.parse(fs.readFileSync(p, "utf8"));
         return !req.status;
       } catch {
-        return false; // ملف تالف — يتجاهله ولا يعطل الخط
+        return true;
       }
     })
     .sort();
