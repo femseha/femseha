@@ -105,3 +105,5 @@ export function articleCategories(): { id: string; name: string }[] {
 
 // توافق مع الواجهات القديمة
 export { GENERATED_ARTICLES } from "./generated-articles";
+
+// Trigger a fresh Vercel preview deployment after the previous deployment check failed.
