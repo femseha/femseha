@@ -1,6 +1,7 @@
 import type { ArticleRecord } from "./types";
 import articlesData from "./articles.json";
 import seoSupportingArticles from "./seo-supporting-articles.json";
+import seoSupportingFaq from "./seo-supporting-faq.json";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // مصدر بيانات المقالات المنشورة للموقع العام.
@@ -8,10 +9,18 @@ import seoSupportingArticles from "./seo-supporting-articles.json";
 // والمحتوى الداعم المركّز يُحفظ في: src/data/seo-supporting-articles.json
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const articles: ArticleRecord[] = [
+const faqBySlug = seoSupportingFaq as Record<string, ArticleRecord["faq"]>;
+
+const allArticles = [
   ...(articlesData as ArticleRecord[]),
   ...(seoSupportingArticles as ArticleRecord[]),
 ];
+
+export const articles: ArticleRecord[] = allArticles.map((article) => {
+  const faq = faqBySlug[article.slug];
+  if (!faq || article.faq?.length) return article;
+  return { ...article, faq };
+});
 
 /** البحث عن مقال بالمعرّف أو بالـ slug */
 export function getArticleBySlug(slug?: string): ArticleRecord | undefined {
