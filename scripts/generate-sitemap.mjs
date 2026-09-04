@@ -7,6 +7,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ARTICLES_PATH = path.join(ROOT, "src", "data", "articles.json");
 const SUPPORTING_ARTICLES_PATH = path.join(ROOT, "src", "data", "seo-supporting-articles.json");
 const CONTENT_BATCH_01_PATH = path.join(ROOT, "src", "data", "seo-content-batch-01.json");
+const CONTENT_BATCH_02_PATH = path.join(ROOT, "src", "data", "seo-content-batch-02.json");
 const SITE_TS_PATH = path.join(ROOT, "src", "data", "site.ts");
 const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
 
@@ -43,9 +44,11 @@ export function loadArticles() {
   const primary = JSON.parse(fs.readFileSync(ARTICLES_PATH, "utf8"));
   const supporting = JSON.parse(fs.readFileSync(SUPPORTING_ARTICLES_PATH, "utf8"));
   const batch01 = JSON.parse(fs.readFileSync(CONTENT_BATCH_01_PATH, "utf8"));
+  const batch02 = JSON.parse(fs.readFileSync(CONTENT_BATCH_02_PATH, "utf8"));
   validateArticles(primary, "articles.json");
   validateArticles(supporting, "seo-supporting-articles.json");
   validateArticles(batch01, "seo-content-batch-01.json");
+  validateArticles(batch02, "seo-content-batch-02.json");
 
   // Primary articles take precedence over supporting/batch records. This keeps
   // one canonical sitemap URL when a queued topic already exists.
@@ -53,6 +56,7 @@ export function loadArticles() {
     [primary, "articles.json"],
     [supporting, "seo-supporting-articles.json"],
     [batch01, "seo-content-batch-01.json"],
+    [batch02, "seo-content-batch-02.json"],
   ];
   const seen = new Map();
   const articles = [];
@@ -99,24 +103,17 @@ export function assertNoForbiddenUrls(xml, siteUrl) {
   return problems;
 }
 
-function main() {
-  const checkOnly = process.argv.includes("--check");
-  const siteUrl = readSiteUrl();
+export function generateSitemap() {
   const articles = loadArticles();
+  const siteUrl = readSiteUrl();
   const xml = buildSitemapXml(articles, siteUrl);
   const problems = assertNoForbiddenUrls(xml, siteUrl);
-  if (problems.length) { console.error("✖ فشل توليد sitemap — مخالفات:"); for (const p of problems) console.error(`  - ${p}`); process.exit(1); }
-  const count = STATIC_INDEXABLE.length + articles.length;
-  if (checkOnly) {
-    const current = fs.existsSync(SITEMAP_PATH) ? fs.readFileSync(SITEMAP_PATH, "utf8") : "";
-    if (current === xml) { console.log(`✔ sitemap.xml محدّث (${count} URL = ${STATIC_INDEXABLE.length} صفحة ثابتة + ${articles.length} مقالاً).`); return; }
-    console.error("✖ sitemap.xml غير متطابق مع بيانات المقالات — شغّل: npm run sitemap"); process.exit(1);
-  }
-  fs.mkdirSync(path.dirname(SITEMAP_PATH), { recursive: true });
-  const before = fs.existsSync(SITEMAP_PATH) ? fs.readFileSync(SITEMAP_PATH, "utf8") : "";
+  if (problems.length) throw new Error(problems.join("\n"));
   fs.writeFileSync(SITEMAP_PATH, xml, "utf8");
-  console.log(`${before === xml ? "✔" : "✔ (محدّث)"} sitemap.xml: ${count} URL = ${STATIC_INDEXABLE.length} صفحة ثابتة + ${articles.length} مقالاً`);
+  return { count: STATIC_INDEXABLE.length + articles.length, contentCount: articles.length, siteUrl };
 }
 
-const isMain = process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
-if (isMain) main();
+if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
+  const result = generateSitemap();
+  console.log(`Sitemap generated: ${result.count} URLs (${result.contentCount} articles) at ${SITEMAP_PATH}`);
+}
