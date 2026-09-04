@@ -4,6 +4,7 @@ import seoSupportingArticles from "./seo-supporting-articles.json";
 import seoSupportingFaq from "./seo-supporting-faq.json";
 import seoClusterLinks from "./seo-cluster-links.json";
 import seoPillarOverrides from "./seo-pillar-overrides.json";
+import seoLegacyOverrides from "./seo-legacy-overrides.json";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // مصدر بيانات المقالات المنشورة للموقع العام.
@@ -17,6 +18,17 @@ const pillarOverrides = seoPillarOverrides as Record<
   string,
   { title?: string; summary?: string; contentAppend?: string }
 >;
+const legacyOverrides = seoLegacyOverrides as Record<
+  string,
+  {
+    title?: string;
+    summary?: string;
+    primaryKeyword?: string;
+    contentReplace?: string;
+    faqReplace?: ArticleRecord["faq"];
+    relatedReplace?: string[];
+  }
+>;
 
 const allArticles = [
   ...(articlesData as ArticleRecord[]),
@@ -27,6 +39,7 @@ export const articles: ArticleRecord[] = allArticles.map((article) => {
   const faq = faqBySlug[article.slug];
   const clusterLinks = clusterLinksBySlug[article.slug];
   const override = pillarOverrides[article.slug];
+  const legacyOverride = legacyOverrides[article.title];
   const withFaq = !faq || article.faq?.length ? article : { ...article, faq };
   const withPillar = override
     ? {
@@ -38,13 +51,30 @@ export const articles: ArticleRecord[] = allArticles.map((article) => {
           : {}),
       }
     : withFaq;
-  if (!clusterLinks?.length) return withPillar;
+  const withLegacy = legacyOverride
+    ? {
+        ...withPillar,
+        ...(legacyOverride.title ? { title: legacyOverride.title } : {}),
+        ...(legacyOverride.summary ? { summary: legacyOverride.summary } : {}),
+        ...(legacyOverride.primaryKeyword
+          ? { primaryKeyword: legacyOverride.primaryKeyword }
+          : {}),
+        ...(legacyOverride.contentReplace
+          ? { content: legacyOverride.contentReplace }
+          : {}),
+        ...(legacyOverride.faqReplace ? { faq: legacyOverride.faqReplace } : {}),
+        ...(legacyOverride.relatedReplace
+          ? { related: legacyOverride.relatedReplace }
+          : {}),
+      }
+    : withPillar;
+  if (!clusterLinks?.length) return withLegacy;
 
   // روابط الكلستر الاستراتيجية تُضاف قبل الروابط القديمة مع إزالة التكرار.
-  const related = [...clusterLinks, ...(withPillar.related || [])].filter(
+  const related = [...clusterLinks, ...(withLegacy.related || [])].filter(
     (slug, index, list) => list.indexOf(slug) === index && slug !== article.slug
   );
-  return { ...withPillar, related };
+  return { ...withLegacy, related };
 });
 
 /** البحث عن مقال بالمعرّف أو بالـ slug */
@@ -75,3 +105,5 @@ export function articleCategories(): { id: string; name: string }[] {
 
 // توافق مع الواجهات القديمة
 export { GENERATED_ARTICLES } from "./generated-articles";
+
+// Trigger a fresh Vercel preview deployment after the previous deployment check failed.
