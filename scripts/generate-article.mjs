@@ -49,8 +49,14 @@ export const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
 export const SITE_URL = "https://femseha.com";
 export const MODEL = "gemini-3.6-flash";
 export const DOCTOR_NAME = "د. هيثم الخطيب";
-export const MIN_WORDS = 1400;          // الحد الأدنى المقبول للنشر
-export const TARGET_WORDS_DEFAULT = 2000;
+/**
+ * الحد الأدنى لمنع المقال الفارغ/شبه الفارغ فقط — ليس شرط جودة أو SEO.
+ * أُزيل الشرط الإجباري القديم 1400 كلمة: المقال القصير الصالح يُنشر،
+ * ويُرفض فقط المحتوى الفارغ أو شبه الفارغ غير الصالح. (مطابق لـ LIMITS.MIN_WORDS
+ * في نسخة المتصفح src/lib/article-rules.ts).
+ */
+export const MIN_WORDS = 50;            // حارس المحتوى الفارغ فقط (لا علاقة له بـ SEO)
+export const TARGET_WORDS_DEFAULT = 2000; // هدف طول التوليد الآلي (إرشادي، ليس حاجز نشر)
 export const MAX_DAILY_ARTICLES = 3;    // السقف اليومي للنشر (الجدولة القديمة تعمل 5 مرات يومياً)
 
 /* مسارات لوحة الإدارة (النشر المباشر) — انظر scripts/admin-publish.mjs */
@@ -562,9 +568,11 @@ export function finalizeContent(topic, gen, articles) {
 export function runQualityChecks(gen, topic, articles) {
   const errors = [];
 
+  // حارس ضد المحتوى الفارغ/شبه الفارغ فقط — لا يوجد حد 1400 كلمة ولا شرط
+  // طول لأغراض SEO: المقال القصير الصالح يُنشر، والفارغ يُرفض.
   const words = countArabicWords(gen.content);
-  if (words < MIN_WORDS) {
-    errors.push(`عدد الكلمات ${words} أقل من الحد الأدنى ${MIN_WORDS}`);
+  if (!(gen.content || "").trim() || words < MIN_WORDS) {
+    errors.push(`محتوى المقال فارغ أو شبه فارغ (${words} كلمة) — الحد الأدنى لمنع النشر الفارغ ${MIN_WORDS} كلمة`);
   }
 
   if ((gen.title || "").length > 75) errors.push("العنوان أطول من 75 حرفاً");
@@ -578,11 +586,15 @@ export function runQualityChecks(gen, topic, articles) {
   // تفرّد الـ slug (إلزامي)
   if (articles.some((a) => a.slug === topic.slug)) errors.push("الـ slug مستخدم مسبقاً");
 
-  // تشابه العنوان مع المنشور
-  for (const a of articles) {
-    if (titleSimilarity(gen.title, a.title) > 0.75) {
-      errors.push(`العنوان شديد التشابه مع «${a.title}»`);
-      break;
+  // تشابه العنوان مع المنشور — يُعفى الموضوع المستثنى تحريرياً صراحةً
+  // (cannibalization-exceptions): صفحة مقصودة مخططة بنفس الكلمة/الزاوية.
+  const exempt = isCannibalizationExempt(topic);
+  if (!exempt) {
+    for (const a of articles) {
+      if (titleSimilarity(gen.title, a.title) > 0.75) {
+        errors.push(`العنوان شديد التشابه مع «${a.title}»`);
+        break;
+      }
     }
   }
 

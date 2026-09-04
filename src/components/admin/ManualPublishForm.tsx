@@ -199,7 +199,7 @@ export default function ManualPublishForm({
                 <code dir="ltr" className="bg-white border border-slate-200 rounded px-1 mx-1">**تأكيد**</code> وروابط داخلية
                 <code dir="ltr" className="bg-white border border-slate-200 rounded px-1 mx-1">[النص](/articles/slug)</code>
                 لمسارات منشورة فقط. يُضاف قسم الاستشارة الطبية الرسمي تلقائياً عند النشر.
-                الحد الأدنى {LIMITS.MIN_WORDS} كلمة — الحالي: <strong>{words}</strong>.
+                لا يوجد شرط 1400 كلمة: المقال القصير الصالح يُنشر، ويُرفض المحتوى الفارغ فقط ({LIMITS.MIN_WORDS} كلمة حداً أدنى) — الحالي: <strong>{words}</strong>.
                 ممنوع: جرعات رقمية، أسعار، وسائل تواصل، جهات بيع، وعود نتائج.
               </>
             }

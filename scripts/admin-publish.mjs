@@ -45,7 +45,6 @@ import {
   SITEMAP_PATH,
   SITE_URL,
   MODEL,
-  MIN_WORDS,
   TARGET_WORDS_DEFAULT,
   ADMIN_REQUESTS_DIR,
   today,
@@ -61,6 +60,7 @@ import {
   persist,
 } from "./generate-article.mjs";
 import { buildSitemapXml } from "./generate-sitemap.mjs";
+import { isCannibalizationExempt } from "./generate-article.mjs";
 
 const COUNTRIES_PATH = path.join(ROOT, "src", "data", "countries.json");
 const STATIC_ROUTES = ["/", "/articles", "/doctor", "/consultation", "/medical-disclaimer"];
@@ -124,10 +124,29 @@ function asStringArray(v, max = 10) {
 
 function sanitizeImage(v) {
   if (typeof v !== "string") return undefined;
-  const s = v.trim();
+  let s = v.trim();
   if (!s) return undefined;
+  // ممنوع: روابط مؤقتة للمتصفح أو مسارات نظام ملفات — لا تُنشر أبداً.
+  if (/^(blob|data|file|javascript):/i.test(s)) return undefined;
+  // إصلاح الرابط القديم المكسور: مجلد public/ يُخدَم من جذر الموقع، فالرابط
+  // …/public/images/… كان يعطي 404 في الصفحة العامة — يُطبَّع إلى …/images/…
+  s = s.replace(/^(https?:\/\/[^/]+)?\/public\/images\//i, "$1/images/");
   if (/^https?:\/\//.test(s) || /^\/images\//.test(s)) return s;
   return undefined;
+}
+
+/** روابط خارجية خطيرة في محتوى ماركداون (نسمح http/https فقط) */
+function unsafeExternalLinks(content) {
+  const unsafe = [];
+  for (const m of String(content || "").matchAll(/\]\(([^)\s]+)\)/g)) {
+    const href = m[1].trim();
+    if (href.startsWith("/")) continue;
+    if (/^https?:\/\//i.test(href)) continue;
+    const scheme = /^([a-z][a-z0-9+.-]*):/i.exec(href);
+    if (scheme && !/^https?$/i.test(scheme[1])) unsafe.push(href.slice(0, 80));
+    else if (!scheme && href) unsafe.push(href.slice(0, 80));
+  }
+  return unsafe;
 }
 
 /** مسارات داخلية منشورة (لفحص روابط المحتوى — قاعدة seo-validate نفسها) */
@@ -145,9 +164,14 @@ const HARD_COMMERCIAL = [
 ];
 const NEGATION_RE = /(لا|ليس|ليست|يمنع|المنع|بدون|دون|رفض|استبعاد|تتجنب|تجنّب)/;
 
-function runAdminExtraChecks(candidate, articles, excludeSlug) {
+function runAdminExtraChecks(candidate, articles, excludeSlug, topic) {
   const errors = [];
   const others = excludeSlug ? articles.filter((a) => a.slug !== excludeSlug) : articles;
+
+  // الموضوع المستثنى تحريرياً صراحةً من فحص التنافس (cannibalization-exceptions):
+  // يُعفى أيضاً من حارس تشابه/تكرار العنوان الناتج عن وجود صفحة مقصودة مخططة
+  // بنفس الكلمة/العنوان — باقي الفحوصات (سلامة طبية، جودة، روابط، وصف فريد) تبقى.
+  const exempt = topic && isCannibalizationExempt(topic);
 
   // وصف تعريفي فريد (قاعدة seo-validate: لا meta description مكرر)
   const desc = (candidate.summary || "").slice(0, 160);
@@ -155,8 +179,8 @@ function runAdminExtraChecks(candidate, articles, excludeSlug) {
     errors.push("الوصف التعريفي (meta description) مكرر مع مقال منشور آخر — يجب أن يكون فريداً.");
   }
 
-  // عنوان مكرر حرفياً
-  if (others.some((a) => a.title === candidate.title)) {
+  // عنوان مكرر حرفياً (يُعفى الموضوع المستثنى تحريرياً من فحص التنافس فقط)
+  if (!exempt && others.some((a) => a.title === candidate.title)) {
     errors.push("العنوان مكرر حرفياً مع مقال منشور آخر.");
   }
 
@@ -171,12 +195,19 @@ function runAdminExtraChecks(candidate, articles, excludeSlug) {
     errors.push(`محتوى تجاري ممنوع (${pat.name}): "${m[0]}"`);
   }
 
-  // روابط داخلية مكسورة (يجب أن تشير لمسارات منشورة فقط)
+  // روابط داخلية مكسورة (يجب أن تشير لمسارات منشورة فقط — يُسمح برابط المقال لذاته)
   const routes = publishedRoutes(articles);
+  routes.add(`/articles/${candidate.slug}`);
   for (const m of (candidate.content || "").matchAll(/\]\((\/[^\s)]+)\)/g)) {
-    if (!routes.has(m[1]) && m[1] !== `/articles/${candidate.slug}`) {
+    if (!routes.has(m[1])) {
       errors.push(`رابط داخلي مكسور في المحتوى: ${m[1]} — يجب أن يشير لمسار منشور.`);
     }
+  }
+
+  // روابط خارجية خطيرة (javascript:/data:… — الروابط السليمة تبقى clickable)
+  const unsafe = unsafeExternalLinks(candidate.content);
+  if (unsafe.length) {
+    errors.push(`روابط خارجية غير آمنة في المحتوى: ${unsafe.join("، ")} — المسموح روابط http/https فقط.`);
   }
 
   return errors;
@@ -307,8 +338,9 @@ async function processAiRequest(req, ctx) {
     log(`  تم استلام مسودة (${countArabicWords(parsed.content)} كلمة).`);
 
     const slug = resolveSlug(parsed.slug || requestedSlug, req, ctx.articles);
-    const quality = runQualityChecks(parsed, { ...topic, slug }, ctx.articles);
-    const extra = runAdminExtraChecks({ ...parsed, slug }, ctx.articles, null);
+    const topicForChecks = { ...topic, slug, title: parsed.title || topic.title, primaryKeyword: String(req.primaryKeyword || "").trim() };
+    const quality = runQualityChecks(parsed, topicForChecks, ctx.articles);
+    const extra = runAdminExtraChecks({ ...parsed, slug }, ctx.articles, null, topicForChecks);
     lastErrors = [...quality.errors, ...extra];
     if (lastErrors.length === 0) {
       gen = { ...parsed, slug };
@@ -322,8 +354,9 @@ async function processAiRequest(req, ctx) {
 
   if (ctx.selfTest) {
     const slug = resolveSlug(gen.slug || requestedSlug, req, ctx.articles);
-    const quality = runQualityChecks(gen, { ...topic, slug }, ctx.articles);
-    const extra = runAdminExtraChecks({ ...gen, slug }, ctx.articles, null);
+    const topicForChecks = { ...topic, slug, title: gen.title || topic.title, primaryKeyword: String(req.primaryKeyword || "").trim() };
+    const quality = runQualityChecks(gen, topicForChecks, ctx.articles);
+    const extra = runAdminExtraChecks({ ...gen, slug }, ctx.articles, null, topicForChecks);
     const allErrors = [...quality.errors, ...extra];
     if (allErrors.length) throw new RequestFailure(`فشل فحص الجودة/السلامة: ${allErrors.join(" | ")}`);
     gen = { ...gen, slug };
@@ -403,8 +436,9 @@ function processManualRequest(req, ctx) {
 
   // نفس فحوصات الجودة والسلامة للخط الآلي (مع استثناء المقال نفسه عند التعديل)
   const checkAgainst = isEdit ? ctx.articles.filter((a) => a.slug !== slug) : ctx.articles;
-  const quality = runQualityChecks(gen, { slug }, checkAgainst);
-  const extra = runAdminExtraChecks({ ...gen, slug }, checkAgainst, isEdit ? slug : null);
+  const topicForChecks = { slug, title: gen.title, primaryKeyword: String(req.primaryKeyword || "").trim() };
+  const quality = runQualityChecks(gen, topicForChecks, checkAgainst);
+  const extra = runAdminExtraChecks({ ...gen, slug }, checkAgainst, isEdit ? slug : null, topicForChecks);
   const allErrors = [...quality.errors, ...extra];
   if (allErrors.length) {
     throw new RequestFailure(`فشل فحص الجودة/السلامة — المقال لن يُنشر: ${allErrors.join(" | ")}`);

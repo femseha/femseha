@@ -251,6 +251,7 @@ export default function AdminPage() {
   ];
 
   return (
+    <div className="bg-slate-50 min-h-screen" dir="rtl">
     <main className="max-w-4xl mx-auto px-6 py-16" dir="rtl">
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
         <h1 className="text-xl font-bold text-slate-800 mb-2 text-center">لوحة الإدارة والتحكم</h1>
@@ -413,5 +414,6 @@ export default function AdminPage() {
         )}
       </div>
     </main>
+    </div>
   );
 }

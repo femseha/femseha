@@ -49,7 +49,13 @@ export const CATEGORIES: { id: string; name: string }[] = [
 /* ── عتبات الجودة (مطابقة لثوابت scripts/generate-article.mjs) ─────────── */
 
 export const LIMITS = {
-  MIN_WORDS: 1400,
+  /**
+   * الحد الأدنى لمنع المقال الفارغ/شبه الفارغ فقط — ليس شرط جودة أو SEO.
+   * أُزيل الشرط الإجباري القديم 1400 كلمة من النشر اليدوي: المقال القصير
+   * الصالح (مقدمة + محتوى مفيد) قابل للنشر، ويُرفض فقط المحتوى الفارغ
+   * أو شبه الفارغ أو غير الصالح. (مطابق لـ MIN_PUBLISH_WORDS في الخط).
+   */
+  MIN_WORDS: 50,
   TITLE_MIN: 20,
   TITLE_MAX: 75,
   SUMMARY_MIN: 100,
@@ -272,16 +278,46 @@ export function safetyViolations(text: string): string[] {
   return violations;
 }
 
-/* ── الروابط الداخلية ───────────────────────────────────────────────────── */
+/* ── الروابط (داخلية + خارجية) ─────────────────────────────────────────── */
 
-/** روابط داخلية مكسورة في محتوى ماركداون (مطابقة لفحص seo-validate.mjs) */
-export function brokenInternalLinks(content: string, articles: ArticleRecord[]): string[] {
+/** روابط داخلية مكسورة في محتوى ماركداون (مطابقة لفحص seo-validate.mjs).
+ *  selfSlug: عند إنشاء مقال جديد يُسمح برابط المقال إلى ذاته (سيُنشر معه). */
+export function brokenInternalLinks(content: string, articles: ArticleRecord[], selfSlug?: string | null): string[] {
   const routes = new Set([...STATIC_ROUTES, ...articles.map((a) => `/articles/${a.slug}`)]);
+  if (selfSlug) routes.add(`/articles/${selfSlug}`);
   const broken: string[] = [];
   for (const m of (content || "").matchAll(/\]\((\/[^\s)]+)\)/g)) {
     if (!routes.has(m[1])) broken.push(m[1]);
   }
   return broken;
+}
+
+/**
+ * روابط خارجية خطيرة في محتوى ماركداون: نسمح فقط بـ http/https.
+ * نمنع javascript: و data: (ما لم تكن صورة مدمجة — ليست حالة روابط المحتوى)
+ * وأي scheme آخر قد ينفذ سكربت (vbscript:…). لا يُحذف أي رابط سليم.
+ */
+export function unsafeExternalLinks(content: string): string[] {
+  const unsafe: string[] = [];
+  for (const m of (content || "").matchAll(/\]\(([^)\s]+)\)/g)) {
+    const href = m[1].trim();
+    if (href.startsWith("/")) continue; // رابط داخلي — يُفحص في brokenInternalLinks
+    if (/^https?:\/\//i.test(href)) continue; // رابط خارجي سليم
+    // رابط مطلق بلا scheme آمن (javascript:, data:, vbscript:, mailto?…)
+    const scheme = /^([a-z][a-z0-9+.-]*):/i.exec(href);
+    if (scheme) {
+      const s = scheme[1].toLowerCase();
+      if (s !== "http" && s !== "https") unsafe.push(href.slice(0, 80));
+    } else if (href) {
+      unsafe.push(href.slice(0, 80));
+    }
+  }
+  return unsafe;
+}
+
+/** هل الرابط الخارجي آمن للعرض في الصفحة العامة؟ (http/https فقط) */
+export function isSafeExternalHref(href: string): boolean {
+  return /^https?:\/\//i.test((href || "").trim());
 }
 
 /* ── مسودات الطلبات ─────────────────────────────────────────────────────── */
@@ -355,9 +391,11 @@ export function validateManualDraft(draft: ManualDraft, articles: ArticleRecord[
   if (draft.country && !countryByCode(draft.country)) errors.push("رمز الدولة غير معروف.");
   if (!CATEGORIES.some((c) => c.id === draft.category)) errors.push("التصنيف غير معروف.");
 
+  // حارس ضد المقال الفارغ/شبه الفارغ فقط — لا يوجد حد 1400 كلمة ولا أي شرط
+  // طول لأغراض SEO: المقال القصير الصالح يُنشر، والمحتوى الفارغ فقط يُرفض.
   const words = countWords(draft.content);
-  if (words < LIMITS.MIN_WORDS) {
-    errors.push(`عدد كلمات المحتوى ${words} — الحد الأدنى للنشر ${LIMITS.MIN_WORDS} كلمة.`);
+  if (!draft.content.trim() || words < LIMITS.MIN_WORDS) {
+    errors.push(`محتوى المقال فارغ أو شبه فارغ (${words} كلمة) — اكتب محتوى صالحاً للنشر (${LIMITS.MIN_WORDS} كلمة على الأقل لمنع النشر الفارغ).`);
   }
 
   // slug
@@ -403,9 +441,13 @@ export function validateManualDraft(draft: ManualDraft, articles: ArticleRecord[
   // السلامة الطبية + التجارية
   for (const v of safetyViolations(`${title}\n${summary}\n${draft.content}`)) errors.push(`سلامة: ${v}`);
 
-  // روابط داخلية
-  const broken = brokenInternalLinks(draft.content, articles);
+  // روابط داخلية (يُسمح برابط المقال إلى ذاته عند النشر الجديد)
+  const broken = brokenInternalLinks(draft.content, articles, exclude ? null : draft.slug.trim() || null);
   if (broken.length) errors.push(`روابط داخلية مكسورة في المحتوى: ${broken.join("، ")} — يجب أن تشير لمسارات منشورة فقط.`);
+
+  // روابط خارجية خطيرة (javascript:/data:… — الروابط السليمة تبقى وتُعرض clickable)
+  const unsafe = unsafeExternalLinks(draft.content);
+  if (unsafe.length) errors.push(`روابط خارجية غير آمنة في المحتوى: ${unsafe.join("، ")} — المسموح روابط https/http فقط.`);
 
   return errors;
 }
