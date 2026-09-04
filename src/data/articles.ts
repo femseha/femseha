@@ -4,6 +4,7 @@ import seoSupportingArticles from "./seo-supporting-articles.json";
 import seoContentBatch01 from "./seo-content-batch-01.json";
 import seoContentBatch02 from "./seo-content-batch-02.json";
 import seoContentBatch03 from "./seo-content-batch-03.json";
+import seoContentBatch04 from "./seo-content-batch-04.json";
 import seoSupportingFaq from "./seo-supporting-faq.json";
 import seoClusterLinks from "./seo-cluster-links.json";
 import seoPillarOverrides from "./seo-pillar-overrides.json";
@@ -20,6 +21,7 @@ const allArticles = [
   ...(seoContentBatch01 as ArticleRecord[]),
   ...(seoContentBatch02 as ArticleRecord[]),
   ...(seoContentBatch03 as ArticleRecord[]),
+  ...(seoContentBatch04 as ArticleRecord[]),
 ];
 
 // Preserve the first occurrence when a content batch accidentally repeats an
