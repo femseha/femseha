@@ -2,6 +2,7 @@ import type { ArticleRecord } from "./types";
 import articlesData from "./articles.json";
 import seoSupportingArticles from "./seo-supporting-articles.json";
 import seoSupportingFaq from "./seo-supporting-faq.json";
+import seoClusterLinks from "./seo-cluster-links.json";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // مصدر بيانات المقالات المنشورة للموقع العام.
@@ -10,6 +11,7 @@ import seoSupportingFaq from "./seo-supporting-faq.json";
 // ─────────────────────────────────────────────────────────────────────────────
 
 const faqBySlug = seoSupportingFaq as Record<string, ArticleRecord["faq"]>;
+const clusterLinksBySlug = seoClusterLinks as Record<string, string[]>;
 
 const allArticles = [
   ...(articlesData as ArticleRecord[]),
@@ -18,8 +20,15 @@ const allArticles = [
 
 export const articles: ArticleRecord[] = allArticles.map((article) => {
   const faq = faqBySlug[article.slug];
-  if (!faq || article.faq?.length) return article;
-  return { ...article, faq };
+  const clusterLinks = clusterLinksBySlug[article.slug];
+  const withFaq = !faq || article.faq?.length ? article : { ...article, faq };
+  if (!clusterLinks?.length) return withFaq;
+
+  // روابط الكلستر الاستراتيجية تُضاف قبل الروابط القديمة مع إزالة التكرار.
+  const related = [...clusterLinks, ...(withFaq.related || [])].filter(
+    (slug, index, list) => list.indexOf(slug) === index && slug !== article.slug
+  );
+  return { ...withFaq, related };
 });
 
 /** البحث عن مقال بالمعرّف أو بالـ slug */
