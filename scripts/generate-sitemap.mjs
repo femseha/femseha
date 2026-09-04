@@ -1,11 +1,4 @@
 #!/usr/bin/env node
-/**
- * ═══════════════════════════════════════════════════════════════════════════
- * مولّد Sitemap الديناميكي — منصة FemSeha | فيم صحة
- * ═══════════════════════════════════════════════════════════════════════════
- * مصدر الحقيقة للمقالات: src/data/articles.json + المحتوى الداعم المركّز
- * في src/data/seo-supporting-articles.json + جدول المسارات الثابتة أدناه.
- */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -13,6 +6,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ARTICLES_PATH = path.join(ROOT, "src", "data", "articles.json");
 const SUPPORTING_ARTICLES_PATH = path.join(ROOT, "src", "data", "seo-supporting-articles.json");
+const CONTENT_BATCH_01_PATH = path.join(ROOT, "src", "data", "seo-content-batch-01.json");
 const SITE_TS_PATH = path.join(ROOT, "src", "data", "site.ts");
 const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
 
@@ -32,7 +26,6 @@ export const STATIC_INDEXABLE = [
 ];
 
 export const FORBIDDEN_PATHS = ["/admin", "/search"];
-
 const isIsoDate = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s || "") && !Number.isNaN(Date.parse(s));
 const escapeXml = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 
@@ -42,21 +35,18 @@ function validateArticles(articles, sourceLabel) {
     const label = a.slug || a.id || "(بدون slug)";
     if (!a.slug || !/^[a-z0-9-]+$/.test(a.slug)) throw new Error(`${label}: slug مفقود أو بصيغة غير صالحة`);
     if (!isIsoDate(a.publishDate)) throw new Error(`${label}: publishDate غير صالح (${a.publishDate})`);
-    if (a.modifiedDate !== undefined) {
-      if (!isIsoDate(a.modifiedDate)) throw new Error(`${label}: modifiedDate غير صالح (${a.modifiedDate})`);
-      if (a.modifiedDate < a.publishDate) throw new Error(`${label}: modifiedDate يسبق publishDate`);
-    }
+    if (a.modifiedDate !== undefined && (!isIsoDate(a.modifiedDate) || a.modifiedDate < a.publishDate)) throw new Error(`${label}: modifiedDate غير صالح`);
   }
 }
 
-/** تحميل جميع المقالات التي تظهر فعلياً في الموقع العام. */
 export function loadArticles() {
   const primary = JSON.parse(fs.readFileSync(ARTICLES_PATH, "utf8"));
   const supporting = JSON.parse(fs.readFileSync(SUPPORTING_ARTICLES_PATH, "utf8"));
+  const batch01 = JSON.parse(fs.readFileSync(CONTENT_BATCH_01_PATH, "utf8"));
   validateArticles(primary, "articles.json");
   validateArticles(supporting, "seo-supporting-articles.json");
-
-  const articles = [...primary, ...supporting];
+  validateArticles(batch01, "seo-content-batch-01.json");
+  const articles = [...primary, ...supporting, ...batch01];
   const seen = new Map();
   for (const a of articles) {
     const label = a.slug || a.id || "(بدون slug)";
@@ -67,42 +57,18 @@ export function loadArticles() {
 }
 
 function latestContentDate(articles) {
-  return articles.reduce(
-    (max, a) => (a.modifiedDate || a.publishDate) > max ? (a.modifiedDate || a.publishDate) : max,
-    articles[0] ? articles[0].publishDate : ""
-  );
+  return articles.reduce((max, a) => (a.modifiedDate || a.publishDate) > max ? (a.modifiedDate || a.publishDate) : max, articles[0] ? articles[0].publishDate : "");
 }
 
 function urlBlock({ loc, lastmod, changefreq, priority }) {
-  return [
-    "  <url>",
-    `    <loc>${escapeXml(loc)}</loc>`,
-    ...(lastmod ? [`    <lastmod>${escapeXml(lastmod)}</lastmod>`] : []),
-    `    <changefreq>${changefreq}</changefreq>`,
-    `    <priority>${priority}</priority>`,
-    "  </url>"
-  ].join("\n");
+  return ["  <url>", `    <loc>${escapeXml(loc)}</loc>`, ...(lastmod ? [`    <lastmod>${escapeXml(lastmod)}</lastmod>`] : []), `    <changefreq>${changefreq}</changefreq>`, `    <priority>${priority}</priority>`, "  </url>"].join("\n");
 }
 
 export function buildSitemapXml(articles, siteUrl = readSiteUrl()) {
   const contentDate = latestContentDate(articles);
   const blocks = [
-    ...STATIC_INDEXABLE.map((s) =>
-      urlBlock({
-        loc: s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path}`,
-        lastmod: s.lastmod === "content" ? contentDate : false,
-        changefreq: s.changefreq,
-        priority: s.priority
-      })
-    ),
-    ...articles.map((a) =>
-      urlBlock({
-        loc: `${siteUrl}/articles/${a.slug}`,
-        lastmod: a.modifiedDate || a.publishDate,
-        changefreq: "monthly",
-        priority: "0.7"
-      })
-    )
+    ...STATIC_INDEXABLE.map((s) => urlBlock({ loc: s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path}`, lastmod: s.lastmod === "content" ? contentDate : false, changefreq: s.changefreq, priority: s.priority })),
+    ...articles.map((a) => urlBlock({ loc: `${siteUrl}/articles/${a.slug}`, lastmod: a.modifiedDate || a.publishDate, changefreq: "monthly", priority: "0.7" }))
   ];
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${blocks.join("\n")}\n</urlset>\n`;
 }
@@ -110,10 +76,7 @@ export function buildSitemapXml(articles, siteUrl = readSiteUrl()) {
 export function assertNoForbiddenUrls(xml, siteUrl) {
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
   const problems = [];
-  const allowed = new Set([
-    ...STATIC_INDEXABLE.map((s) => (s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path}`)),
-    ...locs.filter((u) => u.startsWith(`${siteUrl}/articles/`))
-  ]);
+  const allowed = new Set([...STATIC_INDEXABLE.map((s) => (s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path}`)), ...locs.filter((u) => u.startsWith(`${siteUrl}/articles/`))]);
   for (const u of locs) {
     const p = new URL(u).pathname;
     for (const bad of FORBIDDEN_PATHS) if (p === bad || p.startsWith(`${bad}/`)) problems.push(`مسار محجوب في sitemap: ${u}`);
@@ -129,23 +92,13 @@ function main() {
   const articles = loadArticles();
   const xml = buildSitemapXml(articles, siteUrl);
   const problems = assertNoForbiddenUrls(xml, siteUrl);
-  if (problems.length) {
-    console.error("✖ فشل توليد sitemap — مخالفات:");
-    for (const p of problems) console.error(`  - ${p}`);
-    process.exit(1);
-  }
-
+  if (problems.length) { console.error("✖ فشل توليد sitemap — مخالفات:"); for (const p of problems) console.error(`  - ${p}`); process.exit(1); }
   const count = STATIC_INDEXABLE.length + articles.length;
   if (checkOnly) {
     const current = fs.existsSync(SITEMAP_PATH) ? fs.readFileSync(SITEMAP_PATH, "utf8") : "";
-    if (current === xml) {
-      console.log(`✔ sitemap.xml محدّث (${count} URL = ${STATIC_INDEXABLE.length} صفحة ثابتة + ${articles.length} مقالاً).`);
-      return;
-    }
-    console.error("✖ sitemap.xml غير متطابق مع بيانات المقالات — شغّل: npm run sitemap");
-    process.exit(1);
+    if (current === xml) { console.log(`✔ sitemap.xml محدّث (${count} URL = ${STATIC_INDEXABLE.length} صفحة ثابتة + ${articles.length} مقالاً).`); return; }
+    console.error("✖ sitemap.xml غير متطابق مع بيانات المقالات — شغّل: npm run sitemap"); process.exit(1);
   }
-
   fs.mkdirSync(path.dirname(SITEMAP_PATH), { recursive: true });
   const before = fs.existsSync(SITEMAP_PATH) ? fs.readFileSync(SITEMAP_PATH, "utf8") : "";
   fs.writeFileSync(SITEMAP_PATH, xml, "utf8");
