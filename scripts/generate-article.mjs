@@ -49,7 +49,7 @@ export const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
 export const SITE_URL = "https://femseha.com";
 export const MODEL = "gemini-3.6-flash";
 export const DOCTOR_NAME = "د. هيثم الخطيب";
-export const MIN_WORDS = 1400;          // الحد الأدنى المقبول للنشر
+export const MIN_WORDS = 50;           // حد الصلاحية الأدنى: منع المقال الفارغ/شبه الفارغ فقط — ليس شرط طول SEO (أُزيل الحد الإجباري 1400)
 export const TARGET_WORDS_DEFAULT = 2000;
 export const MAX_DAILY_ARTICLES = 3;    // السقف اليومي للنشر (الجدولة القديمة تعمل 5 مرات يومياً)
 
@@ -563,8 +563,11 @@ export function runQualityChecks(gen, topic, articles) {
   const errors = [];
 
   const words = countArabicWords(gen.content);
-  if (words < MIN_WORDS) {
-    errors.push(`عدد الكلمات ${words} أقل من الحد الأدنى ${MIN_WORDS}`);
+  // حد الصلاحية فقط: يمنع المقال الفارغ أو شبه الفارغ — لا شرط طول للـSEO.
+  if (!String(gen.content || "").trim()) {
+    errors.push("محتوى المقال فارغ — لا يمكن النشر.");
+  } else if (words < MIN_WORDS) {
+    errors.push(`محتوى المقال شبه فارغ (${words} كلمة) — الحد الأدنى للصلاحية ${MIN_WORDS} كلمة.`);
   }
 
   if ((gen.title || "").length > 75) errors.push("العنوان أطول من 75 حرفاً");

@@ -394,6 +394,39 @@ async function waitForRun(
 
 const MAX_UPLOAD_BYTES = 950_000; // حد GitHub Contents API (1MB) مع هامش أمان
 
+/**
+ * اسم ملف آمن وفريد للرفع: لا يعتمد على اسم الملف الأصلي وحده.
+ * يزيل المسافات والأحرف الخاصة ومنعات المسارات (path traversal) ويحصر الاسم في
+ * [a-z0-9-] مع لاحقة زمنية + عشوائية تضمن التفرد.
+ */
+export function safeUploadName(hint: string, ext = "jpg"): string {
+  const base = String(hint || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 40)
+    .replace(/-+$/g, "");
+  const safeBase = base.length >= 3 ? base : "image";
+  const stamp = Date.now().toString(36);
+  const rand = Math.random().toString(36).slice(2, 8);
+  const safeExt = String(ext || "jpg").replace(/[^a-z0-9]/g, "") || "jpg";
+  return `${safeBase}-${stamp}${rand}.${safeExt}`;
+}
+
+/** المسار العام للصور المرفوعة على الموقع (public/ تُخدم من جذر النطاق) */
+export const PUBLIC_UPLOADS_BASE = UPLOADS_DIR.replace(/^public\//, "");
+
+/**
+ * الرابط النهائي الفعلي لصورة مرفوعة — يُحفظ في بيانات المقال.
+ * ⚠ سابقًا كان يُبنى بـ /public/ داخل المسار فكان يعطي 404 في الإنتاج.
+ */
+export function uploadedImageUrl(name: string): string {
+  const safeName = String(name || "").split("/").pop() || "";
+  if (!safeName) throw new Error("اسم ملف الصورة غير صالح.");
+  return `${SITE.url}/${PUBLIC_UPLOADS_BASE}/${safeName}`;
+}
+
 /** ضغط الصورة في المتصفح إلى JPEG بعرض أقصى 1600px وأقل من ~950KB */
 async function compressImage(file: File): Promise<{ blob: Blob; ext: "jpg" }> {
   const bitmap = await createImageBitmap(file);
@@ -419,23 +452,68 @@ async function compressImage(file: File): Promise<{ blob: Blob; ext: "jpg" }> {
   );
 }
 
-/** رفع صورة إلى public/images/uploads/ وإرجاع رابطها المطلق على الموقع */
+interface UploadContentsResponse {
+  content?: { path?: string; sha?: string };
+  commit?: { sha?: string };
+}
+
+/**
+ * التحقق الفعلي بعد الرفع: الملف موجود على main عبر Contents API، ثم فحص
+ * إمكانية الوصول العام (HTTP 200 عبر raw.githubusercontent.com).
+ * أي فشل يرمي خطأً بالسبب الحقيقي → تُوقف عملية النشر بالكامل (لا نجاح زائف).
+ */
+async function verifyUploadedPublicUrl(conn: GithubConnection, name: string): Promise<void> {
+  const repoPath = `${UPLOADS_DIR}/${name}`;
+  const stored = await gh<UploadContentsResponse>(
+    conn,
+    `/repos/${conn.owner}/${conn.repo}/contents/${repoPath}?ref=${MAIN_BRANCH}`
+  );
+  if (!stored?.content?.sha) {
+    throw new Error(`تحقق ما بعد الرفع فشل: الملف ${repoPath} غير موجود على فرع ${MAIN_BRANCH}.`);
+  }
+  const rawUrl = `https://raw.githubusercontent.com/${conn.owner}/${conn.repo}/${MAIN_BRANCH}/${repoPath}`;
+  let headRes: Response;
+  try {
+    headRes = await fetch(rawUrl, { method: "HEAD" });
+  } catch (e) {
+    throw new Error(`تحقق ما بعد الرفع فشل: تعذر الوصول إلى ${rawUrl} — ${describeError(e)}`);
+  }
+  if (!headRes.ok) {
+    throw new Error(
+      `تحقق ما بعد الرفع فشل: الرابط العام للصورة أعاد HTTP ${headRes.status} بدلاً من 200 (${rawUrl}).`
+    );
+  }
+  const type = headRes.headers.get("content-type") || "";
+  if (type && !/^image\//i.test(type)) {
+    throw new Error(`تحقق ما بعد الرفع فشل: الرابط العام لا يعيد صورة (content-type: ${type}).`);
+  }
+}
+
+/** رفع صورة إلى public/images/uploads/ وإرجاع رابطها العام النهائي (بلا /public/) */
 export async function uploadArticleImage(conn: GithubConnection, file: File, slugHint: string): Promise<string> {
   const { blob } = await compressImage(file);
-  const safeHint = slugHint.replace(/[^a-z0-9-]/g, "").slice(0, 40) || "image";
-  const name = `${safeHint}-${Date.now().toString(36)}.jpg`;
+  const name = safeUploadName(slugHint);
   const buffer = new Uint8Array(await blob.arrayBuffer());
   let binary = "";
   for (const b of buffer) binary += String.fromCharCode(b);
-  await gh(conn, `/repos/${conn.owner}/${conn.repo}/contents/${UPLOADS_DIR}/${name}`, {
-    method: "PUT",
-    body: JSON.stringify({
-      message: `chore(admin): رفع صورة مقال ${name}`,
-      content: btoa(binary),
-      branch: MAIN_BRANCH,
-    }),
-  });
-  return `${SITE.url}/${UPLOADS_DIR}/${name}`;
+  const putRes = await gh<UploadContentsResponse>(
+    conn,
+    `/repos/${conn.owner}/${conn.repo}/contents/${UPLOADS_DIR}/${name}`,
+    {
+      method: "PUT",
+      body: JSON.stringify({
+        message: `chore(admin): رفع صورة مقال ${name}`,
+        content: btoa(binary),
+        branch: MAIN_BRANCH,
+      }),
+    }
+  );
+  if (!putRes?.commit?.sha) {
+    throw new Error(`فشل رفع الصورة: GitHub لم يؤكد commit الرفع للملف ${UPLOADS_DIR}/${name}.`);
+  }
+  // persistence حرفيًا: نتحقق أن الملف محفوظ فعلًا وأن رابطه العام reachable قبل متابعة النشر.
+  await verifyUploadedPublicUrl(conn, name);
+  return uploadedImageUrl(name);
 }
 
 /* ── تنسيق النشر المباشر (طلب → تشغيل → نتيجة) ─────────────────────────── */

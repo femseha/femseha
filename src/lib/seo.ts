@@ -18,6 +18,60 @@ export interface SeoProps {
   noCanonical?: boolean;
 }
 
+/* ── التقاط إعدادات SEO أثناء SSR (للـ prerender) ─────────────────────────
+ * useSeo يضبط الوسوم عبر useEffect (متصفح فقط). أثناء renderToString يُنفَّذ
+ * جسم الهوك (وليس الـ effect)، لذا نلتقط props هنا ليبني scripts/prerender.mjs
+ * وسم <head> من المصدر نفسه الذي يستخدمه المتصفح — اتساق بالconstruction بين
+ * HTML الخام الذي يراه محرك البحث وDOM بعد تنفيذ JS. */
+let ssrSeoCapture: SeoProps | null = null;
+
+/** يبدأ عملية التقاط جديدة (يُستدعى قبل render لكل مسار) */
+export function beginSsrSeoCapture(): void {
+  ssrSeoCapture = null;
+}
+
+/** يعيد props آخر useSeo التُقط أثناء العرض الخادمي (ويمسّه) */
+export function capturedSsrSeo(): SeoProps | null {
+  const props = ssrSeoCapture;
+  ssrSeoCapture = null;
+  return props;
+}
+
+/** ناتج head ثابت محسوب — مرآة حرفية لمنطق useSeo في المتصفح */
+export interface StaticHead {
+  title: string;
+  description: string;
+  canonicalUrl: string | null;
+  robots: string | null;
+  og: { title: string; description: string; url: string; type: string; image: string };
+  twitter: { title: string; description: string; image: string };
+  jsonLd: object[];
+}
+
+/** يحسب وسوم head من props بنفس قواعد useSeo تماماً (بدون أي DOM) */
+export function computeStaticHead(props: SeoProps = {}): StaticHead {
+  const {
+    title, description, canonicalPath, canonicalUrl, jsonLd, image, type, robots, noCanonical,
+  } = props;
+  const url = canonicalUrl || (canonicalPath ? `${SITE.url}${canonicalPath}` : SITE.url);
+  const ogImage = image || `${SITE.url}/banner.jpg.png`;
+  return {
+    title: title || SITE.title,
+    description: description || SITE.description,
+    canonicalUrl: noCanonical ? null : url,
+    robots: robots || null,
+    og: {
+      title: title || SITE.title,
+      description: description || SITE.description,
+      url,
+      type: type || "website",
+      image: ogImage,
+    },
+    twitter: { title: title || SITE.title, description: description || SITE.description, image: ogImage },
+    jsonLd: jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [],
+  };
+}
+
 function upsertMeta(attr: "name" | "property", key: string, content: string) {
   let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
   if (!el) {
@@ -44,6 +98,12 @@ function upsertCanonical(url: string) {
  */
 export function useSeo(props: SeoProps = {}) {
   const { title, description, canonicalPath, canonicalUrl, jsonLd, keywords, image, type, robots, noCanonical } = props;
+
+  // أثناء SSR: لا DOM — يُكتفى بالتقاط props ليستخدمها prerender (انظر أعلاه).
+  if (typeof window === "undefined") {
+    ssrSeoCapture = props;
+    return;
+  }
 
   useEffect(() => {
     const url = canonicalUrl || (canonicalPath ? `${SITE.url}${canonicalPath}` : SITE.url);
