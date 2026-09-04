@@ -7,7 +7,8 @@
     "dev": "vite",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "sitemap:check": "node scripts/generate-sitemap.mjs --check",
-    "build": "node scripts/generate-sitemap.mjs && vite build",
+    "prerender": "node scripts/prerender.mjs",
+    "build": "node scripts/generate-sitemap.mjs && vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "seo:validate": "node scripts/seo-validate.mjs",
@@ -16,6 +17,7 @@
     "verify:ssr": "node scripts/ssr-verify.mjs",
     "audit:indexing": "node scripts/audit-indexing.mjs",
     "admin:selftest": "node scripts/admin-publish.mjs --self-test",
+    "test:publishing": "node scripts/regression-publishing.mjs",
     "test:retry": "node scripts/test-gemini-retry.mjs",
     "test:manual-json": "node scripts/test-admin-manual-json.mjs"
   },

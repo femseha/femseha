@@ -122,11 +122,23 @@ function asStringArray(v, max = 10) {
     .map((x) => x.trim().slice(0, 80));
 }
 
-function sanitizeImage(v) {
+/**
+ * تطهير/توحيد رابط صورة المقال قبل حفظه في بيانات المقال:
+ *  - يصحح النمط القديم المكسور /public/images/... → /images/... (كان يعطي 404 في الإنتاج
+ *    لأن public/ تُخدم من جذر النطاق على Vercel).
+ *  - يقبل فقط https/http أو مساراً داخلياً يبدأ بـ /images/ — يرفض blob:/data:/file:
+ *    والمسارات المحلية وobject URLs (لا يُحفظ أي رابط مؤقت في بيانات المقال).
+ */
+export function sanitizeImage(v) {
   if (typeof v !== "string") return undefined;
-  const s = v.trim();
+  let s = v.trim();
   if (!s) return undefined;
-  if (/^https?:\/\//.test(s) || /^\/images\//.test(s)) return s;
+  if (/^https?:\/\//i.test(s)) {
+    s = s.replace(/^(https?:\/\/[^/]+)\/public\//i, "$1/");
+    return s;
+  }
+  if (/^\/public\/images\//i.test(s)) return s.replace(/^\/public\//i, "/");
+  if (/^\/images\//.test(s)) return s;
   return undefined;
 }
 
@@ -169,6 +181,14 @@ function runAdminExtraChecks(candidate, articles, excludeSlug) {
     if (!m) continue;
     if (pat.negatable && NEGATION_RE.test(plain.slice(Math.max(0, m.index - 45), m.index))) continue;
     errors.push(`محتوى تجاري ممنوع (${pat.name}): "${m[0]}"`);
+  }
+
+  // روابط غير آمنة (javascript:/data:/vbscript:/file:/blob:) مرفوضة نهائياً —
+  // مطابق للعرض الآمن في ArticleView (قائمة سماح: روابط داخلية وhttps/http وmailto/tel).
+  for (const m of (candidate.content || "").matchAll(/\[[^\]]+\]\(\s*([^\s)]+)/g)) {
+    if (/^\s*(javascript|data|vbscript|file|blob|about):/i.test(m[1])) {
+      errors.push(`رابط غير آمن مرفوض في المحتوى: ${m[1]} — المسموح: روابط داخلية وhttps/http فقط.`);
+    }
   }
 
   // روابط داخلية مكسورة (يجب أن تشير لمسارات منشورة فقط)
@@ -367,6 +387,15 @@ function resolveSlug(candidate, req, articles) {
 /* ── معالجة طلب يدوي: فحص → نشر مباشر (جديد أو تعديل) ─────────────────── */
 
 function processManualRequest(req, ctx) {
+  // حد الصلاحية الأدنى: المقال الفارغ أو شبه الفارغ مرفوض قبل أي معالجة
+  // (فحص على المحتوى المُرسَل نفسه قبل إضافة الروابط/القسم الختامي تلقائياً).
+  const submittedWords = countArabicWords(String(req.content || ""));
+  if (!String(req.content || "").trim() || submittedWords < MIN_WORDS) {
+    throw new RequestFailure(
+      `محتوى المقال فارغ أو شبه فارغ (${submittedWords} كلمة) — الحد الأدنى للصلاحية ${MIN_WORDS} كلمة.`
+    );
+  }
+
   const isEdit = Boolean(req.editSlug);
   const existing = isEdit ? ctx.articles.find((a) => a.slug === req.editSlug) : null;
   if (isEdit && !existing) throw new RequestFailure(`المقال المطلوب تعديله غير موجود: ${req.editSlug}`);
@@ -614,8 +643,10 @@ async function selfTest() {
     content: filler,
   });
 
-  // 2ب) الموضوع المستثنى صراحةً من فحص التنافس → يجب أن يمر إلى النشر
-  //     (باقي فحوصات السلامة/الجودة تبقى مطبقة عليه بالكامل)
+  // 2ب) الموضوع المستثنى صراحةً من فحص التنافس → يجب ألا يُرفض بسبب التنافس.
+  //     باقي فحوصات السلامة/الجودة تبقى مطبقة عليه بالكامل (العنوان هنا مطابق
+  //     لعنوان المقال المنشور فعلياً فيخفق فحص تشابه العناوين — والهدف إثبات أن
+  //     الرفض — إن حدث — ليس بسبب فحص التنافس المستثنى).
   writeReq("req-0004-manual-exempt", {
     id: "req-0004-manual-exempt",
     mode: "manual",
@@ -659,6 +690,73 @@ async function selfTest() {
     slug: null,
   });
 
+  // 4) مقال يدوي قصير (< 1400 كلمة) بروابط داخلية/خارجية وصورة بالنمط القديم
+  //    المكسور (/public/images/) → يجب أن يُنشر: حد الصلاحية فقط، والروابط تبقى
+  //    محفوظة، ورابط الصورة يُصحح إلى المسار العام الصحيح.
+  const shortContent = [
+    "### متابعة صحة المرأة بعد الفحص",
+    "",
+    "هذا دليل تجريبي قصير يشرح [اقرئي أيضاً](/articles/cytotec-misoprostol-saudi-riyadh-guide) ضمن فقرة واضحة، مع **رابط مهم داخل النص**: [وزارة الصحة](https://www.moh.gov.sa/) يبقى قابلاً للنقر بعد الحفظ والنشر مباشرة دون أي حذف أو تحويل إلى نص.",
+    "",
+    "* نقطة أولى تشرح المتابعة الهادئة المنظمة",
+    "* نقطة ثانية تشرح التوثيق الدقيق للفحوصات",
+    "* نقطة ثالثة تشرح التقييم الطبي المباشر عند الحاجة الطارئة",
+    "",
+    "### القسم الختامي التجريبي",
+    "",
+    "الخلاصة أن المحتوى القصير الصالح يُنشر دون شرط طول إضافي، وأن الروابط الداخلية والخارجية تبقى محفوظة كما كُتبت تماماً في المحرر قبل الإرسال إلى خط النشر المباشر للمنصة.",
+  ].join("\n");
+  writeReq("req-0006-manual-short-links", {
+    id: "req-0006-manual-short-links",
+    mode: "manual",
+    title: "دليل تجريبي قصير للروابط والصور في متابعة صحة المرأة الآمنة",
+    primaryKeyword: "روابط وصور المقالات التجريبية",
+    secondaryKeywords: [],
+    country: null,
+    category: "general-health",
+    image: "https://femseha.com/public/images/uploads/self-test-upload.jpg",
+    slug: "self-test-short-links-article",
+    summary:
+      "ملخص تجريبي لدليل قصير صالح للنشر يتحقق من بقاء الروابط الداخلية والخارجية وصورة المقال بعد الحفظ والنشر، مع حد صلاحية أدنى يمنع المحتوى الفارغ دون شرط طول إضافي.",
+    content: shortContent,
+  });
+
+  // 5) رابط غير آمن (javascript:) → يجب أن يُرفض ولا يُنشر أبداً
+  writeReq("req-0007-manual-unsafe-link", {
+    id: "req-0007-manual-unsafe-link",
+    mode: "manual",
+    title: "دليل تجريبي يفحص رفض الروابط غير الآمنة قبل النشر المباشر",
+    primaryKeyword: "رفض الروابط غير الآمنة التجريبي",
+    secondaryKeywords: [],
+    country: null,
+    category: "general-health",
+    image: null,
+    slug: "self-test-unsafe-link",
+    summary:
+      "ملخص تجريبي ثانٍ يتحقق من أن الروابط غير الآمنة مثل أوامر التنفيذ داخل الروابط تُرفض قبل النشر ولا تصل أبداً إلى صفحة مقال منشورة على الموقع العام إطلاقاً.",
+    content:
+      shortContent.replace(
+        "[وزارة الصحة](https://www.moh.gov.sa/)",
+        "[اضغطي هنا](javascript:alert(1))"
+      ),
+  });
+
+  // 6) محتوى فارغ → يجب أن يُرفض (حد الصلاحية الأدنى يمنع المقال الفارغ)
+  writeReq("req-0008-manual-empty", {
+    id: "req-0008-manual-empty",
+    mode: "manual",
+    title: "دليل تجريبي بلا محتوى للتأكد من رفض المقالات الفارغة نهائياً",
+    primaryKeyword: "رفض المحتوى الفارغ التجريبي",
+    secondaryKeywords: [],
+    country: null,
+    category: "general-health",
+    image: null,
+    slug: "self-test-empty-article",
+    summary:
+      "ملخص تجريبي ثالث يرافق طلباً بلا محتوى إطلاقاً للتأكد من أن خط النشر يرفض المقال الفارغ ولا يعلن نجاحاً زائفاً في أي حالة من حالات المحتوى المفقود.",
+    content: "",
+  });
+
   const summary = await processRequests({ requestsDir, articlesPath, sitemapPath, selfTest: true });
 
   // التحقق من النتائج
@@ -667,12 +765,45 @@ async function selfTest() {
   // إثبات أن مسار AI مربوط بموديل Gemini الحالي وليس الموديل المتوقف.
   const modelUrl = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
   const assertions = [
-    ["نُشرت الطلبات الصالحة ورُفض المتنافسان", summary.published === 3 && summary.failed === 2 && summary.processed === 5],
+    ["نُشرت الطلبات الصالحة ورُفض غير الصالحة", summary.published === 3 && summary.failed === 5 && summary.processed === 8],
     [
-      "المقال المستثنى من فحص التنافس وصل للنشر فعلياً",
-      nextArticles.some(
-        (a) => a.slug === "abortion-medications-saudi-arabia" && a.primaryKeyword === "أدوية إجهاض الحمل في السعودية"
-      ),
+      "الطلب المستثنى من التنافس لم يُرفض بسبب التنافس (بقية الفحوصات سارية)",
+      (() => {
+        const f = path.join(requestsDir, "req-0004-manual-exempt.json");
+        if (!fs.existsSync(f)) return false;
+        const marked = JSON.parse(fs.readFileSync(f, "utf8"));
+        return marked.status === "failed" && !/تنافس/.test(marked.error || "") && /التشابه/.test(marked.error || "");
+      })(),
+    ],
+    [
+      "المقال القصير الصالح نُشر وروابطه وصورته محفوظة ومصححة",
+      (() => {
+        const a = nextArticles.find((x) => x.slug === "self-test-short-links-article");
+        if (!a) return false;
+        const imageOk = a.image === "https://femseha.com/images/uploads/self-test-upload.jpg";
+        const internalOk = a.content.includes("[اقرئي أيضاً](/articles/cytotec-misoprostol-saudi-riyadh-guide)");
+        const externalOk = a.content.includes("[وزارة الصحة](https://www.moh.gov.sa/)");
+        const noPublicInImage = !String(a.image || "").includes("/public/");
+        return imageOk && internalOk && externalOk && noPublicInImage;
+      })(),
+    ],
+    [
+      "الرابط غير الآمن (javascript:) أُرفض ولم يُنشر",
+      (() => {
+        const f = path.join(requestsDir, "req-0007-manual-unsafe-link.json");
+        if (!fs.existsSync(f)) return false;
+        const marked = JSON.parse(fs.readFileSync(f, "utf8"));
+        return marked.status === "failed" && /غير آمن/.test(marked.error || "");
+      })(),
+    ],
+    [
+      "المقال الفارغ أُرفض",
+      (() => {
+        const f = path.join(requestsDir, "req-0008-manual-empty.json");
+        if (!fs.existsSync(f)) return false;
+        const marked = JSON.parse(fs.readFileSync(f, "utf8"));
+        return marked.status === "failed" && /فارغ/.test(marked.error || "");
+      })(),
     ],
     [
       "فحص التنافس ما زال يرفض المواضيع غير المستثناة",

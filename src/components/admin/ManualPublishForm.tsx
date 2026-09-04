@@ -198,8 +198,9 @@ export default function ManualPublishForm({
                 <code dir="ltr" className="bg-white border border-slate-200 rounded px-1">* عنصر قائمة</code> و
                 <code dir="ltr" className="bg-white border border-slate-200 rounded px-1 mx-1">**تأكيد**</code> وروابط داخلية
                 <code dir="ltr" className="bg-white border border-slate-200 rounded px-1 mx-1">[النص](/articles/slug)</code>
-                لمسارات منشورة فقط. يُضاف قسم الاستشارة الطبية الرسمي تلقائياً عند النشر.
-                الحد الأدنى {LIMITS.MIN_WORDS} كلمة — الحالي: <strong>{words}</strong>.
+                لمسارات منشورة فقط، وروابط خارجية <code dir="ltr" className="bg-white border border-slate-200 rounded px-1 mx-1">[النص](https://example.com)</code>.
+                يُضاف قسم الاستشارة الطبية الرسمي تلقائياً عند النشر.
+                لا حد أدنى لعدد الكلمات للـSEO — المطلوب فقط محتوى غير فارغ (الحد الأدنى للصلاحية {LIMITS.MIN_WORDS} كلمة) — الحالي: <strong>{words}</strong>.
                 ممنوع: جرعات رقمية، أسعار، وسائل تواصل، جهات بيع، وعود نتائج.
               </>
             }

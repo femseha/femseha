@@ -49,7 +49,10 @@ export const CATEGORIES: { id: string; name: string }[] = [
 /* ── عتبات الجودة (مطابقة لثوابت scripts/generate-article.mjs) ─────────── */
 
 export const LIMITS = {
-  MIN_WORDS: 1400,
+  /** حد الصلاحية الأدنى فقط: يمنع المقال الفارغ/شبه الفارغ — ليس شرط طول للـSEO.
+   *  (أُزيل الحد الإجباري 1400 كلمة من عملية النشر — مطابق لـ MIN_WORDS في
+   *  scripts/generate-article.mjs) */
+  MIN_WORDS: 50,
   TITLE_MIN: 20,
   TITLE_MAX: 75,
   SUMMARY_MIN: 100,
@@ -284,6 +287,19 @@ export function brokenInternalLinks(content: string, articles: ArticleRecord[]):
   return broken;
 }
 
+/**
+ * الروابط الخطرة داخل المحتوى (schemes غير آمنة): javascript: و data: و vbscript:
+ * و file: و blob: — مرفوضة قبل النشر (المطابق للعرض الآمن في ArticleView).
+ */
+export function dangerousContentLinks(content: string): string[] {
+  const bad: string[] = [];
+  for (const m of (content || "").matchAll(/\[[^\]]+\]\(\s*([^\s)]+)/g)) {
+    const href = (m[1] || "").trim();
+    if (/^\s*(javascript|data|vbscript|file|blob|about):/i.test(href)) bad.push(href);
+  }
+  return bad;
+}
+
 /* ── مسودات الطلبات ─────────────────────────────────────────────────────── */
 
 export interface AiDraft {
@@ -356,8 +372,11 @@ export function validateManualDraft(draft: ManualDraft, articles: ArticleRecord[
   if (!CATEGORIES.some((c) => c.id === draft.category)) errors.push("التصنيف غير معروف.");
 
   const words = countWords(draft.content);
-  if (words < LIMITS.MIN_WORDS) {
-    errors.push(`عدد كلمات المحتوى ${words} — الحد الأدنى للنشر ${LIMITS.MIN_WORDS} كلمة.`);
+  // حد الصلاحية فقط: منع المقال الفارغ/شبه الفارغ — لا شرط طول SEO (إزالة حد 1400).
+  if (!draft.content.trim()) {
+    errors.push("محتوى المقال فارغ — لا يمكن النشر.");
+  } else if (words < LIMITS.MIN_WORDS) {
+    errors.push(`محتوى المقال شبه فارغ (${words} كلمة) — الحد الأدنى للصلاحية ${LIMITS.MIN_WORDS} كلمة.`);
   }
 
   // slug
@@ -402,6 +421,12 @@ export function validateManualDraft(draft: ManualDraft, articles: ArticleRecord[
 
   // السلامة الطبية + التجارية
   for (const v of safetyViolations(`${title}\n${summary}\n${draft.content}`)) errors.push(`سلامة: ${v}`);
+
+  // الروابط الخطرة (javascript:/data:/... مرفوضة — الروابط الصحيحة تبقى كما هي)
+  const dangerous = dangerousContentLinks(draft.content);
+  if (dangerous.length) {
+    errors.push(`روابط غير آمنة مرفوضة في المحتوى: ${dangerous.join("، ")} — المسموح: روابط داخلية وhttps/http فقط.`);
+  }
 
   // روابط داخلية
   const broken = brokenInternalLinks(draft.content, articles);
