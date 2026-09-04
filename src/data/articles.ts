@@ -1,14 +1,17 @@
 import type { ArticleRecord } from "./types";
 import articlesData from "./articles.json";
+import seoSupportingArticles from "./seo-supporting-articles.json";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// مصدر بيانات المقالات الوحيد للموقع العام.
-// البيانات محفوظة في: src/data/articles.json
-// ويحدَّث تلقائياً بواسطة خط النشر الآلي: scripts/generate-article.js
-// (النشر لا يحدث إلا بعد اجتياز فحوصات الجودة والسلامة وتفرّد الموضوع).
+// مصدر بيانات المقالات المنشورة للموقع العام.
+// البيانات الأساسية محفوظة في: src/data/articles.json
+// والمحتوى الداعم المركّز يُحفظ في: src/data/seo-supporting-articles.json
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const articles: ArticleRecord[] = articlesData as ArticleRecord[];
+export const articles: ArticleRecord[] = [
+  ...(articlesData as ArticleRecord[]),
+  ...(seoSupportingArticles as ArticleRecord[]),
+];
 
 /** البحث عن مقال بالمعرّف أو بالـ slug */
 export function getArticleBySlug(slug?: string): ArticleRecord | undefined {
