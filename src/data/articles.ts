@@ -3,6 +3,7 @@ import articlesData from "./articles.json";
 import seoSupportingArticles from "./seo-supporting-articles.json";
 import seoSupportingFaq from "./seo-supporting-faq.json";
 import seoClusterLinks from "./seo-cluster-links.json";
+import seoPillarOverrides from "./seo-pillar-overrides.json";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // مصدر بيانات المقالات المنشورة للموقع العام.
@@ -12,6 +13,10 @@ import seoClusterLinks from "./seo-cluster-links.json";
 
 const faqBySlug = seoSupportingFaq as Record<string, ArticleRecord["faq"]>;
 const clusterLinksBySlug = seoClusterLinks as Record<string, string[]>;
+const pillarOverrides = seoPillarOverrides as Record<
+  string,
+  { title?: string; summary?: string; contentAppend?: string }
+>;
 
 const allArticles = [
   ...(articlesData as ArticleRecord[]),
@@ -21,14 +26,25 @@ const allArticles = [
 export const articles: ArticleRecord[] = allArticles.map((article) => {
   const faq = faqBySlug[article.slug];
   const clusterLinks = clusterLinksBySlug[article.slug];
+  const override = pillarOverrides[article.slug];
   const withFaq = !faq || article.faq?.length ? article : { ...article, faq };
-  if (!clusterLinks?.length) return withFaq;
+  const withPillar = override
+    ? {
+        ...withFaq,
+        ...(override.title ? { title: override.title } : {}),
+        ...(override.summary ? { summary: override.summary } : {}),
+        ...(override.contentAppend
+          ? { content: `${withFaq.content}\n\n${override.contentAppend}` }
+          : {}),
+      }
+    : withFaq;
+  if (!clusterLinks?.length) return withPillar;
 
   // روابط الكلستر الاستراتيجية تُضاف قبل الروابط القديمة مع إزالة التكرار.
-  const related = [...clusterLinks, ...(withFaq.related || [])].filter(
+  const related = [...clusterLinks, ...(withPillar.related || [])].filter(
     (slug, index, list) => list.indexOf(slug) === index && slug !== article.slug
   );
-  return { ...withFaq, related };
+  return { ...withPillar, related };
 });
 
 /** البحث عن مقال بالمعرّف أو بالـ slug */
