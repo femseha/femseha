@@ -68,3 +68,5 @@ export function articleCategories(): { id: string; name: string }[] {
 }
 
 export { GENERATED_ARTICLES } from "./generated-articles";
+
+// Preview build retrigger after content batch integration.
