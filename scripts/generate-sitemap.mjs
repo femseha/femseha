@@ -8,6 +8,7 @@ const ARTICLES_PATH = path.join(ROOT, "src", "data", "articles.json");
 const SUPPORTING_ARTICLES_PATH = path.join(ROOT, "src", "data", "seo-supporting-articles.json");
 const CONTENT_BATCH_01_PATH = path.join(ROOT, "src", "data", "seo-content-batch-01.json");
 const CONTENT_BATCH_02_PATH = path.join(ROOT, "src", "data", "seo-content-batch-02.json");
+const CONTENT_BATCH_03_PATH = path.join(ROOT, "src", "data", "seo-content-batch-03.json");
 const SITE_TS_PATH = path.join(ROOT, "src", "data", "site.ts");
 const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
 
@@ -45,10 +46,12 @@ export function loadArticles() {
   const supporting = JSON.parse(fs.readFileSync(SUPPORTING_ARTICLES_PATH, "utf8"));
   const batch01 = JSON.parse(fs.readFileSync(CONTENT_BATCH_01_PATH, "utf8"));
   const batch02 = JSON.parse(fs.readFileSync(CONTENT_BATCH_02_PATH, "utf8"));
+  const batch03 = JSON.parse(fs.readFileSync(CONTENT_BATCH_03_PATH, "utf8"));
   validateArticles(primary, "articles.json");
   validateArticles(supporting, "seo-supporting-articles.json");
   validateArticles(batch01, "seo-content-batch-01.json");
   validateArticles(batch02, "seo-content-batch-02.json");
+  validateArticles(batch03, "seo-content-batch-03.json");
 
   // Primary articles take precedence over supporting/batch records. This keeps
   // one canonical sitemap URL when a queued topic already exists.
@@ -57,6 +60,7 @@ export function loadArticles() {
     [supporting, "seo-supporting-articles.json"],
     [batch01, "seo-content-batch-01.json"],
     [batch02, "seo-content-batch-02.json"],
+    [batch03, "seo-content-batch-03.json"],
   ];
   const seen = new Map();
   const articles = [];
