@@ -2,6 +2,7 @@ import type { ArticleRecord } from "./types";
 import articlesData from "./articles.json";
 import seoSupportingArticles from "./seo-supporting-articles.json";
 import seoContentBatch01 from "./seo-content-batch-01.json";
+import seoContentBatch02 from "./seo-content-batch-02.json";
 import seoSupportingFaq from "./seo-supporting-faq.json";
 import seoClusterLinks from "./seo-cluster-links.json";
 import seoPillarOverrides from "./seo-pillar-overrides.json";
@@ -16,6 +17,7 @@ const allArticles = [
   ...(articlesData as ArticleRecord[]),
   ...(seoSupportingArticles as ArticleRecord[]),
   ...(seoContentBatch01 as ArticleRecord[]),
+  ...(seoContentBatch02 as ArticleRecord[]),
 ];
 
 // Preserve the first occurrence when a content batch accidentally repeats an
@@ -59,21 +61,19 @@ export const articles: ArticleRecord[] = uniqueArticles.map((article) => {
 
 export function getArticleBySlug(slug?: string): ArticleRecord | undefined {
   if (!slug) return undefined;
-  return articles.find((a) => a.slug === slug || a.id === slug);
+  return articles.find((article) => article.slug === slug);
 }
 
-export function relatedArticles(current: ArticleRecord, max = 3): ArticleRecord[] {
-  const sameCategory = articles.filter((a) => a.slug !== current.slug && a.category === current.category);
-  const others = articles.filter((a) => a.slug !== current.slug && a.category !== current.category);
-  return [...sameCategory, ...others].slice(0, max);
+export function relatedArticles(article: ArticleRecord, limit = 3): ArticleRecord[] {
+  const preferred = (article.related || [])
+    .map((slug) => getArticleBySlug(slug))
+    .filter((item): item is ArticleRecord => Boolean(item));
+  const fallback = articles.filter((item) => item.slug !== article.slug && !preferred.some((p) => p.slug === item.slug));
+  return [...preferred, ...fallback].slice(0, limit);
 }
 
-export function articleCategories(): { id: string; name: string }[] {
-  const map = new Map<string, string>();
-  for (const a of articles) if (!map.has(a.category)) map.set(a.category, a.categoryName);
-  return [...map.entries()].map(([id, name]) => ({ id, name }));
-}
+export const articleCategories = Array.from(
+  new Map(articles.map((article) => [article.category, article.categoryName])).entries()
+).map(([slug, name]) => ({ slug, name }));
 
-export { GENERATED_ARTICLES } from "./generated-articles";
-
-// Preview build retrigger after content batch integration.
+export const GENERATED_ARTICLES = articles;
