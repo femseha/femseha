@@ -1,0 +1,32 @@
+name: Saudi Cytotec Cluster Audit
+
+on:
+  pull_request:
+    paths:
+      - 'src/data/articles.json'
+      - 'src/data/seo-supporting-articles.json'
+      - 'public/sitemap.xml'
+      - 'scripts/generate-sitemap.mjs'
+      - 'scripts/audit-saudi-cytotec-cluster.mjs'
+      - '.github/workflows/saudi-cytotec-audit.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/data/articles.json'
+      - 'src/data/seo-supporting-articles.json'
+      - 'public/sitemap.xml'
+      - 'scripts/generate-sitemap.mjs'
+      - 'scripts/audit-saudi-cytotec-cluster.mjs'
+      - '.github/workflows/saudi-cytotec-audit.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Generate current sitemap
+        run: node scripts/generate-sitemap.mjs
+      - name: Audit Saudi Cytotec cluster
+        run: node scripts/audit-saudi-cytotec-cluster.mjs
