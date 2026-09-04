@@ -1,0 +1,38 @@
+name: Consume Early Pregnancy Bleeding Topic
+on:
+  push:
+    branches:
+      - maintenance/next-content-early-pregnancy-bleeding
+permissions:
+  contents: write
+jobs:
+  consume:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Consume queue topic
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const p='src/data/content-map.json';
+          const m=JSON.parse(fs.readFileSync(p,'utf8'));
+          const slug='pregnancy-bleeding-first-trimester';
+          const q=Array.isArray(m.queue)?m.queue:[];
+          const before=q.length;
+          const out=q.filter(x=>x.slug!==slug);
+          if(out.length===before) throw new Error('Queue topic not found: '+slug);
+          if(out.some(x=>x.slug===slug)) throw new Error('Duplicate queue topic remains: '+slug);
+          m.queue=out; m.updatedAt='2026-09-04';
+          fs.writeFileSync(p,JSON.stringify(m,null,2)+'\n');
+          console.log(`Consumed ${slug}: ${before} -> ${out.length}`);
+          NODE
+      - name: Validate and commit
+        run: |
+          node -e "const m=require('./src/data/content-map.json'); const q=m.queue||[]; const d=q.filter((x,i)=>q.findIndex(y=>y.slug===x.slug)!==i); if(d.length) throw new Error('Duplicate queue slugs: '+d.map(x=>x.slug).join(',')); console.log('Queue valid: '+q.length+' unique topics remain')"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/consume-next-content-topic.yml
+          git add src/data/content-map.json
+          git diff --cached --check
+          git commit -m "chore: mark early pregnancy bleeding topic published"
+          git push
