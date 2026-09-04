@@ -251,8 +251,8 @@ export default function AdminPage() {
   ];
 
   return (
-    <main className="max-w-4xl mx-auto px-6 py-16" dir="rtl">
-      <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+    <main className="bg-slate-50 px-6 py-16" dir="rtl">
+      <div className="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
         <h1 className="text-xl font-bold text-slate-800 mb-2 text-center">لوحة الإدارة والتحكم</h1>
         <p className="text-sm text-slate-500 mb-6 text-center">إشراف د. هيثم الخطيب</p>
 

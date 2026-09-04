@@ -49,7 +49,14 @@ export const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
 export const SITE_URL = "https://femseha.com";
 export const MODEL = "gemini-3.6-flash";
 export const DOCTOR_NAME = "د. هيثم الخطيب";
-export const MIN_WORDS = 1400;          // الحد الأدنى المقبول للنشر
+/**
+ * الحد الأدنى الحقيقي للنشر.
+ * لا يوجد شرط «1400 كلمة» بعد اليوم — كان رقماً إجبارياً يمنع نشر مقالات قصيرة
+ * صالحة. المستخدم هنا هو حد الجودة الموجود أصلاً في فحص المحتوى بالمشروع
+ * (scripts/seo-validate.mjs: «محتوى قصير جداً» عند أقل من 250 كلمة).
+ * TARGET_WORDS_DEFAULT يبقى هدفاً تحريرياً للتوليد فقط — وليس شرطاً للنشر.
+ */
+export const MIN_WORDS = 250;           // الحد الأدنى المقبول للنشر (حد seo-validate نفسه)
 export const TARGET_WORDS_DEFAULT = 2000;
 export const MAX_DAILY_ARTICLES = 3;    // السقف اليومي للنشر (الجدولة القديمة تعمل 5 مرات يومياً)
 
@@ -559,12 +566,36 @@ export function finalizeContent(topic, gen, articles) {
 
 /* ── فحوصات الجودة الإلزامية قبل النشر ────────────────────────────────── */
 
+/** هل يحتوي المحتوى على فقرة نصية حقيقية؟ (منع المقال الفارغ/شبه الفارغ) */
+export function hasRealParagraph(content) {
+  return String(content || "")
+    .split("\n")
+    .map((l) => l.trim())
+    .some((line) => {
+      if (!line) return false;
+      if (/^(#{1,6}\s*|[-_*]{3,})$/.test(line)) return false;
+      const text = line
+        .replace(/^#{1,6}\s+/, "")
+        .replace(/^[*•]\s+/, "")
+        .replace(/^\d+[.)]\s+/, "")
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+        .replace(/[*_`>#-]/g, "")
+        .trim();
+      return countArabicWords(text) >= 3;
+    });
+}
+
 export function runQualityChecks(gen, topic, articles) {
   const errors = [];
 
+  const contentText = String(gen.content || "").trim();
   const words = countArabicWords(gen.content);
-  if (words < MIN_WORDS) {
-    errors.push(`عدد الكلمات ${words} أقل من الحد الأدنى ${MIN_WORDS}`);
+  if (!contentText) {
+    errors.push("محتوى المقال فارغ — لا يُنشر مقال بلا محتوى");
+  } else if (!hasRealParagraph(contentText)) {
+    errors.push("محتوى المقال غير صالح للنشر — لا يحتوي على أي فقرة نصية حقيقية");
+  } else if (words < MIN_WORDS) {
+    errors.push(`محتوى قصير جداً (${words} كلمة) — الحد الأدنى الفعلي للنشر ${MIN_WORDS} كلمة`);
   }
 
   if ((gen.title || "").length > 75) errors.push("العنوان أطول من 75 حرفاً");
@@ -777,7 +808,7 @@ async function main() {
   if (quality.errors.length > 0) {
     fail(`فشل فحص الجودة/السلامة — المقال لن يُنشر:\n  - ${quality.errors.join("\n  - ")}`);
   }
-  log(`✔ فحوصات الجودة: ${quality.words} كلمة (الحد الأدنى ${MIN_WORDS}) — اجتازت`);
+  log(`✔ فحوصات الجودة: ${quality.words} كلمة (الحد الأدنى الفعلي ${MIN_WORDS}) — اجتازت`);
 
   // 4) تجميع المقال النهائي
   const article = {
