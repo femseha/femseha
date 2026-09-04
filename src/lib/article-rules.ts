@@ -10,6 +10,8 @@
  * لا تعتمد هذه الوحدة على أي API خاص بـ Node (تعمل في المتصفح وفي SSR).
  */
 import countriesData from "../data/countries.json";
+import { internalPath, isUnsafeLink, extractMarkdownLinks } from "./links";
+import { isPublishableImageUrl, isTemporaryImageUrl } from "./image-url";
 import cannibalizationExceptions from "../data/cannibalization-exceptions.json";
 import type { ArticleRecord } from "../data/types";
 
@@ -49,7 +51,15 @@ export const CATEGORIES: { id: string; name: string }[] = [
 /* ── عتبات الجودة (مطابقة لثوابت scripts/generate-article.mjs) ─────────── */
 
 export const LIMITS = {
-  MIN_WORDS: 1400,
+  /**
+   * الحد الأدنى الحقيقي للمحتوى قبل النشر.
+   *
+   * لا يوجد شرط «1400 كلمة» بعد اليوم: كان رقماً إجبارياً يمنع نشر مقالات قصيرة
+   * صالحة تماماً. المستخدم هنا هو حد الجودة الموجود أصلاً في فحص المحتوى بالمشروع
+   * (scripts/seo-validate.mjs: «محتوى قصير جداً» عند أقل من 250 كلمة) — نفس الرقم
+   * ونفس المصدر، لا رقم جديد ولا شرط SEO مخترع.
+   */
+  MIN_WORDS: 250,
   TITLE_MIN: 20,
   TITLE_MAX: 75,
   SUMMARY_MIN: 100,
@@ -274,14 +284,43 @@ export function safetyViolations(text: string): string[] {
 
 /* ── الروابط الداخلية ───────────────────────────────────────────────────── */
 
-/** روابط داخلية مكسورة في محتوى ماركداون (مطابقة لفحص seo-validate.mjs) */
+/** روابط داخلية مكسورة في محتوى ماركداون (مطابقة لفحص seo-validate.mjs).
+ *  يشمل الروابط المطلقة على نطاق الموقع نفسه (https://femseha.com/...) لأنها
+ *  روابط داخلية فعلياً. الروابط الخارجية لا تُفحص هنا ولا تُحذف أبداً. */
 export function brokenInternalLinks(content: string, articles: ArticleRecord[]): string[] {
   const routes = new Set([...STATIC_ROUTES, ...articles.map((a) => `/articles/${a.slug}`)]);
   const broken: string[] = [];
-  for (const m of (content || "").matchAll(/\]\((\/[^\s)]+)\)/g)) {
-    if (!routes.has(m[1])) broken.push(m[1]);
+  for (const link of extractMarkdownLinks(content || "")) {
+    const path = internalPath(link.href);
+    if (path && !routes.has(path)) broken.push(path);
   }
   return broken;
+}
+
+/** روابط بمخططات خطرة (javascript:/data:/…) — تُرفض ولا تُنشر */
+export function unsafeLinks(content: string): string[] {
+  return extractMarkdownLinks(content || "")
+    .filter((l) => isUnsafeLink(l.href))
+    .map((l) => l.href);
+}
+
+/** هل يحتوي المحتوى على فقرة نصية حقيقية (وليس عناوين/قوائم فارغة أو رموزاً فقط)؟ */
+export function hasRealParagraph(content: string): boolean {
+  return String(content || "")
+    .split("\n")
+    .map((l) => l.trim())
+    .some((line) => {
+      if (!line) return false;
+      if (/^(#{1,6}\s*|[-_*]{3,})$/.test(line)) return false;
+      const text = line
+        .replace(/^#{1,6}\s+/, "")
+        .replace(/^[*•]\s+/, "")
+        .replace(/^\d+[.)]\s+/, "")
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+        .replace(/[*_`>#-]/g, "")
+        .trim();
+      return countWords(text) >= 3;
+    });
 }
 
 /* ── مسودات الطلبات ─────────────────────────────────────────────────────── */
@@ -317,6 +356,19 @@ export function parseKeywordList(raw: string): string[] {
     .filter(Boolean);
 }
 
+/** فحص رابط صورة المقال المُدخل يدوياً (الرفع من الجهاز يُفحص في github-publish) */
+export function imageDraftErrors(image?: string | null): string[] {
+  const value = String(image || "").trim();
+  if (!value) return [];
+  if (isTemporaryImageUrl(value)) {
+    return ["رابط الصورة مؤقت (blob/data/مسار محلي) ولا يعمل بعد النشر — ارفع الصورة من الجهاز أو استخدم رابطاً نهائياً."];
+  }
+  if (!isPublishableImageUrl(value)) {
+    return ["رابط الصورة غير صالح — استخدم رابط https كاملاً أو مساراً داخلياً يبدأ بـ /images/."];
+  }
+  return [];
+}
+
 /** فحص مسبق لطلب توليد AI — يعيد قائمة أخطاء (فارغة = جاهز للإرسال) */
 export function validateAiDraft(draft: AiDraft, articles: ArticleRecord[]): string[] {
   const errors: string[] = [];
@@ -324,6 +376,7 @@ export function validateAiDraft(draft: AiDraft, articles: ArticleRecord[]): stri
   if (!draft.primaryKeyword.trim()) errors.push("الكلمة المفتاحية الرئيسية مطلوبة.");
   if (draft.country && !countryByCode(draft.country)) errors.push("رمز الدولة غير معروف.");
   if (!CATEGORIES.some((c) => c.id === draft.category)) errors.push("التصنيف غير معروف.");
+  for (const e of imageDraftErrors(draft.image)) errors.push(e);
   if (draft.title.trim() && draft.primaryKeyword.trim()) {
     const cannibal = findCannibalization(
       { title: draft.title, primaryKeyword: draft.primaryKeyword },
@@ -355,9 +408,17 @@ export function validateManualDraft(draft: ManualDraft, articles: ArticleRecord[
   if (draft.country && !countryByCode(draft.country)) errors.push("رمز الدولة غير معروف.");
   if (!CATEGORIES.some((c) => c.id === draft.category)) errors.push("التصنيف غير معروف.");
 
+  // المحتوى: يُمنع الفارغ وشبه الفارغ فقط — لا شرط 1400 كلمة
+  const contentText = String(draft.content || "").trim();
   const words = countWords(draft.content);
-  if (words < LIMITS.MIN_WORDS) {
-    errors.push(`عدد كلمات المحتوى ${words} — الحد الأدنى للنشر ${LIMITS.MIN_WORDS} كلمة.`);
+  if (!contentText) {
+    errors.push("محتوى المقال فارغ — لا يمكن نشر مقال بلا محتوى.");
+  } else if (!hasRealParagraph(draft.content)) {
+    errors.push("محتوى المقال غير صالح للنشر — لا يحتوي على أي فقرة نصية حقيقية.");
+  } else if (words < LIMITS.MIN_WORDS) {
+    errors.push(
+      `محتوى قصير جداً (${words} كلمة) — الحد الأدنى الفعلي للنشر ${LIMITS.MIN_WORDS} كلمة (نفس حد فحص المحتوى في المشروع).`
+    );
   }
 
   // slug
@@ -406,6 +467,15 @@ export function validateManualDraft(draft: ManualDraft, articles: ArticleRecord[
   // روابط داخلية
   const broken = brokenInternalLinks(draft.content, articles);
   if (broken.length) errors.push(`روابط داخلية مكسورة في المحتوى: ${broken.join("، ")} — يجب أن تشير لمسارات منشورة فقط.`);
+
+  // روابط خطرة (لا تُحذف بصمت — يُرفض النشر ويُعرض السبب)
+  const unsafe = unsafeLinks(draft.content);
+  if (unsafe.length) {
+    errors.push(`روابط غير آمنة في المحتوى: ${unsafe.join("، ")} — المسموح فقط: http(s) وmailto وtel والمسارات الداخلية.`);
+  }
+
+  // صورة المقال: يجب أن تكون رابطاً نهائياً يمكن للصفحة العامة الوصول إليه
+  for (const e of imageDraftErrors(draft.image)) errors.push(e);
 
   return errors;
 }

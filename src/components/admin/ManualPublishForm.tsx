@@ -198,8 +198,11 @@ export default function ManualPublishForm({
                 <code dir="ltr" className="bg-white border border-slate-200 rounded px-1">* عنصر قائمة</code> و
                 <code dir="ltr" className="bg-white border border-slate-200 rounded px-1 mx-1">**تأكيد**</code> وروابط داخلية
                 <code dir="ltr" className="bg-white border border-slate-200 rounded px-1 mx-1">[النص](/articles/slug)</code>
-                لمسارات منشورة فقط. يُضاف قسم الاستشارة الطبية الرسمي تلقائياً عند النشر.
-                الحد الأدنى {LIMITS.MIN_WORDS} كلمة — الحالي: <strong>{words}</strong>.
+                أو روابط خارجية كاملة
+                <code dir="ltr" className="bg-white border border-slate-200 rounded px-1 mx-1">[النص](https://www.moh.gov.sa/)</code>
+                (تُفتح في تبويب جديد). يُضاف قسم الاستشارة الطبية الرسمي تلقائياً عند النشر.
+                لا يوجد شرط 1400 كلمة — يكفي محتوى حقيقي غير فارغ (الحد الأدنى الفعلي {LIMITS.MIN_WORDS} كلمة).
+                الحالي: <strong>{words}</strong>.
                 ممنوع: جرعات رقمية، أسعار، وسائل تواصل، جهات بيع، وعود نتائج.
               </>
             }

@@ -7,7 +7,7 @@
     "dev": "vite",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "sitemap:check": "node scripts/generate-sitemap.mjs --check",
-    "build": "node scripts/generate-sitemap.mjs && vite build",
+    "build": "node scripts/generate-sitemap.mjs && vite build && node scripts/prerender-seo.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "seo:validate": "node scripts/seo-validate.mjs",
@@ -17,7 +17,9 @@
     "audit:indexing": "node scripts/audit-indexing.mjs",
     "admin:selftest": "node scripts/admin-publish.mjs --self-test",
     "test:retry": "node scripts/test-gemini-retry.mjs",
-    "test:manual-json": "node scripts/test-admin-manual-json.mjs"
+    "test:manual-json": "node scripts/test-admin-manual-json.mjs",
+    "prerender": "node scripts/prerender-seo.mjs",
+    "test:publishing": "node scripts/test-publishing-fixes.mjs"
   },
   "dependencies": {
     "clsx": "2.1.1",

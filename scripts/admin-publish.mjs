@@ -122,17 +122,76 @@ function asStringArray(v, max = 10) {
     .map((x) => x.trim().slice(0, 80));
 }
 
-function sanitizeImage(v) {
+/**
+ * توحيد رابط صورة المقال قبل الحفظ (نسخة الخادم من src/lib/image-url.ts).
+ *
+ * - يرفض الروابط المؤقتة (blob:/data:/file:) والمسارات المحلية — لا تُحفظ أبداً.
+ * - يصحح بادئة public/ الخاطئة: Vite ينشر public/ على جذر الموقع، فالرابط
+ *   الصحيح للصورة المرفوعة هو /images/uploads/... وليس /public/images/uploads/...
+ *   (هذا هو سبب ظهور صورة مكسورة 404 في الصفحة المنشورة).
+ */
+export function sanitizeImage(v) {
   if (typeof v !== "string") return undefined;
   const s = v.trim();
   if (!s) return undefined;
-  if (/^https?:\/\//.test(s) || /^\/images\//.test(s)) return s;
-  return undefined;
+  if (/^(blob:|data:|file:|filesystem:|about:)/i.test(s) || /^[a-zA-Z]:[\\/]/.test(s)) return undefined;
+  if (/^https?:\/\//i.test(s)) {
+    try {
+      const url = new URL(s);
+      url.pathname = url.pathname.replace(/^\/public\//, "/");
+      return url.href;
+    } catch {
+      return undefined;
+    }
+  }
+  const path = (s.startsWith("/") ? s : `/${s}`).replace(/^\/public\//, "/");
+  return /^\/images\//.test(path) ? path : undefined;
 }
 
 /** مسارات داخلية منشورة (لفحص روابط المحتوى — قاعدة seo-validate نفسها) */
 function publishedRoutes(articles) {
   return new Set([...STATIC_ROUTES, ...articles.map((a) => `/articles/${a.slug}`)]);
+}
+
+/* ── روابط المحتوى (نسخة الخادم من src/lib/links.ts) ──────────────────── */
+
+const SAFE_LINK_SCHEMES = ["http:", "https:", "mailto:", "tel:"];
+const MARKDOWN_LINK_RE = /\[([^\]]+)\]\(\s*<?([^\s)>]+)>?(?:\s+"[^"]*")?\s*\)/g;
+
+export function extractContentLinks(content) {
+  const out = [];
+  for (const m of String(content || "").matchAll(MARKDOWN_LINK_RE)) {
+    out.push({ label: m[1], href: m[2] });
+  }
+  return out;
+}
+
+function resolveContentLink(raw) {
+  const value = String(raw || "").trim().replace(/^<|>$/g, "").trim();
+  if (!value) return { kind: "unsafe", href: "" };
+  if (value.startsWith("#")) return { kind: "hash", href: value };
+  if (value.startsWith("/") && !value.startsWith("//")) return { kind: "internal", href: value };
+  let url;
+  try {
+    url = new URL(value, SITE_URL);
+  } catch {
+    return { kind: "unsafe", href: "" };
+  }
+  if (!SAFE_LINK_SCHEMES.includes(url.protocol)) return { kind: "unsafe", href: "" };
+  if ((url.protocol === "http:" || url.protocol === "https:") && url.origin === new URL(SITE_URL).origin) {
+    return { kind: "internal", href: `${url.pathname}${url.search}${url.hash}` };
+  }
+  return { kind: "external", href: url.href };
+}
+
+export function isUnsafeLinkHref(raw) {
+  return resolveContentLink(raw).kind === "unsafe";
+}
+
+export function internalLinkPath(raw) {
+  const r = resolveContentLink(raw);
+  if (r.kind !== "internal") return null;
+  return r.href.split("#")[0].split("?")[0] || "/";
 }
 
 /* ── فحوصات إضافية خاصة بلوحة الإدارة (تُطبق على AI واليدوي معاً) ──────── */
@@ -145,7 +204,7 @@ const HARD_COMMERCIAL = [
 ];
 const NEGATION_RE = /(لا|ليس|ليست|يمنع|المنع|بدون|دون|رفض|استبعاد|تتجنب|تجنّب)/;
 
-function runAdminExtraChecks(candidate, articles, excludeSlug) {
+export function runAdminExtraChecks(candidate, articles, excludeSlug) {
   const errors = [];
   const others = excludeSlug ? articles.filter((a) => a.slug !== excludeSlug) : articles;
 
@@ -171,11 +230,17 @@ function runAdminExtraChecks(candidate, articles, excludeSlug) {
     errors.push(`محتوى تجاري ممنوع (${pat.name}): "${m[0]}"`);
   }
 
-  // روابط داخلية مكسورة (يجب أن تشير لمسارات منشورة فقط)
+  // روابط المحتوى: الداخلية يجب أن تشير لمسارات منشورة، والخطرة مرفوضة.
+  // الروابط الخارجية الآمنة (https/mailto/tel) مسموحة ولا تُحذف ولا تُرفض.
   const routes = publishedRoutes(articles);
-  for (const m of (candidate.content || "").matchAll(/\]\((\/[^\s)]+)\)/g)) {
-    if (!routes.has(m[1]) && m[1] !== `/articles/${candidate.slug}`) {
-      errors.push(`رابط داخلي مكسور في المحتوى: ${m[1]} — يجب أن يشير لمسار منشور.`);
+  for (const link of extractContentLinks(candidate.content || "")) {
+    if (isUnsafeLinkHref(link.href)) {
+      errors.push(`رابط غير آمن في المحتوى: ${link.href} — المسموح فقط http(s) وmailto وtel والمسارات الداخلية.`);
+      continue;
+    }
+    const path = internalLinkPath(link.href);
+    if (path && !routes.has(path) && path !== `/articles/${candidate.slug}`) {
+      errors.push(`رابط داخلي مكسور في المحتوى: ${path} — يجب أن يشير لمسار منشور.`);
     }
   }
 
@@ -217,7 +282,7 @@ function pickRelatedSlugs(req, articles, excludeSlug, max = 4) {
 }
 
 /** تجميع المحتوى النهائي: روابط داخلية + قسم الاستشارة (دون تكراره عند التعديل) */
-function finalizeAdminContent(content, relatedSlugs, articles) {
+export function finalizeAdminContent(content, relatedSlugs, articles) {
   let out = String(content || "").trim();
   const hasInternalLinks = /\]\(\/articles\/[^)]+\)/.test(out);
   if (!hasInternalLinks) {

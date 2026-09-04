@@ -19,6 +19,7 @@
 import { SITE } from "../data/site";
 import type { ArticleRecord } from "../data/types";
 import { newRequestId } from "./article-rules";
+import { isPublishableImageUrl, isTemporaryImageUrl, normalizeImageUrl } from "./image-url";
 
 /* ── إعدادات الاتصال (تُحفظ في متصفح المالك فقط) ───────────────────────── */
 
@@ -419,23 +420,103 @@ async function compressImage(file: File): Promise<{ blob: Blob; ext: "jpg" }> {
   );
 }
 
-/** رفع صورة إلى public/images/uploads/ وإرجاع رابطها المطلق على الموقع */
-export async function uploadArticleImage(conn: GithubConnection, file: File, slugHint: string): Promise<string> {
-  const { blob } = await compressImage(file);
-  const safeHint = slugHint.replace(/[^a-z0-9-]/g, "").slice(0, 40) || "image";
-  const name = `${safeHint}-${Date.now().toString(36)}.jpg`;
-  const buffer = new Uint8Array(await blob.arrayBuffer());
+/**
+ * اسم ملف آمن وفريد للصورة المرفوعة.
+ *
+ * لا يُعتمد على اسم الملف الأصلي وحده أبداً: يُطبَّع التلميح (slug/اسم الملف)
+ * إلى [a-z0-9-] فقط، فتختفي المسافات والأحرف الخاصة والعربية ومحاولات
+ * الخروج من المسار (../ و/ و\ و%2e%2e)، ثم تُضاف بصمة زمنية وعشوائية للتفرّد.
+ */
+export function buildUploadFileName(slugHint: string, ext = "jpg"): string {
+  const base = String(slugHint || "")
+    .toLowerCase()
+    .replace(/\.[a-z0-9]{2,5}$/i, "")   // امتداد الملف الأصلي إن وُجد
+    .replace(/%2e/gi, "-")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 40)
+    .replace(/-+$/g, "");
+  const safeBase = base || "image";
+  const unique = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+  const name = `${safeBase}-${unique}.${ext}`;
+  if (!/^[a-z0-9][a-z0-9-]*\.(jpg|png|webp)$/.test(name)) {
+    throw new Error(`تعذر توليد اسم ملف آمن للصورة (${name}).`);
+  }
+  return name;
+}
+
+/** المسار داخل المستودع (public/…) والرابط العام النهائي (بلا public/) */
+export function uploadRepoPath(fileName: string): string {
+  return `${UPLOADS_DIR}/${fileName}`;
+}
+
+export function uploadedImageUrl(fileName: string): string {
+  // ⚠ Vite ينشر محتويات public/ على جذر الموقع: الرابط العام بلا بادئة public/.
+  return `${SITE.url}/${UPLOADS_DIR.replace(/^public\//, "")}/${fileName}`;
+}
+
+/** التحقق بعد الرفع: الملف موجود فعلاً في المستودع وبحجم غير صفري */
+export async function verifyUploadedImage(
+  conn: GithubConnection,
+  fileName: string
+): Promise<{ path: string; size: number; sha: string }> {
+  const repoPath = uploadRepoPath(fileName);
+  let res: ContentResponse & { size?: number };
+  try {
+    res = await gh<ContentResponse & { size?: number }>(
+      conn,
+      `/repos/${conn.owner}/${conn.repo}/contents/${repoPath}?ref=${MAIN_BRANCH}`
+    );
+  } catch (error) {
+    throw new Error(`تعذر التحقق من الصورة بعد رفعها (${repoPath}): ${describeError(error)}`);
+  }
+  if (!res || res.path !== repoPath) {
+    throw new Error(`الصورة غير موجودة في المسار المتوقع بعد الرفع: ${repoPath}`);
+  }
+  if (!res.size || res.size <= 0) {
+    throw new Error(`الصورة المرفوعة فارغة (0 بايت) في ${repoPath}.`);
+  }
+  return { path: res.path, size: res.size, sha: res.sha };
+}
+
+/**
+ * رفع بايتات صورة جاهزة إلى public/images/uploads/ ثم التحقق منها،
+ * وإرجاع الرابط العام النهائي الذي ستستخدمه الصفحة المنشورة.
+ * أي فشل هنا يرمي استثناءً — ولا تكتمل عملية النشر.
+ */
+export async function uploadImageBytes(
+  conn: GithubConnection,
+  bytes: Uint8Array,
+  slugHint: string
+): Promise<{ url: string; fileName: string; size: number }> {
+  if (!bytes || bytes.length === 0) throw new Error("ملف الصورة فارغ — لا يمكن رفعه.");
+  const fileName = buildUploadFileName(slugHint);
   let binary = "";
-  for (const b of buffer) binary += String.fromCharCode(b);
-  await gh(conn, `/repos/${conn.owner}/${conn.repo}/contents/${UPLOADS_DIR}/${name}`, {
+  for (const b of bytes) binary += String.fromCharCode(b);
+  await gh(conn, `/repos/${conn.owner}/${conn.repo}/contents/${uploadRepoPath(fileName)}`, {
     method: "PUT",
     body: JSON.stringify({
-      message: `chore(admin): رفع صورة مقال ${name}`,
+      message: `chore(admin): رفع صورة مقال ${fileName}`,
       content: btoa(binary),
       branch: MAIN_BRANCH,
     }),
   });
-  return `${SITE.url}/${UPLOADS_DIR}/${name}`;
+  const verified = await verifyUploadedImage(conn, fileName);
+  const url = uploadedImageUrl(fileName);
+  if (!isPublishableImageUrl(url) || normalizeImageUrl(url) !== url) {
+    throw new Error(`رابط الصورة النهائي غير صالح للنشر: ${url}`);
+  }
+  return { url, fileName, size: verified.size };
+}
+
+/** رفع صورة من الجهاز: ضغط → رفع → تحقق → الرابط النهائي المطلق على الموقع */
+export async function uploadArticleImage(conn: GithubConnection, file: File, slugHint: string): Promise<string> {
+  const { blob } = await compressImage(file);
+  const bytes = new Uint8Array(await blob.arrayBuffer());
+  const hint = slugHint || file.name || "image";
+  const { url } = await uploadImageBytes(conn, bytes, hint);
+  return url;
 }
 
 /* ── تنسيق النشر المباشر (طلب → تشغيل → نتيجة) ─────────────────────────── */
@@ -521,10 +602,27 @@ export async function publishRequest(
 
   const sinceIso = new Date().toISOString();
 
+  // الصورة أولاً: أي فشل في الرفع أو التحقق يوقف النشر بالكامل قبل حفظ الطلب.
   if (imageFile) {
     emit("compress-image");
     emit("upload-image");
-    req.image = await uploadArticleImage(conn, imageFile, req.slug || "");
+    try {
+      req.image = await uploadArticleImage(conn, imageFile, req.slug || imageFile.name || "");
+    } catch (error) {
+      throw new Error(
+        `فشل رفع صورة المقال — أُلغيت عملية النشر ولم يُنشر أي مقال: ${describeError(error)}`
+      );
+    }
+  }
+
+  // لا يُحفظ أبداً رابط مؤقت (blob/object URL) أو مسار محلي في بيانات المقال.
+  if (req.image) {
+    if (isTemporaryImageUrl(req.image) || !isPublishableImageUrl(req.image)) {
+      throw new Error(
+        `رابط صورة المقال غير صالح للنشر (${req.image}) — أُلغيت عملية النشر ولم يُنشر أي مقال.`
+      );
+    }
+    req.image = normalizeImageUrl(req.image);
   }
 
   emit("put-request");
