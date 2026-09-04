@@ -130,7 +130,9 @@ export function assertNoForbiddenUrls(xml, siteUrl) {
   for (const u of locs) {
     const p = new URL(u).pathname;
     for (const bad of FORBIDDEN_PATHS) if (p === bad || p.startsWith(`${bad}/`)) problems.push(`مسار محجوب في sitemap: ${u}`);
-    if (/test|stag|demo|tmp|dead/i.test(p)) problems.push(`مسار اختباري/ميت في sitemap: ${u}`);
+    // لا نعتبر كلمة "test" داخل slug سليم (مثل home-pregnancy-test-accuracy) مساراً اختبارياً.
+    // المنع يقتصر على مقاطع مسار اختبارية/مؤقتة مستقلة.
+    if (/(^|\/)(test|stag|staging|demo|tmp|dead)(\/|$)/i.test(p)) problems.push(`مسار اختباري/ميت في sitemap: ${u}`);
     if (!allowed.has(u)) problems.push(`URL غير منشور في sitemap: ${u}`);
   }
   return problems;
