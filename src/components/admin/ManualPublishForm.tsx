@@ -43,6 +43,7 @@ export default function ManualPublishForm({
   const [country, setCountry] = useState('');
   const [category, setCategory] = useState('clinical-guides');
   const [imageUrl, setImageUrl] = useState('');
+  const [imageAlt, setImageAlt] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [content, setContent] = useState('');
   const [summary, setSummary] = useState('');
@@ -61,6 +62,7 @@ export default function ManualPublishForm({
       setCountry(editTarget.country || '');
       setCategory(editTarget.category);
       setImageUrl(editTarget.image || '');
+      setImageAlt(editTarget.imageAlt || '');
       setImageFile(null);
       setContent(editTarget.content || '');
       setSummary(editTarget.summary || '');
@@ -74,6 +76,7 @@ export default function ManualPublishForm({
       setCountry('');
       setCategory('clinical-guides');
       setImageUrl('');
+      setImageAlt('');
       setImageFile(null);
       setContent('');
       setSummary('');
@@ -107,6 +110,7 @@ export default function ManualPublishForm({
       country: country || null,
       category,
       image: imageUrl.trim() || null,
+      imageAlt: imageAlt.trim() || null,
       content,
       summary: summary.trim(),
       slug: slug.trim(),
@@ -181,6 +185,8 @@ export default function ManualPublishForm({
             <ImageField
               imageUrl={imageUrl}
               onImageUrlChange={setImageUrl}
+              imageAlt={imageAlt}
+              onImageAltChange={setImageAlt}
               file={imageFile}
               onFileChange={setImageFile}
             />
@@ -198,9 +204,11 @@ export default function ManualPublishForm({
                 <code dir="ltr" className="bg-white border border-slate-200 rounded px-1">* عنصر قائمة</code> و
                 <code dir="ltr" className="bg-white border border-slate-200 rounded px-1 mx-1">**تأكيد**</code> وروابط داخلية
                 <code dir="ltr" className="bg-white border border-slate-200 rounded px-1 mx-1">[النص](/articles/slug)</code>
-                لمسارات منشورة فقط. يُضاف قسم الاستشارة الطبية الرسمي تلقائياً عند النشر.
-                الحد الأدنى {LIMITS.MIN_WORDS} كلمة — الحالي: <strong>{words}</strong>.
-                ممنوع: جرعات رقمية، أسعار، وسائل تواصل، جهات بيع، وعود نتائج.
+                لمسارات منشورة فقط، ويمكن إضافة رابط خارجي آمن بصيغة
+                <code dir="ltr" className="bg-white border border-slate-200 rounded px-1 mx-1">[وزارة الصحة](https://www.moh.gov.sa/)</code>.
+                يُضاف قسم الاستشارة الطبية الرسمي تلقائياً عند النشر. عدد الكلمات الحالي للعلم فقط: <strong>{words}</strong>؛
+                لا يوجد حد كلمات إلزامي، لكن المحتوى الفارغ أو الشكلي يُرفض.
+                ممنوع: جرعات رقمية، أسعار، وسائل تواصل، جهات بيع، وعود نتائج، وروابط ذات مخططات خطرة.
               </>
             }
           >

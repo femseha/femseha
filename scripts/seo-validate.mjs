@@ -15,7 +15,7 @@
  *   - وجود Schema وسلامة JSON-LD الثابت
  *   - إشارات تنافس الكلمات المفتاحية (cannibalization)
  *   - مقاييس SEO غير موثقة في keyword-map (ممنوعة بدون gscSource)
- *   - عدد كلمات المقالات + كشف الحشو المكرر داخل المقال الواحد
+ *   - رفض المحتوى الفارغ/الشكلي + كشف الحشو المكرر داخل المقال الواحد (بلا حد كلمات)
  *   - اتساق modifiedDate (لا يُخترع، ولا يسبق publishDate)
  *
  * التشغيل: node scripts/seo-validate.mjs
@@ -24,6 +24,7 @@
 import fs from "fs";
 import path from "path";
 import { createServer } from "vite";
+import { hasSubstantiveContent, internalMarkdownPaths, unsafeMarkdownLinks } from "./generate-article.mjs";
 
 const ROOT = process.cwd();
 const SITE_URL = "https://femseha.com";
@@ -38,7 +39,6 @@ const ok = (m) => console.log(`  ✔ ${m}`);
 const section = (t) => console.log(`\n── ${t} ${"─".repeat(Math.max(4, 60 - t.length))}`);
 
 const isIsoDate = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s || "") && !Number.isNaN(Date.parse(s));
-const countWords = (t) => (t || "").split(/\s+/).filter((w) => /[\u0600-\u06FFa-zA-Z0-9]/.test(w)).length;
 
 /* ── 1) تحميل البيانات ──────────────────────────────────────────────────── */
 section("تحميل البيانات");
@@ -112,10 +112,10 @@ for (const a of articles) {
     else if (a.modifiedDate === a.publishDate) warn(`${label}: modifiedDate يساوي publishDate — احذفه إن لم يوجد تعديل حقيقي`);
   }
 
-  // عدد الكلمات (بعد إزالة الحشو المكرر تاريخياً)
-  const words = countWords(a.content);
-  if (words < 250) err(`${label}: محتوى قصير جداً (${words} كلمة)`);
-  else if (words < 800) warn(`${label}: محتوى أقل من 800 كلمة (${words}) — مرشح للتوسيع الحقيقي في Phase 2`);
+  // لا يوجد حد كلمات أو حكم فهرسة مبني على العدد وحده؛ نرفض الفراغ/النص الشكلي فقط.
+  if (!hasSubstantiveContent(a.content)) {
+    err(`${label}: المحتوى فارغ أو شكلي ولا يحتوي مادة تحريرية فعلية`);
+  }
 
   // كشف الحشو: فقرة متطابقة تتكرر أكثر من مرتين داخل المقال نفسه
   const paras = (a.content || "").split(/\n{2,}/).map((s) => s.trim()).filter((s) => s.length > 120);
@@ -138,9 +138,12 @@ for (const a of articles) {
     if (!seenSlugs.has(r) && !articles.some((x) => x.slug === r)) err(`${label}: related يشير إلى slug غير منشور: ${r}`);
   }
 
-  // روابط داخلية في نص المقال
-  for (const m of (a.content || "").matchAll(/\]\((\/[^\s)]+)\)/g)) {
-    if (!routeSet.has(m[1])) err(`${label}: رابط داخلي مكسور في المحتوى: ${m[1]}`);
+  // روابط Markdown: الداخلية يجب أن تكون منشورة وكل schemes الخطرة مرفوضة.
+  for (const href of internalMarkdownPaths(a.content || "")) {
+    if (!routeSet.has(href)) err(`${label}: رابط داخلي مكسور في المحتوى: ${href}`);
+  }
+  for (const href of unsafeMarkdownLinks(a.content || "")) {
+    err(`${label}: رابط Markdown غير آمن: ${href}`);
   }
 
   // محتوى تجاري ممنوع (YMYL): أنماط بيع/شراء/أسعار كعرض وليس كتحذير — فحص خشن

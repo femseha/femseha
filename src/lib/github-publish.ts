@@ -19,6 +19,13 @@
 import { SITE } from "../data/site";
 import type { ArticleRecord } from "../data/types";
 import { newRequestId } from "./article-rules";
+import {
+  ARTICLE_UPLOAD_REPO_DIR,
+  articleImagePublicUrl,
+  createArticleImageFileName,
+  normalizeArticleImageAlt,
+  normalizeArticleImageUrl,
+} from "./article-media";
 
 /* ── إعدادات الاتصال (تُحفظ في متصفح المالك فقط) ───────────────────────── */
 
@@ -38,7 +45,7 @@ export const DEFAULT_REPO = "femseha";
 export const WORKFLOW_FILE = "auto-publish.yml";
 export const REQUESTS_DIR = "admin/requests";
 export const ARTICLES_FILE = "src/data/articles.json";
-export const UPLOADS_DIR = "public/images/uploads";
+export const UPLOADS_DIR = ARTICLE_UPLOAD_REPO_DIR;
 const MAIN_BRANCH = "main";
 
 export function loadConnection(): GithubConnection | null {
@@ -231,6 +238,8 @@ interface ContentResponse {
   name?: string;
   path?: string;
   type?: string;
+  size?: number;
+  download_url?: string | null;
 }
 
 /** أحدث نسخة من articles.json من المستودع (أدق من نسخة البناء المجمّدة) */
@@ -252,6 +261,7 @@ export interface PublishRequest {
   country: string | null;
   category: string;
   image: string | null;
+  imageAlt?: string | null;
   /** AI: slug اختياري (يُنشأ تلقائياً عند غيابه) | Manual: إلزامي للمقال الجديد */
   slug?: string | null;
   /** وضع التعديل: slug المقال القائم (manual فقط) */
@@ -364,23 +374,32 @@ export function actionsUrl(conn: GithubConnection): string {
   return `https://github.com/${conn.owner}/${conn.repo}/actions/workflows/${WORKFLOW_FILE}`;
 }
 
+async function recentWorkflowRuns(conn: GithubConnection): Promise<WorkflowRun[]> {
+  const res = await gh<{ workflow_runs: WorkflowRun[] }>(
+    conn,
+    `/repos/${conn.owner}/${conn.repo}/actions/workflows/${WORKFLOW_FILE}/runs?per_page=20`
+  );
+  return res.workflow_runs;
+}
+
 async function waitForRun(
   conn: GithubConnection,
   sinceIso: string,
+  excludedRunIds: ReadonlySet<number>,
   onTick: (info: { elapsedSec: number; runUrl?: string; status?: string }) => void,
   timeoutMs = 15 * 60 * 1000,
   intervalMs = 8000
 ): Promise<WorkflowRun | null> {
   const started = Date.now();
-  const sinceMs = new Date(sinceIso).getTime() - 60_000;
+  const sinceMs = new Date(sinceIso).getTime();
   for (;;) {
-    const res = await gh<{ workflow_runs: WorkflowRun[] }>(
-      conn,
-      `/repos/${conn.owner}/${conn.repo}/actions/workflows/${WORKFLOW_FILE}/runs?per_page=10`
-    );
+    const runs = await recentWorkflowRuns(conn);
     const run =
-      res.workflow_runs.find(
-        (r) => r.event === "workflow_dispatch" && new Date(r.created_at).getTime() >= sinceMs
+      runs.find(
+        (candidate) =>
+          candidate.event === "workflow_dispatch" &&
+          !excludedRunIds.has(candidate.id) &&
+          new Date(candidate.created_at).getTime() >= sinceMs - 5_000
       ) || null;
     const elapsedSec = Math.round((Date.now() - started) / 1000);
     onTick({ elapsedSec, runUrl: run?.html_url, status: run?.status });
@@ -393,41 +412,62 @@ async function waitForRun(
 /* ── رفع صورة المقال (اختياري) ──────────────────────────────────────────── */
 
 const MAX_UPLOAD_BYTES = 950_000; // حد GitHub Contents API (1MB) مع هامش أمان
+const ACCEPTED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 
 /** ضغط الصورة في المتصفح إلى JPEG بعرض أقصى 1600px وأقل من ~950KB */
 async function compressImage(file: File): Promise<{ blob: Blob; ext: "jpg" }> {
-  const bitmap = await createImageBitmap(file);
+  if (!file || file.size <= 0) throw new Error("ملف الصورة فارغ — اختاري صورة صالحة ثم أعيدي النشر.");
+  if (!ACCEPTED_IMAGE_TYPES.has(file.type)) {
+    throw new Error(`نوع الصورة غير مدعوم (${file.type || "غير معروف"}) — استخدمي JPG أو PNG أو WebP أو GIF.`);
+  }
+
+  let bitmap: ImageBitmap;
+  try {
+    bitmap = await createImageBitmap(file);
+  } catch (error) {
+    throw new Error(`تعذر قراءة ملف الصورة أو أنه تالف: ${describeError(error)}`);
+  }
+
   let scale = Math.min(1, 1600 / Math.max(1, bitmap.width));
   let quality = 0.82;
   let lastBlob: Blob | null = null;
-  for (let attempt = 0; attempt < 8; attempt++) {
-    const w = Math.max(1, Math.round(bitmap.width * scale));
-    const h = Math.max(1, Math.round(bitmap.height * scale));
-    const canvas = document.createElement("canvas");
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) throw new Error("تعذر معالجة الصورة في هذا المتصفح — استخدم رابط صورة جاهز.");
-    ctx.drawImage(bitmap, 0, 0, w, h);
-    lastBlob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", quality));
-    if (lastBlob && lastBlob.size <= MAX_UPLOAD_BYTES) return { blob: lastBlob, ext: "jpg" };
-    if (quality > 0.55) quality -= 0.12;
-    else scale *= 0.78;
+  try {
+    for (let attempt = 0; attempt < 8; attempt++) {
+      const w = Math.max(1, Math.round(bitmap.width * scale));
+      const h = Math.max(1, Math.round(bitmap.height * scale));
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("تعذر معالجة الصورة في هذا المتصفح — استخدم رابط صورة جاهز.");
+      ctx.drawImage(bitmap, 0, 0, w, h);
+      lastBlob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", quality));
+      if (lastBlob && lastBlob.size > 0 && lastBlob.size <= MAX_UPLOAD_BYTES) return { blob: lastBlob, ext: "jpg" };
+      if (quality > 0.55) quality -= 0.12;
+      else scale *= 0.78;
+    }
+  } finally {
+    bitmap.close?.();
   }
   throw new Error(
-    `تعذر ضغط الصورة إلى أقل من ~1 ميغابايت (النتيجة ${(lastBlob?.size || 0) / 1024 / 1024} ميغابايت) — استخدم صورة أصغر أو رابط صورة خارجي.`
+    `تعذر ضغط الصورة إلى أقل من ~1 ميغابايت (النتيجة ${((lastBlob?.size || 0) / 1024 / 1024).toFixed(2)} ميغابايت) — استخدم صورة أصغر أو رابط صورة خارجي.`
   );
 }
 
-/** رفع صورة إلى public/images/uploads/ وإرجاع رابطها المطلق على الموقع */
+interface PutContentResponse {
+  content?: ContentResponse | null;
+}
+
+/** رفع صورة إلى public/images/uploads/ والتحقق من حفظها، ثم إرجاع URL الويب (بلا /public). */
 export async function uploadArticleImage(conn: GithubConnection, file: File, slugHint: string): Promise<string> {
   const { blob } = await compressImage(file);
-  const safeHint = slugHint.replace(/[^a-z0-9-]/g, "").slice(0, 40) || "image";
-  const name = `${safeHint}-${Date.now().toString(36)}.jpg`;
+  const name = createArticleImageFileName(slugHint);
+  const repoPath = `${UPLOADS_DIR}/${name}`;
   const buffer = new Uint8Array(await blob.arrayBuffer());
   let binary = "";
   for (const b of buffer) binary += String.fromCharCode(b);
-  await gh(conn, `/repos/${conn.owner}/${conn.repo}/contents/${UPLOADS_DIR}/${name}`, {
+
+  const uploaded = await gh<PutContentResponse>(conn, `/repos/${conn.owner}/${conn.repo}/contents/${repoPath}`, {
     method: "PUT",
     body: JSON.stringify({
       message: `chore(admin): رفع صورة مقال ${name}`,
@@ -435,7 +475,21 @@ export async function uploadArticleImage(conn: GithubConnection, file: File, slu
       branch: MAIN_BRANCH,
     }),
   });
-  return `${SITE.url}/${UPLOADS_DIR}/${name}`;
+  const uploadedContent = uploaded.content;
+  if (!uploadedContent?.sha || uploadedContent.path !== repoPath) {
+    throw new Error("أعاد GitHub استجابة غير مكتملة بعد رفع الصورة — أُوقف النشر ولم يُحفظ المقال.");
+  }
+
+  // قراءة تأكيدية من الفرع نفسه: لا نضع رابطاً في الطلب قبل ثبوت وجود الملف وحجمه.
+  const stored = await gh<ContentResponse>(
+    conn,
+    `/repos/${conn.owner}/${conn.repo}/contents/${repoPath}?ref=${MAIN_BRANCH}`
+  );
+  if (stored.sha !== uploadedContent.sha || stored.path !== repoPath || stored.size !== blob.size) {
+    throw new Error("تعذر التحقق من حفظ ملف الصورة كاملاً في المستودع — أُوقف النشر.");
+  }
+
+  return articleImagePublicUrl(name);
 }
 
 /* ── تنسيق النشر المباشر (طلب → تشغيل → نتيجة) ─────────────────────────── */
@@ -479,24 +533,54 @@ export function articleUrl(slug: string): string {
   return `${SITE.url}/articles/${slug}`;
 }
 
-/** البحث عن المقال المنشور بعد نجاح التشغيل (يُستخدم عندما يولّد الخادم الـ slug
- *  أو يوحّده بإضافة لاحقة عند التعارض — الكلمة المفتاحية فريدة بين المقالات
- *  بحكم فحص منع التنافس، فمطابقتها مع تاريخ اليوم كافية وآمنة). */
-async function findPublishedSlug(
+/**
+ * لا يكفي اختفاء ملف الطلب لإعلان النجاح: نقرأ articles.json من الفرع بعد
+ * اكتمال التشغيل ونطابق المقال نفسه، بما في ذلك رابط الصورة وALT.
+ */
+async function findPublishedArticle(
   conn: GithubConnection,
   req: PublishRequest
-): Promise<string | null> {
-  try {
-    const fresh = await fetchLatestArticles(conn);
-    const todayUtc = new Date().toISOString().split("T")[0];
-    const isToday = (a: ArticleRecord) => a.publishDate === todayUtc || a.modifiedDate === todayUtc;
-    const match =
-      fresh.find((a) => a.primaryKeyword === req.primaryKeyword && isToday(a) && req.slug && a.slug === req.slug) ||
-      fresh.find((a) => a.primaryKeyword === req.primaryKeyword && isToday(a));
-    return match?.slug || null;
-  } catch {
-    return null;
+): Promise<ArticleRecord | null> {
+  const fresh = await fetchLatestArticles(conn);
+  const todayUtc = new Date().toISOString().split("T")[0];
+  const isToday = (article: ArticleRecord) =>
+    article.publishDate === todayUtc || article.modifiedDate === todayUtc;
+
+  if (req.editSlug) return fresh.find((article) => article.slug === req.editSlug) || null;
+  if (req.mode === "manual" && req.slug) {
+    return fresh.find((article) => article.slug === req.slug && isToday(article)) || null;
   }
+  return (
+    fresh.find(
+      (article) =>
+        article.primaryKeyword === req.primaryKeyword &&
+        isToday(article) &&
+        (!req.slug || article.slug === req.slug)
+    ) ||
+    fresh.find((article) => article.primaryKeyword === req.primaryKeyword && isToday(article)) ||
+    null
+  );
+}
+
+function publicationMatchesRequest(article: ArticleRecord, req: PublishRequest): string | null {
+  let expectedImage: string | null;
+  let storedImage: string | null;
+  try {
+    expectedImage = normalizeArticleImageUrl(req.image);
+    storedImage = normalizeArticleImageUrl(article.image);
+  } catch (error) {
+    return error instanceof Error ? error.message : "رابط الصورة المحفوظ غير صالح.";
+  }
+  if (storedImage !== expectedImage) {
+    return "اكتمل التشغيل لكن رابط الصورة النهائي لم يُحفظ مع المقال؛ لم يُعلن النجاح.";
+  }
+
+  const expectedAlt = normalizeArticleImageAlt(req.imageAlt);
+  const storedAlt = normalizeArticleImageAlt(article.imageAlt);
+  if (storedAlt !== expectedAlt) {
+    return "اكتمل التشغيل لكن النص البديل للصورة لم يُحفظ كما أُدخل؛ لم يُعلن النجاح.";
+  }
+  return null;
 }
 
 /**
@@ -519,67 +603,59 @@ export async function publishRequest(
     createdAt: new Date().toISOString(),
   } as PublishRequest;
 
-  const sinceIso = new Date().toISOString();
+  // لا يدخل ملف الطلب أي blob/object URL أو مسار جهاز. حتى الرابط اليدوي
+  // يتحول هنا إلى URL production نهائي قبل الحفظ.
+  req.image = normalizeArticleImageUrl(req.image);
+  req.imageAlt = normalizeArticleImageAlt(req.imageAlt);
 
   if (imageFile) {
     emit("compress-image");
     emit("upload-image");
     req.image = await uploadArticleImage(conn, imageFile, req.slug || "");
   }
+  if (req.imageAlt && !req.image) {
+    throw new Error("أُدخل نص بديل للصورة دون اختيار صورة — أضيفي صورة أو احذفي النص البديل.");
+  }
 
   emit("put-request");
   await putRequestFile(conn, req);
 
+  // استبعاد التشغيلات السابقة يمنع ربط الطلب بتشغيل قديم وإظهار نجاح زائف.
+  const excludedRunIds = new Set((await recentWorkflowRuns(conn)).map((run) => run.id));
+  const sinceIso = new Date().toISOString();
   emit("dispatch");
   await dispatchAutoPublish(conn);
 
   emit("running");
-  const run = await waitForRun(conn, sinceIso, (info) =>
+  const run = await waitForRun(conn, sinceIso, excludedRunIds, (info) =>
     emit("running", { elapsedSec: info.elapsedSec, runUrl: info.runUrl })
   );
 
   const runUrl = run?.html_url || actionsUrl(conn);
 
-  if (!run) {
+  if (!run || run.status !== "completed") {
     return {
       ok: false,
       runUrl,
       message:
-        "انتهت مهلة انتظار التشغيل. الطلب محفوظ في المستودع وسيُنفَّذ وينشر تلقائياً في أقرب تشغيل لخط النشر.",
+        "انتهت مهلة انتظار التشغيل قبل اكتماله. لم يُعلن نجاح النشر؛ الطلب محفوظ ويمكن متابعة حالته من سجل التشغيل.",
     };
   }
 
-  // النتيجة الحاسمة تُقرأ من ملف الطلب نفسه: حُذف = نُشر | معلَّم failed = فشل بسبب موثق
-  let stored: StoredRequest | null = null;
+  // النتيجة الحاسمة تُقرأ من الفرع نفسه: فشل القراءة ليس دليلاً على النجاح.
+  let stored: StoredRequest | null;
   try {
     const all = await listRequests(conn);
-    stored = all.find((r) => r.data.id === req.id) || null;
-  } catch {
-    stored = null;
-  }
-
-  if (!stored) {
-    const slug = req.slug || (await findPublishedSlug(conn, req));
-    if (slug) {
-      return {
-        ok: true,
-        runUrl,
-        articleUrl: articleUrl(slug),
-        message:
-          req.mode === "ai"
-            ? "تم توليد المقال ونشره مباشرة ✔ سيظهر الرابط على الموقع فور اكتمال بناء Vercel (دقائق)."
-            : "تم نشر المقال مباشرة ✔ سيظهر الرابط على الموقع فور اكتمال بناء Vercel (دقائق).",
-      };
-    }
+    stored = all.find((request) => request.data.id === req.id) || null;
+  } catch (error) {
     return {
-      ok: true,
+      ok: false,
       runUrl,
-      message:
-        "اكتمل النشر بنجاح (حُذف الطلب من الطابور) لكن تعذر تحديد الـ slug النهائي — راجع قائمة المقالات بعد تحديثها.",
+      message: `تعذر التحقق من نتيجة النشر في المستودع؛ لم يُعلن النجاح: ${describeError(error)}`,
     };
   }
 
-  if (stored.data.status === "failed") {
+  if (stored?.data.status === "failed") {
     return {
       ok: false,
       runUrl,
@@ -592,14 +668,48 @@ export async function publishRequest(
       ok: false,
       runUrl,
       message:
-        "فشل تشغيل خط النشر نفسه (قبل معالجة الطلب) — الطلب ما زال محفوظاً وسيُعاد تنفيذه تلقائياً في التشغيل التالي. راجع سجل التشغيل.",
+        "فشل تشغيل خط النشر نفسه — لم يُعلن النجاح. الطلب ما زال محفوظاً إن لم يعالجه الخط؛ راجعي سجل التشغيل لمعرفة السبب.",
     };
   }
 
+  if (stored) {
+    return {
+      ok: false,
+      runUrl,
+      message: "اكتمل التشغيل لكن الطلب ما زال في الطابور ولم يُنشر — راجعي سجل التشغيل في GitHub Actions.",
+    };
+  }
+
+  let published: ArticleRecord | null;
+  try {
+    published = await findPublishedArticle(conn, req);
+  } catch (error) {
+    return {
+      ok: false,
+      runUrl,
+      message: `اختفى الطلب لكن تعذر التحقق من articles.json؛ لم يُعلن النجاح: ${describeError(error)}`,
+    };
+  }
+  if (!published) {
+    return {
+      ok: false,
+      runUrl,
+      message: "اختفى الطلب لكن المقال غير موجود في articles.json بعد التشغيل — لم يُعلن النجاح.",
+    };
+  }
+
+  const mismatch = publicationMatchesRequest(published, req);
+  if (mismatch) return { ok: false, runUrl, message: mismatch };
+
   return {
-    ok: false,
+    ok: true,
     runUrl,
-    message: "اكتمل التشغيل لكن الطلب لم يُعالَج — راجع سجل التشغيل في GitHub Actions.",
+    articleUrl: articleUrl(published.slug),
+    message: req.image
+      ? "تم حفظ المقال ورابط صورته النهائي ثم نشره مباشرة ✔ سيظهر على الموقع فور اكتمال بناء Vercel."
+      : req.mode === "ai"
+        ? "تم توليد المقال وحفظه ثم نشره مباشرة ✔ سيظهر على الموقع فور اكتمال بناء Vercel."
+        : "تم حفظ المقال ثم نشره مباشرة ✔ سيظهر على الموقع فور اكتمال بناء Vercel.",
   };
 }
 
@@ -611,27 +721,38 @@ export async function rerunStoredRequest(
 ): Promise<PublishOutcome> {
   const emit = (step: PublishStep, extra?: Partial<PublishPhase>) =>
     onPhase({ step, message: STEP_MESSAGES[step], ...extra });
+  const excludedRunIds = new Set((await recentWorkflowRuns(conn)).map((run) => run.id));
   const sinceIso = new Date().toISOString();
   emit("dispatch");
   await dispatchAutoPublish(conn);
   emit("running");
-  const run = await waitForRun(conn, sinceIso, (info) =>
+  const run = await waitForRun(conn, sinceIso, excludedRunIds, (info) =>
     emit("running", { elapsedSec: info.elapsedSec, runUrl: info.runUrl })
   );
   const runUrl = run?.html_url || actionsUrl(conn);
-  const fresh = await listRequests(conn);
-  const still = fresh.find((r) => r.data.id === stored.data.id) || null;
-  if (!still) {
-    const slug = stored.data.slug || (await findPublishedSlug(conn, stored.data));
-    return {
-      ok: true,
-      runUrl,
-      articleUrl: slug ? articleUrl(slug) : undefined,
-      message: "تم تنفيذ الطلب ونشر المقال مباشرة ✔",
-    };
+  if (!run || run.status !== "completed" || run.conclusion !== "success") {
+    return { ok: false, runUrl, message: "لم يكتمل تشغيل إعادة النشر بنجاح — لم يُعلن نشر المقال." };
   }
-  if (still.data.status === "failed") {
+
+  const fresh = await listRequests(conn);
+  const still = fresh.find((request) => request.data.id === stored.data.id) || null;
+  if (still?.data.status === "failed") {
     return { ok: false, runUrl, message: `رفض خط النشر المقال: ${still.data.error || "سبب غير معروف"}` };
   }
-  return { ok: false, runUrl, message: "لم يُعالَج الطلب في هذا التشغيل — راجع سجل التشغيل." };
+  if (still) {
+    return { ok: false, runUrl, message: "لم يُعالَج الطلب في هذا التشغيل — راجعي سجل التشغيل." };
+  }
+
+  const published = await findPublishedArticle(conn, stored.data);
+  if (!published) {
+    return { ok: false, runUrl, message: "اختفى الطلب لكن المقال غير موجود في articles.json — لم يُعلن النجاح." };
+  }
+  const mismatch = publicationMatchesRequest(published, stored.data);
+  if (mismatch) return { ok: false, runUrl, message: mismatch };
+  return {
+    ok: true,
+    runUrl,
+    articleUrl: articleUrl(published.slug),
+    message: "تم تنفيذ الطلب والتحقق من حفظ المقال وبيانات صورته ثم نشره مباشرة ✔",
+  };
 }

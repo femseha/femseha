@@ -40,6 +40,7 @@ export default function AiPublishForm({
   const [category, setCategory] = useState('clinical-guides');
   const [instructions, setInstructions] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [imageAlt, setImageAlt] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
 
@@ -57,6 +58,7 @@ export default function AiPublishForm({
       category,
       instructions: instructions.trim(),
       image: imageUrl.trim() || null,
+      imageAlt: imageAlt.trim() || null,
     };
     const found = validateAiDraft(draft, articles);
     setErrors(found);
@@ -130,6 +132,8 @@ export default function AiPublishForm({
             <ImageField
               imageUrl={imageUrl}
               onImageUrlChange={setImageUrl}
+              imageAlt={imageAlt}
+              onImageAltChange={setImageAlt}
               file={imageFile}
               onFileChange={setImageFile}
             />

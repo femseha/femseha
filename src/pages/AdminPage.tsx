@@ -164,6 +164,7 @@ export default function AdminPage() {
           country: draft.country,
           category: draft.category,
           image: draft.image,
+          imageAlt: draft.imageAlt,
           slug: slugHint,
           instructions: draft.instructions,
         },
@@ -195,6 +196,7 @@ export default function AdminPage() {
           country: draft.country,
           category: draft.category,
           image: draft.image,
+          imageAlt: draft.imageAlt,
           slug: draft.editSlug ? null : draft.slug,
           editSlug: draft.editSlug || null,
           summary: draft.summary,
@@ -251,7 +253,7 @@ export default function AdminPage() {
   ];
 
   return (
-    <main className="max-w-4xl mx-auto px-6 py-16" dir="rtl">
+    <main className="max-w-4xl mx-auto px-6 py-16 text-slate-900" dir="rtl">
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
         <h1 className="text-xl font-bold text-slate-800 mb-2 text-center">لوحة الإدارة والتحكم</h1>
         <p className="text-sm text-slate-500 mb-6 text-center">إشراف د. هيثم الخطيب</p>
@@ -349,7 +351,7 @@ export default function AdminPage() {
                     onClick={() => setTab(t.id)}
                     className={`px-4 py-2.5 rounded-xl text-xs font-extrabold transition border ${
                       tab === t.id
-                        ? 'bg-slate-900 text-white border-slate-900'
+                        ? 'bg-blue-600 text-white border-blue-600'
                         : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'
                     }`}
                   >

@@ -58,6 +58,8 @@ export type ArticleRecord = {
    *  اختياري: غيابه = مقال عام غير مرتبط بسوق محدد (كل المقالات الحالية عامة). */
   country?: string;
   image?: string;
+  /** نص بديل مخصص لصورة المقال. عند غيابه يُستخدم عنوان المقال تلقائياً. */
+  imageAlt?: string;
   faq?: { q: string; a: string }[];
   sources?: SourceRef[];
   related?: string[];
