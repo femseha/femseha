@@ -46,12 +46,25 @@ export function loadArticles() {
   validateArticles(primary, "articles.json");
   validateArticles(supporting, "seo-supporting-articles.json");
   validateArticles(batch01, "seo-content-batch-01.json");
-  const articles = [...primary, ...supporting, ...batch01];
+
+  // Primary articles take precedence over supporting/batch records. This keeps
+  // one canonical sitemap URL when a queued topic already exists.
+  const sources = [
+    [primary, "articles.json"],
+    [supporting, "seo-supporting-articles.json"],
+    [batch01, "seo-content-batch-01.json"],
+  ];
   const seen = new Map();
-  for (const a of articles) {
-    const label = a.slug || a.id || "(بدون slug)";
-    if (seen.has(a.slug)) throw new Error(`slug مكرر: ${a.slug} (موجود سابقاً في ${seen.get(a.slug)})`);
-    seen.set(a.slug, label);
+  const articles = [];
+  for (const [sourceArticles, sourceLabel] of sources) {
+    for (const a of sourceArticles) {
+      if (seen.has(a.slug)) {
+        console.warn(`⚠ slug مكرر — سيتم استخدام النسخة الأولى: ${a.slug} (${seen.get(a.slug)}؛ تم تجاهل ${sourceLabel})`);
+        continue;
+      }
+      seen.set(a.slug, sourceLabel);
+      articles.push(a);
+    }
   }
   return articles;
 }
