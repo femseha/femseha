@@ -19,6 +19,7 @@
 import { SITE } from "../data/site";
 import type { ArticleRecord } from "../data/types";
 import { newRequestId } from "./article-rules";
+import { UPLOADS_REPO_DIR, uploadedImagePublicUrl, normalizePublicImageUrl } from "./image-url";
 
 /* ── إعدادات الاتصال (تُحفظ في متصفح المالك فقط) ───────────────────────── */
 
@@ -38,7 +39,8 @@ export const DEFAULT_REPO = "femseha";
 export const WORKFLOW_FILE = "auto-publish.yml";
 export const REQUESTS_DIR = "admin/requests";
 export const ARTICLES_FILE = "src/data/articles.json";
-export const UPLOADS_DIR = "public/images/uploads";
+/** مسار رفع الصور داخل المستودع كما يراه git (بادئة public/) */
+export const UPLOADS_DIR = UPLOADS_REPO_DIR;
 const MAIN_BRANCH = "main";
 
 export function loadConnection(): GithubConnection | null {
@@ -393,9 +395,26 @@ async function waitForRun(
 /* ── رفع صورة المقال (اختياري) ──────────────────────────────────────────── */
 
 const MAX_UPLOAD_BYTES = 950_000; // حد GitHub Contents API (1MB) مع هامش أمان
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+
+/**
+ * اسم ملف آمن للصورة المرفوعة:
+ *  - لا يعتمد على اسم الملف الأصلي وحده (يُشتق من slug المقالة).
+ *  - أحرف لاتينية/أرقام/شرطات فقط — لا مسافات ولا أحرف خاصة ولا path traversal.
+ *  - فريد عملياً: الطابع الزمني + جزء عشوائي.
+ */
+export function safeImageFileName(slugHint: string): string {
+  const hint = (slugHint || "").toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "image";
+  const stamp = Date.now().toString(36);
+  const rand = Math.random().toString(36).slice(2, 8);
+  return `${hint}-${stamp}${rand}.jpg`;
+}
 
 /** ضغط الصورة في المتصفح إلى JPEG بعرض أقصى 1600px وأقل من ~950KB */
 async function compressImage(file: File): Promise<{ blob: Blob; ext: "jpg" }> {
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    throw new Error(`نوع الملف غير مدعوم (${file.type || "غير معروف"}) — المسموح: JPEG أو PNG أو WebP أو GIF.`);
+  }
   const bitmap = await createImageBitmap(file);
   let scale = Math.min(1, 1600 / Math.max(1, bitmap.width));
   let quality = 0.82;
@@ -419,14 +438,21 @@ async function compressImage(file: File): Promise<{ blob: Blob; ext: "jpg" }> {
   );
 }
 
-/** رفع صورة إلى public/images/uploads/ وإرجاع رابطها المطلق على الموقع */
+/**
+ * رفع صورة إلى public/images/uploads/ وإرجاع رابطها العام النهائي على الموقع.
+ *
+ * ⚠ الرابط النهائي الصحيح هو `${SITE.url}/images/uploads/<name>` (بلا بادئة public/)،
+ * لأن مجلد public/ يُخدَم من جذر الموقع — أي رابط يحوي /public/images/ يعطي 404
+ * في الصفحة العامة. بعد الرفع يُتحقق فعلياً من وجود الملف في المستودع؛
+ * أي فشل في الرفع أو التحقق يُرمى خطأ حقيقي يُوقف النشر بالكامل.
+ */
 export async function uploadArticleImage(conn: GithubConnection, file: File, slugHint: string): Promise<string> {
   const { blob } = await compressImage(file);
-  const safeHint = slugHint.replace(/[^a-z0-9-]/g, "").slice(0, 40) || "image";
-  const name = `${safeHint}-${Date.now().toString(36)}.jpg`;
+  const name = safeImageFileName(slugHint);
   const buffer = new Uint8Array(await blob.arrayBuffer());
   let binary = "";
   for (const b of buffer) binary += String.fromCharCode(b);
+
   await gh(conn, `/repos/${conn.owner}/${conn.repo}/contents/${UPLOADS_DIR}/${name}`, {
     method: "PUT",
     body: JSON.stringify({
@@ -435,7 +461,28 @@ export async function uploadArticleImage(conn: GithubConnection, file: File, slu
       branch: MAIN_BRANCH,
     }),
   });
-  return `${SITE.url}/${UPLOADS_DIR}/${name}`;
+
+  // تحقق بعد الرفع: الملف يجب أن يكون موجوداً فعلاً في المستودع على المسار الصحيح.
+  try {
+    const check = await gh<ContentResponse>(
+      conn,
+      `/repos/${conn.owner}/${conn.repo}/contents/${UPLOADS_DIR}/${name}?ref=${MAIN_BRANCH}`
+    );
+    if (!check || check.type !== "file" || !check.content) {
+      throw new Error("الملف غير موجود في المستودع بعد الرفع.");
+    }
+  } catch (e) {
+    throw new Error(
+      `رُفعت الصورة لكن تعذّر التحقق من وجودها في المستودع (${describeError(e)}) — أُوقف النشر لمنع مقال بصورة مكسورة.`
+    );
+  }
+
+  const finalUrl = uploadedImagePublicUrl(name);
+  // حارس أخير: لا نُرجع أبداً رابطاً غير صالح للنشر العام.
+  if (!normalizePublicImageUrl(finalUrl)) {
+    throw new Error("وُلّد رابط صورة غير صالح للنشر — أُوقف النشر لمنع صورة مكسورة.");
+  }
+  return finalUrl;
 }
 
 /* ── تنسيق النشر المباشر (طلب → تشغيل → نتيجة) ─────────────────────────── */
