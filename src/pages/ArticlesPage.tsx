@@ -8,9 +8,9 @@ export default function ArticlesPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   useSeo({
-    title: 'الأدلة الطبية والمقالات | منصة فصيحة الطبية',
+    title: 'الأدلة الطبية وصحة المرأة | FemSeha',
     description:
-      'مكتبة الأدلة الطبية في منصة فصيحة: مقالات موثوقة في صحة المرأة والخصوبة والحمل والأدوية بإشراف د. هيثم الخطيب.',
+      'مكتبة FemSeha للأدلة الطبية في صحة المرأة والحمل والخصوبة والأدوية، مع معلومات تثقيفية عن أدوية الإجهاض في السعودية وسايتوتك وميزوبروستول ومخاطر الاستخدام العشوائي.',
     canonicalPath: '/articles',
     jsonLd: [
       websiteJsonLd(),
@@ -52,6 +52,30 @@ export default function ArticlesPage() {
             مقالات طبية متخصصة ومحدثة بإشراف د. هيثم الخطيب، اختصاصي جراحة النساء والتوليد والعقم.
           </p>
         </div>
+
+        {/* محور تثقيفي مركز للكلمات السعودية ذات الصلة */}
+        <section className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-7 mb-8" aria-labelledby="saudi-medication-focus">
+          <h2 id="saudi-medication-focus" className="text-xl font-black text-slate-900 mb-3">
+            أدوية الإجهاض في السعودية وسلامة استخدام سايتوتك وميزوبروستول
+          </h2>
+          <p className="text-sm sm:text-base text-slate-600 leading-7 mb-5">
+            إذا كنتِ تبحثين عن معلومات طبية حول أدوية إجهاض الحمل في السعودية أو عن سايتوتك وميزوبروستول، ابدئي بالدليل الطبي المحوري الذي يشرح الاستخدامات الطبية، الحاجة إلى التقييم المتخصص، المخاطر وعلامات الخطر، دون تقديم وصفات أو تعليمات للاستخدام الذاتي.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link
+              to="/articles/cytotec-misoprostol-saudi-riyadh-guide"
+              className="inline-flex items-center justify-center rounded-xl bg-sky-600 px-5 py-3 text-sm font-bold text-white hover:bg-sky-700 transition"
+            >
+              دليل سايتوتك في السعودية ←
+            </Link>
+            <Link
+              to="/articles/ijhad-dawai-fi-al-saudia"
+              className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-800 hover:bg-slate-100 transition"
+            >
+              أدوية إجهاض الحمل في السعودية ←
+            </Link>
+          </div>
+        </section>
 
         {/* أدوات البحث والتصنيف */}
         <div className="bg-white border border-slate-200 p-4 sm:p-6 rounded-2xl shadow mb-8 space-y-4">
