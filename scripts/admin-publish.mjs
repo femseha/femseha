@@ -17,7 +17,7 @@
  *
  * القواعد المطبقة (نفس قواعد الخط الآلي — reuse حرفي من generate-article.mjs):
  *   - منع تنافس الكلمات المفتاحية (Cannibalization) — findCannibalization نفسها.
- *   - فحوصات الجودة: عدد الكلمات، طول العنوان والوصف، تفرّد الـ slug والعنوان.
+ *   - فحوصات الجودة: محتوى فعلي غير فارغ (بلا حد كلمات)، طول العنوان والوصف، تفرّد الـ slug والعنوان.
  *   - فحوصات السلامة الطبية الإلزامية (SAFETY_RULES) + حارس YMYL التجاري
  *     (مطابق لـ audit-indexing.mjs ويشمل عملات الخليج) على المحتوى يدوياً كان
  *     أو مولداً: لا شراء، لا بائعين، لا أسعار، لا جرعات رقمية، لا وسائل تواصل.
@@ -45,22 +45,23 @@ import {
   SITEMAP_PATH,
   SITE_URL,
   MODEL,
-  MIN_WORDS,
   TARGET_WORDS_DEFAULT,
   ADMIN_REQUESTS_DIR,
   today,
   log,
   countArabicWords,
+  hasSubstantiveContent,
   runSafetyChecks,
   findCannibalization,
   buildPrompt,
   generateWithGemini,
   parseGeneratedArticle,
   runQualityChecks,
+  internalMarkdownPaths,
   CONSULTATION_SECTION,
   persist,
+  writePublicationFiles,
 } from "./generate-article.mjs";
-import { buildSitemapXml } from "./generate-sitemap.mjs";
 
 const COUNTRIES_PATH = path.join(ROOT, "src", "data", "countries.json");
 const STATIC_ROUTES = ["/", "/articles", "/doctor", "/consultation", "/medical-disclaimer"];
@@ -122,12 +123,74 @@ function asStringArray(v, max = 10) {
     .map((x) => x.trim().slice(0, 80));
 }
 
-function sanitizeImage(v) {
-  if (typeof v !== "string") return undefined;
-  const s = v.trim();
-  if (!s) return undefined;
-  if (/^https?:\/\//.test(s) || /^\/images\//.test(s)) return s;
-  return undefined;
+const IMAGE_EXT_RE = /\.(?:avif|gif|jpe?g|png|webp)$/i;
+const UNSAFE_IMAGE_PATH_RE = /(^|[\\/])\.{1,2}(?=[\\/?#]|$)|%(?:2e|2f|5c)/i;
+
+/**
+ * رابط الصورة لا يُسقط بصمت: إما URL HTTPS صالح (وملف موجود للصور المحلية)
+ * أو يفشل الطلب كله بسبب واضح. يصحح فقط روابط /public/ التاريخية.
+ */
+export function normalizeAndVerifyArticleImage(value) {
+  if (value == null || value === "") return undefined;
+  if (typeof value !== "string") throw new RequestFailure("رابط صورة المقال يجب أن يكون نصاً.");
+  const raw = value.trim();
+  if (!raw) return undefined;
+  if (/[\u0000-\u001f\u007f]/.test(raw) || raw.includes("\\") || UNSAFE_IMAGE_PATH_RE.test(raw)) {
+    throw new RequestFailure("رابط صورة المقال يحتوي مساراً غير آمن أو محاولة انتقال بين المجلدات.");
+  }
+
+  const site = new URL(SITE_URL);
+  let parsed;
+  try {
+    parsed = raw.startsWith("/") && !raw.startsWith("//") ? new URL(raw, site) : new URL(raw);
+  } catch {
+    throw new RequestFailure("رابط صورة المقال غير صالح — استخدمي HTTPS أو مساراً يبدأ بـ /images/.");
+  }
+  if (parsed.protocol !== "https:" || parsed.username || parsed.password) {
+    throw new RequestFailure("رابط صورة المقال غير آمن — المسموح HTTPS فقط دون بيانات دخول داخل الرابط.");
+  }
+
+  if (parsed.origin === site.origin) {
+    if (parsed.pathname.startsWith("/public/")) parsed.pathname = parsed.pathname.slice("/public".length);
+    let decodedPath;
+    try {
+      decodedPath = decodeURIComponent(parsed.pathname);
+    } catch {
+      throw new RequestFailure("مسار صورة المقال يحتوي ترميزاً غير صالح.");
+    }
+    if (!decodedPath.startsWith("/") || !IMAGE_EXT_RE.test(decodedPath)) {
+      throw new RequestFailure("رابط صورة الموقع لا يشير إلى امتداد صورة صالح.");
+    }
+
+    const publicRoot = path.resolve(ROOT, "public");
+    const filePath = path.resolve(publicRoot, `.${decodedPath}`);
+    if (!filePath.startsWith(`${publicRoot}${path.sep}`)) {
+      throw new RequestFailure("مسار صورة المقال خرج من مجلد public المسموح.");
+    }
+    let stat;
+    try {
+      stat = fs.statSync(filePath);
+    } catch {
+      throw new RequestFailure(`ملف صورة المقال غير موجود في المستودع: ${decodedPath}`);
+    }
+    if (!stat.isFile() || stat.size <= 0) {
+      throw new RequestFailure(`ملف صورة المقال فارغ أو ليس ملفاً صالحاً: ${decodedPath}`);
+    }
+  }
+
+  parsed.hash = "";
+  return parsed.href;
+}
+
+export function normalizeArticleImageAlt(value) {
+  if (value == null || value === "") return undefined;
+  if (typeof value !== "string") throw new RequestFailure("النص البديل للصورة يجب أن يكون نصاً.");
+  const normalized = value.replace(/[\u0000-\u001f\u007f]+/g, " ").replace(/\s+/g, " ").trim();
+  if (!normalized) return undefined;
+  if (normalized.length > 180) {
+    throw new RequestFailure(`النص البديل للصورة أطول من 180 حرفاً (الحالي: ${normalized.length}).`);
+  }
+  return normalized;
 }
 
 /** مسارات داخلية منشورة (لفحص روابط المحتوى — قاعدة seo-validate نفسها) */
@@ -173,9 +236,9 @@ function runAdminExtraChecks(candidate, articles, excludeSlug) {
 
   // روابط داخلية مكسورة (يجب أن تشير لمسارات منشورة فقط)
   const routes = publishedRoutes(articles);
-  for (const m of (candidate.content || "").matchAll(/\]\((\/[^\s)]+)\)/g)) {
-    if (!routes.has(m[1]) && m[1] !== `/articles/${candidate.slug}`) {
-      errors.push(`رابط داخلي مكسور في المحتوى: ${m[1]} — يجب أن يشير لمسار منشور.`);
+  for (const href of internalMarkdownPaths(candidate.content || "")) {
+    if (!routes.has(href) && href !== `/articles/${candidate.slug}`) {
+      errors.push(`رابط داخلي مكسور في المحتوى: ${href} — يجب أن يشير لمسار منشور.`);
     }
   }
 
@@ -246,6 +309,9 @@ async function processAiRequest(req, ctx) {
   if (!ctx.contentMap.categories || !ctx.contentMap.categories[req.category]) {
     throw new RequestFailure(`التصنيف غير معروف: ${req.category || "(مفقود)"}`);
   }
+  const image = normalizeAndVerifyArticleImage(req.image);
+  const imageAlt = normalizeArticleImageAlt(req.imageAlt);
+  if (imageAlt && !image) throw new RequestFailure("يوجد نص بديل للصورة لكن صورة المقال مفقودة.");
 
   // فحص تنافس الكلمات المفتاحية قبل التوليد (نفس منطق الخط الآلي)
   const cannibal = findCannibalization({ title: req.title, primaryKeyword: req.primaryKeyword }, ctx.articles);
@@ -344,7 +410,8 @@ async function processAiRequest(req, ctx) {
     summary: String(gen.summary).trim(),
     publishDate: today(),
     readTime: Math.max(3, Math.round(words / 200)),
-    ...(sanitizeImage(req.image) ? { image: sanitizeImage(req.image) } : {}),
+    ...(image ? { image } : {}),
+    ...(imageAlt ? { imageAlt } : {}),
     content,
     ...(Array.isArray(gen.faq) && gen.faq.length ? { faq: gen.faq } : {}),
     related: relatedSlugs.filter((s) => ctx.articles.some((a) => a.slug === s)),
@@ -377,6 +444,12 @@ function processManualRequest(req, ctx) {
   const countries = ctx.countries;
   const country = req.country ? countries.find((c) => c.code === req.country) : null;
   if (req.country && !country) throw new RequestFailure(`رمز الدولة غير معروف: ${req.country}`);
+  const image = normalizeAndVerifyArticleImage(req.image);
+  const imageAlt = normalizeArticleImageAlt(req.imageAlt);
+  if (imageAlt && !image) throw new RequestFailure("يوجد نص بديل للصورة لكن صورة المقال مفقودة.");
+  if (!hasSubstantiveContent(req.content)) {
+    throw new RequestFailure("محتوى المقال فارغ أو شكلي — أضيفي نصاً تحريرياً فعلياً قبل النشر.");
+  }
 
   // الـ slug: مقفل على المقال نفسه عند التعديل (حماية الروابط وSEO القائم)
   let slug;
@@ -435,7 +508,8 @@ function processManualRequest(req, ctx) {
     // modifiedDate حقيقي فقط عند تعديل فعلي في يوم لاحق للنشر (لا يُخترع تاريخ)
     ...(isEdit && modifiedDate !== publishDate ? { modifiedDate } : {}),
     readTime: Math.max(3, Math.round(words / 200)),
-    ...(sanitizeImage(req.image) ? { image: sanitizeImage(req.image) } : {}),
+    ...(image ? { image } : {}),
+    ...(imageAlt ? { imageAlt } : {}),
     content,
     ...(gen.faq && gen.faq.length ? { faq: gen.faq } : {}),
     ...(isEdit && Array.isArray(existing.sources) && existing.sources.length ? { sources: existing.sources } : {}),
@@ -456,8 +530,7 @@ function processManualRequest(req, ctx) {
 
 /** حفظ كامل القائمة (للتعديل في المكان) — نفس صيغة persist تماماً */
 function saveArticles(nextArticles, articlesPath, sitemapPath) {
-  fs.writeFileSync(articlesPath, JSON.stringify(nextArticles, null, 2) + "\n", "utf8");
-  fs.writeFileSync(sitemapPath, buildSitemapXml(nextArticles, SITE_URL), "utf8");
+  writePublicationFiles(nextArticles, articlesPath, sitemapPath);
   return nextArticles;
 }
 
@@ -533,6 +606,11 @@ export async function processRequests({ requestsDir, articlesPath, sitemapPath, 
 
     const { file, name, req } = entry;
     const mode = req.mode === "ai" ? "AI" : "يدوي";
+    const snapshot = {
+      articles: ctx.articles,
+      articlesFile: fs.readFileSync(ctx.articlesPath),
+      sitemapFile: fs.existsSync(ctx.sitemapPath) ? fs.readFileSync(ctx.sitemapPath) : null,
+    };
     log(`\n▶ طلب نشر مباشر (${mode}): ${name} — «${req.title || "(بلا عنوان)"}»`);
     try {
       if (req.mode !== "ai" && req.mode !== "manual") {
@@ -549,6 +627,16 @@ export async function processRequests({ requestsDir, articlesPath, sitemapPath, 
       summary.failed += 1;
       const message = e instanceof RequestFailure ? e.message : `خطأ غير متوقع: ${e.message}`;
       log(`✖ رُفض الطلب (لم يُنشر): ${message}`);
+      // إن فشل أي جزء بعد كتابة المقال أو sitemap (حتى حذف الطلب)، نعيد الملفين
+      // إلى لقطة ما قبل الطلب كي لا يظهر مقال جزئي مع حالة فشل.
+      try {
+        fs.writeFileSync(ctx.articlesPath, snapshot.articlesFile);
+        if (snapshot.sitemapFile === null) fs.rmSync(ctx.sitemapPath, { force: true });
+        else fs.writeFileSync(ctx.sitemapPath, snapshot.sitemapFile);
+        ctx.articles = snapshot.articles;
+      } catch (rollbackError) {
+        log(`  تعذر التراجع عن ملفات نشر جزئية: ${rollbackError.message}`);
+      }
       try {
         markFailed(file, req, message);
       } catch (writeErr) {
@@ -574,6 +662,17 @@ async function selfTest() {
   fs.copyFileSync(ARTICLES_PATH, articlesPath);
 
   const realArticles = JSON.parse(fs.readFileSync(ARTICLES_PATH, "utf8"));
+  // عزل اختبار استثناء Cannibalization عن فحص تشابه العنوان المستقل: نغيّر
+  // عنوان المنافس في النسخة المؤقتة فقط، مع إبقاء كلمته المفتاحية كما هي.
+  // بذلك يثبت الاختبار أن الاستثناء يتجاوز فحص التنافس وحده ولا يعطل الجودة.
+  const isolatedArticles = JSON.parse(JSON.stringify(realArticles));
+  const exceptionCompetitor = isolatedArticles.find(
+    (article) => article.primaryKeyword === "أدوية إجهاض الحمل في السعودية"
+  );
+  if (exceptionCompetitor) {
+    exceptionCompetitor.title = "مرجع طبي منشور مختلف العنوان لاختبار تنافس الكلمات المفتاحية";
+    fs.writeFileSync(articlesPath, JSON.stringify(isolatedArticles, null, 2) + "\n", "utf8");
+  }
   const filler = Array.from(
     { length: 42 },
     (_, i) =>

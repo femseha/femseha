@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { COUNTRIES, CATEGORIES } from '../../lib/article-rules';
 
 /**
@@ -96,16 +96,24 @@ export function CategorySelect({
 export function ImageField({
   imageUrl,
   onImageUrlChange,
+  imageAlt,
+  onImageAltChange,
   file,
   onFileChange,
 }: {
   imageUrl: string;
   onImageUrlChange: (url: string) => void;
+  imageAlt: string;
+  onImageAltChange: (alt: string) => void;
   file: File | null;
   onFileChange: (file: File | null) => void;
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
+
+  useEffect(() => () => {
+    if (preview) URL.revokeObjectURL(preview);
+  }, [preview]);
 
   const pickFile = (f: File | null) => {
     if (preview) URL.revokeObjectURL(preview);
@@ -163,10 +171,23 @@ export function ImageField({
       {previewSrc ? (
         <img
           src={previewSrc}
-          alt="معاينة صورة المقال"
+          alt={imageAlt.trim() || "معاينة صورة المقال"}
           className="w-full max-h-40 object-cover rounded-xl border border-slate-200"
         />
       ) : null}
+      <label className="block">
+        <span className="block text-[11px] font-semibold text-slate-600 mb-1">
+          النص البديل للصورة (ALT) — اختياري، ويُستخدم عنوان المقال تلقائياً عند تركه فارغاً
+        </span>
+        <input
+          type="text"
+          value={imageAlt}
+          maxLength={180}
+          onChange={(event) => onImageAltChange(event.target.value)}
+          className={inputCls}
+          placeholder="وصف موجز ودقيق للصورة"
+        />
+      </label>
       <p className="text-[11px] text-slate-400 leading-relaxed">
         الصورة اختيارية. تُضغط تلقائياً (JPEG أعرض حد 1600px) وترفع إلى المستودع عند النشر.
         ملاحظة: بانر الرئيسية العام لا يُعرض كصورة مقال في صفحة المقال.

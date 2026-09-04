@@ -12,6 +12,8 @@
 import countriesData from "../data/countries.json";
 import cannibalizationExceptions from "../data/cannibalization-exceptions.json";
 import type { ArticleRecord } from "../data/types";
+import { normalizeArticleImageAlt, validateArticleImageUrl } from "./article-media";
+import { internalMarkdownPaths, unsafeMarkdownLinks } from "./article-markdown";
 
 /* ── الدول/الأسواق (src/data/countries.json — المصدر الوحيد) ───────────── */
 
@@ -49,7 +51,6 @@ export const CATEGORIES: { id: string; name: string }[] = [
 /* ── عتبات الجودة (مطابقة لثوابت scripts/generate-article.mjs) ─────────── */
 
 export const LIMITS = {
-  MIN_WORDS: 1400,
   TITLE_MIN: 20,
   TITLE_MAX: 75,
   SUMMARY_MIN: 100,
@@ -66,6 +67,27 @@ export function countWords(text: string): number {
   return (text || "")
     .split(/\s+/)
     .filter((w) => /[\u0600-\u06FFa-zA-Z0-9]/.test(w)).length;
+}
+
+/**
+ * حارس ضد المحتوى الفارغ/الشكلي فقط، وليس هدف كلمات أو إشارة جودة/فهرسة.
+ * يعتمد على وجود أكثر من وحدة نصية ومعجم متنوع قليلاً كي يرفض مثلاً عنواناً
+ * منفرداً أو «سيضاف المحتوى لاحقاً»، ولا يفرض طول مقال SEO.
+ */
+export function hasSubstantiveContent(text: string): boolean {
+  const plain = String(text || "")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/^[#>*•\-\d.)\s]+/gm, "")
+    .replace(/\*\*|__|`/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const words = plain.match(/[\u0600-\u06FFa-zA-Z0-9]+/g) || [];
+  const distinctWords = new Set(words.map((word) => normalizeArabic(word)).filter(Boolean));
+  const meaningfulUnits = String(text || "")
+    .split(/(?:\n\s*\n|[.!؟]+\s*)/)
+    .map((unit) => countWords(unit))
+    .filter((wordCount) => wordCount >= 3);
+  return plain.length >= 80 && distinctWords.size >= 8 && meaningfulUnits.length >= 2;
 }
 
 export function normalizeArabic(text: string): string {
@@ -277,11 +299,19 @@ export function safetyViolations(text: string): string[] {
 /** روابط داخلية مكسورة في محتوى ماركداون (مطابقة لفحص seo-validate.mjs) */
 export function brokenInternalLinks(content: string, articles: ArticleRecord[]): string[] {
   const routes = new Set([...STATIC_ROUTES, ...articles.map((a) => `/articles/${a.slug}`)]);
-  const broken: string[] = [];
-  for (const m of (content || "").matchAll(/\]\((\/[^\s)]+)\)/g)) {
-    if (!routes.has(m[1])) broken.push(m[1]);
+  return internalMarkdownPaths(content).filter((href) => !routes.has(href));
+}
+
+function validateDraftMedia(image: string | null, imageAlt: string | null): string[] {
+  const errors: string[] = [];
+  const imageError = validateArticleImageUrl(image);
+  if (imageError) errors.push(imageError);
+  try {
+    normalizeArticleImageAlt(imageAlt);
+  } catch (error) {
+    errors.push(error instanceof Error ? error.message : "النص البديل للصورة غير صالح.");
   }
-  return broken;
+  return errors;
 }
 
 /* ── مسودات الطلبات ─────────────────────────────────────────────────────── */
@@ -294,6 +324,7 @@ export interface AiDraft {
   category: string;
   instructions: string;
   image: string | null;
+  imageAlt: string | null;
 }
 
 export interface ManualDraft {
@@ -303,6 +334,7 @@ export interface ManualDraft {
   country: string | null;
   category: string;
   image: string | null;
+  imageAlt: string | null;
   content: string;
   summary: string;
   slug: string;
@@ -324,6 +356,7 @@ export function validateAiDraft(draft: AiDraft, articles: ArticleRecord[]): stri
   if (!draft.primaryKeyword.trim()) errors.push("الكلمة المفتاحية الرئيسية مطلوبة.");
   if (draft.country && !countryByCode(draft.country)) errors.push("رمز الدولة غير معروف.");
   if (!CATEGORIES.some((c) => c.id === draft.category)) errors.push("التصنيف غير معروف.");
+  errors.push(...validateDraftMedia(draft.image, draft.imageAlt));
   if (draft.title.trim() && draft.primaryKeyword.trim()) {
     const cannibal = findCannibalization(
       { title: draft.title, primaryKeyword: draft.primaryKeyword },
@@ -354,10 +387,10 @@ export function validateManualDraft(draft: ManualDraft, articles: ArticleRecord[
   if (!draft.primaryKeyword.trim()) errors.push("الكلمة المفتاحية الرئيسية مطلوبة.");
   if (draft.country && !countryByCode(draft.country)) errors.push("رمز الدولة غير معروف.");
   if (!CATEGORIES.some((c) => c.id === draft.category)) errors.push("التصنيف غير معروف.");
+  errors.push(...validateDraftMedia(draft.image, draft.imageAlt));
 
-  const words = countWords(draft.content);
-  if (words < LIMITS.MIN_WORDS) {
-    errors.push(`عدد كلمات المحتوى ${words} — الحد الأدنى للنشر ${LIMITS.MIN_WORDS} كلمة.`);
+  if (!hasSubstantiveContent(draft.content)) {
+    errors.push("محتوى المقال فارغ أو شكلي — أضيفي نصاً تحريرياً فعلياً قبل النشر.");
   }
 
   // slug
@@ -403,7 +436,11 @@ export function validateManualDraft(draft: ManualDraft, articles: ArticleRecord[
   // السلامة الطبية + التجارية
   for (const v of safetyViolations(`${title}\n${summary}\n${draft.content}`)) errors.push(`سلامة: ${v}`);
 
-  // روابط داخلية
+  // روابط Markdown: الروابط الآمنة تبقى كما كُتبت، والمخططات الخطرة تُرفض قبل الإرسال.
+  const unsafe = unsafeMarkdownLinks(draft.content);
+  if (unsafe.length) {
+    errors.push(`روابط غير آمنة في المحتوى: ${unsafe.join("، ")} — المسموح مسار داخلي أو رابط HTTP/HTTPS فقط.`);
+  }
   const broken = brokenInternalLinks(draft.content, articles);
   if (broken.length) errors.push(`روابط داخلية مكسورة في المحتوى: ${broken.join("، ")} — يجب أن تشير لمسارات منشورة فقط.`);
 

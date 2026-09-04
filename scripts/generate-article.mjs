@@ -49,8 +49,7 @@ export const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
 export const SITE_URL = "https://femseha.com";
 export const MODEL = "gemini-3.6-flash";
 export const DOCTOR_NAME = "د. هيثم الخطيب";
-export const MIN_WORDS = 1400;          // الحد الأدنى المقبول للنشر
-export const TARGET_WORDS_DEFAULT = 2000;
+export const TARGET_WORDS_DEFAULT = 2000; // هدف تحريري للتوليد فقط، وليس شرط نشر أو فهرسة
 export const MAX_DAILY_ARTICLES = 3;    // السقف اليومي للنشر (الجدولة القديمة تعمل 5 مرات يومياً)
 
 /* مسارات لوحة الإدارة (النشر المباشر) — انظر scripts/admin-publish.mjs */
@@ -74,6 +73,69 @@ export function countArabicWords(text) {
   return (text || "")
     .split(/\s+/)
     .filter((w) => /[\u0600-\u06FFa-zA-Z0-9]/.test(w)).length;
+}
+
+/**
+ * يمنع المحتوى الفارغ/الشكلي فقط. لا يمثل حد كلمات SEO ولا معيار فهرسة؛
+ * عدد الكلمات يبقى معلومة تستخدم لحساب زمن القراءة لا بوابة للنشر.
+ */
+export function hasSubstantiveContent(text) {
+  const plain = String(text || "")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/^[#>*•\-\d.)\s]+/gm, "")
+    .replace(/\*\*|__|`/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const words = plain.match(/[\u0600-\u06FFa-zA-Z0-9]+/g) || [];
+  const distinctWords = new Set(words.map((word) => normalizeArabic(word)).filter(Boolean));
+  const meaningfulUnits = String(text || "")
+    .split(/(?:\n\s*\n|[.!؟]+\s*)/)
+    .map((unit) => countArabicWords(unit))
+    .filter((wordCount) => wordCount >= 3);
+  return plain.length >= 80 && distinctWords.size >= 8 && meaningfulUnits.length >= 2;
+}
+
+/** الروابط الداخلية ذات / واحدة، والخارجية HTTP/HTTPS فقط. */
+export function classifyMarkdownHref(value) {
+  const href = String(value || "").trim();
+  if (!href || href !== value || /[\u0000-\u0020\u007f]/.test(href) || href.includes("\\")) return null;
+  if (href.startsWith("/") && !href.startsWith("//")) {
+    try {
+      const base = new URL("https://femseha.invalid");
+      const parsed = new URL(href, base);
+      if (parsed.origin !== base.origin) return null;
+      return { kind: "internal", href: `${parsed.pathname}${parsed.search}${parsed.hash}` };
+    } catch {
+      return null;
+    }
+  }
+  try {
+    const parsed = new URL(href);
+    if (!["http:", "https:"].includes(parsed.protocol) || parsed.username || parsed.password) return null;
+    return { kind: "external", href: parsed.href };
+  } catch {
+    return null;
+  }
+}
+
+export function extractMarkdownLinks(content) {
+  const links = [];
+  for (const match of String(content || "").matchAll(/\[([^\]\n]+)\]\(([^)\s]+)\)/g)) {
+    links.push({ label: match[1], href: match[2], safeHref: classifyMarkdownHref(match[2]) });
+  }
+  return links;
+}
+
+export function unsafeMarkdownLinks(content) {
+  return [...new Set(extractMarkdownLinks(content).filter((link) => !link.safeHref).map((link) => link.href))];
+}
+
+export function internalMarkdownPaths(content) {
+  return [...new Set(
+    extractMarkdownLinks(content)
+      .filter((link) => link.safeHref?.kind === "internal")
+      .map((link) => new URL(link.safeHref.href, "https://femseha.invalid").pathname)
+  )];
 }
 
 /** تطبيع النص العربي للمقارنة */
@@ -563,8 +625,8 @@ export function runQualityChecks(gen, topic, articles) {
   const errors = [];
 
   const words = countArabicWords(gen.content);
-  if (words < MIN_WORDS) {
-    errors.push(`عدد الكلمات ${words} أقل من الحد الأدنى ${MIN_WORDS}`);
+  if (!hasSubstantiveContent(gen.content)) {
+    errors.push("محتوى المقال فارغ أو شكلي — يجب إضافة نص تحريري فعلي قبل النشر");
   }
 
   if ((gen.title || "").length > 75) errors.push("العنوان أطول من 75 حرفاً");
@@ -586,6 +648,12 @@ export function runQualityChecks(gen, topic, articles) {
     }
   }
 
+  // روابط Markdown الآمنة تُحفظ كما هي؛ schemes الخطرة تُرفض ولا تُنشر.
+  const unsafeLinks = unsafeMarkdownLinks(gen.content);
+  for (const href of unsafeLinks) {
+    errors.push(`رابط غير آمن في المحتوى: ${href} — المسموح مسار داخلي أو HTTP/HTTPS فقط`);
+  }
+
   // فحوصات السلامة
   const violations = runSafetyChecks(gen.content);
   for (const v of violations) errors.push(`سلامة: ${v.name} — ${v.message}`);
@@ -597,10 +665,41 @@ export function runQualityChecks(gen, topic, articles) {
 /* ملاحظة: بناء sitemap مُوحّد في scripts/generate-sitemap.mjs (المستخدم أيضاً
    في npm run build) — يُستدعى هنا لضمان تطابق صيغة الملف بين مساري النشر. */
 
+export function writePublicationFiles(nextArticles, articlesPath, sitemapPath) {
+  const articlesText = JSON.stringify(nextArticles, null, 2) + "\n";
+  const sitemapText = buildSitemapXml(nextArticles, SITE_URL);
+  const suffix = `.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const articlesTmp = `${articlesPath}${suffix}`;
+  const sitemapTmp = `${sitemapPath}${suffix}`;
+  const previousArticles = fs.existsSync(articlesPath) ? fs.readFileSync(articlesPath) : null;
+  const previousSitemap = fs.existsSync(sitemapPath) ? fs.readFileSync(sitemapPath) : null;
+
+  const restore = (target, previous) => {
+    if (previous === null) fs.rmSync(target, { force: true });
+    else fs.writeFileSync(target, previous);
+  };
+
+  try {
+    // نبني الملفين ونكتبهما مؤقتاً قبل لمس النسخة المنشورة.
+    fs.writeFileSync(articlesTmp, articlesText, "utf8");
+    fs.writeFileSync(sitemapTmp, sitemapText, "utf8");
+    fs.renameSync(articlesTmp, articlesPath);
+    try {
+      fs.renameSync(sitemapTmp, sitemapPath);
+    } catch (error) {
+      restore(articlesPath, previousArticles);
+      restore(sitemapPath, previousSitemap);
+      throw error;
+    }
+  } finally {
+    fs.rmSync(articlesTmp, { force: true });
+    fs.rmSync(sitemapTmp, { force: true });
+  }
+}
+
 export function persist(article, articlesPath, sitemapPath, existingArticles) {
   const nextArticles = [article, ...existingArticles];
-  fs.writeFileSync(articlesPath, JSON.stringify(nextArticles, null, 2) + "\n", "utf8");
-  fs.writeFileSync(sitemapPath, buildSitemapXml(nextArticles, SITE_URL), "utf8");
+  writePublicationFiles(nextArticles, articlesPath, sitemapPath);
   return nextArticles;
 }
 
@@ -777,7 +876,7 @@ async function main() {
   if (quality.errors.length > 0) {
     fail(`فشل فحص الجودة/السلامة — المقال لن يُنشر:\n  - ${quality.errors.join("\n  - ")}`);
   }
-  log(`✔ فحوصات الجودة: ${quality.words} كلمة (الحد الأدنى ${MIN_WORDS}) — اجتازت`);
+  log(`✔ فحوصات الجودة والسلامة اجتازت — عدد الكلمات للمعلومة فقط: ${quality.words}`);
 
   // 4) تجميع المقال النهائي
   const article = {

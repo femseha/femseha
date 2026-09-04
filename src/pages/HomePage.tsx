@@ -64,7 +64,7 @@ export default function HomePage() {
   return (
     <div className="space-y-16 pb-16">
       {/* البانر الأساسي: صورة د. هيثم الخطيب كاملة العرض (بدون قص أو تمدد) */}
-      <section className="relative w-full bg-slate-950">
+      <section className="relative w-full bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <a
             href={WHATSAPP_LINK}
@@ -84,22 +84,22 @@ export default function HomePage() {
       </section>
 
       {/* الهيرو: العنوان والبطاقة التعريفية */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-sky-950 to-slate-950 pt-12 pb-20 border-b border-sky-900/40">
+      <section className="relative overflow-hidden bg-gradient-to-b from-white via-sky-50 to-slate-50 pt-12 pb-20 border-b border-sky-200">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(14,165,233,0.15),transparent_50%)] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 space-y-6 text-right">
-              <div className="inline-flex items-center gap-2 bg-sky-900/60 border border-sky-700/50 text-sky-300 text-xs font-bold px-3 py-1.5 rounded-full shadow-inner">
+              <div className="inline-flex items-center gap-2 bg-sky-100 border border-sky-200 text-sky-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-inner">
                 <ShieldCheckIcon className="w-4 h-4 text-emerald-400" />
                 <span>FemSeha — منصة التثقيف والاستشارات الطبية</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
                 صحة المرأة والصحة الإنجابية في السعودية
               </h1>
-              <p className="text-lg sm:text-xl text-slate-200 font-normal leading-relaxed">
+              <p className="text-lg sm:text-xl text-slate-700 font-normal leading-relaxed">
                 معلومات طبية موثوقة واستشارات متخصصة حول صحة المرأة والصحة الإنجابية.
               </p>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl">
                 منصة طبية متخصصة في التثقيف الصحي والاستشارات الطبية المتعلقة بصحة المرأة والصحة
                 الإنجابية مع دكتور هيثم الخطيب.
               </p>
@@ -115,22 +115,22 @@ export default function HomePage() {
                 </a>
                 <Link
                   to="/articles"
-                  className="bg-slate-800/80 hover:bg-slate-800 text-slate-100 font-bold text-base px-6 py-4 rounded-xl border border-slate-700 transition-all text-center flex items-center justify-center gap-2"
+                  className="bg-white hover:bg-slate-100 text-slate-800 font-bold text-base px-6 py-4 rounded-xl border border-slate-300 transition-all text-center flex items-center justify-center gap-2"
                 >
                   <BookOpenIcon className="w-5 h-5 text-sky-400" />
                   <span>اقرأ المعلومات الطبية</span>
                 </Link>
               </div>
-              <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-slate-300">
-                <div className="flex items-center gap-2 bg-slate-900/70 p-2.5 rounded-lg border border-slate-800">
+              <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-slate-600">
+                <div className="flex items-center gap-2 bg-white/70 p-2.5 rounded-lg border border-slate-200">
                   <CircleCheckIcon className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>خصوصية وسرية تامة</span>
                 </div>
-                <div className="flex items-center gap-2 bg-slate-900/70 p-2.5 rounded-lg border border-slate-800">
+                <div className="flex items-center gap-2 bg-white/70 p-2.5 rounded-lg border border-slate-200">
                   <CircleCheckIcon className="w-4 h-4 text-sky-400 shrink-0" />
                   <span>إشراف دكتور هيثم الخطيب</span>
                 </div>
-                <div className="flex items-center gap-2 bg-slate-900/70 p-2.5 rounded-lg border border-slate-800 col-span-2 sm:col-span-1">
+                <div className="flex items-center gap-2 bg-white/70 p-2.5 rounded-lg border border-slate-200 col-span-2 sm:col-span-1">
                   <CircleCheckIcon className="w-4 h-4 text-amber-400 shrink-0" />
                   <span>تغطية بالمملكة العربية السعودية</span>
                 </div>
@@ -138,8 +138,8 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-5">
-              <div className="bg-gradient-to-b from-slate-900 to-slate-950 p-6 sm:p-8 rounded-2xl border border-sky-800/50 shadow-2xl space-y-6">
-                <div className="flex items-center gap-4 border-b border-slate-800 pb-5">
+              <div className="bg-gradient-to-b from-white to-slate-50 p-6 sm:p-8 rounded-2xl border border-sky-200 shadow-2xl space-y-6">
+                <div className="flex items-center gap-4 border-b border-slate-200 pb-5">
                   <img
                     src="/logo.png"
                     alt="FemSeha Logo"
@@ -148,12 +148,12 @@ export default function HomePage() {
                     className="w-16 h-16 rounded-2xl shadow-lg shrink-0"
                   />
                   <div>
-                    <h2 className="text-xl font-bold text-white">دكتور هيثم الخطيب</h2>
-                    <p className="text-xs text-sky-300 font-semibold mt-1">Dr. Haitham Al-Khatib</p>
-                    <p className="text-[11px] text-slate-400 mt-0.5">استشارات التثقيف والصحة الإنجابية</p>
+                    <h2 className="text-xl font-bold text-slate-900">دكتور هيثم الخطيب</h2>
+                    <p className="text-xs text-sky-700 font-semibold mt-1">Dr. Haitham Al-Khatib</p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">استشارات التثقيف والصحة الإنجابية</p>
                   </div>
                 </div>
-                <div className="space-y-3 text-xs leading-relaxed text-slate-300">
+                <div className="space-y-3 text-xs leading-relaxed text-slate-600">
                   <p>
                     تهدف منصة **FemSeha** إلى توفير الاستشارات التوعوية الموثوقة لكل من يبحث عن
                     الإجابات الطبية الدقيقة في مجالات الحمل، اضطرابات الدورة، وسلامة استخدام
@@ -164,7 +164,7 @@ export default function HomePage() {
                   href={WHATSAPP_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 rounded-xl shadow transition-colors text-sm"
+                  className="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 rounded-xl shadow transition-colors text-sm"
                 >
                   تواصل عبر واتساب
                 </a>
@@ -176,35 +176,35 @@ export default function HomePage() {
 
       {/* عن FemSeha ودكتور هيثم الخطيب */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 sm:p-12 shadow-lg">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 sm:p-12 shadow-lg">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-4">
-              <div className="inline-block text-xs font-bold text-sky-400 bg-sky-950 border border-sky-800 px-3 py-1 rounded-full">
+              <div className="inline-block text-xs font-bold text-sky-700 bg-sky-50 border border-sky-200 px-3 py-1 rounded-full">
                 عن FemSeha ودكتور هيثم الخطيب
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
                 رؤيتنا ورسالتنا في التوعية الصحية والاستشارات الطبية
               </h2>
-              <p className="text-slate-300 text-sm leading-relaxed">
+              <p className="text-slate-600 text-sm leading-relaxed">
                 منصة **FemSeha** بإشراف **دكتور هيثم الخطيب** هي منصة طبية متخصصة في التثقيف الصحي
                 والاستشارات الطبية المتعلقة بصحة المرأة والصحة الإنجابية بالمملكة العربية السعودية
                 والخليج العربي.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs">
-                <div className="p-3 bg-slate-950 rounded-lg border border-slate-800">
-                  <h3 className="font-bold text-sky-300 mb-1">السرية التامة</h3>
-                  <p className="text-slate-400">نلتزم بأعلى معايير الخصوصية في كافة التواصلات والاستشارات.</p>
+                <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                  <h3 className="font-bold text-sky-700 mb-1">السرية التامة</h3>
+                  <p className="text-slate-500">نلتزم بأعلى معايير الخصوصية في كافة التواصلات والاستشارات.</p>
                 </div>
-                <div className="p-3 bg-slate-950 rounded-lg border border-slate-800">
-                  <h3 className="font-bold text-sky-300 mb-1">المعرفة الموثوقة</h3>
-                  <p className="text-slate-400">محتوى طبي مبني على المعايير العلمية والإرشادات الطبية المعتمدة.</p>
+                <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                  <h3 className="font-bold text-sky-700 mb-1">المعرفة الموثوقة</h3>
+                  <p className="text-slate-500">محتوى طبي مبني على المعايير العلمية والإرشادات الطبية المعتمدة.</p>
                 </div>
               </div>
             </div>
             <div className="lg:col-span-4 flex justify-center">
               <Link
                 to="/doctor"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-6 py-3.5 rounded-xl shadow transition-colors text-sm"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-bold px-6 py-3.5 rounded-xl shadow transition-colors text-sm"
               >
                 <span>تعرف أكثر على دكتور هيثم الخطيب</span>
                 <ChevronLeftIcon className="w-4 h-4" />
@@ -217,26 +217,26 @@ export default function HomePage() {
       {/* المحاور التوعوية والاستشارية الرئيسية */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
             المحاور التوعوية والاستشارية الرئيسية
           </h2>
-          <p className="text-slate-400 text-sm max-w-2xl mx-auto">
+          <p className="text-slate-500 text-sm max-w-2xl mx-auto">
             تغطي FemSeha أهم الجوانب الصحية والإنجابية التي تهم المرأة مع توفير إرشادات طبية دقيقة مع
             دكتور هيثم الخطيب.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-md hover:border-sky-600 transition-colors space-y-4 flex flex-col justify-between">
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-md hover:border-sky-600 transition-colors space-y-4 flex flex-col justify-between">
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-amber-950 border border-amber-800 flex items-center justify-center text-amber-400">
+              <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-400">
                 <TriangleAlertIcon className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold text-white">سلامة الأدوية وميسوبروستول</h3>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <h3 className="text-xl font-bold text-slate-900">سلامة الأدوية وميسوبروستول</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
                 معلومات طبية حاسمة وتوعية حقيقية بمخاطر استخدام أدوية سايتوتك وميسوبروستول دون متابعة
                 طبية تخصصية بالمنشآت المعتمدة.
               </p>
-              <ul className="text-xs text-slate-400 space-y-1.5 pt-2 border-t border-slate-800">
+              <ul className="text-xs text-slate-500 space-y-1.5 pt-2 border-t border-slate-200">
                 <li>• سايتوتك في السعودية والاستخدامات والمخاطر</li>
                 <li>• حقائق مادة الميسوبروستول والأعراض الجانبية</li>
                 <li>• مخاطر الاستخدام غير المباشر دون تقييم طبي</li>
@@ -244,24 +244,24 @@ export default function HomePage() {
             </div>
             <Link
               to={CATEGORY_LINKS['سايتوتك في السعودية']}
-              className="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 text-xs font-bold pt-4"
+              className="inline-flex items-center gap-1 text-blue-700 hover:text-blue-800 text-xs font-bold pt-4"
             >
               <span>اقرأ المزيد حول الأمان الدوائي</span>
               <ChevronLeftIcon className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-md hover:border-sky-600 transition-colors space-y-4 flex flex-col justify-between">
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-md hover:border-sky-600 transition-colors space-y-4 flex flex-col justify-between">
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-rose-950 border border-rose-800 flex items-center justify-center text-rose-400">
+              <div className="w-12 h-12 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-400">
                 <HeartIcon className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold text-white">الحمل والإجهاض والطوارئ</h3>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <h3 className="text-xl font-bold text-slate-900">الحمل والإجهاض والطوارئ</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
                 دليل شامل لأعراض الحمل المبكر، مؤشرات الإجهاض التلقائي، النزيف في الحمل، وكيفية
                 التصرف السريع عند الحالات الطارئة.
               </p>
-              <ul className="text-xs text-slate-400 space-y-1.5 pt-2 border-t border-slate-800">
+              <ul className="text-xs text-slate-500 space-y-1.5 pt-2 border-t border-slate-200">
                 <li>• أعراض ومخاطر الحمل خارج الرحم</li>
                 <li>• متى يكون النزيف أثناء الحمل طارئاً؟</li>
                 <li>• العناية والتعافي بعد الإجهاض وتأثير عامل RH</li>
@@ -269,24 +269,24 @@ export default function HomePage() {
             </div>
             <Link
               to={CATEGORY_LINKS['دليل السلامة والطوارئ']}
-              className="inline-flex items-center gap-1 text-rose-400 hover:text-rose-300 text-xs font-bold pt-4"
+              className="inline-flex items-center gap-1 text-blue-700 hover:text-blue-800 text-xs font-bold pt-4"
             >
               <span>استكشف دليل السلامة والطوارئ</span>
               <ChevronLeftIcon className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-md hover:border-sky-600 transition-colors space-y-4 flex flex-col justify-between">
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-md hover:border-sky-600 transition-colors space-y-4 flex flex-col justify-between">
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-sky-950 border border-sky-800 flex items-center justify-center text-sky-400">
+              <div className="w-12 h-12 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-400">
                 <StethoscopeIcon className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold text-white">صحة المرأة وأعراض الحمل</h3>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <h3 className="text-xl font-bold text-slate-900">صحة المرأة وأعراض الحمل</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
                 معرفة صحية واسعة حول علامات الحمل المبكرة جداً، أسباب تأخر وانقطاع الدورة الشهرية
                 غير الحمل، وتكيس المبايض.
               </p>
-              <ul className="text-xs text-slate-400 space-y-1.5 pt-2 border-t border-slate-800">
+              <ul className="text-xs text-slate-500 space-y-1.5 pt-2 border-t border-slate-200">
                 <li>• أعراض الحمل الأولى قبل وبعد الدورة</li>
                 <li>• أسباب تأخر الدورة الشهرية الهرمونية والنفسية</li>
                 <li>• حساب أيام التبويض ونافذة الإخصاب</li>
@@ -294,7 +294,7 @@ export default function HomePage() {
             </div>
             <Link
               to={CATEGORY_LINKS['صحة المرأة']}
-              className="inline-flex items-center gap-1 text-sky-400 hover:text-sky-300 text-xs font-bold pt-4"
+              className="inline-flex items-center gap-1 text-blue-700 hover:text-blue-800 text-xs font-bold pt-4"
             >
               <span>تصفح قسم صحة المرأة</span>
               <ChevronLeftIcon className="w-4 h-4" />
@@ -305,18 +305,18 @@ export default function HomePage() {
 
       {/* أحدث المقالات والمعلومات الطبية */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-slate-800 pb-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-slate-200 pb-4">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
               أحدث المقالات والمعلومات الطبية
             </h2>
-            <p className="text-slate-400 text-xs sm:text-sm mt-1">
+            <p className="text-slate-500 text-xs sm:text-sm mt-1">
               أحدث المقالات الطبية: مقالات توعوية شاملة وموثوقة بقلم دكتور هيثم الخطيب
             </p>
           </div>
           <Link
             to="/articles"
-            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-sky-300 font-bold px-4 py-2 rounded-lg text-xs transition-colors"
+            className="inline-flex items-center gap-2 bg-white hover:bg-slate-100 border border-slate-300 text-sky-700 font-bold px-4 py-2 rounded-lg text-xs transition-colors"
           >
             <span>جميع المقالات الـ {articles.length}</span>
             <ChevronLeftIcon className="w-4 h-4" />
@@ -327,11 +327,11 @@ export default function HomePage() {
           {featuredArticles.map((article) => (
             <article
               key={article.id}
-              className="bg-slate-900 border border-slate-800 hover:border-sky-600 rounded-xl p-6 flex flex-col justify-between transition-all group"
+              className="bg-white border border-slate-200 hover:border-sky-600 rounded-xl p-6 flex flex-col justify-between transition-all group"
             >
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-[11px] text-slate-400">
-                  <span className="bg-sky-950 text-sky-300 border border-sky-800/80 px-2.5 py-0.5 rounded-md font-semibold">
+                <div className="flex items-center justify-between text-[11px] text-slate-500">
+                  <span className="bg-sky-50 text-sky-700 border border-sky-200 px-2.5 py-0.5 rounded-md font-semibold">
                     {article.categoryName}
                   </span>
                   <span className="flex items-center gap-1">
@@ -339,19 +339,19 @@ export default function HomePage() {
                     {article.readTime} دقيقة
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-white group-hover:text-sky-300 transition-colors leading-snug">
+                <h3 className="text-base font-bold text-slate-900 group-hover:text-sky-700 transition-colors leading-snug">
                   <Link to={`/articles/${article.slug}`}>{article.title}</Link>
                 </h3>
-                <p className="text-xs text-slate-300 line-clamp-3 leading-relaxed">{article.summary}</p>
+                <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">{article.summary}</p>
               </div>
-              <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between text-xs">
-                <span className="flex items-center gap-1 text-slate-400 text-[11px]">
+              <div className="pt-4 mt-4 border-t border-slate-200/80 flex items-center justify-between text-xs">
+                <span className="flex items-center gap-1 text-slate-500 text-[11px]">
                   <UserIcon className="w-3.5 h-3.5 text-sky-400" />
                   دكتور هيثم الخطيب
                 </span>
                 <Link
                   to={`/articles/${article.slug}`}
-                  className="text-amber-400 group-hover:text-amber-300 font-bold flex items-center gap-1 text-xs"
+                  className="text-blue-700 group-hover:text-blue-800 font-bold flex items-center gap-1 text-xs"
                 >
                   <span>اقرأ المقال</span>
                   <ChevronLeftIcon className="w-3.5 h-3.5" />
@@ -364,8 +364,8 @@ export default function HomePage() {
 
       {/* مراجع وروابط خارجية توعوية موثوقة */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="my-8 p-5 bg-sky-950/40 border border-sky-800/60 rounded-xl text-xs text-sky-100 shadow-sm">
-          <div className="flex items-center gap-2 mb-3 text-sky-300 font-bold text-sm">
+        <div className="my-8 p-5 bg-sky-50/40 border border-sky-200 rounded-xl text-xs text-sky-800 shadow-sm">
+          <div className="flex items-center gap-2 mb-3 text-sky-700 font-bold text-sm">
             <ShieldCheckIcon className="w-4 h-4 text-emerald-400" />
             <span>مراجع وروابط خارجية توعوية موثوقة</span>
           </div>
@@ -377,11 +377,11 @@ export default function HomePage() {
                   href="https://taxiporteu.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-semibold text-amber-300 hover:underline flex items-center gap-1 text-xs"
+                  className="font-semibold text-blue-700 hover:underline flex items-center gap-1 text-xs"
                 >
                   وزارة الصحة بالمملكة العربية السعودية - المنصات التوعوية الرسمية
                 </a>
-                <p className="text-slate-300 text-[11px] mt-0.5 leading-snug">
+                <p className="text-slate-600 text-[11px] mt-0.5 leading-snug">
                   رابط توعوي رسمي للخدمات الصحية والخدمات الطبية الطارئة بالمملكة
                 </p>
               </div>
@@ -393,11 +393,11 @@ export default function HomePage() {
                   href="https://sehaher.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-semibold text-amber-300 hover:underline flex items-center gap-1 text-xs"
+                  className="font-semibold text-blue-700 hover:underline flex items-center gap-1 text-xs"
                 >
                   الهيئة العامة للغذاء والدواء - الدليل الموحد لسلامة الدواء
                 </a>
-                <p className="text-slate-300 text-[11px] mt-0.5 leading-snug">
+                <p className="text-slate-600 text-[11px] mt-0.5 leading-snug">
                   مرجع رسمي للتحقق من سلامة العلاجات والتحذيرات الدوائية المعتمدة
                 </p>
               </div>
@@ -409,11 +409,11 @@ export default function HomePage() {
                   href="https://femseha.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-semibold text-amber-300 hover:underline flex items-center gap-1 text-xs"
+                  className="font-semibold text-blue-700 hover:underline flex items-center gap-1 text-xs"
                 >
                   منظمة الصحة العالمية - الصحة الإنجابية وصحة المرأة
                 </a>
-                <p className="text-slate-300 text-[11px] mt-0.5 leading-snug">
+                <p className="text-slate-600 text-[11px] mt-0.5 leading-snug">
                   الإرشادات الدولية المعتمدة في معايير السلامة والتوعية الصحية للنساء
                 </p>
               </div>
@@ -424,24 +424,24 @@ export default function HomePage() {
 
       {/* خدمة توعوية واستشارية مخصصة للنساء في جميع مدن المملكة */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-br from-slate-900 via-sky-950 to-slate-900 border border-sky-800/60 rounded-2xl p-8 shadow-xl">
+        <div className="bg-gradient-to-br from-white via-sky-50 to-white border border-sky-200 rounded-2xl p-8 shadow-xl">
           <div className="max-w-3xl space-y-4 text-right">
-            <div className="inline-flex items-center gap-1.5 text-emerald-400 bg-emerald-950 border border-emerald-800 px-3 py-1 rounded-full text-xs font-bold">
+            <div className="inline-flex items-center gap-1.5 text-emerald-400 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold">
               <MapPinIcon className="w-4 h-4" />
               <span>المملكة العربية السعودية — السوق الأساسي</span>
             </div>
-            <h2 className="text-2xl font-black text-white">
+            <h2 className="text-2xl font-black text-slate-900">
               خدمة توعوية واستشارية مخصصة للنساء في جميع مدن المملكة
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               نصل بتوعيتنا واستشاراتنا الطبية السرية لكل سيدة في كافة المناطق والمدن السعودية مع دكتور
               هيثم الخطيب.
             </p>
-            <div className="flex flex-wrap gap-2 pt-2 text-xs font-semibold text-slate-200">
+            <div className="flex flex-wrap gap-2 pt-2 text-xs font-semibold text-slate-700">
               {CITIES.map((c) => (
                 <span
                   key={c}
-                  className="bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-lg text-sky-200"
+                  className="bg-white/90 border border-slate-300/80 px-3 py-1.5 rounded-lg text-sky-700"
                 >
                   {c}
                 </span>
@@ -453,18 +453,18 @@ export default function HomePage() {
 
       {/* الأسئلة الشائعة والإجابات الطبية */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
+        <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
           <CircleQuestionMarkIcon className="w-6 h-6 text-amber-400" />
-          <h2 className="text-2xl font-bold text-white">الأسئلة الشائعة والإجابات الطبية</h2>
+          <h2 className="text-2xl font-bold text-slate-900">الأسئلة الشائعة والإجابات الطبية</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {FAQS.map((f, i) => (
-            <div key={i} className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-2">
-              <h3 className="font-bold text-white text-base flex items-start gap-2">
+            <div key={i} className="bg-white border border-slate-200 rounded-xl p-6 space-y-2">
+              <h3 className="font-bold text-slate-900 text-base flex items-start gap-2">
                 <span className="text-amber-400 shrink-0 font-extrabold">س:</span>
                 <span>{f.q}</span>
               </h3>
-              <p className="text-xs text-slate-300 leading-relaxed pr-5">{f.a}</p>
+              <p className="text-xs text-slate-600 leading-relaxed pr-5">{f.a}</p>
             </div>
           ))}
         </div>
@@ -472,9 +472,9 @@ export default function HomePage() {
 
       {/* هل لديك استفسار صحي؟ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 text-center space-y-4">
-          <h2 className="text-2xl font-bold text-white">هل لديك استفسار صحي؟</h2>
-          <p className="text-slate-300 text-sm leading-relaxed max-w-xl mx-auto">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center space-y-4">
+          <h2 className="text-2xl font-bold text-slate-900">هل لديك استفسار صحي؟</h2>
+          <p className="text-slate-600 text-sm leading-relaxed max-w-xl mx-auto">
             يمكنك التواصل مع دكتور هيثم الخطيب للحصول على توجيه واستشارة طبية متخصصة حول صحة المرأة
             والصحة الإنجابية.
           </p>
@@ -483,14 +483,14 @@ export default function HomePage() {
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-xl text-sm transition-colors"
+              className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition-colors"
             >
               <MessageCircleIcon className="w-4 h-4" />
               <span>تواصل عبر واتساب</span>
             </a>
             <Link
               to="/consultation"
-              className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-6 py-3 rounded-xl border border-slate-700 text-sm transition-colors"
+              className="inline-flex items-center gap-2 bg-white hover:bg-slate-100 text-slate-800 font-bold px-6 py-3 rounded-xl border border-slate-300 text-sm transition-colors"
             >
               صفحة الاستشارات
             </Link>
@@ -500,12 +500,12 @@ export default function HomePage() {
 
       {/* إخلاء مسؤولية طبية */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="my-8 p-6 bg-slate-900 text-slate-100 border-r-4 border-sky-500 rounded-xl shadow-md">
-          <div className="flex items-center gap-2 mb-2 text-sky-300 font-bold text-base">
+        <div className="my-8 p-6 bg-white text-slate-800 border-r-4 border-sky-500 rounded-xl shadow-md">
+          <div className="flex items-center gap-2 mb-2 text-sky-700 font-bold text-base">
             <ShieldAlertIcon className="w-5 h-5 shrink-0" />
             <h3>إخلاء مسؤولية طبية</h3>
           </div>
-          <p className="text-slate-300 text-xs md:text-sm leading-relaxed">
+          <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
             إخلاء مسؤولية: المحتوى المنشور في FemSeha مخصص للتثقيف والتوعية الصحية والاستشارات الطبية،
             ولا يُعد بديلاً عن التشخيص أو التقييم الطبي المباشر. تختلف الحالات الطبية من شخص لآخر،
             ويُنصح بمراجعة الطبيب المختص عند الحاجة. وفي الحالات الطارئة، يجب طلب الرعاية الطبية

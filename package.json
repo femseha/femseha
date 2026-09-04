@@ -17,7 +17,9 @@
     "audit:indexing": "node scripts/audit-indexing.mjs",
     "admin:selftest": "node scripts/admin-publish.mjs --self-test",
     "test:retry": "node scripts/test-gemini-retry.mjs",
-    "test:manual-json": "node scripts/test-admin-manual-json.mjs"
+    "test:manual-json": "node scripts/test-admin-manual-json.mjs",
+    "test:phase1": "node scripts/test-article-publishing-phase1.mjs",
+    "test": "npm run test:retry && npm run test:manual-json && npm run admin:selftest && npm run test:phase1"
   },
   "dependencies": {
     "clsx": "2.1.1",
