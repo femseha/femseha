@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ── الهوية البصرية المعتمدة (مطابقة للإنتاج القديم 98945c9) ── */
+/* ── الهوية البصرية (Light Theme) ───────────────────────────── */
 html {
   scroll-behavior: smooth;
 }
@@ -10,14 +10,16 @@ body {
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
   direction: rtl;
-  background-color: var(--color-slate-950);
-  color: var(--color-slate-100);
+  /* خلفية فاتحة — الهوية المطلوبة */
+  background-color: #f8f9fa;
+  color: #1e293b;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* لون الاختيار */
 ::selection {
-  background-color: var(--color-sky-500);
+  background-color: #3b82f6;
   color: #fff;
 }
 
@@ -51,4 +53,38 @@ body {
 }
 .duration-200 {
   animation-duration: 0.2s;
+}
+
+/* ── تحسينات theme للمقالات ──────────────────────────────────── */
+.prose {
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+.prose h2 {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.prose h3 {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.prose p {
+  color: #475569;
+}
+
+.prose a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.prose strong {
+  color: #1e293b;
+}
+
+.prose ul,
+.prose ol {
+  color: #475569;
 }

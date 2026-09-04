@@ -17,7 +17,7 @@ function renderInline(text: string, keyPrefix: string): React.ReactNode[] {
     const tok = m[0];
     if (tok.startsWith('**')) {
       parts.push(
-        <strong key={`${keyPrefix}-b${i}`} className="font-bold text-white">
+        <strong key={`${keyPrefix}-b${i}`} className="font-bold text-gray-900">
           {tok.slice(2, -2)}
         </strong>
       );
@@ -63,7 +63,7 @@ function ContentBlocks({ content }: { content: string }) {
   const flushList = (idx: number) => {
     if (listItems.length === 0) return;
     const items = listItems.map((t, j) => (
-      <li key={`li-${idx}-${j}`} className="text-slate-300 leading-loose">
+      <li key={`li-${idx}-${j}`} className="text-gray-500 leading-loose">
         {renderInline(t, `li-${idx}-${j}`)}
       </li>
     ));
@@ -92,14 +92,14 @@ function ContentBlocks({ content }: { content: string }) {
     }
     if (/^(-{3,}|_{3,}|\*{3,})$/.test(line)) {
       flushList(idx);
-      blocks.push(<hr key={`hr-${idx}`} className="my-6 border-slate-700" />);
+      blocks.push(<hr key={`hr-${idx}`} className="my-6 border-gray-300" />);
       return;
     }
     let m: RegExpMatchArray | null;
     if ((m = line.match(/^#{1,3}\s+(.*)$/))) {
       flushList(idx);
       blocks.push(
-        <h2 key={`h-${idx}`} className="text-xl font-bold text-white mt-8 mb-3 leading-snug">
+        <h2 key={`h-${idx}`} className="text-xl font-bold text-gray-900 mt-8 mb-3 leading-snug">
           {renderInline(m[1], `h-${idx}`)}
         </h2>
       );
@@ -108,7 +108,7 @@ function ContentBlocks({ content }: { content: string }) {
     if ((m = line.match(/^#{4,6}\s+(.*)$/))) {
       flushList(idx);
       blocks.push(
-        <h3 key={`h3-${idx}`} className="text-lg font-bold text-slate-100 mt-6 mb-2 leading-snug">
+        <h3 key={`h3-${idx}`} className="text-lg font-bold text-gray-800 mt-6 mb-2 leading-snug">
           {renderInline(m[1], `h3-${idx}`)}
         </h3>
       );
@@ -132,7 +132,7 @@ function ContentBlocks({ content }: { content: string }) {
     }
     flushList(idx);
     blocks.push(
-      <p key={`p-${idx}`} className="text-slate-300 text-base leading-loose mb-4">
+      <p key={`p-${idx}`} className="text-gray-600 text-base leading-loose mb-4">
         {renderInline(line, `p-${idx}`)}
       </p>
     );
@@ -203,8 +203,8 @@ export default function ArticleView() {
   const articleImage = article.image && !isHomepageBanner(article.image) ? article.image : null;
 
   return (
-    <div className="bg-slate-950 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
-      <article className="max-w-3xl mx-auto bg-slate-900 rounded-3xl p-6 sm:p-10 shadow-lg border border-slate-800">
+    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
+      <article className="max-w-3xl mx-auto bg-white rounded-3xl p-6 sm:p-10 shadow-lg border border-slate-200">
         {/* بانر استشارة واتساب الأصلي — Header → Banner → Title → Content */}
         <div className="flex justify-center mb-6">
           <a
@@ -227,21 +227,21 @@ export default function ArticleView() {
 
         <div className="mb-6">
           {/* مسار التنقل */}
-          <nav aria-label="مسار التنقل" className="text-xs text-slate-400 mb-4">
+          <nav aria-label="مسار التنقل" className="text-xs text-gray-500 mb-4">
             <Link to="/" className="hover:text-sky-400">الرئيسية</Link>
             <span className="mx-2">‹</span>
             <Link to="/articles" className="hover:text-sky-400">الأدلة الطبية</Link>
             <span className="mx-2">‹</span>
-            <span className="text-slate-200 font-semibold">{article.title}</span>
+            <span className="text-gray-300 font-semibold">{article.title}</span>
           </nav>
 
           <Link to="/articles" className="text-sky-400 text-sm font-bold hover:underline mb-4 inline-block">
             ← العودة لجميع الأدلة
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight mb-4">
+          <h1 className="text-2xl sm:text-3xl font-black text-gray-900 leading-tight mb-4">
             {article.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400 border-b border-slate-800 pb-4">
+          <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500 border-b border-gray-300 pb-4">
             <span>إشراف طبي: {DOCTOR.name}</span>
             <span>•</span>
             <span>{article.publishDate}</span>
@@ -253,13 +253,18 @@ export default function ArticleView() {
         {articleImage && (
           <img
             src={articleImage}
-            alt={article.title}
+            alt={article.title || "صورة مقالة"}
             className="w-full h-64 sm:h-80 object-cover rounded-2xl mb-8"
           />
+        ) : articleImage === null && (
+          // fallback: لا يخفي فشل الصورة بتحويله إلى نجاح صامت، بل يظهر رسالة تشير إلى عدم وجود صورة
+          <div className="w-full h-64 sm:h-80 bg-slate-200/50 rounded-2xl mb-8 flex items-center justify-center text-slate-500 text-sm">
+            لم يتم العثور على صورة للمقالة
+          </div>
         )}
 
-        <div className="prose prose-slate max-w-none text-slate-300 leading-relaxed space-y-4 text-base">
-          <p className="font-semibold text-slate-100 text-lg leading-relaxed bg-sky-950/50 p-4 rounded-2xl border-r-4 border-sky-500">
+        <div className="prose max-w-none text-gray-600 leading-relaxed space-y-4 text-base">
+          <p className="font-semibold text-gray-900 text-lg leading-relaxed bg-gray-100/50 p-4 rounded-2xl border-r-4 border-blue-500">
             {article.summary}
           </p>
           <div className="pt-4">
@@ -275,9 +280,9 @@ export default function ArticleView() {
             </h2>
             <div className="space-y-4">
               {article.faq.map((f, i) => (
-                <div key={i} className="border border-slate-800 bg-slate-950 rounded-2xl p-4">
-                  <h3 className="font-bold text-white text-sm mb-2">{f.q}</h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">{f.a}</p>
+                <div key={i} className="border border-gray-300 rounded-2xl p-4 bg-white">
+                  <h3 className="font-bold text-gray-900 text-sm mb-2">{f.q}</h3>
+                  <p className="text-gray-600 leading-relaxed">{f.a}</p>
                 </div>
               ))}
             </div>
@@ -292,8 +297,8 @@ export default function ArticleView() {
             </h2>
             <ul className="space-y-2 text-sm">
               {article.sources.map((s, i) => (
-                <li key={i} className="text-slate-300">
-                  <span className="font-semibold text-slate-100">{s.publisher}:</span>{' '}
+                <li key={i} className="text-gray-500">
+                  <span className="font-semibold text-gray-100">{s.publisher}:</span>{' '}
                   <a
                     href={s.url}
                     target="_blank"
@@ -319,7 +324,7 @@ export default function ArticleView() {
                 <Link
                   key={r.slug}
                   to={`/articles/${r.slug}`}
-                  className="block border border-slate-800 bg-slate-950 rounded-2xl p-4 hover:border-sky-600 hover:bg-slate-900 transition"
+                  className="block border border-gray-300 rounded-2xl p-4 hover:border-blue-500 hover:bg-gray-100 transition"
                 >
                   <span className="block text-[11px] font-bold text-sky-400 mb-1">{r.categoryName}</span>
                   <span className="block text-sm font-bold text-white leading-snug">{r.title}</span>
@@ -330,9 +335,9 @@ export default function ArticleView() {
         )}
 
         {/* الاستشارة الطبية */}
-        <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 text-center mt-10">
-          <h3 className="font-bold text-white mb-2 text-base">هل لديكِ استفسار حول هذه الحالة الطبية؟</h3>
-          <p className="text-xs text-slate-400 mb-4">يمكنك استشارة د. هيثم الخطيب مباشرة عبر قنوات التواصل الرسمية للمنصة</p>
+        <div className="bg-white border border-gray-300 rounded-2xl p-6 text-center mt-10">
+          <h3 className="font-bold text-gray-900 mb-2 text-base">هل لديكِ استفسار حول هذه الحالة الطبية؟</h3>
+          <p className="text-xs text-gray-500 mb-4">يمكنك استشارة د. هيثم الخطيب مباشرة عبر قنوات التواصل الرسمية للمنصة</p>
           <div className="flex justify-center gap-3">
             <a
               href={WHATSAPP_LINK}
@@ -352,8 +357,8 @@ export default function ArticleView() {
         </div>
 
         {/* إخلاء المسؤولية الطبية الدائم */}
-        <div className="mt-8 border border-slate-800 bg-slate-950 rounded-2xl p-4 text-xs leading-relaxed text-slate-400">
-          <strong className="text-slate-200">إخلاء مسؤولية طبية:</strong> هذا المحتوى تثقيفي عام
+        <div className="mt-8 border border-gray-300 rounded-2xl p-4 text-xs leading-relaxed text-gray-600">
+          <strong className="text-gray-700">إخلاء مسؤولية طبية:</strong> هذا المحتوى تثقيفي عام
           بإشراف د. هيثم الخطيب، ولا يُغني عن التقييم الطبي المباشر، ولا يُستخدم للتشخيص الذاتي أو العلاج.
           لا تبيع منصة فصيحة أي أدوية ولا تقدم جرعات أو خططاً علاجية فردية. في الحالات الطارئة توجهي فوراً
           إلى أقرب قسم طوارئ.

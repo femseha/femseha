@@ -419,23 +419,52 @@ async function compressImage(file: File): Promise<{ blob: Blob; ext: "jpg" }> {
   );
 }
 
+/** التحقق من أن الرابط قابل للوصول (يمنع الروابط الداخلية ولا يسمح للمسارات النسبية) */
+function isValidImageUrl(url: string): boolean {
+  try {
+    const u = new URL(url);
+    // يجب أن يكون https/http ولا يكون مساراً داخلياً
+    if (!/^https?:/.test(u.protocol)) return false;
+    // منع الالتفاف على paths
+    const pathParts = u.pathname.split('/').filter(p => p.length > 0);
+    if (pathParts.includes('..')) return false;
+    // السماح فقط بمسارات uppuploads والموارد الثابتة
+    if (!/^\/public\/images\/uploads(\/|$)/.test(u.pathname) && !/^\/public\//.test(u.pathname)) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /** رفع صورة إلى public/images/uploads/ وإرجاع رابطها المطلق على الموقع */
-export async function uploadArticleImage(conn: GithubConnection, file: File, slugHint: string): Promise<string> {
+export async function uploadArticleImage(conn: GithubConnection, file: File, slugHint: string): Promise<{url: string; error?: string}> {
   const { blob } = await compressImage(file);
   const safeHint = slugHint.replace(/[^a-z0-9-]/g, "").slice(0, 40) || "image";
-  const name = `${safeHint}-${Date.now().toString(36)}.jpg`;
+  // ضمان uniqueness بتضمين الزمن والكود العشوائي
+  const timestampPart = Date.now().toString(36);
+  const randomPart = Math.random().toString(36).slice(2, 8);
+  const baseName = `${safeHint}-${timestampPart}-${randomPart}`;
+  const name = `${baseName}.jpg`;
   const buffer = new Uint8Array(await blob.arrayBuffer());
   let binary = "";
   for (const b of buffer) binary += String.fromCharCode(b);
-  await gh(conn, `/repos/${conn.owner}/${conn.repo}/contents/${UPLOADS_DIR}/${name}`, {
-    method: "PUT",
-    body: JSON.stringify({
-      message: `chore(admin): رفع صورة مقال ${name}`,
-      content: btoa(binary),
-      branch: MAIN_BRANCH,
-    }),
-  });
-  return `${SITE.url}/${UPLOADS_DIR}/${name}`;
+  try {
+    await gh(conn, `/repos/${conn.owner}/${conn.repo}/contents/${UPLOADS_DIR}/${name}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        message: `chore(admin): رفع صورة مقال ${name}`,
+        content: btoa(binary),
+        branch: MAIN_BRANCH,
+      }),
+    });
+    const url = `${SITE.url}/${UPLOADS_DIR}/${name}`;
+    if (!isValidImageUrl(url)) {
+      return { url, error: "Generated URL failed validation — unexpected path." };
+    }
+    return { url };
+  } catch (error: any) {
+    return { url: "", error: error?.message || "Unknown error during image upload" };
+  }
 }
 
 /* ── تنسيق النشر المباشر (طلب → تشغيل → نتيجة) ─────────────────────────── */
@@ -524,7 +553,22 @@ export async function publishRequest(
   if (imageFile) {
     emit("compress-image");
     emit("upload-image");
-    req.image = await uploadArticleImage(conn, imageFile, req.slug || "");
+    const result = await uploadArticleImage(conn, imageFile, req.slug || "");
+    if (result.error) {
+      emit("failed");
+      return {
+        ok: false,
+        message: `فشل رفع الصورة: ${result.error}. تعذرب النشر حتى يتم رفع الصورة بنجاح.`,
+      };
+    }
+    if (!result.url) {
+      emit("failed");
+      return {
+        ok: false,
+        message: "فشل رفع الصورة: لم يتم الحصول على رابط للصورة.",
+      };
+    }
+    req.image = result.url;
   }
 
   emit("put-request");

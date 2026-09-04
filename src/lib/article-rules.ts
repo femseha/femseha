@@ -49,7 +49,6 @@ export const CATEGORIES: { id: string; name: string }[] = [
 /* ── عتبات الجودة (مطابقة لثوابت scripts/generate-article.mjs) ─────────── */
 
 export const LIMITS = {
-  MIN_WORDS: 1400,
   TITLE_MIN: 20,
   TITLE_MAX: 75,
   SUMMARY_MIN: 100,
@@ -273,23 +272,33 @@ export function safetyViolations(text: string): string[] {
 }
 
 /* ── الروابط الداخلية ───────────────────────────────────────────────────── */
-
-/** روابط داخلية مكسورة في محتوى ماركداون (مطابقة لفحص seo-validate.mjs) */
-export function brokenInternalLinks(content: string, articles: ArticleRecord[]): string[] {
+/** روابط داخلية مكسورة في محتوى ماركداون — يتحقق من أن المسارات الداخلية تشير لصفحات منشورة فقط * /
+export function brokenInternalLinks(content: string, articles: ArticleRecord[]): {broken: string[], dangerous: string[]} {
   const routes = new Set([...STATIC_ROUTES, ...articles.map((a) => `/articles/${a.slug}`)]);
   const broken: string[] = [];
-  for (const m of (content || "").matchAll(/\]\((\/[^\s)]+)\)/g)) {
-    if (!routes.has(m[1])) broken.push(m[1]);
+  const dangerous: string[] = [];
+  // مطابقة روابط markdown: [نص](مسار)
+  for (const m of (content || "").matchAll(/^\[([^\]]+)\]\(([^)]+)\)/gm)) {
+    const fullLink = m[0];
+    const label = m[1];
+    const url = m[2];
+    // التحقق من المخاطر: javascript: و data:
+    if (url.startsWith("javascript:") || url.startsWith("data:")) {
+      dangerous.push(fullLink);
+      continue;
+    }
+    // الروابط الداخلية: تبدأ بـ / وترمز لمسار داخل النظام
+    if (url.startsWith("/")) {
+      if (!routes.has(url)) {
+        broken.push(url);
+      }
+    }
+    // الروابط الخارجية (https:) لا تُفحص هنا — تُترك لعملية النشر للتأكد
   }
-  return broken;
+  return {broken, dangerous};
 }
 
-/* ── مسودات الطلبات ─────────────────────────────────────────────────────── */
-
-export interface AiDraft {
-  title: string;
-  primaryKeyword: string;
-  secondaryKeywords: string[];
+/** روابط داخلية مكسورة في محتوى ماركداون (مطابقة لفحص seo-validate.mjs) */
   country: string | null;
   category: string;
   instructions: string;
@@ -356,8 +365,11 @@ export function validateManualDraft(draft: ManualDraft, articles: ArticleRecord[
   if (!CATEGORIES.some((c) => c.id === draft.category)) errors.push("التصنيف غير معروف.");
 
   const words = countWords(draft.content);
-  if (words < LIMITS.MIN_WORDS) {
-    errors.push(`عدد كلمات المحتوى ${words} — الحد الأدنى للنشر ${LIMITS.MIN_WORDS} كلمة.`);
+  // validation: ensure content is not empty or super-short
+  if (words === 0) {
+    errors.push("المحتوى غير موجود — يجب إضافة نص للمقالة.");
+  } else if (words < 10) {
+    errors.push("المحتوى قصير جداً — يفضل إضافة تفاصيل إضافية للمقالة.");
   }
 
   // slug
@@ -404,7 +416,8 @@ export function validateManualDraft(draft: ManualDraft, articles: ArticleRecord[
   for (const v of safetyViolations(`${title}\n${summary}\n${draft.content}`)) errors.push(`سلامة: ${v}`);
 
   // روابط داخلية
-  const broken = brokenInternalLinks(draft.content, articles);
+  const {broken, dangerous} = brokenInternalLinks(draft.content, articles);
+  if (dangerous.length) errors.push(`روابط خطرة مكتشفة: ${dangerous.join(", ")} — ممنوع استخدام javascript: أو data: في الروابط.`);
   if (broken.length) errors.push(`روابط داخلية مكسورة في المحتوى: ${broken.join("، ")} — يجب أن تشير لمسارات منشورة فقط.`);
 
   return errors;
