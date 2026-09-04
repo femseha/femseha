@@ -18,7 +18,14 @@ const allArticles = [
   ...(seoContentBatch01 as ArticleRecord[]),
 ];
 
-export const articles: ArticleRecord[] = allArticles.map((article) => {
+// Preserve the first occurrence when a content batch accidentally repeats an
+// existing slug. The primary article source comes first, so an existing URL
+// is never replaced by a duplicate batch record.
+const uniqueArticles = allArticles.filter(
+  (article, index, list) => list.findIndex((item) => item.slug === article.slug) === index
+);
+
+export const articles: ArticleRecord[] = uniqueArticles.map((article) => {
   const faq = faqBySlug[article.slug];
   const clusterLinks = clusterLinksBySlug[article.slug];
   const override = pillarOverrides[article.slug];
