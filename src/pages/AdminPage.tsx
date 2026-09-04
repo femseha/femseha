@@ -349,7 +349,7 @@ export default function AdminPage() {
                     onClick={() => setTab(t.id)}
                     className={`px-4 py-2.5 rounded-xl text-xs font-extrabold transition border ${
                       tab === t.id
-                        ? 'bg-slate-900 text-white border-slate-900'
+                        ? 'bg-white text-gray-900 border-gray-300'
                         : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'
                     }`}
                   >
