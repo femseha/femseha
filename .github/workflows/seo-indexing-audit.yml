@@ -44,3 +44,5 @@ jobs:
 
       - name: Production build
         run: npm run build
+
+      # Rerun after dependency lock synchronization so npm ci uses the committed lockfile.
