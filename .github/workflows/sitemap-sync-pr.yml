@@ -1,0 +1,46 @@
+name: Sitemap Sync PR
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'public/sitemap.xml'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate sitemap
+        run: node scripts/generate-sitemap.mjs
+
+      - name: Create sitemap PR when changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- public/sitemap.xml; then
+            echo 'Sitemap is already synchronized.'
+            exit 0
+          fi
+
+          BRANCH="chore/sitemap-sync-${GITHUB_RUN_ID}"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$BRANCH"
+          git add public/sitemap.xml
+          git commit -m 'chore: sync sitemap with published articles'
+          git push --set-upstream origin "$BRANCH"
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title 'chore: sync sitemap with published articles' \
+            --body 'Automated sitemap synchronization. This PR contains only the generated public/sitemap.xml and should be reviewed and merged normally.'
