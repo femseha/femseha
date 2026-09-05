@@ -1,0 +1,30 @@
+{
+  "adwiyat-ijhad-alhaml-fi-al-saudia": {
+    "contentReplace": "## أدوية إجهاض الحمل في السعودية: معلومات طبية وضوابط السلامة\n\nهذا المقال للتوعية الصحية فقط، ولا يقدّم جرعات أو طريقة لاستخدام الأدوية لإنهاء الحمل، ولا يوجّه إلى الشراء أو البيع، ولا يغني عن التقييم الطبي المباشر.\n\n### ما المقصود بأدوية إجهاض الحمل؟\n\nقد تدخل أدوية معينة في خطط الرعاية الطبية لبعض حالات فقدان الحمل أو إنهائه عندما يكون ذلك مناسبًا للتشخيص وتسمح به الضوابط الطبية والنظامية. ولا توجد طريقة واحدة تناسب جميع الحالات؛ فالقرار يعتمد على التشخيص، ومكان الحمل، ومرحلة الحمل، والحالة الصحية والأعراض ونتائج الفحوصات.\n\n### الميزوبروستول وسايتوتك\n\nالميزوبروستول مادة دوائية لها استخدامات طبية متعددة، وسايتوتك اسم تجاري معروف لمستحضر يحتوي على الميزوبروستول. وجود استخدام طبي للمادة لا يعني أنها مناسبة لكل حالة، ولا ينبغي تحويل المعلومات العامة إلى وصفة شخصية.\n\n### لماذا يلزم التقييم الطبي أولًا؟\n\nقبل تحديد أي خطة علاجية يجب تقييم سبب الأعراض والتأكد من مكان الحمل واستبعاد الحالات التي تحتاج إلى مسار مختلف. وقد يشمل ذلك التاريخ الطبي والفحص والموجات فوق الصوتية أو تحاليل مختارة بحسب الحالة.\n\n### الحمل خارج الرحم\n\nالحمل خارج الرحم حالة مختلفة عن فقدان الحمل داخل الرحم، وقد تصبح طارئة إذا حدث نزيف داخلي. الألم الشديد أو المفاجئ في البطن أو الحوض، ألم الكتف، الضعف أو الدوخة أو الإغماء مع أعراض الحمل تستدعي تقييمًا طبيًا عاجلًا.\n\n### لماذا لا يكفي البحث عن اسم الدواء؟\n\nالمعلومات المنشورة على الإنترنت قد تخلط بين التثقيف الصحي والإعلانات التجارية أو التجارب الشخصية. القرار الطبي يجب أن يستند إلى تشخيص موثوق وتقييم سريري، وليس إلى اسم دواء أو تجربة شخص آخر.\n\n### متى تكون الرعاية العاجلة ضرورية؟\n\nاطلبي رعاية طبية عاجلة عند وجود نزيف شديد، أو ألم شديد أو مفاجئ، أو دوخة شديدة، أو ضعف واضح، أو إغماء، أو ألم في الكتف مع أعراض الحمل أو النزيف، أو تدهور سريع في الحالة العامة.\n\n### الخلاصة\n\nأدوية إجهاض الحمل لها استخدامات طبية محددة في بعض الحالات، لكن ملاءمتها تعتمد على التشخيص والتقييم الطبي والضوابط المنظمة للرعاية الصحية. لا ينبغي استخدام المعلومات العامة كبديل عن التقييم الطبي المباشر.\n\nهذا المحتوى تثقيفي عام ولا يمثل تشخيصًا أو وصفة علاجية أو استشارة قانونية.",
+    "sources": [
+      {"publisher":"وزارة الصحة السعودية","title":"الحمل خارج الرحم","url":"https://www.moh.gov.sa/healthawareness/educationalcontent/wh/pages/ectopic-pregnancy.aspx"},
+      {"publisher":"وزارة الصحة السعودية","title":"النزيف أثناء الحمل","url":"https://www.moh.gov.sa/healthawareness/educationalcontent/wh/pages/bleeding-during-pregnancy.aspx"},
+      {"publisher":"وزارة الصحة السعودية","title":"الرعاية الصحية أثناء الحمل في مراكز الرعاية الأولية","url":"https://www.moh.gov.sa/healthawareness/educationalcontent/wh/pages/health-care-during-pregnancy-in-primary-care-centers.aspx"}
+    ]
+  },
+  "ijhad-dawai-fi-al-saudia": {
+    "sources": [
+      {"publisher":"وزارة الصحة السعودية","title":"الحمل خارج الرحم","url":"https://www.moh.gov.sa/healthawareness/educationalcontent/wh/pages/ectopic-pregnancy.aspx"},
+      {"publisher":"وزارة الصحة السعودية","title":"النزيف أثناء الحمل","url":"https://www.moh.gov.sa/healthawareness/educationalcontent/wh/pages/bleeding-during-pregnancy.aspx"},
+      {"publisher":"وزارة الصحة السعودية","title":"الزيارة الأولى للحامل في المركز الصحي","url":"https://www.moh.gov.sa/healthawareness/educationalcontent/wh/pages/first-visit-pregnant-woman-health-center.aspx"}
+    ]
+  },
+  "home-pregnancy-test-accuracy": {
+    "sources": [
+      {"publisher":"NHS","title":"Doing a pregnancy test","url":"https://www.nhs.uk/pregnancy/trying-for-a-baby/doing-a-pregnancy-test/"},
+      {"publisher":"وزارة الصحة السعودية","title":"الزيارة الأولى للحامل في المركز الصحي","url":"https://www.moh.gov.sa/healthawareness/educationalcontent/wh/pages/first-visit-pregnant-woman-health-center.aspx"}
+    ]
+  },
+  "early-pregnancy-symptoms-guide": {
+    "sources": [
+      {"publisher":"NHS","title":"Signs and symptoms that might mean you're pregnant","url":"https://www.nhs.uk/pregnancy/trying-for-a-baby/signs-and-symptoms-that-might-mean-youre-pregnant/"},
+      {"publisher":"وزارة الصحة السعودية","title":"الحمل","url":"https://www.moh.gov.sa/healthawareness/educationalcontent/wh/pages/031.aspx"},
+      {"publisher":"وزارة الصحة السعودية","title":"الحمل خارج الرحم","url":"https://www.moh.gov.sa/healthawareness/educationalcontent/wh/pages/ectopic-pregnancy.aspx"}
+    ]
+  }
+}
