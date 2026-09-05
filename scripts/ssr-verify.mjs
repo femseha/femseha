@@ -57,7 +57,7 @@ checks.push(['صفحة الأدلة تعرض شارة المكتبة', articlesP
 
 const targetArticle = articles.find((item) => item.slug === 'cytotec-misoprostol-saudi-riyadh-guide');
 const article = renderRoute('/articles/cytotec-misoprostol-saudi-riyadh-guide');
-checks.push(['صفحة المقال تعرض العنوان', Boolean(targetArticle?.title) && article.includes(targetArticle.title));
+checks.push(['صفحة المقال تعرض العنوان', Boolean(targetArticle?.title) && article.includes(targetArticle.title)]);
 checks.push(['صفحة المقال تعرض إخلاء المسؤولية', article.includes('إخلاء مسؤولية طبية')]);
 checks.push(['صفحة المقال تعرض الاستشارة', article.includes('استشارة واتساب')]);
 checks.push(['صفحة المقال تعرض الروابط الداخلية', article.includes('اقرئي أيضاً')]);
