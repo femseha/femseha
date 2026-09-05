@@ -14,6 +14,7 @@ const CONTENT_BATCH_05_PATH = path.join(ROOT, "src", "data", "seo-content-batch-
 const CONTENT_BATCH_06_PATH = path.join(ROOT, "src", "data", "seo-content-batch-06.json");
 const CONTENT_BATCH_07_PATH = path.join(ROOT, "src", "data", "seo-content-batch-07.json");
 const CONTENT_BATCH_08_PATH = path.join(ROOT, "src", "data", "seo-content-batch-08.json");
+const CONTENT_BATCH_09_PATH = path.join(ROOT, "src", "data", "seo-content-batch-09.json");
 const SITE_TS_PATH = path.join(ROOT, "src", "data", "site.ts");
 const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
 
@@ -34,7 +35,7 @@ export const STATIC_INDEXABLE = [
 
 export const FORBIDDEN_PATHS = ["/admin", "/search"];
 const isIsoDate = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s || "") && !Number.isNaN(Date.parse(s));
-const escapeXml = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+const escapeXml = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&apos;");
 
 function validateArticles(articles, sourceLabel) {
   if (!Array.isArray(articles)) throw new Error(`${sourceLabel}: ليس مصفوفة`);
@@ -57,6 +58,7 @@ export function loadArticles() {
   const batch06 = JSON.parse(fs.readFileSync(CONTENT_BATCH_06_PATH, "utf8"));
   const batch07 = JSON.parse(fs.readFileSync(CONTENT_BATCH_07_PATH, "utf8"));
   const batch08 = JSON.parse(fs.readFileSync(CONTENT_BATCH_08_PATH, "utf8"));
+  const batch09 = JSON.parse(fs.readFileSync(CONTENT_BATCH_09_PATH, "utf8"));
   validateArticles(primary, "articles.json");
   validateArticles(supporting, "seo-supporting-articles.json");
   validateArticles(batch01, "seo-content-batch-01.json");
@@ -67,9 +69,8 @@ export function loadArticles() {
   validateArticles(batch06, "seo-content-batch-06.json");
   validateArticles(batch07, "seo-content-batch-07.json");
   validateArticles(batch08, "seo-content-batch-08.json");
+  validateArticles(batch09, "seo-content-batch-09.json");
 
-  // Primary articles take precedence over supporting/batch records. This keeps
-  // one canonical sitemap URL when a queued topic already exists.
   const sources = [
     [primary, "articles.json"],
     [supporting, "seo-supporting-articles.json"],
@@ -81,6 +82,7 @@ export function loadArticles() {
     [batch06, "seo-content-batch-06.json"],
     [batch07, "seo-content-batch-07.json"],
     [batch08, "seo-content-batch-08.json"],
+    [batch09, "seo-content-batch-09.json"],
   ];
   const seen = new Map();
   const articles = [];
