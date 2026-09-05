@@ -1,11 +1,4 @@
 {
-  "redirects": [
-    {
-      "source": "/articles/دليل شامل عن حبوب سايتوتك الأصلية في السعودية: الاستخدام، الجرعات، المحاذير الطبية، وبدائل التوفر الآمن",
-      "destination": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
       "source": "/(.*)",
