@@ -15,6 +15,7 @@ const CONTENT_BATCH_06_PATH = path.join(ROOT, "src", "data", "seo-content-batch-
 const CONTENT_BATCH_07_PATH = path.join(ROOT, "src", "data", "seo-content-batch-07.json");
 const CONTENT_BATCH_08_PATH = path.join(ROOT, "src", "data", "seo-content-batch-08.json");
 const CONTENT_BATCH_09_PATH = path.join(ROOT, "src", "data", "seo-content-batch-09.json");
+const CONTENT_BATCH_10_PATH = path.join(ROOT, "src", "data", "seo-content-batch-10.json");
 const SITE_TS_PATH = path.join(ROOT, "src", "data", "site.ts");
 const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
 
@@ -59,6 +60,7 @@ export function loadArticles() {
   const batch07 = JSON.parse(fs.readFileSync(CONTENT_BATCH_07_PATH, "utf8"));
   const batch08 = JSON.parse(fs.readFileSync(CONTENT_BATCH_08_PATH, "utf8"));
   const batch09 = JSON.parse(fs.readFileSync(CONTENT_BATCH_09_PATH, "utf8"));
+  const batch10 = JSON.parse(fs.readFileSync(CONTENT_BATCH_10_PATH, "utf8"));
   validateArticles(primary, "articles.json");
   validateArticles(supporting, "seo-supporting-articles.json");
   validateArticles(batch01, "seo-content-batch-01.json");
@@ -70,6 +72,7 @@ export function loadArticles() {
   validateArticles(batch07, "seo-content-batch-07.json");
   validateArticles(batch08, "seo-content-batch-08.json");
   validateArticles(batch09, "seo-content-batch-09.json");
+  validateArticles(batch10, "seo-content-batch-10.json");
 
   const sources = [
     [primary, "articles.json"],
@@ -83,6 +86,7 @@ export function loadArticles() {
     [batch07, "seo-content-batch-07.json"],
     [batch08, "seo-content-batch-08.json"],
     [batch09, "seo-content-batch-09.json"],
+    [batch10, "seo-content-batch-10.json"],
   ];
   const seen = new Map();
   const articles = [];
