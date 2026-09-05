@@ -10,6 +10,7 @@ import seoContentBatch06 from "./seo-content-batch-06.json";
 import seoContentBatch07 from "./seo-content-batch-07.json";
 import seoContentBatch08 from "./seo-content-batch-08.json";
 import seoContentBatch09 from "./seo-content-batch-09.json";
+import seoContentBatch10 from "./seo-content-batch-10.json";
 import seoSupportingFaq from "./seo-supporting-faq.json";
 import seoClusterLinks from "./seo-cluster-links.json";
 import seoPillarOverrides from "./seo-pillar-overrides.json";
@@ -32,11 +33,9 @@ const allArticles = [
   ...(seoContentBatch07 as ArticleRecord[]),
   ...(seoContentBatch08 as ArticleRecord[]),
   ...(seoContentBatch09 as ArticleRecord[]),
+  ...(seoContentBatch10 as ArticleRecord[]),
 ];
 
-// Preserve the first occurrence when a content batch accidentally repeats an
-// existing slug. The primary article source comes first, so an existing URL
-// is never replaced by a duplicate batch record.
 const uniqueArticles = allArticles.filter(
   (article, index, list) => list.findIndex((item) => item.slug === article.slug) === index
 );
