@@ -5,6 +5,7 @@ on:
     paths:
       - 'src/data/articles.json'
       - 'src/data/seo-supporting-articles.json'
+      - 'src/data/seo-content-batch-*.json'
       - 'public/sitemap.xml'
       - 'scripts/generate-sitemap.mjs'
       - 'scripts/audit-saudi-cytotec-cluster.mjs'
@@ -15,6 +16,7 @@ on:
     paths:
       - 'src/data/articles.json'
       - 'src/data/seo-supporting-articles.json'
+      - 'src/data/seo-content-batch-*.json'
       - 'public/sitemap.xml'
       - 'scripts/generate-sitemap.mjs'
       - 'scripts/audit-saudi-cytotec-cluster.mjs'
