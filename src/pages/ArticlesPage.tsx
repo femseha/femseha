@@ -23,7 +23,7 @@ export default function ArticlesPage() {
 
   const categories = [
     { id: 'all', name: 'جميع الأدلة' },
-    ...articleCategories()
+    ...articleCategories.map((cat) => ({ id: cat.slug, name: cat.name }))
   ];
 
   const filteredArticles = [...articles]
