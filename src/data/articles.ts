@@ -17,7 +17,7 @@ import seoClusterLinks from "./seo-cluster-links.json";
 import seoPillarOverrides from "./seo-pillar-overrides.json";
 import seoLegacyOverrides from "./seo-legacy-overrides.json";
 import seoContentOverrides from "./seo-content-overrides.json";
-import { sanitizeArticle } from "./seo-quality";
+import { isIndexableArticle, sanitizeArticle } from "./seo-quality";
 
 const faqBySlug = seoSupportingFaq as Record<string, ArticleRecord["faq"]>;
 const clusterLinksBySlug = seoClusterLinks as Record<string, string[]>;
@@ -55,9 +55,11 @@ export const articles: ArticleRecord[] = uniqueArticles.map((article) => {
 
 export function getArticleBySlug(slug?: string): ArticleRecord | undefined { if (!slug) return undefined; return articles.find((article) => article.slug === slug); }
 export function relatedArticles(article: ArticleRecord, limit = 3): ArticleRecord[] {
-  const preferred = (article.related || []).map((slug) => getArticleBySlug(slug)).filter((item): item is ArticleRecord => Boolean(item));
-  const fallback = articles.filter((item) => item.slug !== article.slug && !preferred.some((p) => p.slug === item.slug));
+  const preferred = (article.related || [])
+    .map((slug) => getArticleBySlug(slug))
+    .filter((item): item is ArticleRecord => Boolean(item) && isIndexableArticle(item));
+  const fallback = articles.filter((item) => item.slug !== article.slug && isIndexableArticle(item) && !preferred.some((p) => p.slug === item.slug));
   return [...preferred, ...fallback].slice(0, limit);
 }
-export const articleCategories = Array.from(new Map(articles.map((article) => [article.category, article.categoryName])).entries()).map(([slug, name]) => ({ slug, name }));
+export const articleCategories = Array.from(new Map(articles.filter(isIndexableArticle).map((article) => [article.category, article.categoryName])).entries()).map(([slug, name]) => ({ slug, name }));
 export const GENERATED_ARTICLES = articles;
