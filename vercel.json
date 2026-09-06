@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/cytotec-in-saudi-arabia",
+      "destination": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
