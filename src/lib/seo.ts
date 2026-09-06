@@ -10,11 +10,7 @@ export interface SeoProps {
   keywords?: string;
   image?: string;
   type?: string;
-  /** قيمة وسم robots meta (مثل 'noindex, follow') — للصفحات غير القابلة للفهرسة.
-   *  عند غيابه يُزال الوسم لمنع تسربه إلى صفحة قابلة للفهرسة عند التنقل. */
   robots?: string;
-  /** إزالة canonical تماماً — للصفحات غير القابلة للفهرسة (404/soft-404/admin)
-   *  حتى لا تحمل canonical موجّهاً لصفحة فهرسية. */
   noCanonical?: boolean;
 }
 
@@ -38,38 +34,28 @@ function upsertCanonical(url: string) {
   el.setAttribute("href", url);
 }
 
-/**
- * هوك SEO لكل صفحة: يضبط العنوان والوصف والرابط القانوني (canonical)
- * ووسوم Open Graph/Twitter وبيانات JSON-LD المهيكلة.
- */
 export function useSeo(props: SeoProps = {}) {
   const { title, description, canonicalPath, canonicalUrl, jsonLd, keywords, image, type, robots, noCanonical } = props;
 
   useEffect(() => {
     const url = canonicalUrl || (canonicalPath ? `${SITE.url}${canonicalPath}` : SITE.url);
-    const ogImage = image || `${SITE.url}/banner.jpg.png`;
+    const ogImage = image || `${SITE.url}/banner.webp`;
 
-    // العنوان والوصف: تُضبط دائماً (مع قيمة افتراضية) حتى لا تبقى قيم الصفحة
-    // السابقة عالقة عند التنقل بين الصفحات داخل التطبيق.
     document.title = title || SITE.title;
     upsertMeta("name", "description", description || SITE.description);
 
-    // وسم keywords: يُحدَّث عند توفره ويُزال عند عدمه (منع تسربه بين الصفحات).
     if (keywords) {
       upsertMeta("name", "keywords", keywords);
     } else {
       document.querySelector('meta[name="keywords"]')?.remove();
     }
 
-    // وسم robots: يُضبط للصفحات غير القابلة للفهرسة ويُزال عند غيابه
-    // (منع تسرب noindex إلى صفحة فهرسية عند التنقل الداخلي).
     if (robots) {
       upsertMeta("name", "robots", robots);
     } else {
       document.querySelector('meta[name="robots"]')?.remove();
     }
 
-    // canonical: يُزال كلياً للصفحات غير القابلة للفهرسة (404/admin)، وإلا يُضبط ذاتياً.
     if (noCanonical) {
       document.querySelector('link[rel="canonical"]')?.remove();
     } else {
@@ -88,8 +74,6 @@ export function useSeo(props: SeoProps = {}) {
     upsertMeta("name", "twitter:description", description || SITE.description);
     upsertMeta("name", "twitter:image", ogImage);
 
-    // بيانات JSON-LD الخاصة بالصفحة: تُنظَّف دائماً قبل الحقن — حتى عندما لا
-    // تملك الصفحة الجديدة بيانات مهيكلة (منع بقاء Schema صفحة سابقة).
     document.querySelectorAll('script[data-seo="page"]').forEach((n) => n.remove());
     if (jsonLd) {
       const items = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
@@ -101,11 +85,8 @@ export function useSeo(props: SeoProps = {}) {
         document.head.appendChild(script);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, description, canonicalPath, canonicalUrl, JSON.stringify(jsonLd), keywords, image, type, robots, noCanonical]);
 }
-
-/* ── مُنشئات البيانات المهيكلة (JSON-LD) ─────────────────────────────── */
 
 export function websiteJsonLd() {
   return {
@@ -154,11 +135,6 @@ export function breadcrumbJsonLd(crumbs: { name: string; href: string }[]) {
   };
 }
 
-/**
- * بيانات مقال طبي مهيكلة — تعبّأ من سجل المقال المنشور (ArticleRecord).
- * dateModified: يُرسل فقط عند وجود modifiedDate حقيقي في سجل المقال؛
- * لا نساويه بتاريخ النشر تلقائياً ولا نخترع تاريخ تعديل غير موجود.
- */
 export function articleJsonLd(article?: {
   title?: string;
   summary?: string;
