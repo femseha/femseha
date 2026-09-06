@@ -2,6 +2,42 @@
   "cytotec-misoprostol-saudi-riyadh-guide": [
     "danger-signs-after-medical-abortion-saudi",
     "bleeding-after-medical-abortion-saudi",
+    "ectopic-pregnancy-abortion-medicines-saudi",
+    "ijhad-dawai-fi-al-saudia",
+    "cytotec-gulf-kuwait-bahrain-uae-protocols",
+    "abortion-medicines-uae-medical-guide",
+    "abortion-medicines-bahrain-medical-guide",
+    "cytotec-in-qatar-medical-guide",
+    "cytotec-in-oman-medical-guide"
+  ],
+  "cytotec-gulf-kuwait-bahrain-uae-protocols": [
+    "abortion-medicines-uae-medical-guide",
+    "abortion-medicines-bahrain-medical-guide",
+    "cytotec-in-qatar-medical-guide",
+    "cytotec-in-oman-medical-guide",
+    "cytotec-misoprostol-saudi-riyadh-guide"
+  ],
+  "ijhad-dawai-fi-al-saudia": [
+    "cytotec-misoprostol-saudi-riyadh-guide",
+    "danger-signs-after-medical-abortion-saudi",
     "ectopic-pregnancy-abortion-medicines-saudi"
+  ],
+  "abortion-medicines-uae-medical-guide": [
+    "cytotec-gulf-kuwait-bahrain-uae-protocols",
+    "cytotec-misoprostol-saudi-riyadh-guide"
+  ],
+  "abortion-medicines-bahrain-medical-guide": [
+    "cytotec-gulf-kuwait-bahrain-uae-protocols",
+    "cytotec-misoprostol-saudi-riyadh-guide"
+  ],
+  "cytotec-in-qatar-medical-guide": [
+    "cytotec-gulf-kuwait-bahrain-uae-protocols",
+    "cytotec-misoprostol-saudi-riyadh-guide",
+    "abortion-medicines-uae-medical-guide"
+  ],
+  "cytotec-in-oman-medical-guide": [
+    "cytotec-gulf-kuwait-bahrain-uae-protocols",
+    "cytotec-misoprostol-saudi-riyadh-guide",
+    "abortion-medicines-bahrain-medical-guide"
   ]
 }
