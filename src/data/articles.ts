@@ -17,6 +17,7 @@ import seoClusterLinks from "./seo-cluster-links.json";
 import seoPillarOverrides from "./seo-pillar-overrides.json";
 import seoLegacyOverrides from "./seo-legacy-overrides.json";
 import seoContentOverrides from "./seo-content-overrides.json";
+import { sanitizeArticle } from "./seo-quality";
 
 const faqBySlug = seoSupportingFaq as Record<string, ArticleRecord["faq"]>;
 const clusterLinksBySlug = seoClusterLinks as Record<string, string[]>;
@@ -43,9 +44,13 @@ export const articles: ArticleRecord[] = uniqueArticles.map((article) => {
   const withPillar = override ? { ...withFaq, ...(override.title ? { title: override.title } : {}), ...(override.summary ? { summary: override.summary } : {}), ...(override.contentPrefix ? { content: `${override.contentPrefix}\n\n${withFaq.content}` } : {}), ...(override.contentAppend ? { content: `${withFaq.content}\n\n${override.contentAppend}` } : {}) } : withFaq;
   const withLegacy = legacyOverride ? { ...withPillar, ...(legacyOverride.title ? { title: legacyOverride.title } : {}), ...(legacyOverride.summary ? { summary: legacyOverride.summary } : {}), ...(legacyOverride.primaryKeyword ? { primaryKeyword: legacyOverride.primaryKeyword } : {}), ...(legacyOverride.contentReplace ? { content: legacyOverride.contentReplace } : {}), ...(legacyOverride.faqReplace ? { faq: legacyOverride.faqReplace } : {}), ...(legacyOverride.relatedReplace ? { related: legacyOverride.relatedReplace } : {}) } : withPillar;
   const withContent = contentOverride ? { ...withLegacy, ...(contentOverride.contentReplace ? { content: contentOverride.contentReplace } : {}), ...(contentOverride.sources ? { sources: contentOverride.sources } : {}) } : withLegacy;
-  if (!clusterLinks?.length) return withContent;
-  const related = [...clusterLinks, ...(withContent.related || [])].filter((slug, index, list) => list.indexOf(slug) === index && slug !== article.slug);
-  return { ...withContent, related };
+  const withRelated = clusterLinks?.length
+    ? {
+        ...withContent,
+        related: [...clusterLinks, ...(withContent.related || [])].filter((slug, index, list) => list.indexOf(slug) === index && slug !== article.slug),
+      }
+    : withContent;
+  return sanitizeArticle(withRelated);
 });
 
 export function getArticleBySlug(slug?: string): ArticleRecord | undefined { if (!slug) return undefined; return articles.find((article) => article.slug === slug); }
