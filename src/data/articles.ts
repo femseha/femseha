@@ -20,7 +20,7 @@ import seoContentOverrides from "./seo-content-overrides.json";
 
 const faqBySlug = seoSupportingFaq as Record<string, ArticleRecord["faq"]>;
 const clusterLinksBySlug = seoClusterLinks as Record<string, string[]>;
-const pillarOverrides = seoPillarOverrides as Record<string, { title?: string; summary?: string; contentAppend?: string }>;
+const pillarOverrides = seoPillarOverrides as Record<string, { title?: string; summary?: string; contentPrefix?: string; contentAppend?: string }>;
 const legacyOverrides = seoLegacyOverrides as Record<string, { title?: string; summary?: string; primaryKeyword?: string; contentReplace?: string; faqReplace?: ArticleRecord["faq"]; relatedReplace?: string[] }>;
 const contentOverrides = seoContentOverrides as Record<string, { contentReplace?: string; sources?: ArticleRecord["sources"] }>;
 
@@ -40,7 +40,7 @@ export const articles: ArticleRecord[] = uniqueArticles.map((article) => {
   const faq = faqBySlug[article.slug]; const clusterLinks = clusterLinksBySlug[article.slug];
   const override = pillarOverrides[article.slug]; const legacyOverride = legacyOverrides[article.title]; const contentOverride = contentOverrides[article.slug];
   const withFaq = !faq || article.faq?.length ? article : { ...article, faq };
-  const withPillar = override ? { ...withFaq, ...(override.title ? { title: override.title } : {}), ...(override.summary ? { summary: override.summary } : {}), ...(override.contentAppend ? { content: `${withFaq.content}\n\n${override.contentAppend}` } : {}) } : withFaq;
+  const withPillar = override ? { ...withFaq, ...(override.title ? { title: override.title } : {}), ...(override.summary ? { summary: override.summary } : {}), ...(override.contentPrefix ? { content: `${override.contentPrefix}\n\n${withFaq.content}` } : {}), ...(override.contentAppend ? { content: `${withFaq.content}\n\n${override.contentAppend}` } : {}) } : withFaq;
   const withLegacy = legacyOverride ? { ...withPillar, ...(legacyOverride.title ? { title: legacyOverride.title } : {}), ...(legacyOverride.summary ? { summary: legacyOverride.summary } : {}), ...(legacyOverride.primaryKeyword ? { primaryKeyword: legacyOverride.primaryKeyword } : {}), ...(legacyOverride.contentReplace ? { content: legacyOverride.contentReplace } : {}), ...(legacyOverride.faqReplace ? { faq: legacyOverride.faqReplace } : {}), ...(legacyOverride.relatedReplace ? { related: legacyOverride.relatedReplace } : {}) } : withPillar;
   const withContent = contentOverride ? { ...withLegacy, ...(contentOverride.contentReplace ? { content: contentOverride.contentReplace } : {}), ...(contentOverride.sources ? { sources: contentOverride.sources } : {}) } : withLegacy;
   if (!clusterLinks?.length) return withContent;
