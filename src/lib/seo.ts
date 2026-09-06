@@ -14,6 +14,8 @@ export interface SeoProps {
   noCanonical?: boolean;
 }
 
+const cleanBrand = (value?: string) => (value || "").replace(/منصة\s+فصيحة\s+الطبية/g, "منصة FemSeha").replace(/فصيحة الطبية/g, "FemSeha الطبية");
+
 function upsertMeta(attr: "name" | "property", key: string, content: string) {
   let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
   if (!el) {
@@ -39,39 +41,32 @@ export function useSeo(props: SeoProps = {}) {
 
   useEffect(() => {
     const url = canonicalUrl || (canonicalPath ? `${SITE.url}${canonicalPath}` : SITE.url);
+    const safeTitle = cleanBrand(title || SITE.title);
+    const safeDescription = cleanBrand(description || SITE.description);
     const ogImage = image || `${SITE.url}/banner.webp`;
 
-    document.title = title || SITE.title;
-    upsertMeta("name", "description", description || SITE.description);
+    document.title = safeTitle;
+    upsertMeta("name", "description", safeDescription);
 
-    if (keywords) {
-      upsertMeta("name", "keywords", keywords);
-    } else {
-      document.querySelector('meta[name="keywords"]')?.remove();
-    }
+    if (keywords) upsertMeta("name", "keywords", keywords);
+    else document.querySelector('meta[name="keywords"]')?.remove();
 
-    if (robots) {
-      upsertMeta("name", "robots", robots);
-    } else {
-      document.querySelector('meta[name="robots"]')?.remove();
-    }
+    if (robots) upsertMeta("name", "robots", robots);
+    else document.querySelector('meta[name="robots"]')?.remove();
 
-    if (noCanonical) {
-      document.querySelector('link[rel="canonical"]')?.remove();
-    } else {
-      upsertCanonical(url);
-    }
+    if (noCanonical) document.querySelector('link[rel="canonical"]')?.remove();
+    else upsertCanonical(url);
 
-    upsertMeta("property", "og:title", title || SITE.title);
-    upsertMeta("property", "og:description", description || SITE.description);
+    upsertMeta("property", "og:title", safeTitle);
+    upsertMeta("property", "og:description", safeDescription);
     upsertMeta("property", "og:url", url);
     upsertMeta("property", "og:type", type || "website");
     upsertMeta("property", "og:site_name", SITE.name);
     upsertMeta("property", "og:locale", "ar_SA");
     upsertMeta("property", "og:image", ogImage);
     upsertMeta("name", "twitter:card", "summary_large_image");
-    upsertMeta("name", "twitter:title", title || SITE.title);
-    upsertMeta("name", "twitter:description", description || SITE.description);
+    upsertMeta("name", "twitter:title", safeTitle);
+    upsertMeta("name", "twitter:description", safeDescription);
     upsertMeta("name", "twitter:image", ogImage);
 
     document.querySelectorAll('script[data-seo="page"]').forEach((n) => n.remove());
@@ -89,87 +84,37 @@ export function useSeo(props: SeoProps = {}) {
 }
 
 export function websiteJsonLd() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: SITE?.name || "فيم صحة",
-    url: SITE?.url || "https://femseha.com",
-    description: SITE?.description || "",
-    inLanguage: "ar"
-  };
+  return { "@context": "https://schema.org", "@type": "WebSite", name: SITE.name, url: SITE.url, description: SITE.description, inLanguage: "ar" };
 }
 
 export function organizationJsonLd() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "MedicalOrganization",
-    name: SITE?.name || "فيم صحة",
-    url: SITE?.url || "https://femseha.com",
-    description: SITE?.description || "",
-    telephone: SITE?.phone || "00966599287172",
-    inLanguage: "ar"
-  };
+  return { "@context": "https://schema.org", "@type": "MedicalOrganization", name: SITE.name, url: SITE.url, description: SITE.description, telephone: SITE.phone, inLanguage: "ar" };
 }
 
 export function doctorJsonLd() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Physician",
-    name: DOCTOR?.name || "د. هيثم الخطيب",
-    medicalSpecialty: "Obstetrics and Gynecology",
-    url: `${SITE?.url || "https://femseha.com"}/doctor`,
-    telephone: DOCTOR?.phone || "00966599287172"
-  };
+  return { "@context": "https://schema.org", "@type": "Physician", name: DOCTOR.name, medicalSpecialty: "Obstetrics and Gynecology", url: `${SITE.url}/doctor`, telephone: DOCTOR.phone };
 }
 
 export function breadcrumbJsonLd(crumbs: { name: string; href: string }[]) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: crumbs.map((c, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: c.name,
-      item: `${SITE?.url || "https://femseha.com"}${c.href}`
-    }))
-  };
+  return { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: `${SITE.url}${c.href}` })) };
 }
 
-export function articleJsonLd(article?: {
-  title?: string;
-  summary?: string;
-  publishDate?: string;
-  modifiedDate?: string;
-  slug?: string;
-  readTime?: number;
-  primaryKeyword?: string;
-}) {
+export function articleJsonLd(article?: { title?: string; summary?: string; publishDate?: string; modifiedDate?: string; slug?: string; readTime?: number; primaryKeyword?: string }) {
   if (!article) return {};
   return {
     "@context": "https://schema.org",
     "@type": "MedicalWebPage",
-    headline: article.title || "",
-    description: article.summary || "",
+    headline: cleanBrand(article.title),
+    description: cleanBrand(article.summary),
     datePublished: article.publishDate || "",
     ...(article.modifiedDate ? { dateModified: article.modifiedDate } : {}),
     inLanguage: "ar",
-    url: `${SITE?.url || "https://femseha.com"}/articles/${article.slug || ""}`,
+    url: `${SITE.url}/articles/${article.slug || ""}`,
     keywords: article.primaryKeyword || undefined,
     timeRequired: article.readTime ? `PT${article.readTime}M` : undefined,
-    author: {
-      "@type": "Physician",
-      name: DOCTOR?.name || "د. هيثم الخطيب",
-      medicalSpecialty: "Obstetrics and Gynecology"
-    },
-    reviewedBy: {
-      "@type": "Physician",
-      name: DOCTOR?.name || "د. هيثم الخطيب"
-    },
-    publisher: {
-      "@type": "MedicalOrganization",
-      name: SITE?.name || "فيم صحة",
-      url: SITE?.url || "https://femseha.com"
-    }
+    author: { "@type": "Physician", name: DOCTOR.name, medicalSpecialty: "Obstetrics and Gynecology" },
+    reviewedBy: { "@type": "Physician", name: DOCTOR.name },
+    publisher: { "@type": "MedicalOrganization", name: SITE.name, url: SITE.url }
   };
 }
 
