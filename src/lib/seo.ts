@@ -14,7 +14,12 @@ export interface SeoProps {
   noCanonical?: boolean;
 }
 
-const cleanBrand = (value?: string) => (value || "").replace(/منصة\s+فصيحة\s+الطبية/g, "منصة FemSeha").replace(/فصيحة الطبية/g, "FemSeha الطبية");
+/* توحيد أي بقايا اسم قديم في metadata/Schema دون تغيير النص المرئي في الواجهة. */
+const cleanBrand = (value?: string) =>
+  (value || "")
+    .replace(/منصة\s+فصيحة\s+الطبية/g, "FemSeha | فيم صحة")
+    .replace(/فصيحة الطبية/g, "FemSeha الطبية")
+    .replace(/منصة فصيحة/g, "منصة FemSeha");
 
 function upsertMeta(attr: "name" | "property", key: string, content: string) {
   let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
@@ -84,35 +89,100 @@ export function useSeo(props: SeoProps = {}) {
 }
 
 export function websiteJsonLd() {
-  return { "@context": "https://schema.org", "@type": "WebSite", name: SITE.name, url: SITE.url, description: SITE.description, inLanguage: "ar" };
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE.name,
+    url: SITE.url,
+    description: SITE.description,
+    inLanguage: "ar"
+  };
 }
 
 export function organizationJsonLd() {
-  return { "@context": "https://schema.org", "@type": "MedicalOrganization", name: SITE.name, url: SITE.url, description: SITE.description, telephone: SITE.phone, inLanguage: "ar" };
+  return {
+    "@context": "https://schema.org",
+    "@type": "MedicalOrganization",
+    name: SITE.name,
+    url: SITE.url,
+    description: SITE.description,
+    telephone: SITE.phone,
+    inLanguage: "ar"
+  };
 }
 
 export function doctorJsonLd() {
-  return { "@context": "https://schema.org", "@type": "Physician", name: DOCTOR.name, medicalSpecialty: "Obstetrics and Gynecology", url: `${SITE.url}/doctor`, telephone: DOCTOR.phone };
+  return {
+    "@context": "https://schema.org",
+    "@type": "Physician",
+    name: DOCTOR.name,
+    medicalSpecialty: "Obstetrics and Gynecology",
+    url: `${SITE.url}/doctor`,
+    telephone: DOCTOR.phone
+  };
 }
 
 export function breadcrumbJsonLd(crumbs: { name: string; href: string }[]) {
-  return { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: `${SITE.url}${c.href}` })) };
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.name,
+      item: `${SITE.url}${c.href}`
+    }))
+  };
 }
 
-export function articleJsonLd(article?: { title?: string; summary?: string; publishDate?: string; modifiedDate?: string; slug?: string; readTime?: number; primaryKeyword?: string }) {
+/**
+ * Schema دلالي للمقالات الطبية:
+ * MedicalWebPage + about/DefinedTerm + mainEntityOfPage + isPartOf.
+ * لا نضيف claims أو أرقاماً غير موجودة في بيانات المقال.
+ */
+export function articleJsonLd(article?: {
+  title?: string;
+  summary?: string;
+  publishDate?: string;
+  modifiedDate?: string;
+  slug?: string;
+  readTime?: number;
+  primaryKeyword?: string;
+}) {
   if (!article) return {};
+
+  const articleUrl = `${SITE.url}/articles/${article.slug || ""}`;
+  const keyword = cleanBrand(article.primaryKeyword);
+
   return {
     "@context": "https://schema.org",
     "@type": "MedicalWebPage",
+    "@id": `${articleUrl}#medical-webpage`,
     headline: cleanBrand(article.title),
     description: cleanBrand(article.summary),
     datePublished: article.publishDate || "",
     ...(article.modifiedDate ? { dateModified: article.modifiedDate } : {}),
     inLanguage: "ar",
-    url: `${SITE.url}/articles/${article.slug || ""}`,
-    keywords: article.primaryKeyword || undefined,
+    url: articleUrl,
+    mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+    isPartOf: { "@type": "WebSite", name: SITE.name, url: SITE.url },
+    ...(keyword
+      ? {
+          about: {
+            "@type": "DefinedTerm",
+            name: keyword,
+            inDefinedTermSet: `${SITE.url}/articles`
+          },
+          keywords: keyword
+        }
+      : {}),
+    medicalAudience: { "@type": "MedicalAudience", audienceType: "Patient" },
     timeRequired: article.readTime ? `PT${article.readTime}M` : undefined,
-    author: { "@type": "Physician", name: DOCTOR.name, medicalSpecialty: "Obstetrics and Gynecology" },
+    author: {
+      "@type": "Physician",
+      name: DOCTOR.name,
+      medicalSpecialty: "Obstetrics and Gynecology"
+    },
     reviewedBy: { "@type": "Physician", name: DOCTOR.name },
     publisher: { "@type": "MedicalOrganization", name: SITE.name, url: SITE.url }
   };
