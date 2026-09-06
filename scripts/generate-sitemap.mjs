@@ -39,22 +39,38 @@ function validateArticles(articles, sourceLabel) {
   }
 }
 
+export function isSitemapExcluded(article) {
+  const title = String(article.title || "");
+  if (article.slug === "cytotec-in-saudi-arabia-medical-info-risks") return true;
+  if (article.primaryKeyword === "حبوب سايتوتك في السعودية") return true;
+  if (/ميزوبرستول في السعودية\s*\|\s*الموقع الرسمي/i.test(title)) return true;
+  if (/سايتوتك في السعودية\s*\|\s*بقلم/i.test(title)) return true;
+  if (/حبوب سايتوتك في السعودية\s*:\s*أسرار/i.test(title)) return true;
+  if (/حبوب سايتوتك الأصلية في السعودية/i.test(title)) return true;
+  return false;
+}
+
 export function loadArticles() {
   const primary = JSON.parse(fs.readFileSync(ARTICLES_PATH, "utf8"));
   const supporting = JSON.parse(fs.readFileSync(SUPPORTING_ARTICLES_PATH, "utf8"));
   const batches = BATCH_PATHS.map((p) => JSON.parse(fs.readFileSync(p, "utf8")));
   validateArticles(primary, "articles.json");
   validateArticles(supporting, "seo-supporting-articles.json");
-  batches.forEach((batch, i) => validateArticles(batch, `seo-content-batch-${String(i + 1).padStart(2, "0")}.json`));
+  batches.forEach((batch, i) => validateArticles(batch, `seo-content-batch-${String(i + 1).padStart(2, "0")}`));
   const sources = [[primary, "articles.json"], [supporting, "seo-supporting-articles.json"], ...batches.map((b, i) => [b, `seo-content-batch-${String(i + 1).padStart(2, "0")}.json`])];
-  const seen = new Map(); const articles = [];
+  const seen = new Map();
+  const articles = [];
   for (const [sourceArticles, sourceLabel] of sources) {
     for (const a of sourceArticles) {
-      if (seen.has(a.slug)) { console.warn(`⚠ slug مكرر — سيتم استخدام النسخة الأولى: ${a.slug} (${seen.get(a.slug)}؛ تم تجاهل ${sourceLabel})`); continue; }
-      seen.set(a.slug, sourceLabel); articles.push(a);
+      if (seen.has(a.slug)) {
+        console.warn(`⚠ slug مكرر — سيتم استخدام النسخة الأولى: ${a.slug} (${seen.get(a.slug)}؛ تم تجاهل ${sourceLabel})`);
+        continue;
+      }
+      seen.set(a.slug, sourceLabel);
+      articles.push(a);
     }
   }
-  return articles;
+  return articles.filter((article) => !isSitemapExcluded(article));
 }
 
 function latestContentDate(articles) { return articles.reduce((max, a) => (a.modifiedDate || a.publishDate) > max ? (a.modifiedDate || a.publishDate) : max, articles[0] ? articles[0].publishDate : ""); }
@@ -67,11 +83,29 @@ export function buildSitemapXml(articles, siteUrl = readSiteUrl()) {
 }
 
 export function assertNoForbiddenUrls(xml, siteUrl) {
-  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim()); const problems = [];
+  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
+  const problems = [];
   const allowed = new Set([...STATIC_INDEXABLE.map((s) => (s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path}`)), ...locs.filter((u) => u.startsWith(`${siteUrl}/articles/`))]);
-  for (const u of locs) { const p = new URL(u).pathname; for (const bad of FORBIDDEN_PATHS) if (p === bad || p.startsWith(`${bad}/`)) problems.push(`مسار محجوب في sitemap: ${u}`); if (/(^|\/)(test|stag|staging|demo|tmp|dead)(\/|$)/i.test(p)) problems.push(`مسار اختباري/ميت في sitemap: ${u}`); if (!allowed.has(u)) problems.push(`URL غير منشور في sitemap: ${u}`); }
+  for (const u of locs) {
+    const p = new URL(u).pathname;
+    for (const bad of FORBIDDEN_PATHS) if (p === bad || p.startsWith(`${bad}/`)) problems.push(`مسار محجوب في sitemap: ${u}`);
+    if (/(^|\/)(test|stag|staging|demo|tmp|dead)(\/|$)/i.test(p)) problems.push(`مسار اختباري/ميت في sitemap: ${u}`);
+    if (!allowed.has(u)) problems.push(`URL غير منشور في sitemap: ${u}`);
+  }
   return problems;
 }
 
-export function generateSitemap() { const articles = loadArticles(); const siteUrl = readSiteUrl(); const xml = buildSitemapXml(articles, siteUrl); const problems = assertNoForbiddenUrls(xml, siteUrl); if (problems.length) throw new Error(problems.join("\n")); fs.writeFileSync(SITEMAP_PATH, xml, "utf8"); return { count: STATIC_INDEXABLE.length + articles.length, contentCount: articles.length, siteUrl }; }
-if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) { const result = generateSitemap(); console.log(`Sitemap generated: ${result.count} URLs (${result.contentCount} articles) at ${SITEMAP_PATH}`); }
+export function generateSitemap() {
+  const articles = loadArticles();
+  const siteUrl = readSiteUrl();
+  const xml = buildSitemapXml(articles, siteUrl);
+  const problems = assertNoForbiddenUrls(xml, siteUrl);
+  if (problems.length) throw new Error(problems.join("\n"));
+  fs.writeFileSync(SITEMAP_PATH, xml, "utf8");
+  return { count: STATIC_INDEXABLE.length + articles.length, contentCount: articles.length, siteUrl };
+}
+
+if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
+  const result = generateSitemap();
+  console.log(`Sitemap generated: ${result.count} URLs (${result.contentCount} articles) at ${SITEMAP_PATH}`);
+}
