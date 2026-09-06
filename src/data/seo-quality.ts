@@ -2,19 +2,20 @@ import type { ArticleRecord } from './types';
 
 export const SAUDI_CYTOTEC_PILLAR = 'cytotec-misoprostol-saudi-riyadh-guide';
 
-/**
- * إصلاح آلي لآثار النصوص العربية التي تسربت إليها أحرف لاتينية منفردة.
- * يعمل فقط عندما يكون الحرف اللاتيني محاطاً بحروف عربية، حتى لا يغيّر
- * المصطلحات الإنجليزية الصحيحة مثل Vitamin D أو MRI.
- */
+/** إصلاح آثار النصوص العربية التي تسربت إليها أحرف لاتينية منفردة. */
 export function normalizeArabicArtifacts(text: string): string {
   return text
     .replace(/الD(?=[\u0600-\u06FF])/g, 'الد')
     .replace(/الM(?=[\u0600-\u06FF])/g, 'الم')
+    .replace(/الR(?=[\u0600-\u06FF])/g, 'الر')
+    .replace(/الW(?=[\u0600-\u06FF])/g, 'الو')
     .replace(/الm(?=[\u0600-\u06FF])/g, 'الم')
     .replace(/([\u0600-\u06FF])D(?=[\u0600-\u06FF])/g, '$1د')
     .replace(/([\u0600-\u06FF])M(?=[\u0600-\u06FF])/g, '$1م')
+    .replace(/([\u0600-\u06FF])R(?=[\u0600-\u06FF])/g, '$1ر')
+    .replace(/([\u0600-\u06FF])W(?=[\u0600-\u06FF])/g, '$1و')
     .replace(/([\u0600-\u06FF])m(?=[\u0600-\u06FF])/g, '$1م')
+    .replace(/([\u0600-\u06FF])m(?=\s|$|[،,.!?؛:])/g, '$1م')
     .replace(/منصة\s+فصيحة(?:\s+الطبية)?/g, 'منصة FemSeha')
     .replace(/فصيحة الطبية/g, 'FemSeha الطبية');
 }
@@ -29,7 +30,6 @@ export function dedupeContent(content: string): string {
     const block = rawBlock.trim();
     if (!block) continue;
     const key = block.replace(/\s+/g, ' ').trim();
-    // لا نحذف سطوراً قصيرة مثل عناوين Markdown أو عناصر القوائم لمجرد تكرارها.
     if (key.length >= 120) {
       if (seen.has(key)) continue;
       seen.add(key);
@@ -50,19 +50,9 @@ export function sanitizeArticle(article: ArticleRecord): ArticleRecord {
   const summary = normalizeArabicArtifacts(article.summary);
   const content = dedupeContent(normalizeArabicArtifacts(article.content));
 
-  return {
-    ...article,
-    title,
-    summary,
-    content,
-    readTime: estimateReadTime(content),
-  };
+  return { ...article, title, summary, content, readTime: estimateReadTime(content) };
 }
 
-/**
- * صفحات سايتوتك السعودية القديمة/المتنافسة لا يجب أن تنافس الصفحة المحورية.
- * نُبقيها قابلة للوصول مؤقتاً، لكن نوجّهها للمحور ونستبعدها من قوائم الموقع.
- */
 export function isConsolidatedCytotecArticle(article: ArticleRecord): boolean {
   if (article.slug === SAUDI_CYTOTEC_PILLAR) return false;
   if (article.slug === 'cytotec-in-saudi-arabia-medical-info-risks') return true;
