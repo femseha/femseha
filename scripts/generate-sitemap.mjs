@@ -9,7 +9,6 @@ const SUPPORTING_ARTICLES_PATH = path.join(ROOT, "src", "data", "seo-supporting-
 const BATCH_PATHS = Array.from({ length: 11 }, (_, i) => path.join(ROOT, "src", "data", `seo-content-batch-${String(i + 1).padStart(2, "0")}.json`));
 const SITE_TS_PATH = path.join(ROOT, "src", "data", "site.ts");
 const SITEMAP_PATH = path.join(ROOT, "public", "sitemap.xml");
-const SAUDI_CYTOTEC_PILLAR = "cytotec-misoprostol-saudi-riyadh-guide";
 
 export function readSiteUrl() {
   const src = fs.readFileSync(SITE_TS_PATH, "utf8");
@@ -75,12 +74,7 @@ export function loadArticles() {
 }
 
 function latestContentDate(articles) { return articles.reduce((max, a) => (a.modifiedDate || a.publishDate) > max ? (a.modifiedDate || a.publishDate) : max, articles[0] ? articles[0].publishDate : ""); }
-function articleLastmod(article) {
-  // صفحة الركيزة عُدّلت فعليًا في 2026-09-06؛ إبراز تاريخ التعديل في sitemap
-  // يساعد Google على اكتشاف أن هذه الصفحة هي التي تستحق إعادة المعالجة.
-  if (article.slug === SAUDI_CYTOTEC_PILLAR) return "2026-09-06";
-  return article.modifiedDate || article.publishDate;
-}
+function articleLastmod(article) { return article.modifiedDate || article.publishDate; }
 function urlBlock({ loc, lastmod, changefreq, priority }) { return ["  <url>", `    <loc>${escapeXml(loc)}</loc>`, ...(lastmod ? [`    <lastmod>${escapeXml(lastmod)}</lastmod>`] : []), `    <changefreq>${changefreq}</changefreq>`, `    <priority>${priority}</priority>`, "  </url>"].join("\n"); }
 
 export function buildSitemapXml(articles, siteUrl = readSiteUrl()) {
