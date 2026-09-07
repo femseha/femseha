@@ -7,7 +7,7 @@
     "dev": "vite",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "sitemap:check": "node scripts/generate-sitemap.mjs --check",
-    "build": "node scripts/generate-sitemap.mjs && vite build",
+    "build": "node scripts/generate-sitemap.mjs && vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "seo:validate": "node scripts/seo-validate.mjs",
