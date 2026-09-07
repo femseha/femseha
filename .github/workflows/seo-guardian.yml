@@ -1,0 +1,64 @@
+name: SEO Guardian
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  production-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Production SEO check
+        id: check
+        continue-on-error: true
+        run: node scripts/seo-production-watch.mjs 2>&1 | tee seo-guardian.log
+
+      - name: Upload diagnostic log
+        if: steps.check.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-guardian-log
+          path: seo-guardian.log
+          retention-days: 14
+
+      - name: Create one actionable issue when production check fails
+        if: steps.check.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          TITLE="[SEO Guardian] Production SEO check failed"
+          EXISTING=$(gh issue list --state open --search "${TITLE}" --json number --jq '.[0].number' | head -n 1)
+          if [ -n "$EXISTING" ]; then
+            echo "Open SEO Guardian issue #$EXISTING already exists; no duplicate issue created."
+            exit 0
+          fi
+          {
+            echo "## SEO Guardian detected a production problem"
+            echo
+            echo "The scheduled production check failed. This issue is intentionally created once so the problem can be fixed without repeated alerts."
+            echo
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo
+            echo '```text'
+            tail -n 120 seo-guardian.log
+            echo '```'
+          } > seo-guardian-issue.md
+          gh issue create --title "$TITLE" --body-file seo-guardian-issue.md
+
+      - name: Fail workflow after reporting
+        if: steps.check.outcome == 'failure'
+        run: exit 1
