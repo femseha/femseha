@@ -18,6 +18,7 @@ import seoPillarOverrides from "./seo-pillar-overrides.json";
 import seoLegacyOverrides from "./seo-legacy-overrides.json";
 import seoContentOverrides from "./seo-content-overrides.json";
 import { seoGulfPillarOverrides } from "./seo-gulf-pillar-overrides";
+import { seoGulfTrustSections } from "./seo-gulf-trust-sections";
 import { isIndexableArticle, sanitizeArticle } from "./seo-quality";
 
 const faqBySlug = seoSupportingFaq as Record<string, ArticleRecord["faq"]>;
@@ -45,7 +46,7 @@ export const articles: ArticleRecord[] = uniqueArticles.map((article) => {
   const withPillar = override ? { ...withFaq, ...(override.title ? { title: override.title } : {}), ...(override.summary ? { summary: override.summary } : {}), ...(override.contentPrefix ? { content: `${override.contentPrefix}\n\n${withFaq.content}` } : {}), ...(override.contentAppend ? { content: `${withFaq.content}\n\n${override.contentAppend}` } : {}) } : withFaq;
   const withLegacy = legacyOverride ? { ...withPillar, ...(legacyOverride.title ? { title: legacyOverride.title } : {}), ...(legacyOverride.summary ? { summary: legacyOverride.summary } : {}), ...(legacyOverride.primaryKeyword ? { primaryKeyword: legacyOverride.primaryKeyword } : {}), ...(legacyOverride.contentReplace ? { content: legacyOverride.contentReplace } : {}), ...(legacyOverride.faqReplace ? { faq: legacyOverride.faqReplace } : {}), ...(legacyOverride.relatedReplace ? { related: legacyOverride.relatedReplace } : {}) } : withPillar;
   const withContent = contentOverride ? { ...withLegacy, ...(contentOverride.contentReplace ? { content: contentOverride.contentReplace } : {}), ...(contentOverride.sources ? { sources: contentOverride.sources } : {}) } : withLegacy;
-  const withGulf = gulfOverride ? { ...withContent, title: gulfOverride.title, summary: gulfOverride.summary, primaryKeyword: gulfOverride.primaryKeyword, secondaryKeywords: gulfOverride.secondaryKeywords, content: gulfOverride.content, faq: gulfOverride.faq, sources: gulfOverride.sources, related: gulfOverride.related } : withContent;
+  const withGulf = gulfOverride ? { ...withContent, title: gulfOverride.title, summary: gulfOverride.summary, primaryKeyword: gulfOverride.primaryKeyword, secondaryKeywords: gulfOverride.secondaryKeywords, content: `${seoGulfTrustSections[article.slug] || ""}\n\n${gulfOverride.content}`, faq: gulfOverride.faq, sources: gulfOverride.sources, related: gulfOverride.related } : withContent;
   const withRelated = clusterLinks?.length
     ? {
         ...withGulf,
