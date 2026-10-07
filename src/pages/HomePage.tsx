@@ -75,7 +75,7 @@ export default function HomePage() {
             aria-label="استشارة طبية نسائية متخصصة - FemSeha"
           >
             <img
-              src="/images/dr-haitham-hero.jpg"
+              src="/images/dr-haitham-hero.webp"
               alt="دكتور هيثم الخطيب - استشارات طبية نسائية متخصصة - FemSeha"
               width={1408}
               height={768}
@@ -143,8 +143,8 @@ export default function HomePage() {
               <div className="bg-gradient-to-b from-white to-slate-50 p-6 sm:p-8 rounded-2xl border border-sky-200 shadow-2xl space-y-6">
                 <div className="flex items-center gap-4 border-b border-slate-200 pb-5">
                   <img
-                    src="/logo.webp"
-                    alt="شعار FemSeha | فيم صحة"
+                    src="/saudi-cytotec-logo.webp"
+                    alt="شعار موقع سايتوتك في السعودية"
                     width={64}
                     height={64}
                     className="w-16 h-16 rounded-2xl shadow-lg shrink-0"

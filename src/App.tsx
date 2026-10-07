@@ -113,7 +113,7 @@ export function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <Link to="/" className="flex items-center gap-3 group" aria-label="FemSeha — الرئيسية">
-              <img src="/logo.webp" alt="شعار FemSeha | فيم صحة" width={48} height={48} className="w-12 h-12 rounded-xl shadow-lg group-hover:scale-105 transition-transform" />
+              <img src="/saudi-cytotec-logo.webp" alt="شعار موقع سايتوتك في السعودية" width={48} height={48} className="w-12 h-12 rounded-xl shadow-lg group-hover:scale-105 transition-transform" />
               <div><span className="block text-2xl font-black tracking-tight text-white group-hover:text-sky-300 transition-colors">FemSeha</span><span className="block text-xs text-sky-300 font-semibold tracking-wide">فيم صحة</span></div>
             </Link>
 
@@ -193,7 +193,7 @@ export function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
             <div>
-              <div className="flex items-center gap-3 mb-4"><img src="/logo.webp" alt="شعار FemSeha | فيم صحة" width={40} height={40} className="w-10 h-10 rounded-lg shadow" /><div><span className="block text-xl font-bold text-white">FemSeha</span><span className="block text-xs text-sky-400 font-semibold">فيم صحة</span></div></div>
+              <div className="flex items-center gap-3 mb-4"><img src="/saudi-cytotec-logo.webp" alt="شعار موقع سايتوتك في السعودية" width={40} height={40} className="w-10 h-10 rounded-lg shadow" /><div><span className="block text-xl font-bold text-white">FemSeha</span><span className="block text-xs text-sky-400 font-semibold">فيم صحة</span></div></div>
               <p className="text-xs leading-relaxed text-slate-400 mb-4">منصة <strong>FemSeha</strong> برعاية <strong>دكتور هيثم الخطيب</strong> للتثقيف والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية في المملكة العربية السعودية.</p>
               <div className="space-y-2 text-xs text-slate-300"><p className="flex items-center gap-2"><PhoneIcon className="w-4 h-4 text-emerald-400 shrink-0" /><span className="dir-ltr font-bold text-emerald-400">{DOCTOR.phoneDisplay}</span></p><p className="flex items-center gap-2"><MapPinIcon className="w-4 h-4 text-sky-400 shrink-0" /><span>المملكة العربية السعودية (السوق الأساسي)</span></p><p className="flex items-center gap-2"><ShieldCheckIcon className="w-4 h-4 text-sky-400 shrink-0" /><span>تثقيف واستشارات طبية متخصصة</span></p></div>
             </div>
