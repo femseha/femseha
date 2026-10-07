@@ -217,8 +217,6 @@ export default function ArticleView() {
           >
             <img
               src="/images/whatsapp-consultation.webp"
-              loading="lazy"
-              decoding="async"
               alt="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
               width={1024}
               height={683}
@@ -262,7 +260,6 @@ export default function ArticleView() {
               if (event.currentTarget.src !== articleImage) event.currentTarget.src = articleImage;
             }}
             alt={article.imageAlt?.trim() || article.title}
-            loading="eager"
             className="w-full h-64 sm:h-80 object-cover rounded-2xl mb-8"
           />
         )}
