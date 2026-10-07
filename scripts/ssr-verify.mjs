@@ -1,6 +1,6 @@
-process.env.VITE_SSR_VERIFY = 'true';
-
 #!/usr/bin/env node
+
+process.env.VITE_SSR_VERIFY = 'true';
 /**
  * اختبار عرض فعلي لكل مسارات الموقع عبر Vite SSR loader.
  * يرصد أي انهيار (crash) في مكوّنات الصفحات قبل النشر.
