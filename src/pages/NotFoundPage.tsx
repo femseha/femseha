@@ -4,7 +4,7 @@ import { useSeo } from '../lib/seo';
 
 export default function NotFoundPage() {
   useSeo({
-    title: 'الصفحة غير موجودة | منصة فصيحة الطبية',
+    title: 'الصفحة غير موجودة | FemSeha',
     description: 'الصفحة المطلوبة غير متوفرة. يمكنك العودة إلى الرئيسية أو تصفح الأدلة الطبية.',
     // 404 حقيقي: noindex وبلا canonical — حتى لا تُفهرس روابط ميتة ولا تُوجَّه
     // قوة الفهرسة زوراً إلى الرئيسية.
