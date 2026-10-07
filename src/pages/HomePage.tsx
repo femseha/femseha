@@ -91,6 +91,8 @@ export default function HomePage() {
               alt="دكتور هيثم الخطيب - استشارات طبية نسائية متخصصة - FemSeha"
               width={1408}
               height={768}
+              fetchPriority="high"
+              decoding="async"
               className="w-full h-auto object-cover"
             />
           </a>
