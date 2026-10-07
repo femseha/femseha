@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useSeo, breadcrumbJsonLd } from '../lib/seo';
-import { SITE, DOCTOR, WHATSAPP_LINK } from '../data/site';
+import { DOCTOR, WHATSAPP_LINK } from '../data/site';
 import { CLUSTER_PAGES, type ClusterPageData } from '../data/cluster-pages';
 
 function faqJsonLd(items: { q: string; a: string }[]) {
@@ -82,10 +82,10 @@ export default function ClusterPage() {
               <p>لا يعني ظهور مدينة أو كلمة بحث محلية أن المخزون متاح في كل فرع أو أن الخدمة متاحة في كل وقت. التوفر الفعلي يُؤكد عبر القناة الرسمية وقت الطلب.</p>
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link to="/products/" className="rounded-lg bg-slate-900 text-white px-5 py-3 font-bold">المنتجات</Link>
-              <Link to="/order/" className="rounded-lg bg-slate-900 text-white px-5 py-3 font-bold">كيفية الطلب</Link>
-              <Link to="/delivery/" className="rounded-lg bg-slate-900 text-white px-5 py-3 font-bold">التوصيل</Link>
-              <Link to="/pharmacies/" className="rounded-lg bg-slate-900 text-white px-5 py-3 font-bold">الصيدليات</Link>
+              <Link to="/products" className="rounded-lg bg-slate-900 text-white px-5 py-3 font-bold">المنتجات</Link>
+              <Link to="/order" className="rounded-lg bg-slate-900 text-white px-5 py-3 font-bold">كيفية الطلب</Link>
+              <Link to="/delivery" className="rounded-lg bg-slate-900 text-white px-5 py-3 font-bold">التوصيل</Link>
+              <Link to="/pharmacies" className="rounded-lg bg-slate-900 text-white px-5 py-3 font-bold">الصيدليات</Link>
             </div>
           </section>
         ) : null}
