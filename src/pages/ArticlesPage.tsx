@@ -50,7 +50,7 @@ export default function ArticlesPage() {
           <h2 id="saudi-medication-focus" className="text-xl font-black text-slate-900 mb-3">سايتوتك وميزوبروستول في السعودية: الدليل الطبي المحوري</h2>
           <p className="text-sm sm:text-base text-slate-600 leading-7 mb-5">إذا كنتِ تبحثين عن معلومات طبية حول سايتوتك أو ميزوبروستول في السعودية، ابدئي بالدليل المحوري الذي يشرح الاستخدامات الطبية العامة، أهمية التقييم المتخصص، المخاطر وعلامات الخطر، دون وصفات أو تعليمات للاستخدام الذاتي.</p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Link to="/cytotec-saudi-arabia/" className="inline-flex items-center justify-center rounded-xl bg-sky-600 px-5 py-3 text-sm font-bold text-white hover:bg-sky-700 transition">دليل سايتوتك في السعودية ←</Link>
+            <Link to="/cytotec-saudi-arabia" className="inline-flex items-center justify-center rounded-xl bg-sky-600 px-5 py-3 text-sm font-bold text-white hover:bg-sky-700 transition">دليل سايتوتك في السعودية ←</Link>
             <Link to="/articles/ijhad-dawai-fi-al-saudia" className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-800 hover:bg-slate-100 transition">الإجهاض الدوائي: متى يكون إجراءً طبيًا؟ ←</Link>
           </div>
         </section>
