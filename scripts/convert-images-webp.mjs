@@ -20,7 +20,7 @@ const sourceFiles = (await walk(ROOT)).filter((file) => EXTENSIONS.has(path.extn
 let converted = 0;
 for (const source of sourceFiles) {
   const ext = path.extname(source);
-  const target = source.slice(0, -ext.length) + '.webp';
+  const target = source.replace(/\.(?:jpe?g|png)(?:\.(?:jpe?g|png))?$/i, '.webp');
   if (await fs.stat(target).then(() => true).catch(() => false)) continue;
   await sharp(source).webp({ quality: 82, effort: 4 }).toFile(target);
   converted += 1;
