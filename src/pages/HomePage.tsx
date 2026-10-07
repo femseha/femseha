@@ -61,9 +61,9 @@ const FAQS = [
 
 export default function HomePage() {
   useSeo({
-    title: 'FemSeha | صحة المرأة والصحة الإنجابية في السعودية',
+    title: 'سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب',
     description:
-      'منصة FemSeha للتثقيف الصحي والاستشارات في صحة المرأة والحمل والدورة والخصوبة، بإشراف د. هيثم الخطيب.',
+      'معلومات طبية موثوقة حول سايتوتك وميسوبروستول في السعودية، مع إرشادات السلامة والاستشارات الطبية بإشراف د. هيثم الخطيب.',
     canonicalPath: '/',
     jsonLd: [websiteJsonLd(), organizationJsonLd(), doctorJsonLd()]
   });
@@ -103,16 +103,16 @@ export default function HomePage() {
             <div className="lg:col-span-7 space-y-6 text-right">
               <div className="inline-flex items-center gap-2 bg-sky-100 border border-sky-200 text-sky-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-inner">
                 <ShieldCheckIcon className="w-4 h-4 text-emerald-400" />
-                <span>FemSeha — منصة التثقيف والاستشارات الطبية</span>
+                <span>FemSeha — معلومات سايتوتك والاستشارات الطبية</span>
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
-                صحة المرأة والصحة الإنجابية في السعودية
+                سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب
               </h1>
               <p className="text-lg sm:text-xl text-slate-700 font-normal leading-relaxed">
-                معلومات طبية موثوقة واستشارات متخصصة حول صحة المرأة والصحة الإنجابية.
+                معلومات طبية متخصصة حول سايتوتك (ميسوبروستول) في السعودية، مع التركيز على السلامة الطبية والآثار الجانبية ومتى يجب طلب الرعاية.
               </p>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl">
-                منصة متخصصة في التثقيف الصحي والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية مع دكتور هيثم الخطيب.
+                منصة FemSeha تجمع بين المحتوى الطبي المتخصص حول ميسوبروستول وسلامة الاستخدام وبين الاستشارة الطبية مع دكتور هيثم الخطيب، دون تقديم تعليمات جرعات أو شراء دواء.
               </p>
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                 <a
@@ -191,19 +191,19 @@ export default function HomePage() {
                 عن FemSeha ودكتور هيثم الخطيب
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
-                رؤيتنا ورسالتنا في التوعية الصحية والاستشارات الطبية
+                من نحن وما الذي نقدمه في السعودية والخليج
               </h2>
               <p className="text-slate-600 text-sm leading-relaxed">
-                منصة <strong>FemSeha</strong> بإشراف <strong>دكتور هيثم الخطيب</strong> هي منصة متخصصة في التثقيف الصحي والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية بالمملكة العربية السعودية والخليج العربي.
+                منصة <strong>FemSeha</strong> بإشراف <strong>دكتور هيثم الخطيب</strong> تركز على المعلومات الطبية المتعلقة بصحة المرأة والصحة الإنجابية، مع اهتمام خاص بالأسئلة الشائعة حول <strong>سايتوتك وميسوبروستول في السعودية</strong> وسلامة الأدوية وعلامات الخطر. الهدف هو تقديم محتوى واضح يساعد القارئة على فهم الموضوع واتخاذ قرار صحي مسؤول، مع توجيه الحالات التي تحتاج تقييماً مباشراً إلى الطبيب المختص.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs">
                 <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                  <h3 className="font-bold text-sky-700 mb-1">الخصوصية</h3>
-                  <p className="text-slate-500">نحرص على خصوصية التواصل والاستشارات الطبية.</p>
+                  <h3 className="font-bold text-sky-700 mb-1">المحتوى الطبي</h3>
+                  <p className="text-slate-500">نقدم معلومات طبية منظمة ونوضح حدود المحتوى التثقيفي ومتى يلزم التقييم الطبي المباشر.</p>
                 </div>
                 <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                  <h3 className="font-bold text-sky-700 mb-1">المعرفة الطبية</h3>
-                  <p className="text-slate-500">محتوى تثقيفي يهدف إلى تبسيط المعلومات الطبية دون استبدال التقييم المباشر.</p>
+                  <h3 className="font-bold text-sky-700 mb-1">الاستشارة المتخصصة</h3>
+                  <p className="text-slate-500">تتيح الاستشارة مناقشة الحالة والأعراض والتاريخ الطبي مع الطبيب، ولا تُغني المعلومات العامة عن التقييم السريري.</p>
                 </div>
               </div>
             </div>
@@ -222,22 +222,22 @@ export default function HomePage() {
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">المحاور التوعوية والاستشارية الرئيسية</h2>
-          <p className="text-slate-500 text-sm max-w-2xl mx-auto">تغطي FemSeha أهم الجوانب الصحية والإنجابية التي تهم المرأة مع توفير معلومات طبية مبسطة.</p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">أهم محاور الموقع الطبية</h2>
+          <p className="text-slate-500 text-sm max-w-2xl mx-auto">يبدأ المحتوى من المحور السعودي لسايتوتك وميسوبروستول، ثم يمتد إلى الحمل والخصوبة والطوارئ وصحة المرأة.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-md hover:border-sky-600 transition-colors space-y-4 flex flex-col justify-between">
             <div className="space-y-3">
               <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-400"><TriangleAlertIcon className="w-6 h-6" /></div>
-              <h3 className="text-xl font-bold text-slate-900">سلامة الأدوية وميسوبروستول</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">معلومات تثقيفية حول سايتوتك وميسوبروستول، الاستخدامات الطبية العامة، المخاطر، وعلامات الخطر دون جرعات أو معلومات شراء.</p>
+              <h3 className="text-xl font-bold text-slate-900">سايتوتك وميسوبروستول في السعودية</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">دليل طبي يشرح ما هو سايتوتك وميسوبروستول، الاستخدامات الطبية العامة، الآثار الجانبية والتحذيرات وعلامات الخطر، مع مراعاة الأنظمة المحلية وعدم تقديم تعليمات جرعات أو شراء.</p>
               <ul className="text-xs text-slate-500 space-y-1.5 pt-2 border-t border-slate-200">
-                <li>• سايتوتك في السعودية والاستخدامات والمخاطر</li>
+                <li>• سايتوتك في السعودية: المعلومات الطبية والتحذيرات</li>
                 <li>• الحمل خارج الرحم وعلامات الخطر</li>
                 <li>• مخاطر المنتجات الدوائية مجهولة المصدر</li>
               </ul>
             </div>
-            <Link to={CATEGORY_LINKS['سايتوتك في السعودية']} className="inline-flex items-center gap-1 text-blue-700 hover:text-blue-800 text-xs font-bold pt-4"><span>اقرأ الدليل المحوري</span><ChevronLeftIcon className="w-4 h-4" /></Link>
+            <Link to={CATEGORY_LINKS['سايتوتك في السعودية']} className="inline-flex items-center gap-1 text-blue-700 hover:text-blue-800 text-xs font-bold pt-4"><span>ادخل إلى الدليل المحوري</span><ChevronLeftIcon className="w-4 h-4" /></Link>
           </div>
 
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-md hover:border-sky-600 transition-colors space-y-4 flex flex-col justify-between">
@@ -313,9 +313,9 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-br from-white via-sky-50 to-white border border-sky-200 rounded-2xl p-8 shadow-xl">
           <div className="max-w-3xl space-y-4 text-right">
-            <div className="inline-flex items-center gap-1.5 text-emerald-400 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold"><MapPinIcon className="w-4 h-4" /><span>المملكة العربية السعودية — السوق الأساسي</span></div>
-            <h2 className="text-2xl font-black text-slate-900">تثقيف صحي واستشارات للنساء في المملكة</h2>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">نقدم محتوى تثقيفياً واستشارات طبية للنساء في مختلف مناطق المملكة مع دكتور هيثم الخطيب.</p>
+            <div className="inline-flex items-center gap-1.5 text-emerald-400 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold"><MapPinIcon className="w-4 h-4" /><span>المملكة العربية السعودية — المحور الأساسي</span></div>
+            <h2 className="text-2xl font-black text-slate-900">سايتوتك في السعودية: معلومات طبية حسب المنطقة</h2>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">يستهدف هذا المحور الأسئلة الطبية المتعلقة بسايتوتك وميسوبروستول في المملكة، مع تنظيم المحتوى حسب المدن والمناطق عند توفر صفحات متخصصة لها.</p>
             <div className="flex flex-wrap gap-2 pt-2 text-xs font-semibold text-slate-700">{CITIES.map((c) => <span key={c} className="bg-white/90 border border-slate-300/80 px-3 py-1.5 rounded-lg text-sky-700">{c}</span>)}</div>
           </div>
         </div>
@@ -330,8 +330,8 @@ export default function HomePage() {
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center space-y-4">
-          <h2 className="text-2xl font-bold text-slate-900">هل لديك استفسار صحي؟</h2>
-          <p className="text-slate-600 text-sm leading-relaxed max-w-xl mx-auto">يمكنك التواصل مع دكتور هيثم الخطيب للحصول على توجيه واستشارة طبية متخصصة حول صحة المرأة والصحة الإنجابية.</p>
+          <h2 className="text-2xl font-bold text-slate-900">هل لديك سؤال طبي عن سايتوتك أو صحة المرأة؟</h2>
+          <p className="text-slate-600 text-sm leading-relaxed max-w-xl mx-auto">يمكنك التواصل مع دكتور هيثم الخطيب لمناقشة الاستفسارات الطبية المتعلقة بصحة المرأة وميسوبروستول، مع التأكيد أن الحالات الطارئة تحتاج إلى رعاية طبية عاجلة.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition-colors"><MessageCircleIcon className="w-4 h-4" /><span>تواصل عبر واتساب</span></a>
             <Link to="/consultation" className="inline-flex items-center gap-2 bg-white hover:bg-slate-100 text-slate-800 font-bold px-6 py-3 rounded-xl border border-slate-300 text-sm transition-colors">صفحة الاستشارات</Link>
@@ -342,7 +342,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="my-8 p-6 bg-white text-slate-800 border-r-4 border-sky-500 rounded-xl shadow-md">
           <div className="flex items-center gap-2 mb-2 text-sky-700 font-bold text-base"><ShieldAlertIcon className="w-5 h-5 shrink-0" /><h3>إخلاء مسؤولية طبية</h3></div>
-          <p className="text-slate-600 text-xs md:text-sm leading-relaxed">إخلاء مسؤولية: المحتوى المنشور في FemSeha مخصص للتثقيف والتوعية الصحية والاستشارات الطبية، ولا يُعد بديلاً عن التشخيص أو التقييم الطبي المباشر. تختلف الحالات الطبية من شخص لآخر، ويُنصح بمراجعة الطبيب المختص عند الحاجة. وفي الحالات الطارئة، يجب طلب الرعاية الطبية العاجلة.</p>
+          <p className="text-slate-600 text-xs md:text-sm leading-relaxed">إخلاء مسؤولية: المحتوى المنشور في FemSeha للتثقيف والتوعية الصحية ولا يُعد بديلاً عن التشخيص أو التقييم الطبي المباشر. لا تتضمن صفحات الموقع تعليمات جرعات أو إرشادات شراء للأدوية. تختلف الحالات الطبية من شخص لآخر، ويُنصح بمراجعة الطبيب المختص عند الحاجة. وفي الحالات الطارئة، يجب طلب الرعاية الطبية العاجلة.</p>
         </div>
       </section>
     </div>
