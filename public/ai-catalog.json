@@ -1,0 +1,35 @@
+{
+  "version": "1.0",
+  "site": {
+    "name": "FemSeha | فيم صحة",
+    "url": "https://femseha.com/",
+    "language": "ar"
+  },
+  "title": "سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب",
+  "doctor": {
+    "name": "د. هيثم الخطيب",
+    "url": "https://femseha.com/doctor"
+  },
+  "resources": [
+    {
+      "type": "pillar",
+      "title": "سايتوتك في السعودية",
+      "url": "https://femseha.com/cytotec-saudi-arabia"
+    },
+    {
+      "type": "topic",
+      "title": "معلومات ميسوبروستول",
+      "url": "https://femseha.com/misoprostol"
+    },
+    {
+      "type": "topic",
+      "title": "الموسوعة الطبية",
+      "url": "https://femseha.com/articles"
+    },
+    {
+      "type": "service",
+      "title": "الاستشارات الطبية",
+      "url": "https://femseha.com/consultation"
+    }
+  ]
+}

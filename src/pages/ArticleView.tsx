@@ -254,11 +254,12 @@ export default function ArticleView() {
         {articleImage && (
           <img
             src={preferredWebpImageUrl(articleImage)}
+            loading="lazy"
+            decoding="async"
             onError={(event) => {
               if (event.currentTarget.src !== articleImage) event.currentTarget.src = articleImage;
             }}
             alt={article.imageAlt?.trim() || article.title}
-            loading="eager"
             className="w-full h-64 sm:h-80 object-cover rounded-2xl mb-8"
           />
         )}

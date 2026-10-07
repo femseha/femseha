@@ -80,7 +80,9 @@ export default function HomePage() {
               width={1408}
               height={768}
               fetchPriority="high"
-              decoding="async"
+              decoding="sync"
+              loading="eager"
+              sizes="100vw"
               className="w-full h-auto object-cover"
             />
           </a>
@@ -147,6 +149,8 @@ export default function HomePage() {
                     alt="شعار موقع سايتوتك في السعودية"
                     width={64}
                     height={64}
+                    loading="lazy"
+                    decoding="async"
                     className="w-16 h-16 rounded-2xl shadow-lg shrink-0"
                   />
                   <div>
