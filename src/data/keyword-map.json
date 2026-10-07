@@ -140,5 +140,565 @@
       }
     },
     "city_rule": "صفحات المدن تستهدف النية المحلية مع محتوى محلي فعلي. لا ننشئ صفحات لكل حي أو نسخة مكررة من صفحة السعودية."
-  }
+  },
+  "keywords": [
+    {
+      "keyword": "سايتوتك في السعودية",
+      "searchIntent": "سايتوتك في السعودية",
+      "country": "SA",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "الصفحة المحورية السعودية"
+    },
+    {
+      "keyword": "سايتوتك السعودية",
+      "searchIntent": "سايتوتك في السعودية",
+      "country": "SA",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "الصفحة المحورية السعودية"
+    },
+    {
+      "keyword": "Cytotec in Saudi Arabia",
+      "searchIntent": "سايتوتك في السعودية",
+      "country": "SA",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "الصفحة المحورية السعودية"
+    },
+    {
+      "keyword": "Cytotec Saudi Arabia",
+      "searchIntent": "سايتوتك في السعودية",
+      "country": "SA",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "الصفحة المحورية السعودية"
+    },
+    {
+      "keyword": "حبوب سايتوتك في السعودية",
+      "searchIntent": "سايتوتك في السعودية",
+      "country": "SA",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "الصفحة المحورية السعودية"
+    },
+    {
+      "keyword": "حبوب اجهاض سايتوتك",
+      "searchIntent": "سايتوتك في السعودية",
+      "country": "SA",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "MEDIUM",
+      "action": "الصفحة المحورية السعودية"
+    },
+    {
+      "keyword": "ميسوبروستول في السعودية",
+      "searchIntent": "سايتوتك في السعودية",
+      "country": "SA",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "MEDIUM",
+      "action": "الصفحة المحورية السعودية"
+    },
+    {
+      "keyword": "Misoprostol Saudi Arabia",
+      "searchIntent": "سايتوتك في السعودية",
+      "country": "SA",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "MEDIUM",
+      "action": "الصفحة المحورية السعودية"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في السعودية",
+      "searchIntent": "سايتوتك في السعودية",
+      "country": "SA",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "MEDIUM",
+      "action": "الصفحة المحورية السعودية"
+    },
+    {
+      "keyword": "حبوب الإجهاض في السعودية",
+      "searchIntent": "سايتوتك في السعودية",
+      "country": "SA",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "MEDIUM",
+      "action": "الصفحة المحورية السعودية"
+    },
+    {
+      "keyword": "منتجات سايتوتك",
+      "searchIntent": "تجاري/استفسار",
+      "country": "SA",
+      "currentUrl": "/products/",
+      "targetUrl": "/products/",
+      "priority": "HIGH",
+      "action": "صفحة المنتجات"
+    },
+    {
+      "keyword": "سايتوتك للبيع في السعودية",
+      "searchIntent": "تجاري/استفسار",
+      "country": "SA",
+      "currentUrl": "/products/",
+      "targetUrl": "/products/",
+      "priority": "HIGH",
+      "action": "صفحة المنتجات"
+    },
+    {
+      "keyword": "الاستفسار عن سايتوتك",
+      "searchIntent": "تجاري/استفسار",
+      "country": "SA",
+      "currentUrl": "/products/",
+      "targetUrl": "/products/",
+      "priority": "HIGH",
+      "action": "صفحة المنتجات"
+    },
+    {
+      "keyword": "توافر سايتوتك",
+      "searchIntent": "تجاري/استفسار",
+      "country": "SA",
+      "currentUrl": "/products/",
+      "targetUrl": "/products/",
+      "priority": "HIGH",
+      "action": "صفحة المنتجات"
+    },
+    {
+      "keyword": "طلب سايتوتك",
+      "searchIntent": "تجاري/طلب",
+      "country": "SA",
+      "currentUrl": "/order/",
+      "targetUrl": "/order/",
+      "priority": "HIGH",
+      "action": "صفحة الطلب"
+    },
+    {
+      "keyword": "كيفية طلب سايتوتك",
+      "searchIntent": "تجاري/طلب",
+      "country": "SA",
+      "currentUrl": "/order/",
+      "targetUrl": "/order/",
+      "priority": "HIGH",
+      "action": "صفحة الطلب"
+    },
+    {
+      "keyword": "شراء سايتوتك في السعودية",
+      "searchIntent": "تجاري/طلب",
+      "country": "SA",
+      "currentUrl": "/order/",
+      "targetUrl": "/order/",
+      "priority": "HIGH",
+      "action": "صفحة الطلب"
+    },
+    {
+      "keyword": "سايتوتك واتساب",
+      "searchIntent": "تجاري/طلب",
+      "country": "SA",
+      "currentUrl": "/order/",
+      "targetUrl": "/order/",
+      "priority": "HIGH",
+      "action": "صفحة الطلب"
+    },
+    {
+      "keyword": "طلب ميسوبروستول",
+      "searchIntent": "تجاري/طلب",
+      "country": "SA",
+      "currentUrl": "/order/",
+      "targetUrl": "/order/",
+      "priority": "HIGH",
+      "action": "صفحة الطلب"
+    },
+    {
+      "keyword": "توصيل سايتوتك في السعودية",
+      "searchIntent": "تجاري/توصيل",
+      "country": "SA",
+      "currentUrl": "/delivery/",
+      "targetUrl": "/delivery/",
+      "priority": "HIGH",
+      "action": "صفحة التوصيل"
+    },
+    {
+      "keyword": "توصيل سايتوتك الرياض",
+      "searchIntent": "تجاري/توصيل",
+      "country": "SA",
+      "currentUrl": "/delivery/",
+      "targetUrl": "/delivery/",
+      "priority": "HIGH",
+      "action": "صفحة التوصيل"
+    },
+    {
+      "keyword": "توصيل سايتوتك جدة",
+      "searchIntent": "تجاري/توصيل",
+      "country": "SA",
+      "currentUrl": "/delivery/",
+      "targetUrl": "/delivery/",
+      "priority": "HIGH",
+      "action": "صفحة التوصيل"
+    },
+    {
+      "keyword": "توصيل سايتوتك مكة",
+      "searchIntent": "تجاري/توصيل",
+      "country": "SA",
+      "currentUrl": "/delivery/",
+      "targetUrl": "/delivery/",
+      "priority": "HIGH",
+      "action": "صفحة التوصيل"
+    },
+    {
+      "keyword": "توصيل سايتوتك الدمام",
+      "searchIntent": "تجاري/توصيل",
+      "country": "SA",
+      "currentUrl": "/delivery/",
+      "targetUrl": "/delivery/",
+      "priority": "HIGH",
+      "action": "صفحة التوصيل"
+    },
+    {
+      "keyword": "توصيل ميسوبروستول",
+      "searchIntent": "تجاري/توصيل",
+      "country": "SA",
+      "currentUrl": "/delivery/",
+      "targetUrl": "/delivery/",
+      "priority": "HIGH",
+      "action": "صفحة التوصيل"
+    },
+    {
+      "keyword": "صيدليات سايتوتك",
+      "searchIntent": "تجاري/صيدليات",
+      "country": "SA",
+      "currentUrl": "/pharmacies/",
+      "targetUrl": "/pharmacies/",
+      "priority": "HIGH",
+      "action": "صفحة الصيدليات"
+    },
+    {
+      "keyword": "سايتوتك من الصيدلية",
+      "searchIntent": "تجاري/صيدليات",
+      "country": "SA",
+      "currentUrl": "/pharmacies/",
+      "targetUrl": "/pharmacies/",
+      "priority": "HIGH",
+      "action": "صفحة الصيدليات"
+    },
+    {
+      "keyword": "سايتوتك النهدي",
+      "searchIntent": "تجاري/صيدليات",
+      "country": "SA",
+      "currentUrl": "/pharmacies/",
+      "targetUrl": "/pharmacies/",
+      "priority": "HIGH",
+      "action": "صفحة الصيدليات"
+    },
+    {
+      "keyword": "سايتوتك السعودية صيدلية",
+      "searchIntent": "تجاري/صيدليات",
+      "country": "SA",
+      "currentUrl": "/pharmacies/",
+      "targetUrl": "/pharmacies/",
+      "priority": "HIGH",
+      "action": "صفحة الصيدليات"
+    },
+    {
+      "keyword": "ميسوبروستول صيدلية السعودية",
+      "searchIntent": "تجاري/صيدليات",
+      "country": "SA",
+      "currentUrl": "/pharmacies/",
+      "targetUrl": "/pharmacies/",
+      "priority": "HIGH",
+      "action": "صفحة الصيدليات"
+    },
+    {
+      "keyword": "ميسوبروستول",
+      "searchIntent": "معلوماتي",
+      "country": "GLOBAL",
+      "currentUrl": "/misoprostol/",
+      "targetUrl": "/misoprostol/",
+      "priority": "HIGH",
+      "action": "محور ميسوبروستول"
+    },
+    {
+      "keyword": "معلومات ميسوبروستول",
+      "searchIntent": "معلوماتي",
+      "country": "GLOBAL",
+      "currentUrl": "/misoprostol/",
+      "targetUrl": "/misoprostol/",
+      "priority": "HIGH",
+      "action": "محور ميسوبروستول"
+    },
+    {
+      "keyword": "Misoprostol",
+      "searchIntent": "معلوماتي",
+      "country": "GLOBAL",
+      "currentUrl": "/misoprostol/",
+      "targetUrl": "/misoprostol/",
+      "priority": "HIGH",
+      "action": "محور ميسوبروستول"
+    },
+    {
+      "keyword": "Cytotec Misoprostol",
+      "searchIntent": "معلوماتي",
+      "country": "GLOBAL",
+      "currentUrl": "/misoprostol/",
+      "targetUrl": "/misoprostol/",
+      "priority": "HIGH",
+      "action": "محور ميسوبروستول"
+    },
+    {
+      "keyword": "سايتوتك وميسوبروستول",
+      "searchIntent": "معلوماتي",
+      "country": "GLOBAL",
+      "currentUrl": "/misoprostol/",
+      "targetUrl": "/misoprostol/",
+      "priority": "HIGH",
+      "action": "محور ميسوبروستول"
+    },
+    {
+      "keyword": "ميفيبريستون وميسوبروستول",
+      "searchIntent": "معلوماتي",
+      "country": "GLOBAL",
+      "currentUrl": "/misoprostol/",
+      "targetUrl": "/misoprostol/",
+      "priority": "HIGH",
+      "action": "محور ميسوبروستول"
+    },
+    {
+      "keyword": "الآثار الجانبية لميسوبروستول",
+      "searchIntent": "معلوماتي",
+      "country": "GLOBAL",
+      "currentUrl": "/misoprostol/",
+      "targetUrl": "/misoprostol/",
+      "priority": "HIGH",
+      "action": "محور ميسوبروستول"
+    },
+    {
+      "keyword": "ما هو ميسوبروستول",
+      "searchIntent": "معلوماتي",
+      "country": "GLOBAL",
+      "currentUrl": "/misoprostol/",
+      "targetUrl": "/misoprostol/",
+      "priority": "HIGH",
+      "action": "محور ميسوبروستول"
+    },
+    {
+      "keyword": "سايتوتك في السعودية",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك الرياض",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك جدة",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك مكة",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك المدينة",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك الدمام",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك الخبر",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك تبوك",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-saudi-arabia/",
+      "targetUrl": "/cytotec-saudi-arabia/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك في الإمارات",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "UAE",
+      "currentUrl": "/cytotec-uae/",
+      "targetUrl": "/cytotec-uae/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك الإمارات",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "UAE",
+      "currentUrl": "/cytotec-uae/",
+      "targetUrl": "/cytotec-uae/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "Cytotec in UAE",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "UAE",
+      "currentUrl": "/cytotec-uae/",
+      "targetUrl": "/cytotec-uae/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "Misoprostol UAE",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "UAE",
+      "currentUrl": "/cytotec-uae/",
+      "targetUrl": "/cytotec-uae/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك دبي",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "UAE",
+      "currentUrl": "/cytotec-uae/",
+      "targetUrl": "/cytotec-uae/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك أبوظبي",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "UAE",
+      "currentUrl": "/cytotec-uae/",
+      "targetUrl": "/cytotec-uae/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك في الكويت",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "KUWAIT",
+      "currentUrl": "/cytotec-kuwait/",
+      "targetUrl": "/cytotec-kuwait/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك الكويت",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "KUWAIT",
+      "currentUrl": "/cytotec-kuwait/",
+      "targetUrl": "/cytotec-kuwait/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "Cytotec in Kuwait",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "KUWAIT",
+      "currentUrl": "/cytotec-kuwait/",
+      "targetUrl": "/cytotec-kuwait/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "Misoprostol Kuwait",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "KUWAIT",
+      "currentUrl": "/cytotec-kuwait/",
+      "targetUrl": "/cytotec-kuwait/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك الكويت صيدلية",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "KUWAIT",
+      "currentUrl": "/cytotec-kuwait/",
+      "targetUrl": "/cytotec-kuwait/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك في البحرين",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "BAHRAIN",
+      "currentUrl": "/cytotec-bahrain/",
+      "targetUrl": "/cytotec-bahrain/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك البحرين",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "BAHRAIN",
+      "currentUrl": "/cytotec-bahrain/",
+      "targetUrl": "/cytotec-bahrain/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "Cytotec in Bahrain",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "BAHRAIN",
+      "currentUrl": "/cytotec-bahrain/",
+      "targetUrl": "/cytotec-bahrain/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "Misoprostol Bahrain",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "BAHRAIN",
+      "currentUrl": "/cytotec-bahrain/",
+      "targetUrl": "/cytotec-bahrain/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك المنامة",
+      "searchIntent": "محلي/معلوماتي وتجاري",
+      "country": "BAHRAIN",
+      "currentUrl": "/cytotec-bahrain/",
+      "targetUrl": "/cytotec-bahrain/",
+      "priority": "HIGH",
+      "action": "صفحة الدولة"
+    }
+  ]
 }
