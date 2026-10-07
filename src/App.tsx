@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Routes, Route, Link, NavLink, Navigate, useLocation, useParams } from 'react-router-dom';
 import { DOCTOR, WHATSAPP_LINK } from './data/site';
-import { getArticleBySlug } from './data/articles';
-import { isConsolidatedCytotecArticle, SAUDI_CYTOTEC_ROUTE } from './data/seo-quality';
+import { SAUDI_CYTOTEC_ROUTE } from './data/seo-quality';
 import {
   HeartIcon,
   MenuIcon,
@@ -15,8 +14,8 @@ import {
   MessageCircleIcon,
 } from './components/Icons';
 import HomePage from './pages/HomePage';
-import ArticlesPage from './pages/ArticlesPage';
-import ArticleView from './pages/ArticleView';
+import ArticlesPage from './pages/ArticlesPageEntry';
+import ArticleView from './pages/ArticleViewEntry';
 import DoctorPage from './pages/DoctorPage';
 import ConsultationPage from './pages/ConsultationPage';
 import DisclaimerPage from './pages/DisclaimerPage';
@@ -34,8 +33,11 @@ function ScrollToTop() {
 
 function ArticleRoute() {
   const { slug } = useParams<{ slug: string }>();
-  const article = getArticleBySlug(slug);
-  if (article && isConsolidatedCytotecArticle(article)) {
+  const consolidatedSlugs = new Set([
+    'cytotec-misoprostol-saudi-riyadh-guide',
+    'cytotec-in-saudi-arabia-medical-info-risks'
+  ]);
+  if (slug && consolidatedSlugs.has(slug)) {
     return <Navigate replace to={SAUDI_CYTOTEC_ROUTE} />;
   }
   return <ArticleView />;
@@ -144,7 +146,8 @@ export function App() {
       </header>
 
       <main className="flex-grow">
-        <Routes>
+        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center text-slate-500">جاري تحميل الصفحة…</div>}>
+          <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/articles" element={<ArticlesPage />} />
           <Route path="/articles/:slug" element={<ArticleRoute />} />
@@ -180,7 +183,8 @@ export function App() {
           <Route path="/medical-disclaimer" element={<DisclaimerPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+          </Routes>
+        </Suspense>
       </main>
 
       <footer className="bg-slate-950 text-slate-300 border-t border-slate-800 pt-16 pb-12">
