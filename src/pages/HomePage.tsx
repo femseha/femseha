@@ -21,8 +21,8 @@ import {
 } from '../components/Icons';
 
 const CATEGORY_LINKS = {
-  'سايتوتك في السعودية': '/cytotec-saudi-arabia/',
-  'معلومات ميسوبروستول': '/misoprostol/',
+  'سايتوتك في السعودية': '/cytotec-saudi-arabia',
+  'معلومات ميسوبروستول': '/misoprostol',
   'دليل السلامة والطوارئ': '/articles/pregnancy-danger-signs-emergency',
   'صحة المرأة': '/articles/pcos-symptoms-fertility-treatment',
 };
@@ -228,8 +228,8 @@ export default function HomePage() {
         </div>
         <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {[
-            ['سايتوتك في السعودية','/cytotec-saudi-arabia/','الصفحة المحورية والبحث المحلي والمنتجات والطلب والتوصيل.'],
-            ['معلومات ميسوبروستول','/misoprostol/','المادة الفعالة، العلاقة مع Cytotec، التحذيرات والمعلومات الدوائية.'],
+            ['سايتوتك في السعودية','/cytotec-saudi-arabia','الصفحة المحورية والبحث المحلي والمنتجات والطلب والتوصيل.'],
+            ['معلومات ميسوبروستول','/misoprostol','المادة الفعالة، العلاقة مع Cytotec، التحذيرات والمعلومات الدوائية.'],
             ['الحمل والخصوبة','/articles','الحمل المبكر، الدورة، الخصوبة، الحمل خارج الرحم وعلامات الخطر.'],
             ['الاستشارات الطبية','/consultation','التواصل مع د. هيثم الخطيب والاستشارة الطبية.']
           ].map(([title, href, text]) => (
