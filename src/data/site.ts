@@ -1,6 +1,6 @@
 export const SITE = {
   name: "FemSeha | فيم صحة",
-  title: "سايتوتك في السعودية | Cytotec وMisoprostol | دكتور هيثم الخطيب",
+  title: "سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب",
   url: "https://femseha.com",
   description: "سايتوتك في السعودية وCytotec وMisoprostol: معلومات طبية، السلامة، الاستشارة، والطلب والتوصيل عبر القنوات المرخصة وفق الأنظمة.",
   phone: "00966599287172",
