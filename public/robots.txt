@@ -5,5 +5,3 @@ Disallow: /search?
 Disallow: /admin
 
 Sitemap: https://femseha.com/sitemap.xml
-
-Agentmap: https://femseha.com/ai-catalog.json
