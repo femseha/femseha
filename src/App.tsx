@@ -113,7 +113,7 @@ export function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <Link to="/" className="flex items-center gap-3 group" aria-label="FemSeha — الرئيسية">
-              <img src="/cdn-cgi/image/width=96,quality=70,format=auto/saudi-cytotec-logo.webp" alt="شعار موقع سايتوتك في السعودية" width={48} height={48} className="w-12 h-12 rounded-xl shadow-lg group-hover:scale-105 transition-transform" />
+              <img src="/saudi-cytotec-logo.webp" alt="شعار موقع سايتوتك في السعودية" width={48} height={48} className="w-12 h-12 rounded-xl shadow-lg group-hover:scale-105 transition-transform" />
               <div><span className="block text-2xl font-black tracking-tight text-white group-hover:text-sky-300 transition-colors">FemSeha</span><span className="block text-xs text-sky-300 font-semibold tracking-wide">فيم صحة</span></div>
             </Link>
 
