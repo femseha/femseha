@@ -5,7 +5,7 @@ import { useSeo, doctorJsonLd, websiteJsonLd, breadcrumbJsonLd } from '../lib/se
 
 export default function DoctorPage() {
   useSeo({
-    title: `عن الطبيب | ${DOCTOR.name} | منصة فصيحة الطبية`,
+    title: `عن الطبيب | ${DOCTOR.name} | FemSeha`,
     description: `${DOCTOR.name} — ${DOCTOR.title}. ${DOCTOR.experience}. استشارات طبية تخصصية في صحة المرأة والتوليد والعقم.`,
     canonicalPath: '/doctor',
     jsonLd: [
