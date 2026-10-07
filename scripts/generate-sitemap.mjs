@@ -67,6 +67,7 @@ function validateArticles(articles, sourceLabel) {
 
 export function isSitemapExcluded(article) {
   const title = String(article.title || "");
+  if (article.slug === "cytotec-misoprostol-saudi-riyadh-guide") return true;
   if (article.slug === "cytotec-in-saudi-arabia-medical-info-risks") return true;
   if (article.primaryKeyword === "حبوب سايتوتك في السعودية") return true;
   if (/ميزوبرستول في السعودية\s*\|\s*الموقع الرسمي/i.test(title)) return true;
