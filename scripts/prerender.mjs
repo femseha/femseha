@@ -12,7 +12,7 @@ if (!existsSync(distDir)) throw new Error('dist/ does not exist. Run the client 
 if (!existsSync(sitemapPath)) throw new Error('public/sitemap.xml does not exist. Generate the sitemap before prerendering.');
 
 rmSync(ssrDir, { recursive: true, force: true });
-execFileSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', ['vite', 'build', '--ssr', 'src/entry-server.tsx', '--outDir', '.ssr-build'], { stdio: 'inherit' });
+execFileSync(process.execPath, [resolve(root, 'node_modules/vite/bin/vite.js'), 'build', '--ssr', 'src/entry-server.tsx', '--outDir', '.ssr-build'], { stdio: 'inherit' });
 
 const server = await import(pathToFileURL(join(ssrDir, 'entry-server.js')).href);
 const template = readFileSync(join(distDir, 'index.html'), 'utf8');

@@ -1,0 +1,45 @@
+name: Convert site images to WebP
+
+on:
+  push:
+    branches:
+      - images-webp-alt-optimization
+    paths:
+      - 'public/**'
+      - 'scripts/convert-images-webp.mjs'
+      - '.github/workflows/convert-images-webp.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    if: ${{ !contains(github.event.head_commit.message, '[skip webp]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install image converter
+        run: npm install --no-save sharp@0.33.5
+
+      - name: Convert JPEG/PNG assets to WebP
+        run: node scripts/convert-images-webp.mjs
+
+      - name: Commit generated WebP files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public
+          if git diff --cached --quiet; then
+            echo "No new WebP files."
+            exit 0
+          fi
+          git commit -m "chore: generate WebP image variants [skip webp]"
+          git push

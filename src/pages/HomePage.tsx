@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import { articles } from '../data/articles';
 import { WHATSAPP_LINK } from '../data/site';
-import { isIndexableArticle } from '../data/seo-quality';
 import { useSeo, websiteJsonLd, organizationJsonLd, doctorJsonLd } from '../lib/seo';
+import { FEATURED_ARTICLES } from '../data/featured-articles';
 import {
   ShieldCheckIcon,
   ShieldAlertIcon,
@@ -21,23 +20,17 @@ import {
 } from '../components/Icons';
 
 const CATEGORY_LINKS = {
-  'سايتوتك في السعودية': '/articles/cytotec-misoprostol-saudi-riyadh-guide',
+  'سايتوتك في السعودية': '/cytotec-saudi-arabia',
+  'معلومات ميسوبروستول': '/misoprostol',
   'دليل السلامة والطوارئ': '/articles/pregnancy-danger-signs-emergency',
   'صحة المرأة': '/articles/pcos-symptoms-fertility-treatment',
 };
 
-const FEATURED_SLUGS = [
-  'early-pregnancy-symptoms-guide',
-  'home-pregnancy-test-accuracy',
-  'delayed-period-causes-besides-pregnancy',
-  'pcos-symptoms-fertility-treatment',
-  'pregnancy-danger-signs-emergency',
-  'cytotec-misoprostol-saudi-riyadh-guide',
-];
+
 
 const CITIES = [
-  'الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام', 'الخبر',
-  'القطيف', 'صفوى', 'الأحساء', 'الهفوف', 'القصيم', 'بريدة', 'تبوك', 'أبها', 'جازان',
+  ['الرياض','/cytotec-riyadh'],['جدة','/cytotec-jeddah'],['مكة المكرمة','/cytotec-makkah'],['المدينة المنورة','/cytotec-madinah'],['الدمام','/cytotec-dammam'],['الخبر','/cytotec-khobar'],
+  ['الطائف','/cytotec-taif'],['تبوك','/cytotec-tabuk'],['أبها','/cytotec-abha'],['جازان','/cytotec-jazan'],['بريدة','/cytotec-buraydah'],['الأحساء','/cytotec-ahsa'],['خميس مشيط','/cytotec-khamis-mushait'],
 ];
 
 const FAQS = [
@@ -61,18 +54,14 @@ const FAQS = [
 
 export default function HomePage() {
   useSeo({
-    title: 'FemSeha | صحة المرأة والصحة الإنجابية في السعودية',
+    title: 'سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب',
     description:
-      'منصة FemSeha للتثقيف الصحي والاستشارات في صحة المرأة والحمل والدورة والخصوبة، بإشراف د. هيثم الخطيب.',
+      'سايتوتك في السعودية وCytotec وMisoprostol: معلومات طبية، السلامة، الاستشارة، والطلب والتوصيل عبر القنوات المرخصة وفق الأنظمة.',
     canonicalPath: '/',
     jsonLd: [websiteJsonLd(), organizationJsonLd(), doctorJsonLd()]
   });
 
-  const indexableArticles = articles.filter(isIndexableArticle);
-  const bySlug = new Map(indexableArticles.map((article) => [article.slug, article]));
-  const featuredArticles = FEATURED_SLUGS
-    .map((slug) => bySlug.get(slug))
-    .filter((article): article is NonNullable<typeof article> => Boolean(article));
+  const featuredArticles = FEATURED_ARTICLES;
 
   return (
     <div className="space-y-16 pb-16">
@@ -86,10 +75,12 @@ export default function HomePage() {
             aria-label="استشارة طبية نسائية متخصصة - FemSeha"
           >
             <img
-              src="/images/dr-haitham-hero.jpg"
+              src="/images/dr-haitham-hero.webp"
               alt="دكتور هيثم الخطيب - استشارات طبية نسائية متخصصة - FemSeha"
               width={1408}
               height={768}
+              fetchPriority="high"
+              decoding="async"
               className="w-full h-auto object-cover"
             />
           </a>
@@ -106,10 +97,10 @@ export default function HomePage() {
                 <span>FemSeha — منصة التثقيف والاستشارات الطبية</span>
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
-                صحة المرأة والصحة الإنجابية في السعودية
+                سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب
               </h1>
               <p className="text-lg sm:text-xl text-slate-700 font-normal leading-relaxed">
-                معلومات طبية موثوقة واستشارات متخصصة حول صحة المرأة والصحة الإنجابية.
+                سايتوتك في السعودية وCytotec وMisoprostol، مع معلومات طبية موثوقة، استشارات متخصصة، ومسار واضح للطلب والتوصيل عبر القنوات المرخصة.
               </p>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl">
                 منصة متخصصة في التثقيف الصحي والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية مع دكتور هيثم الخطيب.
@@ -152,8 +143,8 @@ export default function HomePage() {
               <div className="bg-gradient-to-b from-white to-slate-50 p-6 sm:p-8 rounded-2xl border border-sky-200 shadow-2xl space-y-6">
                 <div className="flex items-center gap-4 border-b border-slate-200 pb-5">
                   <img
-                    src="/logo.webp"
-                    alt="شعار FemSeha | فيم صحة"
+                    src="/saudi-cytotec-logo.webp"
+                    alt="شعار موقع سايتوتك في السعودية"
                     width={64}
                     height={64}
                     className="w-16 h-16 rounded-2xl shadow-lg shrink-0"
@@ -220,6 +211,27 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center space-y-3">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">المحاور الأربعة للموقع</h2>
+          <p className="text-slate-500 text-sm max-w-3xl mx-auto">موقع متخصص بهوية واضحة: محور السعودية، معلومات ميسوبروستول، الحمل والخصوبة، والاستشارات الطبية، مع فصل واضح للجانب التجاري.</p>
+        </div>
+        <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {[
+            ['سايتوتك في السعودية','/cytotec-saudi-arabia','الصفحة المحورية والبحث المحلي والمنتجات والطلب والتوصيل.'],
+            ['معلومات ميسوبروستول','/misoprostol','المادة الفعالة، العلاقة مع Cytotec، التحذيرات والمعلومات الدوائية.'],
+            ['الحمل والخصوبة','/articles','الحمل المبكر، الدورة، الخصوبة، الحمل خارج الرحم وعلامات الخطر.'],
+            ['الاستشارات الطبية','/consultation','التواصل مع د. هيثم الخطيب والاستشارة الطبية.']
+          ].map(([title, href, text]) => (
+            <Link key={href} to={href} className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:border-sky-400 hover:shadow-md transition-all">
+              <h3 className="text-lg font-extrabold text-slate-900">{title}</h3>
+              <p className="mt-2 text-xs leading-6 text-slate-600">{text}</p>
+              <span className="mt-4 inline-block text-xs font-bold text-sky-700">استكشف المحور ←</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">المحاور التوعوية والاستشارية الرئيسية</h2>
@@ -276,7 +288,7 @@ export default function HomePage() {
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">صفحات نوصي بالبدء بها</h2>
             <p className="text-slate-500 text-xs sm:text-sm mt-1">أهم الأدلة التي تستهدف الأسئلة الأكثر فائدة للمرأة في مراحل الحمل والدورة والخصوبة.</p>
           </div>
-          <Link to="/articles" className="inline-flex items-center gap-2 bg-white hover:bg-slate-100 border border-slate-300 text-sky-700 font-bold px-4 py-2 rounded-lg text-xs transition-colors"><span>جميع المقالات الـ {indexableArticles.length}</span><ChevronLeftIcon className="w-4 h-4" /></Link>
+          <Link to="/articles" className="inline-flex items-center gap-2 bg-white hover:bg-slate-100 border border-slate-300 text-sky-700 font-bold px-4 py-2 rounded-lg text-xs transition-colors"><span>جميع الأدلة الطبية</span><ChevronLeftIcon className="w-4 h-4" /></Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -316,7 +328,7 @@ export default function HomePage() {
             <div className="inline-flex items-center gap-1.5 text-emerald-400 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold"><MapPinIcon className="w-4 h-4" /><span>المملكة العربية السعودية — السوق الأساسي</span></div>
             <h2 className="text-2xl font-black text-slate-900">تثقيف صحي واستشارات للنساء في المملكة</h2>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">نقدم محتوى تثقيفياً واستشارات طبية للنساء في مختلف مناطق المملكة مع دكتور هيثم الخطيب.</p>
-            <div className="flex flex-wrap gap-2 pt-2 text-xs font-semibold text-slate-700">{CITIES.map((c) => <span key={c} className="bg-white/90 border border-slate-300/80 px-3 py-1.5 rounded-lg text-sky-700">{c}</span>)}</div>
+            <div className="flex flex-wrap gap-2 pt-2 text-xs font-semibold text-slate-700">{CITIES.map(([city, href]) => <Link key={href} to={href} className="bg-white/90 border border-slate-300/80 px-3 py-1.5 rounded-lg text-sky-700 hover:border-sky-400 hover:text-sky-800">{city}</Link>)}</div>
           </div>
         </div>
       </section>

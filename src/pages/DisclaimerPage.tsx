@@ -5,9 +5,9 @@ import { useSeo, websiteJsonLd } from '../lib/seo';
 
 export default function DisclaimerPage() {
   useSeo({
-    title: 'إخلاء المسؤولية الطبية | منصة فصيحة الطبية',
+    title: 'إخلاء المسؤولية الطبية | FemSeha',
     description:
-      'إخلاء المسؤولية الطبية لمنصة فصيحة: المحتوى تثقيفي عام بإشراف د. هيثم الخطيب ولا يغني عن التقييم الطبي المباشر.',
+      'إخلاء المسؤولية الطبية في FemSeha: المحتوى تثقيفي عام بإشراف د. هيثم الخطيب ولا يغني عن التقييم الطبي المباشر.',
     canonicalPath: '/medical-disclaimer',
     jsonLd: [websiteJsonLd()]
   });

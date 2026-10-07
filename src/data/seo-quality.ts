@@ -1,6 +1,7 @@
 import type { ArticleRecord } from './types';
 
 export const SAUDI_CYTOTEC_PILLAR = 'cytotec-misoprostol-saudi-riyadh-guide';
+export const SAUDI_CYTOTEC_ROUTE = '/cytotec-saudi-arabia/';
 
 /** إصلاح آثار النصوص العربية التي تسربت إليها أحرف لاتينية منفردة. */
 export function normalizeArabicArtifacts(text: string): string {
@@ -54,7 +55,7 @@ export function sanitizeArticle(article: ArticleRecord): ArticleRecord {
 }
 
 export function isConsolidatedCytotecArticle(article: ArticleRecord): boolean {
-  if (article.slug === SAUDI_CYTOTEC_PILLAR) return false;
+  if (article.slug === SAUDI_CYTOTEC_PILLAR) return true;
   if (article.slug === 'cytotec-in-saudi-arabia-medical-info-risks') return true;
 
   const title = normalizeArabicArtifacts(article.title);

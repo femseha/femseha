@@ -18,7 +18,10 @@
     /* Path mapping */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@entry/ArticlesPage": ["src/pages/ArticlesPageEntryServer.tsx"],
+      "@entry/ArticleView": ["src/pages/ArticleViewEntryServer.tsx"],
+      "@entry/AdminPage": ["src/pages/AdminPageEntryServer.tsx"]
     },
 
     /* Linting */

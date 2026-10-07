@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { articles, getArticleBySlug, relatedArticles } from '../data/articles';
 import { DOCTOR, WHATSAPP_LINK } from '../data/site';
 import { useSeo, articleJsonLd, breadcrumbJsonLd, websiteJsonLd } from '../lib/seo';
-import { normalizeArticleImageUrl } from '../lib/article-media';
+import { normalizeArticleImageUrl, preferredWebpImageUrl } from '../lib/article-media';
 import { classifyArticleHref, tokenizeInlineMarkdown } from '../lib/article-markdown';
 import NotFoundPage from './NotFoundPage';
 
@@ -154,7 +154,7 @@ export default function ArticleView() {
   const article = getArticleBySlug(slug);
 
   useSeo({
-    title: article ? `${article.title} | منصة فصيحة الطبية` : 'المقال غير متوفر | منصة فصيحة الطبية',
+    title: article ? `${article.title} | سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب` : 'المقال غير متوفر | سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب',
     description: article ? article.summary.slice(0, 160) : undefined,
     // slug غير صحيح = soft-404: يُعرض محتوى 404 مع noindex وبلا canonical،
     // ولا يسقط أبداً إلى مقال آخر (لا fallback لأول مقال).
@@ -216,7 +216,7 @@ export default function ArticleView() {
             className="block w-full max-w-[500px]"
           >
             <img
-              src="/images/whatsapp-consultation.png"
+              src="/images/whatsapp-consultation.webp"
               alt="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
               width={1024}
               height={683}
@@ -253,7 +253,10 @@ export default function ArticleView() {
 
         {articleImage && (
           <img
-            src={articleImage}
+            src={preferredWebpImageUrl(articleImage)}
+            onError={(event) => {
+              if (event.currentTarget.src !== articleImage) event.currentTarget.src = articleImage;
+            }}
             alt={article.imageAlt?.trim() || article.title}
             loading="eager"
             className="w-full h-64 sm:h-80 object-cover rounded-2xl mb-8"
@@ -364,7 +367,7 @@ export default function ArticleView() {
         <div className="mt-8 border border-slate-200 bg-slate-50 rounded-2xl p-4 text-xs leading-relaxed text-slate-600">
           <strong className="text-slate-900">إخلاء مسؤولية طبية:</strong> هذا المحتوى تثقيفي عام
           بإشراف د. هيثم الخطيب، ولا يُغني عن التقييم الطبي المباشر، ولا يُستخدم للتشخيص الذاتي أو العلاج.
-          لا تبيع منصة فصيحة أي أدوية ولا تقدم جرعات أو خططاً علاجية فردية. في الحالات الطارئة توجهي فوراً
+          أي بيع أو صرف أو توصيل يتم فقط عبر القنوات والصيدليات المرخصة التابعة للجهة ووفق الأنظمة والاشتراطات، ولا يقدم الموقع جرعات أو خططاً علاجية فردية. في الحالات الطارئة توجهي فوراً
           إلى أقرب قسم طوارئ.
         </div>
       </article>

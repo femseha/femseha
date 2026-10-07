@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Routes, Route, Link, NavLink, Navigate, useLocation, useParams } from 'react-router-dom';
 import { DOCTOR, WHATSAPP_LINK } from './data/site';
-import { getArticleBySlug } from './data/articles';
-import { isConsolidatedCytotecArticle, SAUDI_CYTOTEC_PILLAR } from './data/seo-quality';
+import { SAUDI_CYTOTEC_ROUTE } from './data/seo-quality';
 import {
   HeartIcon,
   MenuIcon,
@@ -15,13 +14,14 @@ import {
   MessageCircleIcon,
 } from './components/Icons';
 import HomePage from './pages/HomePage';
-import ArticlesPage from './pages/ArticlesPage';
-import ArticleView from './pages/ArticleView';
+import ArticlesPage from '@entry/ArticlesPage';
+import ArticleView from '@entry/ArticleView';
 import DoctorPage from './pages/DoctorPage';
 import ConsultationPage from './pages/ConsultationPage';
 import DisclaimerPage from './pages/DisclaimerPage';
-import AdminPage from './pages/AdminPage';
+import AdminPage from '@entry/AdminPage';
 import NotFoundPage from './pages/NotFoundPage';
+import ClusterPage from './pages/ClusterPage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -33,9 +33,12 @@ function ScrollToTop() {
 
 function ArticleRoute() {
   const { slug } = useParams<{ slug: string }>();
-  const article = getArticleBySlug(slug);
-  if (article && isConsolidatedCytotecArticle(article)) {
-    return <Navigate replace to={`/articles/${SAUDI_CYTOTEC_PILLAR}`} />;
+  const consolidatedSlugs = new Set([
+    'cytotec-misoprostol-saudi-riyadh-guide',
+    'cytotec-in-saudi-arabia-medical-info-risks'
+  ]);
+  if (slug && consolidatedSlugs.has(slug)) {
+    return <Navigate replace to={SAUDI_CYTOTEC_ROUTE} />;
   }
   return <ArticleView />;
 }
@@ -46,8 +49,8 @@ const TOPIC_LINKS = [
   { name: 'الحمل والولادة', href: '/articles/pregnancy-danger-signs-emergency' },
   { name: 'أعراض الحمل', href: '/articles/early-pregnancy-symptoms-guide' },
   { name: 'تأخر وانقطاع الدورة', href: '/articles/delayed-period-causes-besides-pregnancy' },
-  { name: 'سايتوتك في السعودية', href: `/articles/${SAUDI_CYTOTEC_PILLAR}` },
-  { name: 'ميسوبروستول', href: '/articles/cytotec-gulf-kuwait-bahrain-uae-protocols' },
+  { name: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' },
+  { name: 'معلومات ميسوبروستول', href: '/misoprostol' },
   { name: 'سلامة الإجهاض الدوائي', href: '/articles/danger-signs-after-medical-abortion-saudi' },
   { name: 'الحمل خارج الرحم', href: '/articles/ectopic-pregnancy-symptoms-and-dangers' },
   { name: 'دليل السلامة والطوارئ', href: '/articles/pregnancy-danger-signs-emergency' },
@@ -68,21 +71,22 @@ const FOOTER_MAIN_LINKS = [
 ];
 
 const FOOTER_TOPIC_LINKS = [
-  { label: 'سايتوتك في السعودية', href: `/articles/${SAUDI_CYTOTEC_PILLAR}` },
-  { label: 'ميسوبروستول', href: '/articles/cytotec-gulf-kuwait-bahrain-uae-protocols' },
+  { label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' },
+  { label: 'معلومات ميسوبروستول', href: '/misoprostol' },
   { label: 'سلامة الإجهاض الدوائي', href: '/articles/danger-signs-after-medical-abortion-saudi' },
   { label: 'الحمل خارج الرحم', href: '/articles/ectopic-pregnancy-symptoms-and-dangers' },
   { label: 'دليل السلامة والطوارئ', href: '/articles/pregnancy-danger-signs-emergency' },
   { label: 'الأسئلة الشائعة', href: '/articles' },
   { label: 'اتصل بنا', href: '/consultation' },
   { label: 'إخلاء المسؤولية الطبية', href: '/medical-disclaimer' },
-  { label: 'سياسة الخصوصية', href: '/medical-disclaimer' },
-  { label: 'شروط الاستخدام', href: '/medical-disclaimer' },
+  { label: 'سياسة الخصوصية', href: '/privacy' },
+  { label: 'شروط الاستخدام', href: '/terms' },
+  { label: 'سياسة البيع والصرف', href: '/sales-policy' },
+  { label: 'سياسة التوصيل', href: '/delivery-policy' },
 ];
 
 const CITIES = [
-  'الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام', 'الخبر',
-  'القطيف', 'صفوى', 'الأحساء', 'الهفوف', 'القصيم', 'بريدة', 'تبوك', 'أبها', 'جازان',
+  ['الرياض','/cytotec-riyadh'],['جدة','/cytotec-jeddah'],['مكة المكرمة','/cytotec-makkah'],['المدينة المنورة','/cytotec-madinah'],['الدمام','/cytotec-dammam'],['الخبر','/cytotec-khobar'],['الطائف','/cytotec-taif'],['تبوك','/cytotec-tabuk'],['أبها','/cytotec-abha'],['جازان','/cytotec-jazan'],['بريدة','/cytotec-buraydah'],['الأحساء','/cytotec-ahsa'],['خميس مشيط','/cytotec-khamis-mushait'],['القطيف','/cytotec-qatif']
 ];
 
 export function App() {
@@ -109,7 +113,7 @@ export function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <Link to="/" className="flex items-center gap-3 group" aria-label="FemSeha — الرئيسية">
-              <img src="/logo.webp" alt="شعار FemSeha | فيم صحة" width={48} height={48} className="w-12 h-12 rounded-xl shadow-lg group-hover:scale-105 transition-transform" />
+              <img src="/saudi-cytotec-logo.webp" alt="شعار موقع سايتوتك في السعودية" width={48} height={48} className="w-12 h-12 rounded-xl shadow-lg group-hover:scale-105 transition-transform" />
               <div><span className="block text-2xl font-black tracking-tight text-white group-hover:text-sky-300 transition-colors">FemSeha</span><span className="block text-xs text-sky-300 font-semibold tracking-wide">فيم صحة</span></div>
             </Link>
 
@@ -142,16 +146,45 @@ export function App() {
       </header>
 
       <main className="flex-grow">
-        <Routes>
+        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center text-slate-500">جاري تحميل الصفحة…</div>}>
+          <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/articles" element={<ArticlesPage />} />
           <Route path="/articles/:slug" element={<ArticleRoute />} />
+          <Route path="/cytotec-saudi-arabia" element={<ClusterPage />} />
+          <Route path="/misoprostol" element={<ClusterPage />} />
+          <Route path="/products" element={<ClusterPage />} />
+          <Route path="/order" element={<ClusterPage />} />
+          <Route path="/delivery" element={<ClusterPage />} />
+          <Route path="/pharmacies" element={<ClusterPage />} />
+          <Route path="/cytotec-uae" element={<ClusterPage />} />
+          <Route path="/cytotec-kuwait" element={<ClusterPage />} />
+          <Route path="/cytotec-bahrain" element={<ClusterPage />} />
+          <Route path="/cytotec-riyadh" element={<ClusterPage />} />
+          <Route path="/cytotec-jeddah" element={<ClusterPage />} />
+          <Route path="/cytotec-makkah" element={<ClusterPage />} />
+          <Route path="/cytotec-madinah" element={<ClusterPage />} />
+          <Route path="/cytotec-dammam" element={<ClusterPage />} />
+          <Route path="/cytotec-khobar" element={<ClusterPage />} />
+          <Route path="/cytotec-taif" element={<ClusterPage />} />
+          <Route path="/cytotec-tabuk" element={<ClusterPage />} />
+          <Route path="/cytotec-abha" element={<ClusterPage />} />
+          <Route path="/cytotec-jazan" element={<ClusterPage />} />
+          <Route path="/cytotec-buraydah" element={<ClusterPage />} />
+          <Route path="/cytotec-ahsa" element={<ClusterPage />} />
+          <Route path="/cytotec-khamis-mushait" element={<ClusterPage />} />
+          <Route path="/cytotec-qatif" element={<ClusterPage />} />
+          <Route path="/privacy" element={<ClusterPage />} />
+          <Route path="/terms" element={<ClusterPage />} />
+          <Route path="/sales-policy" element={<ClusterPage />} />
+          <Route path="/delivery-policy" element={<ClusterPage />} />
           <Route path="/doctor" element={<DoctorPage />} />
           <Route path="/consultation" element={<ConsultationPage />} />
           <Route path="/medical-disclaimer" element={<DisclaimerPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+          </Routes>
+        </Suspense>
       </main>
 
       <footer className="bg-slate-950 text-slate-300 border-t border-slate-800 pt-16 pb-12">
@@ -160,19 +193,19 @@ export function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
             <div>
-              <div className="flex items-center gap-3 mb-4"><img src="/logo.webp" alt="شعار FemSeha | فيم صحة" width={40} height={40} className="w-10 h-10 rounded-lg shadow" /><div><span className="block text-xl font-bold text-white">FemSeha</span><span className="block text-xs text-sky-400 font-semibold">فيم صحة</span></div></div>
+              <div className="flex items-center gap-3 mb-4"><img src="/saudi-cytotec-logo.webp" alt="شعار موقع سايتوتك في السعودية" width={40} height={40} className="w-10 h-10 rounded-lg shadow" /><div><span className="block text-xl font-bold text-white">FemSeha</span><span className="block text-xs text-sky-400 font-semibold">فيم صحة</span></div></div>
               <p className="text-xs leading-relaxed text-slate-400 mb-4">منصة <strong>FemSeha</strong> برعاية <strong>دكتور هيثم الخطيب</strong> للتثقيف والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية في المملكة العربية السعودية.</p>
               <div className="space-y-2 text-xs text-slate-300"><p className="flex items-center gap-2"><PhoneIcon className="w-4 h-4 text-emerald-400 shrink-0" /><span className="dir-ltr font-bold text-emerald-400">{DOCTOR.phoneDisplay}</span></p><p className="flex items-center gap-2"><MapPinIcon className="w-4 h-4 text-sky-400 shrink-0" /><span>المملكة العربية السعودية (السوق الأساسي)</span></p><p className="flex items-center gap-2"><ShieldCheckIcon className="w-4 h-4 text-sky-400 shrink-0" /><span>تثقيف واستشارات طبية متخصصة</span></p></div>
             </div>
 
             <div><h4 className="text-white font-bold text-sm mb-4 border-r-2 border-sky-500 pr-2">أقسام الموقع الرئيسية</h4><ul className="space-y-2 text-xs font-medium">{FOOTER_MAIN_LINKS.map((l) => <li key={l.label + l.href}><Link to={l.href} className={`hover:text-sky-300 transition-colors ${l.accent ? 'text-amber-400' : ''}`}>{l.label}</Link></li>)}</ul></div>
             <div><h4 className="text-white font-bold text-sm mb-4 border-r-2 border-amber-500 pr-2">مواضيع التوعية والسلامة</h4><ul className="space-y-2 text-xs font-medium">{FOOTER_TOPIC_LINKS.map((l) => <li key={l.label + l.href}><Link to={l.href} className="hover:text-amber-300 transition-colors">{l.label}</Link></li>)}</ul></div>
-            <div><h4 className="text-white font-bold text-sm mb-4 border-r-2 border-emerald-500 pr-2">تغطية المملكة العربية السعودية</h4><p className="text-xs text-slate-400 mb-3 leading-relaxed">تستهدف منصة FemSeha تزويد النساء والمرضى بالاستشارات والمعرفة الصحية التخصصية في مختلف مدن ومناطق المملكة:</p><div className="flex flex-wrap gap-1.5 text-[11px]">{CITIES.map((c) => <span key={c} className="bg-slate-900 border border-slate-800 text-slate-300 px-2 py-0.5 rounded">{c}</span>)}</div><div className="mt-4 pt-3 border-t border-slate-900 text-center"><Link to="/consultation" className="text-xs text-sky-400 hover:underline font-semibold">صفحة الاستشارات والتواصل</Link></div></div>
+            <div><h4 className="text-white font-bold text-sm mb-4 border-r-2 border-emerald-500 pr-2">تغطية المملكة العربية السعودية</h4><p className="text-xs text-slate-400 mb-3 leading-relaxed">تستهدف منصة FemSeha تزويد النساء والمرضى بالاستشارات والمعرفة الصحية التخصصية في مختلف مدن ومناطق المملكة:</p><div className="flex flex-wrap gap-1.5 text-[11px]">{CITIES.map(([city, href]) => <Link key={href} to={href} className="bg-slate-900 border border-slate-800 text-slate-300 px-2 py-0.5 rounded hover:text-sky-300">{city}</Link>)}</div><div className="mt-4 pt-3 border-t border-slate-900 text-center"><Link to="/consultation" className="text-xs text-sky-400 hover:underline font-semibold">صفحة الاستشارات والتواصل</Link></div></div>
           </div>
 
-          <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500"><p>© 2026 FemSeha | فيم صحة — جميع الحقوق محفوظة.</p><div className="flex items-center gap-4 text-slate-400"><Link to="/medical-disclaimer" className="hover:underline">إخلاء المسؤولية</Link><span>•</span><Link to="/medical-disclaimer" className="hover:underline">سياسة الخصوصية</Link><span>•</span><Link to="/medical-disclaimer" className="hover:underline">شروط الاستخدام</Link><span>•</span><Link to="/admin" className="hover:underline text-slate-600">لوحة التحكم</Link></div></div>
+          <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500"><p>© 2026 FemSeha | فيم صحة — جميع الحقوق محفوظة.</p><div className="flex items-center gap-4 text-slate-400"><Link to="/medical-disclaimer" className="hover:underline">إخلاء المسؤولية</Link><span>•</span><Link to="/privacy" className="hover:underline">سياسة الخصوصية</Link><span>•</span><Link to="/terms" className="hover:underline">شروط الاستخدام</Link><span>•</span><Link to="/sales-policy" className="hover:underline">سياسة البيع</Link><span>•</span><Link to="/delivery-policy" className="hover:underline">سياسة التوصيل</Link><span>•</span><Link to="/admin" className="hover:underline text-slate-600">لوحة التحكم</Link></div></div>
         </div>
-      </footer>
+</footer>
 
       <div className="fixed bottom-6 left-6 z-50"><a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" aria-label="تواصل عبر واتساب" className="group bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-2 border-2 border-emerald-400/40 animate-pulse hover:animate-none"><div className="bg-white/20 p-1.5 rounded-full"><MessageCircleIcon className="w-5 h-5 text-white" /></div><span className="text-sm hidden sm:inline">واتساب</span></a></div>
     </div>

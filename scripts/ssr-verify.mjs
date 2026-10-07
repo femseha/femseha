@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+
+process.env.VITE_SSR_VERIFY = 'true';
 /**
  * اختبار عرض فعلي لكل مسارات الموقع عبر Vite SSR loader.
  * يرصد أي انهيار (crash) في مكوّنات الصفحات قبل النشر.
@@ -22,6 +24,33 @@ const articleRoutes = articles.map((article) => `/articles/${article.slug}`);
 const ROUTES = [
   '/',
   '/articles',
+  '/cytotec-saudi-arabia',
+  '/misoprostol',
+  '/products',
+  '/order',
+  '/delivery',
+  '/pharmacies',
+  '/cytotec-uae',
+  '/cytotec-kuwait',
+  '/cytotec-bahrain',
+  '/cytotec-riyadh',
+  '/cytotec-jeddah',
+  '/cytotec-makkah',
+  '/cytotec-madinah',
+  '/cytotec-dammam',
+  '/cytotec-khobar',
+  '/cytotec-taif',
+  '/cytotec-tabuk',
+  '/cytotec-abha',
+  '/cytotec-jazan',
+  '/cytotec-buraydah',
+  '/cytotec-ahsa',
+  '/cytotec-khamis-mushait',
+  '/cytotec-qatif',
+  '/privacy',
+  '/terms',
+  '/sales-policy',
+  '/delivery-policy',
   ...articleRoutes,
   '/مقال-غير-موجود-اختبار',
   '/doctor',
@@ -49,18 +78,18 @@ const checks = [
   ['الصفحة الرئيسية تعرض اسم المنصة', home.includes('FemSeha')],
   ['الصفحة الرئيسية تعرض المقالات', home.includes('/articles')],
   ['الصفحة الرئيسية تعرض محور سايتوتك السعودي', home.includes('سايتوتك في السعودية')],
-  ['روابط المقالات موجودة', home.includes('/articles/cytotec-misoprostol-saudi-riyadh-guide')]
+  ['روابط المقالات موجودة', home.includes('/cytotec-saudi-arabia')]
 ];
 const articlesPage = renderRoute('/articles');
-checks.push(['صفحة الأدلة تعرض عنوان المكتبة', articlesPage.includes('الأدلة السريرية والاستشارات الطبية')]);
+checks.push(['صفحة الأدلة تعرض عنوان المكتبة', articlesPage.includes('الموسوعة التوعوية لصحة المرأة والصحة الإنجابية')]);
 checks.push(['صفحة الأدلة تعرض شارة المكتبة', articlesPage.includes('مكتبة طبية بإشراف طبي')]);
 
 const targetArticle = articles.find((item) => item.slug === 'cytotec-misoprostol-saudi-riyadh-guide');
-const article = renderRoute('/articles/cytotec-misoprostol-saudi-riyadh-guide');
-checks.push(['صفحة المقال تعرض العنوان', Boolean(targetArticle?.title) && article.includes(targetArticle.title)]);
-checks.push(['صفحة المقال تعرض إخلاء المسؤولية', article.includes('إخلاء مسؤولية طبية')]);
-checks.push(['صفحة المقال تعرض الاستشارة', article.includes('استشارة واتساب')]);
-checks.push(['صفحة المقال تعرض الروابط الداخلية', article.includes('اقرئي أيضاً')]);
+const article = renderRoute('/cytotec-saudi-arabia');
+checks.push(['صفحة السعودية المحورية تعرض العنوان', article.includes('سايتوتك في السعودية')]);
+checks.push(['الصفحة المحورية تعرض تنبيه السلامة الطبية', article.includes('المحتوى الطبي للتثقيف العام')]);
+checks.push(['الصفحة المحورية تعرض الاستشارات', article.includes('الاستشارات الطبية')]);
+checks.push(['الصفحة المحورية تعرض الروابط الداخلية', article.includes('استكشف المحاور المرتبطة')]);
 
 const doctor = renderRoute('/doctor');
 checks.push(['صفحة الطبيب تعرض الاسم', doctor.includes('د. هيثم الخطيب')]);

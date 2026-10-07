@@ -121,3 +121,18 @@ export function articleImagePublicUrl(fileName: string): string {
   }
   return new URL(`${ARTICLE_UPLOAD_PUBLIC_DIR}/${fileName}`, `${SITE.url}/`).href;
 }
+
+
+/** يفضّل نسخة WebP المحلية عند توفرها، مع إبقاء الأصل كخيار احتياطي في المتصفح. */
+export function preferredWebpImageUrl(value: string): string {
+  if (!value) return value;
+  try {
+    const url = new URL(value, SITE.url);
+    if (url.origin !== SITE.url) return value;
+    if (!/.(?:jpe?g|png)$/i.test(url.pathname)) return value;
+    url.pathname = url.pathname.replace(/.(?:jpe?g|png)$/i, '.webp');
+    return url.href;
+  } catch {
+    return value;
+  }
+}
