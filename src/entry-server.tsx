@@ -15,11 +15,7 @@ export type RenderResult = {
   jsonLd: object[];
 };
 
-const cleanBrand = (value: string) =>
-  value
-    .replace(/منصة\s+فصيحة\s+الطبية/g, 'FemSeha | فيم صحة')
-    .replace(/فصيحة الطبية/g, 'FemSeha الطبية')
-    .replace(/منصة فصيحة/g, 'منصة FemSeha');
+const cleanBrand = (value: string) => value;
 
 export function render(url: string): RenderResult {
   const articleMatch = url.match(/^\/articles\/([^/]+)\/?$/);
