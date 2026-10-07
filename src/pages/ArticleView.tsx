@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { articles, getArticleBySlug, relatedArticles } from '../data/articles';
 import { DOCTOR, WHATSAPP_LINK } from '../data/site';
 import { useSeo, articleJsonLd, breadcrumbJsonLd, websiteJsonLd } from '../lib/seo';
-import { normalizeArticleImageUrl } from '../lib/article-media';
+import { normalizeArticleImageUrl, preferredWebpImageUrl } from '../lib/article-media';
 import { classifyArticleHref, tokenizeInlineMarkdown } from '../lib/article-markdown';
 import NotFoundPage from './NotFoundPage';
 
@@ -216,7 +216,7 @@ export default function ArticleView() {
             className="block w-full max-w-[500px]"
           >
             <img
-              src="/images/whatsapp-consultation.png"
+              src="/images/whatsapp-consultation.webp"
               alt="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
               width={1024}
               height={683}
@@ -253,7 +253,10 @@ export default function ArticleView() {
 
         {articleImage && (
           <img
-            src={articleImage}
+            src={preferredWebpImageUrl(articleImage)}
+            onError={(event) => {
+              if (event.currentTarget.src !== articleImage) event.currentTarget.src = articleImage;
+            }}
             alt={article.imageAlt?.trim() || article.title}
             loading="eager"
             className="w-full h-64 sm:h-80 object-cover rounded-2xl mb-8"

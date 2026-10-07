@@ -32,7 +32,7 @@ export default function ConsultationPage() {
             className="block w-full max-w-[500px]"
           >
             <img
-              src="/images/whatsapp-consultation.png"
+              src="/images/whatsapp-consultation.webp"
               alt="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
               width={1024}
               height={683}
