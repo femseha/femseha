@@ -3,3 +3,7 @@ https://femseha.pages.dev/*
   X-Robots-Tag: noindex
 https://:version.femseha.pages.dev/*
   X-Robots-Tag: noindex
+
+# Long-cache fingerprinted Vite assets
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
