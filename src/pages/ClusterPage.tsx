@@ -16,7 +16,7 @@ function faqJsonLd(items: { q: string; a: string }[]) {
 }
 
 function getPage(pathname: string): ClusterPageData {
-  return CLUSTER_PAGES[pathname] || CLUSTER_PAGES['/cytotec-saudi-arabia/'];
+  return CLUSTER_PAGES[pathname] || CLUSTER_PAGES['/cytotec-saudi-arabia'];
 }
 
 export default function ClusterPage() {
