@@ -42,6 +42,7 @@ export const STATIC_INDEXABLE = [
   { path: "/cytotec-buraydah", priority: "0.7", changefreq: "weekly", lastmod: false },
   { path: "/cytotec-ahsa", priority: "0.7", changefreq: "weekly", lastmod: false },
   { path: "/cytotec-khamis-mushait", priority: "0.7", changefreq: "weekly", lastmod: false },
+  { path: "/cytotec-qatif", priority: "0.7", changefreq: "weekly", lastmod: false },
   { path: "/doctor", priority: "0.8", changefreq: "monthly", lastmod: false },
   { path: "/consultation", priority: "0.8", changefreq: "monthly", lastmod: false },
   { path: "/privacy", priority: "0.3", changefreq: "yearly", lastmod: false },
