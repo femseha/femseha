@@ -62,7 +62,7 @@ const FAQS = [
 
 export default function HomePage() {
   useSeo({
-    title: 'سايتوتك في السعودية | Cytotec وMisoprostol | دكتور هيثم الخطيب',
+    title: 'سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب',
     description:
       'سايتوتك في السعودية وCytotec وMisoprostol: معلومات طبية، السلامة، الاستشارة، والطلب والتوصيل عبر القنوات المرخصة وفق الأنظمة.',
     canonicalPath: '/',
@@ -107,7 +107,7 @@ export default function HomePage() {
                 <span>FemSeha — منصة التثقيف والاستشارات الطبية</span>
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
-                سايتوتك في السعودية | Cytotec وMisoprostol | دكتور هيثم الخطيب
+                سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب
               </h1>
               <p className="text-lg sm:text-xl text-slate-700 font-normal leading-relaxed">
                 سايتوتك في السعودية وCytotec وMisoprostol، مع معلومات طبية موثوقة، استشارات متخصصة، ومسار واضح للطلب والتوصيل عبر القنوات المرخصة.
