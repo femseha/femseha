@@ -7,7 +7,7 @@
   },
   "entries": [
     {
-      "identifier": "urn:air:femseha:website:homepage",
+      "identifier": "urn:air:femseha.com:website:homepage",
       "displayName": "FemSeha — الموقع الرسمي",
       "type": "text/html",
       "url": "https://femseha.com/",
@@ -25,7 +25,7 @@
       "updatedAt": "2026-10-08T00:00:00Z"
     },
     {
-      "identifier": "urn:air:femseha:medical:saudi-cytotec",
+      "identifier": "urn:air:femseha.com:medical:saudi-cytotec",
       "displayName": "سايتوتك في السعودية",
       "type": "text/html",
       "url": "https://femseha.com/cytotec-saudi-arabia",
@@ -44,7 +44,7 @@
       "updatedAt": "2026-10-08T00:00:00Z"
     },
     {
-      "identifier": "urn:air:femseha:medical:misoprostol",
+      "identifier": "urn:air:femseha.com:medical:misoprostol",
       "displayName": "معلومات ميسوبروستول",
       "type": "text/html",
       "url": "https://femseha.com/misoprostol",
@@ -62,7 +62,7 @@
       "updatedAt": "2026-10-08T00:00:00Z"
     },
     {
-      "identifier": "urn:air:femseha:service:consultation",
+      "identifier": "urn:air:femseha.com:service:consultation",
       "displayName": "الاستشارات الطبية",
       "type": "text/html",
       "url": "https://femseha.com/consultation",
