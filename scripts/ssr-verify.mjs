@@ -79,7 +79,7 @@ const checks = [
   ['روابط المقالات موجودة', home.includes('/cytotec-saudi-arabia')]
 ];
 const articlesPage = renderRoute('/articles');
-checks.push(['صفحة الأدلة تعرض عنوان المكتبة', articlesPage.includes('الأدلة السريرية والاستشارات الطبية')]);
+checks.push(['صفحة الأدلة تعرض عنوان المكتبة', articlesPage.includes('الموسوعة التوعوية لصحة المرأة والصحة الإنجابية')]);
 checks.push(['صفحة الأدلة تعرض شارة المكتبة', articlesPage.includes('مكتبة طبية بإشراف طبي')]);
 
 const targetArticle = articles.find((item) => item.slug === 'cytotec-misoprostol-saudi-riyadh-guide');
