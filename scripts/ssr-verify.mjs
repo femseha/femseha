@@ -44,6 +44,7 @@ const ROUTES = [
   '/cytotec-buraydah',
   '/cytotec-ahsa',
   '/cytotec-khamis-mushait',
+  '/cytotec-qatif',
   '/privacy',
   '/terms',
   '/sales-policy',
@@ -84,9 +85,9 @@ checks.push(['صفحة الأدلة تعرض شارة المكتبة', articlesP
 const targetArticle = articles.find((item) => item.slug === 'cytotec-misoprostol-saudi-riyadh-guide');
 const article = renderRoute('/cytotec-saudi-arabia');
 checks.push(['صفحة السعودية المحورية تعرض العنوان', article.includes('سايتوتك في السعودية')]);
-checks.push(['صفحة المقال تعرض إخلاء المسؤولية', article.includes('إخلاء مسؤولية طبية')]);
-checks.push(['صفحة المقال تعرض الاستشارة', article.includes('استشارة واتساب')]);
-checks.push(['صفحة المقال تعرض الروابط الداخلية', article.includes('اقرئي أيضاً')]);
+checks.push(['الصفحة المحورية تعرض تنبيه السلامة الطبية', article.includes('المحتوى الطبي للتثقيف العام')]);
+checks.push(['الصفحة المحورية تعرض الاستشارات', article.includes('الاستشارات الطبية')]);
+checks.push(['الصفحة المحورية تعرض الروابط الداخلية', article.includes('استكشف المحاور المرتبطة')]);
 
 const doctor = renderRoute('/doctor');
 checks.push(['صفحة الطبيب تعرض الاسم', doctor.includes('د. هيثم الخطيب')]);
