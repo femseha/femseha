@@ -39,6 +39,7 @@ const cityFacts: Record<string, { region: string; areas: string; focus: string }
   'buraydah': { region: 'منطقة القصيم', areas: 'الريان، الصفراء، النهضة، الإسكان، الفايزية', focus: 'بريدة هي مركز رئيسي في القصيم، ويمكن أن تختلف الخدمات بين الفروع؛ لذلك نربط الباحثة بالقناة الرسمية للتحقق.' },
   'ahsa': { region: 'المنطقة الشرقية', areas: 'الهفوف، المبرز، المنيزلة، القارة', focus: 'الأحساء نطاق جغرافي واسع، لذلك من المهم التفريق بين توفر الخدمة في المدينة وتوفرها في حي أو فرع محدد.' },
   'khamis-mushait': { region: 'منطقة عسير', areas: 'الضيافة، الخالدية، الرصراص، حسام، الموسى', focus: 'الباحثة محليًا تحتاج إلى معلومة قابلة للتحقق عن المنشأة والقناة النظامية، وليس مجرد إعلان يستخدم اسم خميس مشيط.' },
+  'qatif': { region: 'المنطقة الشرقية', areas: 'القطيف، سيهات، صفوى، تاروت، عنك', focus: 'في القطيف تتنوع المناطق والخدمات بين المدينة والمراكز التابعة، لذلك يجب تأكيد اسم المنشأة والتوفر الفعلي عبر القناة المرخصة.' },
 };
 
 function cityPage(slug: string, name: string, spelling: string): ClusterPageData {
@@ -360,9 +361,9 @@ for (const [slug, name, spelling] of [
   ['riyadh','الرياض','Riyadh'],['jeddah','جدة','Jeddah'],['makkah','مكة المكرمة','Makkah'],
   ['madinah','المدينة المنورة','Madinah'],['dammam','الدمام','Dammam'],['khobar','الخبر','Khobar'],
   ['taif','الطائف','Taif'],['tabuk','تبوك','Tabuk'],['abha','أبها','Abha'],['jazan','جازان','Jazan'],
-  ['buraydah','بريدة','Buraydah'],['ahsa','الأحساء','Al Ahsa'],['khamis-mushait','خميس مشيط','Khamis Mushait']
+  ['buraydah','بريدة','Buraydah'],['ahsa','الأحساء','Al Ahsa'],['khamis-mushait','خميس مشيط','Khamis Mushait'],['qatif','القطيف','Qatif']
 ] as const) {
-  pages['/cytotec-' + slug + '/'] = cityPage(slug, name, spelling);
+  pages['/cytotec-' + slug] = cityPage(slug, name, spelling);
 }
 
 export const CLUSTER_PAGES = pages;
