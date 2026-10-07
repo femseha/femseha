@@ -14,12 +14,12 @@ import {
   MessageCircleIcon,
 } from './components/Icons';
 import HomePage from './pages/HomePage';
-import ArticlesPage from './pages/ArticlesPageEntry';
-import ArticleView from './pages/ArticleViewEntry';
+import ArticlesPage from '@entry/ArticlesPage';
+import ArticleView from '@entry/ArticleView';
 import DoctorPage from './pages/DoctorPage';
 import ConsultationPage from './pages/ConsultationPage';
 import DisclaimerPage from './pages/DisclaimerPage';
-import AdminPage from './pages/AdminPageEntry';
+import AdminPage from '@entry/AdminPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ClusterPage from './pages/ClusterPage';
 
