@@ -7,6 +7,7 @@ const supportingPath = path.join(root, 'src/data/seo-supporting-articles.json');
 const sitemapPath = path.join(root, 'public/sitemap.xml');
 
 const PILLAR_SLUG = 'cytotec-misoprostol-saudi-riyadh-guide';
+const PILLAR_ROUTE = '/cytotec-saudi-arabia/';
 const SUPPORTING_SLUGS = [
   'danger-signs-after-medical-abortion-saudi',
   'bleeding-after-medical-abortion-saudi',
@@ -46,8 +47,8 @@ for (const slug of SUPPORTING_SLUGS) {
   }
 
   const body = `${article.title}\n${article.summary}\n${article.content}`;
-  if (!body.includes(`/articles/${PILLAR_SLUG}`)) {
-    fail(`${slug}: must link to the Saudi pillar`);
+  if (!body.includes(PILLAR_ROUTE) && !body.includes(`/articles/${PILLAR_SLUG}`)) {
+    fail(`${slug}: must link to the Saudi pillar route`);
   }
 
   const unsafePatterns = [
@@ -76,7 +77,8 @@ for (const [keyword, count] of keywordCounts) {
   }
 }
 
-for (const slug of [PILLAR_SLUG, ...SUPPORTING_SLUGS]) {
+if (!sitemap.includes(`https://femseha.com${PILLAR_ROUTE}`)) fail(`missing sitemap URL: https://femseha.com${PILLAR_ROUTE}`);
+for (const slug of SUPPORTING_SLUGS) {
   const marker = `https://femseha.com/articles/${slug}`;
   if (!sitemap.includes(marker)) fail(`missing sitemap URL: ${marker}`);
 }
@@ -85,7 +87,7 @@ if (process.exitCode) {
   console.error('Saudi Cytotec cluster audit failed. Do not merge.');
 } else {
   console.log('PASS: Saudi Cytotec cluster guardrails are satisfied.');
-  console.log(`- pillar: ${PILLAR_SLUG}`);
+  console.log(`- pillar route: ${PILLAR_ROUTE}`);
   console.log(`- supporting articles: ${SUPPORTING_SLUGS.length}`);
   console.log('- pillar keyword is unique');
   console.log('- supporting articles link to pillar');
