@@ -19,7 +19,7 @@ import ArticleView from './pages/ArticleViewEntry';
 import DoctorPage from './pages/DoctorPage';
 import ConsultationPage from './pages/ConsultationPage';
 import DisclaimerPage from './pages/DisclaimerPage';
-import AdminPage from './pages/AdminPage';
+import AdminPage from './pages/AdminPageEntry';
 import NotFoundPage from './pages/NotFoundPage';
 import ClusterPage from './pages/ClusterPage';
 
