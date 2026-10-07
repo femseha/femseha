@@ -33,8 +33,6 @@ export default function ConsultationPage() {
           >
             <img
               src="/images/whatsapp-consultation.webp"
-              loading="lazy"
-              decoding="async"
               alt="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
               width={1024}
               height={683}
