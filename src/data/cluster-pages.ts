@@ -19,8 +19,8 @@ export type ClusterPageData = {
 };
 
 const baseLinks = [
-  { label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia/' },
-  { label: 'معلومات ميسوبروستول', href: '/misoprostol/' },
+  { label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' },
+  { label: 'معلومات ميسوبروستول', href: '/misoprostol' },
   { label: 'الحمل والخصوبة', href: '/articles' },
   { label: 'الاستشارات الطبية', href: '/consultation' },
 ];
@@ -82,8 +82,8 @@ function cityPage(slug: string, name: string, spelling: string): ClusterPageData
 }
 
 const pages: Record<string, ClusterPageData> = {
-  '/cytotec-saudi-arabia/': {
-    path: '/cytotec-saudi-arabia/',
+  '/cytotec-saudi-arabia': {
+    path: '/cytotec-saudi-arabia',
     title: 'سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب',
     description: 'سايتوتك في السعودية وCytotec وMisoprostol: معلومات طبية، الاستخدامات، المخاطر، التحذيرات، السياق السعودي، الاستشارة، والطلب والتوصيل عبر القنوات المرخصة.',
     h1: 'سايتوتك في السعودية',
@@ -127,18 +127,18 @@ const pages: Record<string, ClusterPageData> = {
     ],
     links: [
       ...baseLinks,
-      { label: 'المنتجات', href: '/products/' },
-      { label: 'كيفية الطلب', href: '/order/' },
-      { label: 'التوصيل', href: '/delivery/' },
-      { label: 'الصيدليات', href: '/pharmacies/' },
-      { label: 'سايتوتك في الإمارات', href: '/cytotec-uae/' },
-      { label: 'سايتوتك في الكويت', href: '/cytotec-kuwait/' },
-      { label: 'سايتوتك في البحرين', href: '/cytotec-bahrain/' }
+      { label: 'المنتجات', href: '/products' },
+      { label: 'كيفية الطلب', href: '/order' },
+      { label: 'التوصيل', href: '/delivery' },
+      { label: 'الصيدليات', href: '/pharmacies' },
+      { label: 'سايتوتك في الإمارات', href: '/cytotec-uae' },
+      { label: 'سايتوتك في الكويت', href: '/cytotec-kuwait' },
+      { label: 'سايتوتك في البحرين', href: '/cytotec-bahrain' }
     ]
   },
 
-  '/misoprostol/': {
-    path: '/misoprostol/',
+  '/misoprostol': {
+    path: '/misoprostol',
     title: 'معلومات ميسوبروستول | Misoprostol وCytotec | دكتور هيثم الخطيب',
     description: 'معلومات ميسوبروستول وMisoprostol وعلاقته بسايتوتك، الاستخدامات الطبية، التحذيرات، الآثار الجانبية، ميفيبريستون، والحمل خارج الرحم.',
     h1: 'معلومات ميسوبروستول',
@@ -157,11 +157,11 @@ const pages: Record<string, ClusterPageData> = {
       { q: 'هل ميفيبريستون هو نفسه ميسوبروستول؟', a: 'لا. هما مادتان مختلفتان ولهما آليات وسياقات طبية مختلفة.' },
       { q: 'هل يقدم الموقع جرعات؟', a: 'لا. الجرعة قرار طبي يعتمد على التشخيص والسياق ويقرره المختص عند الحاجة.' }
     ],
-    links: [{ label: 'الصفحة المحورية: سايتوتك في السعودية', href: '/cytotec-saudi-arabia/' }, ...baseLinks]
+    links: [{ label: 'الصفحة المحورية: سايتوتك في السعودية', href: '/cytotec-saudi-arabia' }, ...baseLinks]
   },
 
-  '/products/': {
-    path: '/products/',
+  '/products': {
+    path: '/products',
     title: 'منتجات سايتوتك وميسوبروستول | الاستفسار والتوفر | FemSeha',
     description: 'صفحة المنتجات والاستفسار عن التوفر عبر القنوات والصيدليات المرخصة، مع فصل المعلومات التجارية عن المعلومات الطبية.',
     h1: 'المنتجات والاستفسار عن التوفر',
@@ -178,11 +178,11 @@ const pages: Record<string, ClusterPageData> = {
       { q: 'هل الأدوية الوصفية تحتاج وصفة؟', a: 'عندما تكون الوصفة مطلوبة نظاميًا، يجب الالتزام بمتطلبات الصرف المعتمدة.' },
       { q: 'هل الصورة تثبت أصالة العبوة؟', a: 'لا. الأصالة تُتحقق عبر القناة والمنشأة والبيانات الرسمية، وليس بالصورة وحدها.' }
     ],
-    links: [{ label: 'كيفية الطلب', href: '/order/' }, { label: 'التوصيل', href: '/delivery/' }, { label: 'الصيدليات', href: '/pharmacies/' }, { label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia/' }]
+    links: [{ label: 'كيفية الطلب', href: '/order' }, { label: 'التوصيل', href: '/delivery' }, { label: 'الصيدليات', href: '/pharmacies' }, { label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' }]
   },
 
-  '/order/': {
-    path: '/order/',
+  '/order': {
+    path: '/order',
     title: 'كيفية طلب سايتوتك في السعودية | الطلب عبر القنوات المرخصة | FemSeha',
     description: 'شرح مسار الاستفسار والطلب عن سايتوتك وميسوبروستول عبر القنوات والصيدليات المرخصة، مع التحقق من التوفر والوصفة والاشتراطات.',
     h1: 'كيفية الطلب والاستفسار',
@@ -199,11 +199,11 @@ const pages: Record<string, ClusterPageData> = {
       { q: 'هل الطلب يعني أن المنتج متوفر؟', a: 'لا. الطلب يبدأ بالاستفسار، والتوفر يُؤكد من القناة الرسمية وقت التواصل.' },
       { q: 'هل أرسل وصفتي لحساب مجهول؟', a: 'لا. المستندات الطبية يجب ألا تُرسل إلى حسابات مجهولة أو جهات غير موثوقة.' }
     ],
-    links: [{ label: 'المنتجات', href: '/products/' }, { label: 'التوصيل', href: '/delivery/' }, { label: 'الصيدليات', href: '/pharmacies/' }]
+    links: [{ label: 'المنتجات', href: '/products' }, { label: 'التوصيل', href: '/delivery' }, { label: 'الصيدليات', href: '/pharmacies' }]
   },
 
-  '/delivery/': {
-    path: '/delivery/',
+  '/delivery': {
+    path: '/delivery',
     title: 'توصيل سايتوتك في السعودية | المدن وشروط التوصيل | FemSeha',
     description: 'معلومات عن التوصيل للمنتجات الدوائية عبر القنوات المرخصة، مع التحقق من المدينة والتوفر والاشتراطات قبل تنفيذ أي طلب.',
     h1: 'التوصيل في السعودية',
@@ -221,11 +221,11 @@ const pages: Record<string, ClusterPageData> = {
       { q: 'هل يمكن توصيل دواء مقيد دون وصفة؟', a: 'إذا كانت الوصفة مطلوبة نظاميًا، فلا ينبغي تجاوزها عبر التوصيل أو أي قناة إلكترونية.' },
       { q: 'هل السعر ووقت التوصيل ثابتان؟', a: 'الأسعار والأوقات بيانات تشغيلية متغيرة، ويجب تأكيدها من القناة الرسمية وقت الاستفسار.' }
     ],
-    links: [{ label: 'كيفية الطلب', href: '/order/' }, { label: 'الصيدليات', href: '/pharmacies/' }, { label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia/' }]
+    links: [{ label: 'كيفية الطلب', href: '/order' }, { label: 'الصيدليات', href: '/pharmacies' }, { label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' }]
   },
 
-  '/pharmacies/': {
-    path: '/pharmacies/',
+  '/pharmacies': {
+    path: '/pharmacies',
     title: 'صيدليات سايتوتك في السعودية | القنوات المرخصة والتحقق | FemSeha',
     description: 'دليل التحقق من الصيدليات والقنوات المرخصة عند الاستفسار عن سايتوتك وميسوبروستول في السعودية، دون ادعاء توفر غير مؤكد.',
     h1: 'الصيدليات والقنوات المرخصة',
@@ -242,11 +242,11 @@ const pages: Record<string, ClusterPageData> = {
       { q: 'كيف أعرف أن الحساب تابع للصيدلية؟', a: 'استخدمي رابط أو رقم التواصل المنشور في الموقع الرسمي للمنشأة، ولا تعتمدي على حساب مجهول.' },
       { q: 'هل يمكن صرف الدواء دون المتطلبات النظامية؟', a: 'لا ينبغي تجاوز متطلبات الصرف والوصفة عندما تكون مطلوبة.' }
     ],
-    links: [{ label: 'المنتجات', href: '/products/' }, { label: 'الطلب', href: '/order/' }, { label: 'التوصيل', href: '/delivery/' }, { label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia/' }]
+    links: [{ label: 'المنتجات', href: '/products' }, { label: 'الطلب', href: '/order' }, { label: 'التوصيل', href: '/delivery' }, { label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' }]
   },
 
-  '/cytotec-uae/': {
-    path: '/cytotec-uae/',
+  '/cytotec-uae': {
+    path: '/cytotec-uae',
     title: 'سايتوتك في الإمارات | Cytotec وMisoprostol | FemSeha',
     description: 'سايتوتك في الإمارات وميسوبروستول: معلومات طبية وسياق محلي، الاستشارة، والطلب والتوصيل عبر القنوات المرخصة وفق الأنظمة الإماراتية.',
     h1: 'سايتوتك في الإمارات',
@@ -264,11 +264,11 @@ const pages: Record<string, ClusterPageData> = {
       { q: 'هل Cytotec هو Misoprostol؟', a: 'Cytotec اسم تجاري وMisoprostol اسم المادة الفعالة.' },
       { q: 'هل يمكن استخدام معلومات السعودية كبديل عن النظام الإماراتي؟', a: 'لا. المعلومات التنظيمية يجب أن تُراجع وفق الجهات والأنظمة المحلية في الإمارات.' }
     ],
-    links: [{ label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia/' }, { label: 'سايتوتك في الكويت', href: '/cytotec-kuwait/' }, { label: 'سايتوتك في البحرين', href: '/cytotec-bahrain/' }, { label: 'معلومات ميسوبروستول', href: '/misoprostol/' }]
+    links: [{ label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' }, { label: 'سايتوتك في الكويت', href: '/cytotec-kuwait' }, { label: 'سايتوتك في البحرين', href: '/cytotec-bahrain' }, { label: 'معلومات ميسوبروستول', href: '/misoprostol' }]
   },
 
-  '/cytotec-kuwait/': {
-    path: '/cytotec-kuwait/',
+  '/cytotec-kuwait': {
+    path: '/cytotec-kuwait',
     title: 'سايتوتك في الكويت | Cytotec وMisoprostol | FemSeha',
     description: 'سايتوتك في الكويت وCytotec in Kuwait: معلومات ميسوبروستول، السلامة، السياق الصحي المحلي، والاستفسار عبر القنوات المرخصة.',
     h1: 'سايتوتك في الكويت',
@@ -286,11 +286,11 @@ const pages: Record<string, ClusterPageData> = {
       { q: 'هل التوفر ثابت؟', a: 'لا. التوفر والمخزون ومتطلبات الصرف تتغير ويجب تأكيدها وقت الاستفسار.' },
       { q: 'هل يمكن استخدام صفحة السعودية كمرجع قانوني للكويت؟', a: 'لا. كل دولة لها أنظمتها الصحية والتنظيمية الخاصة.' }
     ],
-    links: [{ label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia/' }, { label: 'سايتوتك في الإمارات', href: '/cytotec-uae/' }, { label: 'سايتوتك في البحرين', href: '/cytotec-bahrain/' }, { label: 'معلومات ميسوبروستول', href: '/misoprostol/' }]
+    links: [{ label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' }, { label: 'سايتوتك في الإمارات', href: '/cytotec-uae' }, { label: 'سايتوتك في البحرين', href: '/cytotec-bahrain' }, { label: 'معلومات ميسوبروستول', href: '/misoprostol' }]
   },
 
-  '/cytotec-bahrain/': {
-    path: '/cytotec-bahrain/',
+  '/cytotec-bahrain': {
+    path: '/cytotec-bahrain',
     title: 'سايتوتك في البحرين | Cytotec وMisoprostol | FemSeha',
     description: 'سايتوتك في البحرين وMisoprostol: معلومات طبية وسياق محلي، التحقق من القنوات المرخصة، والطلب والتوصيل عند توفرهما نظاميًا.',
     h1: 'سايتوتك في البحرين',
@@ -308,11 +308,11 @@ const pages: Record<string, ClusterPageData> = {
       { q: 'ما المادة الفعالة؟', a: 'ميسوبروستول هو المادة الفعالة المرتبطة باسم Cytotec.' },
       { q: 'هل الصفحة تقدم جرعات؟', a: 'لا. الجرعات والقرارات العلاجية الفردية يحددها المختص بعد تقييم الحالة.' }
     ],
-    links: [{ label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia/' }, { label: 'سايتوتك في الإمارات', href: '/cytotec-uae/' }, { label: 'سايتوتك في الكويت', href: '/cytotec-kuwait/' }, { label: 'معلومات ميسوبروستول', href: '/misoprostol/' }]
+    links: [{ label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' }, { label: 'سايتوتك في الإمارات', href: '/cytotec-uae' }, { label: 'سايتوتك في الكويت', href: '/cytotec-kuwait' }, { label: 'معلومات ميسوبروستول', href: '/misoprostol' }]
   },
 
-  '/privacy/': {
-    path: '/privacy/', title: 'سياسة الخصوصية | FemSeha', description: 'سياسة الخصوصية واستخدام البيانات في موقع FemSeha.', h1: 'سياسة الخصوصية',
+  '/privacy': {
+    path: '/privacy', title: 'سياسة الخصوصية | FemSeha', description: 'سياسة الخصوصية واستخدام البيانات في موقع FemSeha.', h1: 'سياسة الخصوصية',
     intro: 'نوضح هنا بصورة مباشرة البيانات التي قد يرسلها الزائر عبر الموقع أو القنوات الخارجية وكيف نتعامل معها.',
     keywords: ['سياسة الخصوصية FemSeha'], breadcrumb: ['سياسة الخصوصية'],
     sections: [
@@ -322,8 +322,8 @@ const pages: Record<string, ClusterPageData> = {
     faqs: [{ q: 'هل يجب إرسال تفاصيل طبية عبر الموقع؟', a: 'أرسلي الحد الأدنى اللازم فقط، واستخدمي القناة الرسمية.' }]
   },
 
-  '/terms/': {
-    path: '/terms/', title: 'الشروط والأحكام | FemSeha', description: 'الشروط العامة لاستخدام موقع FemSeha والمحتوى الطبي والخدمات التجارية.', h1: 'الشروط والأحكام',
+  '/terms': {
+    path: '/terms', title: 'الشروط والأحكام | FemSeha', description: 'الشروط العامة لاستخدام موقع FemSeha والمحتوى الطبي والخدمات التجارية.', h1: 'الشروط والأحكام',
     intro: 'استخدام الموقع يعني فهم أن المحتوى الطبي عام وأن الخدمات التجارية تخضع للأنظمة وشروط الجهة المرخصة.',
     keywords: ['شروط استخدام FemSeha','الشروط والأحكام'], breadcrumb: ['الشروط والأحكام'],
     sections: [
@@ -333,8 +333,8 @@ const pages: Record<string, ClusterPageData> = {
     faqs: [{ q: 'هل الموقع بديل للطبيب؟', a: 'لا. المحتوى العام لا يحل محل التقييم الطبي المباشر.' }]
   },
 
-  '/sales-policy/': {
-    path: '/sales-policy/', title: 'سياسة البيع والصرف | FemSeha', description: 'سياسة الاستفسار والبيع والصرف للمنتجات الدوائية عبر القنوات والصيدليات المرخصة.', h1: 'سياسة البيع والصرف',
+  '/sales-policy': {
+    path: '/sales-policy', title: 'سياسة البيع والصرف | FemSeha', description: 'سياسة الاستفسار والبيع والصرف للمنتجات الدوائية عبر القنوات والصيدليات المرخصة.', h1: 'سياسة البيع والصرف',
     intro: 'نوضح الفصل بين المحتوى الطبي والبيع النظامي، وأن أي صرف لدواء وصفي أو مقيد يخضع للمتطلبات المعتمدة.',
     keywords: ['سياسة بيع سايتوتك','بيع سايتوتك السعودية','صرف سايتوتك','سياسة البيع FemSeha'], breadcrumb: ['سياسة البيع والصرف'], commercial: true,
     sections: [
@@ -344,8 +344,8 @@ const pages: Record<string, ClusterPageData> = {
     faqs: [{ q: 'هل كل دواء يمكن بيعه دون وصفة؟', a: 'لا. بعض الأدوية تخضع لمتطلبات صرف ووصفة محددة.' }]
   },
 
-  '/delivery-policy/': {
-    path: '/delivery-policy/', title: 'سياسة التوصيل | FemSeha', description: 'سياسة التوصيل للمنتجات عبر القنوات المرخصة ونطاق الخدمة والتوفر.', h1: 'سياسة التوصيل',
+  '/delivery-policy': {
+    path: '/delivery-policy', title: 'سياسة التوصيل | FemSeha', description: 'سياسة التوصيل للمنتجات عبر القنوات المرخصة ونطاق الخدمة والتوفر.', h1: 'سياسة التوصيل',
     intro: 'التوصيل الدوائي يعتمد على التوفر ونطاق الخدمة والاشتراطات النظامية، ولا يُعد وعدًا ثابتًا لكل مدينة أو حي.',
     keywords: ['سياسة توصيل سايتوتك','توصيل الأدوية السعودية','سياسة التوصيل FemSeha'], breadcrumb: ['سياسة التوصيل'], commercial: true,
     sections: [
