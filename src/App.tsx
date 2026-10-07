@@ -84,7 +84,7 @@ const FOOTER_TOPIC_LINKS = [
 ];
 
 const CITIES = [
-  ['الرياض','/cytotec-riyadh'],['جدة','/cytotec-jeddah'],['مكة المكرمة','/cytotec-makkah'],['المدينة المنورة','/cytotec-madinah'],['الدمام','/cytotec-dammam'],['الخبر','/cytotec-khobar'],['الطائف','/cytotec-taif'],['تبوك','/cytotec-tabuk'],['أبها','/cytotec-abha'],['جازان','/cytotec-jazan'],['بريدة','/cytotec-buraydah'],['الأحساء','/cytotec-ahsa'],['خميس مشيط','/cytotec-khamis-mushait']
+  ['الرياض','/cytotec-riyadh'],['جدة','/cytotec-jeddah'],['مكة المكرمة','/cytotec-makkah'],['المدينة المنورة','/cytotec-madinah'],['الدمام','/cytotec-dammam'],['الخبر','/cytotec-khobar'],['الطائف','/cytotec-taif'],['تبوك','/cytotec-tabuk'],['أبها','/cytotec-abha'],['جازان','/cytotec-jazan'],['بريدة','/cytotec-buraydah'],['الأحساء','/cytotec-ahsa'],['خميس مشيط','/cytotec-khamis-mushait'],['القطيف','/cytotec-qatif']
 ];
 
 export function App() {
@@ -170,6 +170,7 @@ export function App() {
           <Route path="/cytotec-buraydah" element={<ClusterPage />} />
           <Route path="/cytotec-ahsa" element={<ClusterPage />} />
           <Route path="/cytotec-khamis-mushait" element={<ClusterPage />} />
+          <Route path="/cytotec-qatif" element={<ClusterPage />} />
           <Route path="/privacy" element={<ClusterPage />} />
           <Route path="/terms" element={<ClusterPage />} />
           <Route path="/sales-policy" element={<ClusterPage />} />
