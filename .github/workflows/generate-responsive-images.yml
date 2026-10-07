@@ -1,0 +1,38 @@
+name: Generate responsive image variants
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'public/images/dr-haitham-hero.webp'
+      - 'public/saudi-cytotec-logo.webp'
+      - 'scripts/generate-responsive-images.mjs'
+      - '.github/workflows/generate-responsive-images.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: ${{ !contains(github.event.head_commit.message, '[skip responsive]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save sharp@0.33.5
+      - run: node scripts/generate-responsive-images.mjs
+      - name: Commit variants
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/images/dr-haitham-hero-*.webp public/saudi-cytotec-logo-*.webp
+          if git diff --cached --quiet; then
+            echo "No responsive image changes."
+            exit 0
+          fi
+          git commit -m "chore: generate responsive image variants [skip responsive]"
+          git push
