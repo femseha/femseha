@@ -26,11 +26,11 @@ const DATA_FILES = [
   ...Array.from({ length: 11 }, (_, i) => `src/data/seo-content-batch-${String(i + 1).padStart(2, "0")}.json`),
 ];
 const STATIC_INDEXABLE = [
-  "/", "/articles", "/cytotec-saudi-arabia/", "/misoprostol/", "/products/", "/order/", "/delivery/", "/pharmacies/",
-  "/cytotec-uae/", "/cytotec-kuwait/", "/cytotec-bahrain/",
-  "/cytotec-riyadh/", "/cytotec-jeddah/", "/cytotec-makkah/", "/cytotec-madinah/", "/cytotec-dammam/", "/cytotec-khobar/",
-  "/cytotec-taif/", "/cytotec-tabuk/", "/cytotec-abha/", "/cytotec-jazan/", "/cytotec-buraydah/", "/cytotec-ahsa/", "/cytotec-khamis-mushait/",
-  "/doctor", "/consultation", "/privacy/", "/terms/", "/sales-policy/", "/delivery-policy/", "/medical-disclaimer"
+  "/", "/articles", "/cytotec-saudi-arabia", "/misoprostol", "/products", "/order", "/delivery", "/pharmacies",
+  "/cytotec-uae", "/cytotec-kuwait", "/cytotec-bahrain",
+  "/cytotec-riyadh", "/cytotec-jeddah", "/cytotec-makkah", "/cytotec-madinah", "/cytotec-dammam", "/cytotec-khobar",
+  "/cytotec-taif", "/cytotec-tabuk", "/cytotec-abha", "/cytotec-jazan", "/cytotec-buraydah", "/cytotec-ahsa", "/cytotec-khamis-mushait",
+  "/doctor", "/consultation", "/privacy", "/terms", "/sales-policy", "/delivery-policy", "/medical-disclaimer"
 ];
 const NON_INDEXABLE = ["/admin"];
 
