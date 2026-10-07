@@ -37,8 +37,8 @@ const FEATURED_SLUGS = [
 ];
 
 const CITIES = [
-  'الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام', 'الخبر',
-  'القطيف', 'صفوى', 'الأحساء', 'الهفوف', 'القصيم', 'بريدة', 'تبوك', 'أبها', 'جازان',
+  ['الرياض','/cytotec-riyadh'],['جدة','/cytotec-jeddah'],['مكة المكرمة','/cytotec-makkah'],['المدينة المنورة','/cytotec-madinah'],['الدمام','/cytotec-dammam'],['الخبر','/cytotec-khobar'],
+  ['الطائف','/cytotec-taif'],['تبوك','/cytotec-tabuk'],['أبها','/cytotec-abha'],['جازان','/cytotec-jazan'],['بريدة','/cytotec-buraydah'],['الأحساء','/cytotec-ahsa'],['خميس مشيط','/cytotec-khamis-mushait'],
 ];
 
 const FAQS = [
@@ -338,7 +338,7 @@ export default function HomePage() {
             <div className="inline-flex items-center gap-1.5 text-emerald-400 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold"><MapPinIcon className="w-4 h-4" /><span>المملكة العربية السعودية — السوق الأساسي</span></div>
             <h2 className="text-2xl font-black text-slate-900">تثقيف صحي واستشارات للنساء في المملكة</h2>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">نقدم محتوى تثقيفياً واستشارات طبية للنساء في مختلف مناطق المملكة مع دكتور هيثم الخطيب.</p>
-            <div className="flex flex-wrap gap-2 pt-2 text-xs font-semibold text-slate-700">{CITIES.map((c) => <span key={c} className="bg-white/90 border border-slate-300/80 px-3 py-1.5 rounded-lg text-sky-700">{c}</span>)}</div>
+            <div className="flex flex-wrap gap-2 pt-2 text-xs font-semibold text-slate-700">{CITIES.map(([city, href]) => <Link key={href} to={href} className="bg-white/90 border border-slate-300/80 px-3 py-1.5 rounded-lg text-sky-700 hover:border-sky-400 hover:text-sky-800">{city}</Link>)}</div>
           </div>
         </div>
       </section>
