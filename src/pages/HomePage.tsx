@@ -75,7 +75,7 @@ export default function HomePage() {
             aria-label="استشارة طبية نسائية متخصصة - FemSeha"
           >
             <img
-              src="/cdn-cgi/image/width=auto,wbreakpoints=320;768;960;1200;1408,wmobile=768,wdesktop=1408,quality=75,format=auto/images/dr-haitham-hero.webp"
+              src="/images/dr-haitham-hero.webp"
               alt="دكتور هيثم الخطيب - استشارات طبية نسائية متخصصة - FemSeha"
               width={1408}
               height={768}
@@ -145,7 +145,7 @@ export default function HomePage() {
               <div className="bg-gradient-to-b from-white to-slate-50 p-6 sm:p-8 rounded-2xl border border-sky-200 shadow-2xl space-y-6">
                 <div className="flex items-center gap-4 border-b border-slate-200 pb-5">
                   <img
-                    src="/cdn-cgi/image/width=96,quality=70,format=auto/saudi-cytotec-logo.webp"
+                    src="/saudi-cytotec-logo.webp"
                     alt="شعار موقع سايتوتك في السعودية"
                     width={64}
                     height={64}
