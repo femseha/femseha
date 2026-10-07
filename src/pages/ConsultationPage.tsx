@@ -5,7 +5,7 @@ import { useSeo, websiteJsonLd, breadcrumbJsonLd, doctorJsonLd } from '../lib/se
 
 export default function ConsultationPage() {
   useSeo({
-    title: 'الاستشارة الطبية | د. هيثم الخطيب | منصة فصيحة الطبية',
+    title: 'الاستشارة الطبية | د. هيثم الخطيب | FemSeha',
     description:
       'احجزي استشارتك الطبية مع د. هيثم الخطيب، اختصاصي جراحة النساء والتوليد والعقم، عبر الهاتف أو واتساب بسرية تامة.',
     canonicalPath: '/consultation',
