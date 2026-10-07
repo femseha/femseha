@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Routes, Route, Link, NavLink, Navigate, useLocation, useParams } from 'react-router-dom';
 import { DOCTOR, WHATSAPP_LINK } from './data/site';
 import { getArticleBySlug } from './data/articles';
-import { isConsolidatedCytotecArticle, SAUDI_CYTOTEC_PILLAR, SAUDI_CYTOTEC_ROUTE } from './data/seo-quality';
+import { isConsolidatedCytotecArticle, SAUDI_CYTOTEC_ROUTE } from './data/seo-quality';
 import {
   HeartIcon,
   MenuIcon,
