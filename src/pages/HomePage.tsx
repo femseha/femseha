@@ -21,7 +21,8 @@ import {
 } from '../components/Icons';
 
 const CATEGORY_LINKS = {
-  'سايتوتك في السعودية': '/articles/cytotec-misoprostol-saudi-riyadh-guide',
+  'سايتوتك في السعودية': '/cytotec-saudi-arabia/',
+  'معلومات ميسوبروستول': '/misoprostol/',
   'دليل السلامة والطوارئ': '/articles/pregnancy-danger-signs-emergency',
   'صحة المرأة': '/articles/pcos-symptoms-fertility-treatment',
 };
@@ -61,9 +62,9 @@ const FAQS = [
 
 export default function HomePage() {
   useSeo({
-    title: 'FemSeha | صحة المرأة والصحة الإنجابية في السعودية',
+    title: 'سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب',
     description:
-      'منصة FemSeha للتثقيف الصحي والاستشارات في صحة المرأة والحمل والدورة والخصوبة، بإشراف د. هيثم الخطيب.',
+      'سايتوتك في السعودية وCytotec وMisoprostol: معلومات طبية، السلامة، الاستشارة، والطلب والتوصيل عبر القنوات المرخصة وفق الأنظمة.',
     canonicalPath: '/',
     jsonLd: [websiteJsonLd(), organizationJsonLd(), doctorJsonLd()]
   });
@@ -106,10 +107,10 @@ export default function HomePage() {
                 <span>FemSeha — منصة التثقيف والاستشارات الطبية</span>
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
-                صحة المرأة والصحة الإنجابية في السعودية
+                سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب
               </h1>
               <p className="text-lg sm:text-xl text-slate-700 font-normal leading-relaxed">
-                معلومات طبية موثوقة واستشارات متخصصة حول صحة المرأة والصحة الإنجابية.
+                سايتوتك في السعودية وCytotec وMisoprostol، مع معلومات طبية موثوقة، استشارات متخصصة، ومسار واضح للطلب والتوصيل عبر القنوات المرخصة.
               </p>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl">
                 منصة متخصصة في التثقيف الصحي والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية مع دكتور هيثم الخطيب.
@@ -217,6 +218,27 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center space-y-3">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">المحاور الأربعة للموقع</h2>
+          <p className="text-slate-500 text-sm max-w-3xl mx-auto">موقع متخصص بهوية واضحة: محور السعودية، معلومات ميسوبروستول، الحمل والخصوبة، والاستشارات الطبية، مع فصل واضح للجانب التجاري.</p>
+        </div>
+        <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {[
+            ['سايتوتك في السعودية','/cytotec-saudi-arabia/','الصفحة المحورية والبحث المحلي والمنتجات والطلب والتوصيل.'],
+            ['معلومات ميسوبروستول','/misoprostol/','المادة الفعالة، العلاقة مع Cytotec، التحذيرات والمعلومات الدوائية.'],
+            ['الحمل والخصوبة','/articles','الحمل المبكر، الدورة، الخصوبة، الحمل خارج الرحم وعلامات الخطر.'],
+            ['الاستشارات الطبية','/consultation','التواصل مع د. هيثم الخطيب والاستشارة الطبية.']
+          ].map(([title, href, text]) => (
+            <Link key={href} to={href} className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:border-sky-400 hover:shadow-md transition-all">
+              <h3 className="text-lg font-extrabold text-slate-900">{title}</h3>
+              <p className="mt-2 text-xs leading-6 text-slate-600">{text}</p>
+              <span className="mt-4 inline-block text-xs font-bold text-sky-700">استكشف المحور ←</span>
+            </Link>
+          ))}
         </div>
       </section>
 
