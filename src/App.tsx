@@ -47,8 +47,8 @@ const TOPIC_LINKS = [
   { name: 'الحمل والولادة', href: '/articles/pregnancy-danger-signs-emergency' },
   { name: 'أعراض الحمل', href: '/articles/early-pregnancy-symptoms-guide' },
   { name: 'تأخر وانقطاع الدورة', href: '/articles/delayed-period-causes-besides-pregnancy' },
-  { name: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia/' },
-  { name: 'معلومات ميسوبروستول', href: '/misoprostol/' },
+  { name: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' },
+  { name: 'معلومات ميسوبروستول', href: '/misoprostol' },
   { name: 'سلامة الإجهاض الدوائي', href: '/articles/danger-signs-after-medical-abortion-saudi' },
   { name: 'الحمل خارج الرحم', href: '/articles/ectopic-pregnancy-symptoms-and-dangers' },
   { name: 'دليل السلامة والطوارئ', href: '/articles/pregnancy-danger-signs-emergency' },
@@ -69,22 +69,22 @@ const FOOTER_MAIN_LINKS = [
 ];
 
 const FOOTER_TOPIC_LINKS = [
-  { label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia/' },
-  { label: 'معلومات ميسوبروستول', href: '/misoprostol/' },
+  { label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' },
+  { label: 'معلومات ميسوبروستول', href: '/misoprostol' },
   { label: 'سلامة الإجهاض الدوائي', href: '/articles/danger-signs-after-medical-abortion-saudi' },
   { label: 'الحمل خارج الرحم', href: '/articles/ectopic-pregnancy-symptoms-and-dangers' },
   { label: 'دليل السلامة والطوارئ', href: '/articles/pregnancy-danger-signs-emergency' },
   { label: 'الأسئلة الشائعة', href: '/articles' },
   { label: 'اتصل بنا', href: '/consultation' },
   { label: 'إخلاء المسؤولية الطبية', href: '/medical-disclaimer' },
-  { label: 'سياسة الخصوصية', href: '/privacy/' },
-  { label: 'شروط الاستخدام', href: '/terms/' },
-  { label: 'سياسة البيع والصرف', href: '/sales-policy/' },
-  { label: 'سياسة التوصيل', href: '/delivery-policy/' },
+  { label: 'سياسة الخصوصية', href: '/privacy' },
+  { label: 'شروط الاستخدام', href: '/terms' },
+  { label: 'سياسة البيع والصرف', href: '/sales-policy' },
+  { label: 'سياسة التوصيل', href: '/delivery-policy' },
 ];
 
 const CITIES = [
-  ['الرياض','/cytotec-riyadh/'],['جدة','/cytotec-jeddah/'],['مكة المكرمة','/cytotec-makkah/'],['المدينة المنورة','/cytotec-madinah/'],['الدمام','/cytotec-dammam/'],['الخبر','/cytotec-khobar/'],['الطائف','/cytotec-taif/'],['تبوك','/cytotec-tabuk/'],['أبها','/cytotec-abha/'],['جازان','/cytotec-jazan/'],['بريدة','/cytotec-buraydah/'],['الأحساء','/cytotec-ahsa/'],['خميس مشيط','/cytotec-khamis-mushait/']
+  ['الرياض','/cytotec-riyadh'],['جدة','/cytotec-jeddah'],['مكة المكرمة','/cytotec-makkah'],['المدينة المنورة','/cytotec-madinah'],['الدمام','/cytotec-dammam'],['الخبر','/cytotec-khobar'],['الطائف','/cytotec-taif'],['تبوك','/cytotec-tabuk'],['أبها','/cytotec-abha'],['جازان','/cytotec-jazan'],['بريدة','/cytotec-buraydah'],['الأحساء','/cytotec-ahsa'],['خميس مشيط','/cytotec-khamis-mushait']
 ];
 
 export function App() {
@@ -148,32 +148,32 @@ export function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/articles" element={<ArticlesPage />} />
           <Route path="/articles/:slug" element={<ArticleRoute />} />
-          <Route path="/cytotec-saudi-arabia/" element={<ClusterPage />} />
-          <Route path="/misoprostol/" element={<ClusterPage />} />
-          <Route path="/products/" element={<ClusterPage />} />
-          <Route path="/order/" element={<ClusterPage />} />
-          <Route path="/delivery/" element={<ClusterPage />} />
-          <Route path="/pharmacies/" element={<ClusterPage />} />
-          <Route path="/cytotec-uae/" element={<ClusterPage />} />
-          <Route path="/cytotec-kuwait/" element={<ClusterPage />} />
-          <Route path="/cytotec-bahrain/" element={<ClusterPage />} />
-          <Route path="/cytotec-riyadh/" element={<ClusterPage />} />
-          <Route path="/cytotec-jeddah/" element={<ClusterPage />} />
-          <Route path="/cytotec-makkah/" element={<ClusterPage />} />
-          <Route path="/cytotec-madinah/" element={<ClusterPage />} />
-          <Route path="/cytotec-dammam/" element={<ClusterPage />} />
-          <Route path="/cytotec-khobar/" element={<ClusterPage />} />
-          <Route path="/cytotec-taif/" element={<ClusterPage />} />
-          <Route path="/cytotec-tabuk/" element={<ClusterPage />} />
-          <Route path="/cytotec-abha/" element={<ClusterPage />} />
-          <Route path="/cytotec-jazan/" element={<ClusterPage />} />
-          <Route path="/cytotec-buraydah/" element={<ClusterPage />} />
-          <Route path="/cytotec-ahsa/" element={<ClusterPage />} />
-          <Route path="/cytotec-khamis-mushait/" element={<ClusterPage />} />
-          <Route path="/privacy/" element={<ClusterPage />} />
-          <Route path="/terms/" element={<ClusterPage />} />
-          <Route path="/sales-policy/" element={<ClusterPage />} />
-          <Route path="/delivery-policy/" element={<ClusterPage />} />
+          <Route path="/cytotec-saudi-arabia" element={<ClusterPage />} />
+          <Route path="/misoprostol" element={<ClusterPage />} />
+          <Route path="/products" element={<ClusterPage />} />
+          <Route path="/order" element={<ClusterPage />} />
+          <Route path="/delivery" element={<ClusterPage />} />
+          <Route path="/pharmacies" element={<ClusterPage />} />
+          <Route path="/cytotec-uae" element={<ClusterPage />} />
+          <Route path="/cytotec-kuwait" element={<ClusterPage />} />
+          <Route path="/cytotec-bahrain" element={<ClusterPage />} />
+          <Route path="/cytotec-riyadh" element={<ClusterPage />} />
+          <Route path="/cytotec-jeddah" element={<ClusterPage />} />
+          <Route path="/cytotec-makkah" element={<ClusterPage />} />
+          <Route path="/cytotec-madinah" element={<ClusterPage />} />
+          <Route path="/cytotec-dammam" element={<ClusterPage />} />
+          <Route path="/cytotec-khobar" element={<ClusterPage />} />
+          <Route path="/cytotec-taif" element={<ClusterPage />} />
+          <Route path="/cytotec-tabuk" element={<ClusterPage />} />
+          <Route path="/cytotec-abha" element={<ClusterPage />} />
+          <Route path="/cytotec-jazan" element={<ClusterPage />} />
+          <Route path="/cytotec-buraydah" element={<ClusterPage />} />
+          <Route path="/cytotec-ahsa" element={<ClusterPage />} />
+          <Route path="/cytotec-khamis-mushait" element={<ClusterPage />} />
+          <Route path="/privacy" element={<ClusterPage />} />
+          <Route path="/terms" element={<ClusterPage />} />
+          <Route path="/sales-policy" element={<ClusterPage />} />
+          <Route path="/delivery-policy" element={<ClusterPage />} />
           <Route path="/doctor" element={<DoctorPage />} />
           <Route path="/consultation" element={<ConsultationPage />} />
           <Route path="/medical-disclaimer" element={<DisclaimerPage />} />
