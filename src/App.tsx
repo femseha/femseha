@@ -200,7 +200,6 @@ export function App() {
 
           <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500"><p>© 2026 FemSeha | فيم صحة — جميع الحقوق محفوظة.</p><div className="flex items-center gap-4 text-slate-400"><Link to="/medical-disclaimer" className="hover:underline">إخلاء المسؤولية</Link><span>•</span><Link to="/privacy" className="hover:underline">سياسة الخصوصية</Link><span>•</span><Link to="/terms" className="hover:underline">شروط الاستخدام</Link><span>•</span><Link to="/sales-policy" className="hover:underline">سياسة البيع</Link><span>•</span><Link to="/delivery-policy" className="hover:underline">سياسة التوصيل</Link><span>•</span><Link to="/admin" className="hover:underline text-slate-600">لوحة التحكم</Link></div></div>
         </div>
-           </div>
 </footer>
 
       <div className="fixed bottom-6 left-6 z-50"><a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" aria-label="تواصل عبر واتساب" className="group bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-2 border-2 border-emerald-400/40 animate-pulse hover:animate-none"><div className="bg-white/20 p-1.5 rounded-full"><MessageCircleIcon className="w-5 h-5 text-white" /></div><span className="text-sm hidden sm:inline">واتساب</span></a></div>
