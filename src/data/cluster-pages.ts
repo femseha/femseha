@@ -44,7 +44,7 @@ const cityFacts: Record<string, { region: string; areas: string; focus: string }
 function cityPage(slug: string, name: string, spelling: string): ClusterPageData {
   const f = cityFacts[slug];
   return {
-    path: '/cytotec-' + slug + '/',
+    path: '/cytotec-' + slug,
     title: `سايتوتك في ${name} | Cytotec وMisoprostol | دكتور هيثم الخطيب`,
     description: `معلومات عن سايتوتك في ${name} وميزوبروستول، السياق الصحي المحلي، التحقق من القنوات المرخصة، التوفر والطلب والتوصيل وفق الأنظمة.`,
     h1: `سايتوتك في ${name}`,
