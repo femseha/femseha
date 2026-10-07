@@ -1,0 +1,8 @@
+# Legacy indexed URLs → current canonical sections
+/contact /consultation 301
+/womens-health /articles 301
+/reproductive-health /articles 301
+/menstrual-delay-and-amenorrhea /articles/delayed-period-causes-besides-pregnancy 301
+/when-to-see-obgyn /consultation 301
+/about /doctor 301
+/faq /articles 301
