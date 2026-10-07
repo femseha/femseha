@@ -1,3 +1,5 @@
+process.env.VITE_SSR_VERIFY = 'true';
+
 #!/usr/bin/env node
 /**
  * اختبار عرض فعلي لكل مسارات الموقع عبر Vite SSR loader.
