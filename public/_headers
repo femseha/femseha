@@ -1,0 +1,5 @@
+# Keep Cloudflare Pages hostnames out of Google index
+https://femseha.pages.dev/*
+  X-Robots-Tag: noindex
+https://:version.femseha.pages.dev/*
+  X-Robots-Tag: noindex
