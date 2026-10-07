@@ -7,7 +7,7 @@ const supportingPath = path.join(root, 'src/data/seo-supporting-articles.json');
 const sitemapPath = path.join(root, 'public/sitemap.xml');
 
 const PILLAR_SLUG = 'cytotec-misoprostol-saudi-riyadh-guide';
-const PILLAR_ROUTE = '/cytotec-saudi-arabia/';
+const PILLAR_ROUTE = '/cytotec-saudi-arabia';
 const SUPPORTING_SLUGS = [
   'danger-signs-after-medical-abortion-saudi',
   'bleeding-after-medical-abortion-saudi',
