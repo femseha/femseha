@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import { articles } from '../data/articles';
 import { WHATSAPP_LINK } from '../data/site';
-import { isIndexableArticle } from '../data/seo-quality';
 import { useSeo, websiteJsonLd, organizationJsonLd, doctorJsonLd } from '../lib/seo';
+import { FEATURED_ARTICLES } from '../data/featured-articles';
 import {
   ShieldCheckIcon,
   ShieldAlertIcon,
@@ -27,14 +26,7 @@ const CATEGORY_LINKS = {
   'صحة المرأة': '/articles/pcos-symptoms-fertility-treatment',
 };
 
-const FEATURED_SLUGS = [
-  'early-pregnancy-symptoms-guide',
-  'home-pregnancy-test-accuracy',
-  'delayed-period-causes-besides-pregnancy',
-  'pcos-symptoms-fertility-treatment',
-  'pregnancy-danger-signs-emergency',
-  'cytotec-misoprostol-saudi-riyadh-guide',
-];
+
 
 const CITIES = [
   ['الرياض','/cytotec-riyadh'],['جدة','/cytotec-jeddah'],['مكة المكرمة','/cytotec-makkah'],['المدينة المنورة','/cytotec-madinah'],['الدمام','/cytotec-dammam'],['الخبر','/cytotec-khobar'],
@@ -69,11 +61,7 @@ export default function HomePage() {
     jsonLd: [websiteJsonLd(), organizationJsonLd(), doctorJsonLd()]
   });
 
-  const indexableArticles = articles.filter(isIndexableArticle);
-  const bySlug = new Map(indexableArticles.map((article) => [article.slug, article]));
-  const featuredArticles = FEATURED_SLUGS
-    .map((slug) => bySlug.get(slug))
-    .filter((article): article is NonNullable<typeof article> => Boolean(article));
+  const featuredArticles = FEATURED_ARTICLES;
 
   return (
     <div className="space-y-16 pb-16">
@@ -300,7 +288,7 @@ export default function HomePage() {
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">صفحات نوصي بالبدء بها</h2>
             <p className="text-slate-500 text-xs sm:text-sm mt-1">أهم الأدلة التي تستهدف الأسئلة الأكثر فائدة للمرأة في مراحل الحمل والدورة والخصوبة.</p>
           </div>
-          <Link to="/articles" className="inline-flex items-center gap-2 bg-white hover:bg-slate-100 border border-slate-300 text-sky-700 font-bold px-4 py-2 rounded-lg text-xs transition-colors"><span>جميع المقالات الـ {indexableArticles.length}</span><ChevronLeftIcon className="w-4 h-4" /></Link>
+          <Link to="/articles" className="inline-flex items-center gap-2 bg-white hover:bg-slate-100 border border-slate-300 text-sky-700 font-bold px-4 py-2 rounded-lg text-xs transition-colors"><span>جميع الأدلة الطبية</span><ChevronLeftIcon className="w-4 h-4" /></Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
