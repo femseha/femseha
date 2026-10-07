@@ -154,7 +154,7 @@ export default function ArticleView() {
   const article = getArticleBySlug(slug);
 
   useSeo({
-    title: article ? `${article.title} | منصة فصيحة الطبية` : 'المقال غير متوفر | منصة فصيحة الطبية',
+    title: article ? `${article.title} | سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب` : 'المقال غير متوفر | سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب',
     description: article ? article.summary.slice(0, 160) : undefined,
     // slug غير صحيح = soft-404: يُعرض محتوى 404 مع noindex وبلا canonical،
     // ولا يسقط أبداً إلى مقال آخر (لا fallback لأول مقال).
@@ -364,7 +364,7 @@ export default function ArticleView() {
         <div className="mt-8 border border-slate-200 bg-slate-50 rounded-2xl p-4 text-xs leading-relaxed text-slate-600">
           <strong className="text-slate-900">إخلاء مسؤولية طبية:</strong> هذا المحتوى تثقيفي عام
           بإشراف د. هيثم الخطيب، ولا يُغني عن التقييم الطبي المباشر، ولا يُستخدم للتشخيص الذاتي أو العلاج.
-          لا تبيع منصة فصيحة أي أدوية ولا تقدم جرعات أو خططاً علاجية فردية. في الحالات الطارئة توجهي فوراً
+          أي بيع أو صرف أو توصيل يتم فقط عبر القنوات والصيدليات المرخصة التابعة للجهة ووفق الأنظمة والاشتراطات، ولا يقدم الموقع جرعات أو خططاً علاجية فردية. في الحالات الطارئة توجهي فوراً
           إلى أقرب قسم طوارئ.
         </div>
       </article>
