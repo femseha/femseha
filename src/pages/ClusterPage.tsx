@@ -32,7 +32,10 @@ export default function ClusterPage() {
     jsonLd: [
       breadcrumbJsonLd([
         { name: 'الرئيسية', href: '/' },
-        ...(page.breadcrumb || []).map((x) => ({ name: x, href: page.path }))
+        ...(page.breadcrumb || []).map((x, index) => ({
+          name: x,
+          href: index === 0 && x === 'سايتوتك في السعودية' && page.path !== '/cytotec-saudi-arabia' ? '/cytotec-saudi-arabia' : page.path
+        }))
       ]),
       faqJsonLd(page.faqs)
     ]
@@ -129,7 +132,7 @@ export default function ClusterPage() {
             {pathname === '/misoprostol' || pathname === '/consultation' ? (
               <a href="https://sehaher.com/" target="_blank" rel="noopener noreferrer" className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700 hover:border-sky-400">SehaHer — صحة المرأة</a>
             ) : null}
-            {page.commercial && !pathname.includes('pharmacies') ? (
+            {page.commercial && (pathname === '/order' || pathname === '/delivery') ? (
               <a href="https://taxiporteu.com/" target="_blank" rel="noopener noreferrer" className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700 hover:border-sky-400">TaxiPortEU — المحتوى والخدمات المرتبطة</a>
             ) : null}
           </div>
