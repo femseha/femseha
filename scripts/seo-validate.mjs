@@ -85,7 +85,7 @@ for (const a of effectiveArticles) {
   else {
     if (seenTitles.has(a.title)) err(`عنوان مكرر: ${a.title}`);
     seenTitles.set(a.title, label);
-    if (`${a.title} | منصة فصيحة الطبية`.length > 120) warn(`${label}: <title> طويل`);
+    if (`${a.title} | FemSeha`.length > 120) warn(`${label}: <title> طويل`);
   }
   if (!a.summary || a.summary.trim().length < 50) err(`${label}: summary مفقود أو قصير`);
   else {
