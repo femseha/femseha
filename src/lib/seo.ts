@@ -14,12 +14,7 @@ export interface SeoProps {
   noCanonical?: boolean;
 }
 
-/* توحيد أي بقايا اسم قديم في metadata/Schema دون تغيير النص المرئي في الواجهة. */
-const cleanBrand = (value?: string) =>
-  (value || "")
-    .replace(/منصة\s+فصيحة\s+الطبية/g, "FemSeha | فيم صحة")
-    .replace(/فصيحة الطبية/g, "FemSeha الطبية")
-    .replace(/منصة فصيحة/g, "منصة FemSeha");
+const cleanBrand = (value?: string) => value || "";
 
 function upsertMeta(attr: "name" | "property", key: string, content: string) {
   let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
