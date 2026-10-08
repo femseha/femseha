@@ -20,6 +20,7 @@ import seoContentOverrides from "./seo-content-overrides.json";
 import { seoGulfPillarOverrides } from "./seo-gulf-pillar-overrides";
 import { seoGulfTrustSections } from "./seo-gulf-trust-sections";
 import { seoGulfInternalLinks } from "./seo-gulf-internal-links";
+import { imageSeoForArticle } from "./image-seo-overrides";
 import { isIndexableArticle, sanitizeArticle } from "./seo-quality";
 
 const faqBySlug = seoSupportingFaq as Record<string, ArticleRecord["faq"]>;
@@ -48,6 +49,8 @@ export const articles: ArticleRecord[] = uniqueArticles.map((article) => {
   const withLegacy = legacyOverride ? { ...withPillar, ...(legacyOverride.title ? { title: legacyOverride.title } : {}), ...(legacyOverride.summary ? { summary: legacyOverride.summary } : {}), ...(legacyOverride.primaryKeyword ? { primaryKeyword: legacyOverride.primaryKeyword } : {}), ...(legacyOverride.contentReplace ? { content: legacyOverride.contentReplace } : {}), ...(legacyOverride.faqReplace ? { faq: legacyOverride.faqReplace } : {}), ...(legacyOverride.relatedReplace ? { related: legacyOverride.relatedReplace } : {}) } : withPillar;
   const withContent = contentOverride ? { ...withLegacy, ...(contentOverride.contentReplace ? { content: contentOverride.contentReplace } : {}), ...(contentOverride.sources ? { sources: contentOverride.sources } : {}) } : withLegacy;
   const withGulf = gulfOverride ? { ...withContent, title: gulfOverride.title, summary: gulfOverride.summary, primaryKeyword: gulfOverride.primaryKeyword, secondaryKeywords: gulfOverride.secondaryKeywords, content: `${seoGulfTrustSections[article.slug] || ""}\n\n${gulfOverride.content}`, faq: gulfOverride.faq, sources: gulfOverride.sources, related: gulfOverride.related } : withContent;
+  const imageSeo = imageSeoForArticle(article.slug);
+  const withImageSeo = imageSeo ? { ...withGulf, image: imageSeo.image, imageAlt: imageSeo.imageAlt } : withGulf;
   const gulfLinks = seoGulfInternalLinks[article.slug] || [];
   const withNetworkLinks = gulfLinks.length
     ? { ...withGulf, related: [...gulfLinks, ...(withGulf.related || [])].filter((slug, index, list) => list.indexOf(slug) === index && slug !== article.slug) }
