@@ -30,7 +30,7 @@
  *
  * ملاحظة معمارية: لا توجد قاعدة بيانات في هذا المشروع؛ التخزين ملفي
  * (src/data/articles.json + public/sitemap.xml) ويرفع إلى المستودع عبر
- * GitHub Actions ليقوم Vercel بالنشر.
+ * GitHub Actions لتلتقط Cloudflare Pages التغيير وتنشر الموقع.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -731,7 +731,7 @@ function pushFromCI(extraPaths = [], commitMessage = null) {
     execSync(`git commit -m "${commitMessage || `chore(auto-publish): publish article ${today()}`}"`, { stdio: "inherit" });
     execSync(`git pull --rebase origin ${ref} || true`, { stdio: "inherit" });
     execSync(`git push origin HEAD:${ref}`, { stdio: "inherit" });
-    log("✔ تم رفع المقال إلى المستودع (سيقوم Vercel بالنشر).");
+    log("✔ تم رفع المقال إلى المستودع (ستقوم Cloudflare Pages بالنشر).");
   } catch (e) {
     fail(`فشل رفع المقال إلى المستودع: ${e.message}. تحقق من صلاحية GITHUB_TOKEN (Settings → Actions → General → Workflow permissions → Read and write).`);
   }
