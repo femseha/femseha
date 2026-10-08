@@ -52,6 +52,7 @@ const TOPIC_LINKS = [
   { name: 'الصحة الإنجابية', href: '/articles/ovulation-calculation-guide' },
   { name: 'الحمل والولادة', href: '/articles/pregnancy-danger-signs-emergency' },
   { name: 'أعراض الحمل', href: '/articles/early-pregnancy-symptoms-guide' },
+  { name: 'طريقة حساب عمر الحمل', href: '/طريقة-حساب-عمر-الحمل' },
   { name: 'تأخر وانقطاع الدورة', href: '/articles/delayed-period-causes-besides-pregnancy' },
   { name: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' },
   { name: 'معلومات ميسوبروستول', href: '/misoprostol' },
@@ -72,6 +73,7 @@ const FOOTER_MAIN_LINKS = [
   { label: 'أعراض الحمل', href: '/articles/early-pregnancy-symptoms-guide', accent: false },
   { label: 'تأخر وانقطاع الدورة', href: '/articles/delayed-period-causes-besides-pregnancy', accent: false },
   { label: 'الموسوعة الطبية', href: '/articles', accent: false },
+  { label: 'طريقة حساب عمر الحمل', href: '/طريقة-حساب-عمر-الحمل', accent: false },
 ];
 
 const FOOTER_TOPIC_LINKS = [
@@ -131,7 +133,7 @@ export function App() {
                 {topicsOpen && <div onMouseLeave={() => setTopicsOpen(false)} className="absolute top-full right-0 w-72 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl py-3 px-2 grid grid-cols-1 gap-1 z-50 animate-in fade-in duration-200">{TOPIC_LINKS.map((item) => <Link key={item.href + item.name} to={item.href} onClick={closeMenus} className="px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-sky-950 hover:text-sky-300 rounded-lg transition-colors flex items-center justify-between"><span>{item.name}</span><span className="text-slate-600 text-[10px]">←</span></Link>)}</div>}
               </div>
               <NavLink to="/articles" className="text-slate-200 hover:text-sky-400 transition-colors">الموسوعة الطبية</NavLink>
-              <NavLink to="/doctor" className="text-slate-200 hover:text-sky-400 transition-colors">من نحن</NavLink>
+              <NavLink to="/طريقة-حساب-عمر-الحمل" className="text-slate-200 hover:text-sky-400 transition-colors">حاسبة عمر الحمل</NavLink>
               <NavLink to="/consultation" className="text-slate-200 hover:text-sky-400 transition-colors">اتصل بنا</NavLink>
             </nav>
 
@@ -145,6 +147,7 @@ export function App() {
           <Link to="/doctor" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">عن دكتور هيثم الخطيب</Link>
           <Link to="/consultation" onClick={closeMenus} className="block py-2 text-amber-400 font-bold text-base">الاستشارات الطبية</Link>
           <Link to="/articles" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">الموسوعة الطبية</Link>
+          <Link to="/طريقة-حساب-عمر-الحمل" onClick={closeMenus} className="block py-2 text-sky-300 hover:text-sky-200 font-bold text-base">طريقة حساب عمر الحمل</Link>
           <div className="pt-2 pb-1 border-t border-slate-800"><p className="text-xs font-bold text-sky-400 mb-2">أقسام التوعية والصحة:</p><div className="grid grid-cols-2 gap-2 text-xs">{TOPIC_LINKS.map((item) => <Link key={item.href + item.name} to={item.href} onClick={closeMenus} className="p-2 bg-slate-900 rounded text-slate-300 hover:text-sky-300">{item.name}</Link>)}</div></div>
           <div className="pt-2 border-t border-slate-800 flex flex-col gap-2"><Link to="/consultation" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-sm">اتصل بنا</Link><a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="w-full bg-amber-500 text-slate-950 font-bold py-3 rounded-xl text-center shadow flex items-center justify-center gap-2"><PhoneIcon className="w-4 h-4" /><span>تواصل عبر واتساب</span></a></div>
         </div>}
