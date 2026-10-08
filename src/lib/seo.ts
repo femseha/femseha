@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { SITE, DOCTOR } from "../data/site";
+import { normalizeArticleImageUrl, preferredWebpImageUrl } from "./article-media";
 
 export interface SeoProps {
   title?: string;
@@ -51,8 +52,8 @@ export function useSeo(props: SeoProps = {}) {
     if (keywords) upsertMeta("name", "keywords", keywords);
     else document.querySelector('meta[name="keywords"]')?.remove();
 
-    if (robots) upsertMeta("name", "robots", robots);
-    else document.querySelector('meta[name="robots"]')?.remove();
+    const robotsValue = robots || "index, follow, max-image-preview:large";
+    upsertMeta("name", "robots", robotsValue);
 
     if (noCanonical) document.querySelector('link[rel="canonical"]')?.remove();
     else upsertCanonical(url);
@@ -135,6 +136,19 @@ export function breadcrumbJsonLd(crumbs: { name: string; href: string }[]) {
  * MedicalWebPage + about/DefinedTerm + mainEntityOfPage + isPartOf.
  * لا نضيف claims أو أرقاماً غير موجودة في بيانات المقال.
  */
+export function articleSeoImage(article?: { image?: string }) {
+  if (!article?.image) return null;
+  try {
+    const normalized = normalizeArticleImageUrl(article.image);
+    if (!normalized) return null;
+    const filename = normalized.split("?")[0].split("/").pop() || "";
+    if (/^banner\./i.test(filename) || /^dr-haitham-hero\./i.test(filename)) return null;
+    return preferredWebpImageUrl(normalized);
+  } catch {
+    return null;
+  }
+}
+
 export function articleJsonLd(article?: {
   title?: string;
   summary?: string;
@@ -143,15 +157,19 @@ export function articleJsonLd(article?: {
   slug?: string;
   readTime?: number;
   primaryKeyword?: string;
+  secondaryKeywords?: string[];
+  image?: string;
 }) {
   if (!article) return {};
 
   const articleUrl = `${SITE.url}/articles/${article.slug || ""}`;
   const keyword = cleanBrand(article.primaryKeyword);
+  const image = articleSeoImage(article);
+  const keywords = [article.primaryKeyword, ...(article.secondaryKeywords || [])].filter(Boolean).join(", ");
 
   return {
     "@context": "https://schema.org",
-    "@type": "MedicalWebPage",
+    "@type": "Article",
     "@id": `${articleUrl}#medical-webpage`,
     headline: cleanBrand(article.title),
     description: cleanBrand(article.summary),
@@ -159,7 +177,11 @@ export function articleJsonLd(article?: {
     ...(article.modifiedDate ? { dateModified: article.modifiedDate } : {}),
     inLanguage: "ar",
     url: articleUrl,
-    mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": articleUrl,
+      ...(image ? { primaryImageOfPage: image } : {})
+    },
     isPartOf: { "@type": "WebSite", name: SITE.name, url: SITE.url },
     ...(keyword
       ? {
@@ -168,9 +190,10 @@ export function articleJsonLd(article?: {
             name: keyword,
             inDefinedTermSet: `${SITE.url}/articles`
           },
-          keywords: keyword
+          keywords: keywords || keyword
         }
-      : {}),
+      : keywords ? { keywords } : {}),
+    ...(image ? { image } : {}),
     medicalAudience: { "@type": "MedicalAudience", audienceType: "Patient" },
     timeRequired: article.readTime ? `PT${article.readTime}M` : undefined,
     author: {
