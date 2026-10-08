@@ -64,7 +64,7 @@ export default function HomePage() {
   const featuredArticles = FEATURED_ARTICLES;
 
   return (
-    <div className="space-y-16 pb-16">
+    <div className="home-page space-y-16 pb-16">
       {/* البانر الأساسي */}
       <section className="relative w-full bg-slate-50">
         <div className="max-w-7xl mx-auto">
