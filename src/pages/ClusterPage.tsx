@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSeo, breadcrumbJsonLd } from '../lib/seo';
 import { DOCTOR, WHATSAPP_LINK, SITE } from '../data/site';
 import { CLUSTER_PAGES, type ClusterPageData } from '../data/cluster-pages';
+import { coverageForPath } from '../data/gulf-coverage';
 
 function faqJsonLd(items: { q: string; a: string }[]) {
   return {
@@ -23,6 +24,7 @@ function getPage(pathname: string): ClusterPageData {
 export default function ClusterPage() {
   const { pathname } = useLocation();
   const page = getPage(pathname);
+  const geographicCoverage = coverageForPath(pathname);
 
   useSeo({
     title: page.title,
@@ -104,6 +106,21 @@ export default function ClusterPage() {
           </section>
         ))}
 
+        {geographicCoverage ? (
+          <section className="bg-white border border-sky-200 rounded-2xl p-6 sm:p-9 shadow-sm">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">التغطية الجغرافية في {geographicCoverage.label}</h2>
+            <p className="mt-4 text-slate-700 leading-8">{geographicCoverage.intro}</p>
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              {geographicCoverage.regions.map((region) => (
+                <div key={region.name} className="rounded-xl bg-slate-50 border border-slate-200 p-5">
+                  <h3 className="font-extrabold text-slate-900">{region.name}</h3>
+                  <p className="mt-2 text-sm leading-7 text-slate-600">{region.places.join('، ')}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-5 text-xs leading-6 text-slate-500">الأسماء الجغرافية هنا لتوضيح نطاق التغطية والبحث المحلي فقط، وليست وعدًا بتوفر دواء أو خدمة في كل مدينة أو حي أو منشأة.</p>
+          </section>
+        ) : null}
         {page.commercial ? (
           <section className="bg-gradient-to-br from-amber-50 to-white border border-amber-200 rounded-2xl p-6 sm:p-9 shadow-sm">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">المنتجات والطلب والتوصيل</h2>
