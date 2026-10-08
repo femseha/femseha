@@ -135,7 +135,7 @@ export default function ClusterPage() {
                 </div>
               ))}
             </div>
-            <p className="mt-5 text-xs leading-6 text-slate-500">الأسماء الجغرافية هنا لتوضيح نطاق التغطية والبحث المحلي فقط، وليست وعدًا بتوفر دواء أو خدمة في كل مدينة أو حي أو منشأة.</p>
+            <p className="mt-5 text-xs leading-6 text-slate-700">الأسماء الجغرافية هنا لتوضيح نطاق التغطية والبحث المحلي فقط، وليست وعدًا بتوفر دواء أو خدمة في كل مدينة أو حي أو منشأة.</p>
           </section>
         ) : null}
         {page.commercial ? (
@@ -192,7 +192,7 @@ export default function ClusterPage() {
 
         <section className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
           <h2 className="text-xl font-extrabold text-slate-900">مصادر ومواقع مرتبطة بالموضوع</h2>
-          <p className="mt-2 text-sm leading-7 text-slate-600">روابط سياقية لمواقع ضمن شبكة المحتوى، تظهر بحسب موضوع الصفحة ولا تُستخدم كحشو روابط.</p>
+          <p className="mt-2 text-sm leading-7 text-slate-700">روابط سياقية لمواقع ضمن شبكة المحتوى، تظهر بحسب موضوع الصفحة ولا تُستخدم كحشو روابط.</p>
           <div className="mt-5 flex flex-wrap gap-3">
             {pathname.includes('misoprostol') || pathname.includes('cytotec') ? (
               <a href="https://cytotecom.com/" target="_blank" rel="noopener noreferrer" className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700 hover:border-sky-400">Cytotecom — أدلة سايتوتك وميسوبروستول</a>
@@ -209,7 +209,7 @@ export default function ClusterPage() {
           </div>
         </section>
 
-        <section className="text-center text-xs text-slate-500 leading-7">
+        <section className="text-center text-xs text-slate-700 leading-7">
           <p>المحتوى الطبي للتثقيف العام ولا يحل محل تقييم الطبيب. المعلومات التجارية تخضع للتوفر الفعلي والأنظمة والاشتراطات المعمول بها.</p>
           <p className="mt-1">المراجعة الطبية: {DOCTOR.name} — {DOCTOR.profession}</p>
         </section>
