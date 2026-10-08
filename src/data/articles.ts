@@ -53,8 +53,8 @@ export const articles: ArticleRecord[] = uniqueArticles.map((article) => {
   const withImageSeo = imageSeo ? { ...withGulf, image: imageSeo.image, imageAlt: imageSeo.imageAlt } : withGulf;
   const gulfLinks = seoGulfInternalLinks[article.slug] || [];
   const withNetworkLinks = gulfLinks.length
-    ? { ...withGulf, related: [...gulfLinks, ...(withGulf.related || [])].filter((slug, index, list) => list.indexOf(slug) === index && slug !== article.slug) }
-    : withGulf;
+    ? { ...withImageSeo, related: [...gulfLinks, ...(withImageSeo.related || [])].filter((slug, index, list) => list.indexOf(slug) === index && slug !== article.slug) }
+    : withImageSeo;
   const withRelated = clusterLinks?.length
     ? {
         ...withNetworkLinks,
