@@ -92,33 +92,50 @@ export default function ClusterPage() {
       ) : null}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
-        {page.sections.map((section) => (
-          <section key={section.heading} className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-9 shadow-sm">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">{section.heading}</h2>
-            <div className="mt-5 space-y-4 text-slate-700 leading-8">
+        {page.sections.map((section, index) => (
+          <div key={section.heading}>
+            <section className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-9 shadow-sm">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">{section.heading}</h2>
+              <div className="mt-5 space-y-4 text-slate-800 font-medium leading-8">
               {section.paragraphs.map((p) => <p key={p}>{p}</p>)}
             </div>
-            {section.bullets?.length ? (
-              <ul className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
-                {section.bullets.map((b) => <li key={b} className="rounded-xl bg-slate-50 border border-slate-200 p-4 text-sm font-semibold text-slate-700">✓ {b}</li>)}
-              </ul>
+              {section.bullets?.length ? (
+                <ul className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {section.bullets.map((b) => <li key={b} className="rounded-xl bg-slate-50 border border-slate-200 p-4 text-sm font-semibold text-slate-800">✓ {b}</li>)}
+                </ul>
+              ) : null}
+            </section>
+            {index === Math.floor(page.sections.length / 2) ? (
+              <section className="mt-10 overflow-hidden rounded-2xl border border-emerald-200 bg-white shadow-sm" aria-labelledby="whatsapp-midpage-title">
+                <div className="grid md:grid-cols-2 items-stretch">
+                  <div className="p-6 sm:p-9 flex flex-col justify-center">
+                    <p className="text-sm font-extrabold text-emerald-700">تواصل مباشر</p>
+                    <h2 id="whatsapp-midpage-title" className="mt-2 text-2xl sm:text-3xl font-black text-slate-950">تحتاجين إلى استشارة أو توضيح طبي؟</h2>
+                    <p className="mt-4 text-base leading-8 font-medium text-slate-800">يمكنك التواصل عبر واتساب مع فريق الاستشارات للحصول على توجيه طبي مناسب للحالة، بدل الاعتماد على معلومات غير موثوقة من نتائج البحث.</p>
+                    <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex w-fit items-center justify-center rounded-xl bg-emerald-700 px-6 py-3.5 text-base font-black text-white shadow-md hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-300">
+                      تواصل عبر واتساب
+                    </a>
+                  </div>
+                  <img src="/saudi-cytotec-doctor-consultation.webp" alt="استشارة طبية لصحة المرأة عبر واتساب" width={768} height={512} loading="lazy" decoding="async" className="h-full min-h-64 w-full object-cover" />
+                </div>
+              </section>
             ) : null}
-          </section>
+          </div>
         ))}
 
         {geographicCoverage ? (
           <section className="bg-white border border-sky-200 rounded-2xl p-6 sm:p-9 shadow-sm">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">التغطية الجغرافية في {geographicCoverage.label}</h2>
-            <p className="mt-4 text-slate-700 leading-8">{geographicCoverage.intro}</p>
+            <p className="mt-4 text-slate-800 font-medium leading-8">{geographicCoverage.intro}</p>
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
               {geographicCoverage.regions.map((region) => (
                 <div key={region.name} className="rounded-xl bg-slate-50 border border-slate-200 p-5">
                   <h3 className="font-extrabold text-slate-900">{region.name}</h3>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">{region.places.join('، ')}</p>
+                  <p className="mt-2 text-sm leading-7 text-slate-700 font-medium">{region.places.join('، ')}</p>
                 </div>
               ))}
             </div>
-            <p className="mt-5 text-xs leading-6 text-slate-500">الأسماء الجغرافية هنا لتوضيح نطاق التغطية والبحث المحلي فقط، وليست وعدًا بتوفر دواء أو خدمة في كل مدينة أو حي أو منشأة.</p>
+            <p className="mt-5 text-xs leading-6 text-slate-700">الأسماء الجغرافية هنا لتوضيح نطاق التغطية والبحث المحلي فقط، وليست وعدًا بتوفر دواء أو خدمة في كل مدينة أو حي أو منشأة.</p>
           </section>
         ) : null}
         {page.commercial ? (
@@ -145,7 +162,7 @@ export default function ClusterPage() {
                 <summary className="cursor-pointer font-bold text-slate-800 list-none flex items-center justify-between gap-4">
                   <span>{f.q}</span><span className="text-sky-600">+</span>
                 </summary>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{f.a}</p>
+                <p className="mt-3 text-sm leading-7 text-slate-700 font-medium">{f.a}</p>
               </details>
             ))}
           </div>
@@ -164,7 +181,7 @@ export default function ClusterPage() {
         {page.externalLinks?.length ? (
           <section className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-9 shadow-sm">
             <h2 className="text-2xl font-extrabold text-slate-900">مصادر رسمية وموثوقة</h2>
-            <p className="mt-3 text-slate-600 leading-7">روابط خارجية مختارة للتوسع والتحقق من المعلومات الطبية والتنظيمية. عند تعارض أي معلومة منشورة على الإنترنت مع مصدر رسمي حديث، تكون الأولوية للمصدر الرسمي الساري.</p>
+            <p className="mt-3 text-slate-700 font-medium leading-7">روابط خارجية مختارة للتوسع والتحقق من المعلومات الطبية والتنظيمية. عند تعارض أي معلومة منشورة على الإنترنت مع مصدر رسمي حديث، تكون الأولوية للمصدر الرسمي الساري.</p>
             <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
               {page.externalLinks.map((x) => (
                 <a key={x.href} href={x.href} target="_blank" rel="noopener noreferrer" className="rounded-xl border border-slate-200 bg-slate-50 p-4 font-bold text-slate-700 hover:border-sky-400">{x.label}</a>
@@ -175,7 +192,7 @@ export default function ClusterPage() {
 
         <section className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
           <h2 className="text-xl font-extrabold text-slate-900">مصادر ومواقع مرتبطة بالموضوع</h2>
-          <p className="mt-2 text-sm leading-7 text-slate-600">روابط سياقية لمواقع ضمن شبكة المحتوى، تظهر بحسب موضوع الصفحة ولا تُستخدم كحشو روابط.</p>
+          <p className="mt-2 text-sm leading-7 text-slate-700">روابط سياقية لمواقع ضمن شبكة المحتوى، تظهر بحسب موضوع الصفحة ولا تُستخدم كحشو روابط.</p>
           <div className="mt-5 flex flex-wrap gap-3">
             {pathname.includes('misoprostol') || pathname.includes('cytotec') ? (
               <a href="https://cytotecom.com/" target="_blank" rel="noopener noreferrer" className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700 hover:border-sky-400">Cytotecom — أدلة سايتوتك وميسوبروستول</a>
@@ -192,7 +209,7 @@ export default function ClusterPage() {
           </div>
         </section>
 
-        <section className="text-center text-xs text-slate-500 leading-7">
+        <section className="text-center text-xs text-slate-700 leading-7">
           <p>المحتوى الطبي للتثقيف العام ولا يحل محل تقييم الطبيب. المعلومات التجارية تخضع للتوفر الفعلي والأنظمة والاشتراطات المعمول بها.</p>
           <p className="mt-1">المراجعة الطبية: {DOCTOR.name} — {DOCTOR.profession}</p>
         </section>
