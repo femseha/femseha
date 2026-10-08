@@ -1,10 +1,28 @@
-# Legacy indexed URLs → current canonical sections
+# FemSeha legacy indexed URLs -> current canonical destinations
 /contact /consultation 301
+/about /doctor 301
 /womens-health /articles 301
 /reproductive-health /articles 301
 /menstrual-delay-and-amenorrhea /articles/delayed-period-causes-besides-pregnancy 301
 /when-to-see-obgyn /consultation 301
-/about /doctor 301
 /faq /articles 301
+/medications /articles 301
+/delayed-period /articles/delayed-period-causes-besides-pregnancy 301
+/pregnancy-test /articles/home-pregnancy-test-accuracy 301
+/privacy-policy /privacy 301
+/terms-of-use /terms 301
+/pregnancy-and-childbirth /articles 301
+/ectopic-pregnancy /articles/ectopic-pregnancy-abortion-medicines-saudi 301
+/medication-abortion-safety /articles/danger-signs-after-medical-abortion-saudi 301
+/sources /articles 301
+/medical-review /doctor 301
+/pregnancy-symptoms /articles/early-pregnancy-symptoms-guide 301
 /articles/cytotec-misoprostol-saudi-riyadh-guide /cytotec-saudi-arabia 301
 /articles/cytotec-in-saudi-arabia-medical-info-risks /cytotec-saudi-arabia 301
+/articles/دليل-شامل-عن-حبوب-سايتوتك-الأصلية-في-السعودية-الاستخدام،-الجرعات،-المحاذير-الطبية،-وبدائل-التوفر-الآمن /cytotec-saudi-arabia 301
+/articles/حبوب-سايتوتك-في-السعودية-أسرار-فترة-الملكة-والتسبيع-والتنبيه-الطبي /cytotec-saudi-arabia 301
+/articles/سايتوتك-في-السعودية /cytotec-saudi-arabia 301
+/articles/what-is-cytotec /cytotec-saudi-arabia 301
+/articles/what-is-cytotec-uses-and-warnings /cytotec-saudi-arabia 301
+/articles/ectopic-pregnancy-symptoms-and-dangers /articles/ectopic-pregnancy-abortion-medicines-saudi 301
+/articles/subchorionic-hematoma-and-early-pregnancy-care /articles/subchorionic-hematoma-pregnancy-guide 301
