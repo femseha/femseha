@@ -140,11 +140,9 @@ export function articleSeoImage(article?: { image?: string; slug?: string }) {
   if (!article?.image && !article?.slug) return null;
   try {
     const normalized = article.image ? normalizeArticleImageUrl(article.image) : null;
-    if (!normalized) return `${SITE.url}/images/seo/articles/${article.slug}.svg`;
+    if (!normalized) return null;
     const filename = normalized.split("?")[0].split("/").pop() || "";
-    if (/^banner\./i.test(filename) || /^dr-haitham-hero\./i.test(filename)) {
-      return `${SITE.url}/images/seo/articles/${article.slug}.svg`;
-    }
+    if (/^banner\./i.test(filename) || /^dr-haitham-hero\./i.test(filename)) return null;
     return preferredWebpImageUrl(normalized);
   } catch {
     return null;
