@@ -18,6 +18,7 @@ export function readSiteUrl() {
 }
 
 export const STATIC_INDEXABLE = [
+  { path: "/طريقة-حساب-عمر-الحمل", priority: "1.0", changefreq: "weekly", lastmod: "content" },
   { path: "/", priority: "1.0", changefreq: "daily", lastmod: "content" },
   { path: "/articles", priority: "0.9", changefreq: "daily", lastmod: "content" },
   { path: "/cytotec-saudi-arabia", priority: "1.0", changefreq: "weekly", lastmod: false },
