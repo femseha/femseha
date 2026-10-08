@@ -14,6 +14,8 @@ export type ClusterPageData = {
   breadcrumb?: string[];
   sections: ClusterSection[];
   faqs: { q: string; a: string }[];
+  image?: string;
+  imageAlt?: string;
   commercial?: boolean;
   links?: { label: string; href: string }[];
 };
@@ -88,6 +90,8 @@ const pages: Record<string, ClusterPageData> = {
     title: 'سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب',
     description: 'سايتوتك في السعودية وCytotec وMisoprostol: معلومات طبية، الاستخدامات، المخاطر، التحذيرات، السياق السعودي، الاستشارة، والطلب والتوصيل عبر القنوات المرخصة.',
     h1: 'سايتوتك في السعودية',
+    image: '/images/seo/cytotec-saudi-arabia-misoprostol-medical-guide.svg',
+    imageAlt: 'سايتوتك في السعودية والميزوبروستول: دليل طبي توعوي عن السلامة والمخاطر',
     intro: 'الصفحة المحورية للموقع عن سايتوتك في السعودية: تجمع بين المعلومات الدوائية، ميسوبروستول، السلامة، السياق السعودي، الاستشارة، والجانب التجاري للطلب والتوصيل عبر القنوات المرخصة.',
     keywords: ['سايتوتك في السعودية','سايتوتك السعودية','Cytotec in Saudi Arabia','Cytotec Saudi Arabia','حبوب سايتوتك في السعودية','حبوب اجهاض سايتوتك','ميسوبروستول في السعودية','Misoprostol Saudi Arabia','سايتوتك الرياض','سايتوتك جدة','سايتوتك مكة','سايتوتك المدينة','سايتوتك الدمام','سايتوتك الخبر','سايتوتك تبوك'],
     breadcrumb: ['سايتوتك في السعودية'],
