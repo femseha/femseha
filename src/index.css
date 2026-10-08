@@ -15,6 +15,7 @@ body {
   color: var(--color-slate-900);
   font-size: 17px;
   line-height: 1.85;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -38,7 +39,7 @@ button, a, nav, summary {
 .prose {
   font-family: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .prose :where(p, li, blockquote, figcaption, dt, dd, table, td, th) {
