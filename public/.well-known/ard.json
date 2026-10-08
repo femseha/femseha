@@ -1,0 +1,83 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "FemSeha | فيم صحة",
+    "documentationUrl": "https://femseha.com/",
+    "logoUrl": "https://femseha.com/saudi-cytotec-logo.webp"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:femseha.com:website:homepage",
+      "displayName": "FemSeha — الموقع الرسمي",
+      "type": "text/html",
+      "url": "https://femseha.com/",
+      "description": "الموقع الرسمي لمنصة FemSeha للتثقيف الصحي والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية.",
+      "tags": [
+        "FemSeha",
+        "صحة المرأة",
+        "السعودية"
+      ],
+      "representativeQueries": [
+        "ما هو موقع FemSeha؟",
+        "أين أجد معلومات صحة المرأة في السعودية؟"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-10-08T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:femseha.com:medical:saudi-cytotec",
+      "displayName": "سايتوتك في السعودية",
+      "type": "text/html",
+      "url": "https://femseha.com/cytotec-saudi-arabia",
+      "description": "صفحة محورية للمعلومات الطبية والتوعية والخدمات ذات الصلة بسايتوتك في السعودية.",
+      "tags": [
+        "سايتوتك",
+        "Cytotec",
+        "Misoprostol",
+        "السعودية"
+      ],
+      "representativeQueries": [
+        "سايتوتك في السعودية",
+        "معلومات عن سايتوتك في السعودية"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-10-08T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:femseha.com:medical:misoprostol",
+      "displayName": "معلومات ميسوبروستول",
+      "type": "text/html",
+      "url": "https://femseha.com/misoprostol",
+      "description": "معلومات تثقيفية عن ميسوبروستول واستخداماته الطبية والتحذيرات.",
+      "tags": [
+        "ميسوبروستول",
+        "Misoprostol",
+        "صحة المرأة"
+      ],
+      "representativeQueries": [
+        "ما هو ميسوبروستول؟",
+        "ما معلومات ميسوبروستول الطبية؟"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-10-08T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:femseha.com:service:consultation",
+      "displayName": "الاستشارات الطبية",
+      "type": "text/html",
+      "url": "https://femseha.com/consultation",
+      "description": "صفحة الاستشارات والتواصل الطبي مع د. هيثم الخطيب.",
+      "tags": [
+        "استشارات",
+        "طبيب",
+        "صحة المرأة"
+      ],
+      "representativeQueries": [
+        "كيف أتواصل مع دكتور هيثم الخطيب؟",
+        "أين أجد صفحة الاستشارات الطبية؟"
+      ],
+      "version": "1.0",
+      "updatedAt": "2026-10-08T00:00:00Z"
+    }
+  ]
+}
