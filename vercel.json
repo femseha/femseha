@@ -18,6 +18,96 @@
       "permanent": true
     },
     {
+      "source": "/articles/حبوب-سايتوتك-في-السعودية-أسرار-فترة-الملكة-والتسبيع-والتنبيه-الطبي",
+      "destination": "/cytotec-saudi-arabia",
+      "permanent": true
+    },
+    {
+      "source": "/articles/سايتوتك-في-السعودية",
+      "destination": "/cytotec-saudi-arabia",
+      "permanent": true
+    },
+    {
+      "source": "/articles/what-is-cytotec",
+      "destination": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "permanent": true
+    },
+    {
+      "source": "/articles/what-is-cytotec-uses-and-warnings",
+      "destination": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
+      "permanent": true
+    },
+    {
+      "source": "/articles/ectopic-pregnancy-symptoms-and-dangers",
+      "destination": "/articles/ectopic-pregnancy-abortion-medicines-saudi",
+      "permanent": true
+    },
+    {
+      "source": "/articles/subchorionic-hematoma-and-early-pregnancy-care",
+      "destination": "/articles/subchorionic-hematoma-pregnancy-guide",
+      "permanent": true
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/pregnancy-and-childbirth",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/ectopic-pregnancy",
+      "destination": "/articles/ectopic-pregnancy-abortion-medicines-saudi",
+      "permanent": true
+    },
+    {
+      "source": "/medication-abortion-safety",
+      "destination": "/articles/danger-signs-after-medical-abortion-saudi",
+      "permanent": true
+    },
+    {
+      "source": "/reproductive-health",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/womens-health",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/menstrual-delay-and-amenorrhea",
+      "destination": "/articles/delayed-period-causes-besides-pregnancy",
+      "permanent": true
+    },
+    {
+      "source": "/sources",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/medical-review",
+      "destination": "/doctor",
+      "permanent": true
+    },
+    {
+      "source": "/faq",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/pregnancy-symptoms",
+      "destination": "/articles/early-pregnancy-symptoms-guide",
+      "permanent": true
+    },
+    {
+      "source": "/terms-of-use",
+      "destination": "/terms",
+      "permanent": true
+    },
+    {
       "source": "/medications",
       "destination": "/articles",
       "permanent": true
@@ -33,20 +123,9 @@
       "permanent": true
     },
     {
-      "source": "/articles/what-is-cytotec",
-      "destination": "/articles/cytotec-misoprostol-saudi-riyadh-guide",
-      "permanent": true
-    },
-    {
       "source": "/$",
       "destination": "/",
       "permanent": true
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ],
   "headers": [
