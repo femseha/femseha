@@ -7,13 +7,14 @@ html {
 
 body {
   margin: 0;
-  font-family: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif, "Apple Color Emoji",
+  font-family: "Cairo", "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   direction: rtl;
   color-scheme: light;
   background-color: var(--color-slate-50);
   color: var(--color-slate-900);
-  font-size: 16px;
+  font-size: 17px;
+  line-height: 1.85;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -91,6 +92,64 @@ button, a, nav, summary {
   animation-duration: 0.2s;
 }
 
+
+
+/* ── قراءة عربية واضحة على الهاتف والكمبيوتر ── */
+#main-content {
+  font-size: 18px;
+  line-height: 1.9;
+}
+
+#main-content p,
+#main-content li,
+#main-content td,
+#main-content th {
+  font-size: 18px;
+  line-height: 1.9;
+}
+
+#main-content p.text-sm,
+#main-content p.text-xs,
+#main-content li.text-sm,
+#main-content li.text-xs {
+  font-size: 17px !important;
+  line-height: 1.8 !important;
+}
+
+#main-content .prose {
+  font-size: 18px;
+  line-height: 1.95;
+}
+
+#main-content .prose p,
+#main-content .prose li {
+  font-size: 18px;
+  line-height: 1.95;
+}
+
+#main-content h1,
+#main-content h2 {
+  font-weight: 800;
+}
+
+#main-content h3 {
+  font-weight: 700;
+}
+
+@media (max-width: 639px) {
+  body { font-size: 16.5px; }
+  #main-content { font-size: 17px; line-height: 1.85; }
+  #main-content p,
+  #main-content li,
+  #main-content td,
+  #main-content th,
+  #main-content .prose,
+  #main-content .prose p,
+  #main-content .prose li {
+    font-size: 17px;
+    line-height: 1.85;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
