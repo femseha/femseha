@@ -81,7 +81,7 @@ export default function HomePage() {
               width={1408}
               height={768}
               fetchPriority="high"
-              decoding="async"
+              decoding="sync"
               loading="eager"
               sizes="100vw"
               className="w-full h-auto object-cover"
