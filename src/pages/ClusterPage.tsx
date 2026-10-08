@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useSeo, breadcrumbJsonLd } from '../lib/seo';
-import { DOCTOR, WHATSAPP_LINK } from '../data/site';
+import { DOCTOR, WHATSAPP_LINK, SITE } from '../data/site';
 import { CLUSTER_PAGES, type ClusterPageData } from '../data/cluster-pages';
 
 function faqJsonLd(items: { q: string; a: string }[]) {
@@ -29,7 +29,15 @@ export default function ClusterPage() {
     description: page.description,
     canonicalPath: page.path,
     keywords: page.keywords.join(', '),
+    image: page.image ? new URL(page.image, SITE.url).href : undefined,
     jsonLd: [
+      ...(page.image ? [{
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        '@id': `${SITE.url}${page.path}#webpage`,
+        url: `${SITE.url}${page.path}`,
+        primaryImageOfPage: new URL(page.image, SITE.url).href
+      }] : []),
       breadcrumbJsonLd([
         { name: 'الرئيسية', href: '/' },
         ...(page.breadcrumb || []).map((x, index) => ({
@@ -62,6 +70,24 @@ export default function ClusterPage() {
           </div>
         </div>
       </section>
+
+      {page.image ? (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+          <figure>
+            <img
+              src={page.image}
+              alt={page.imageAlt || page.h1}
+              title={page.imageAlt || page.h1}
+              width={1200}
+              height={675}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              className="w-full max-w-5xl mx-auto rounded-2xl border border-slate-200 shadow-sm"
+            />
+          </figure>
+        </div>
+      ) : null}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
         {page.sections.map((section) => (
