@@ -28,11 +28,19 @@ export default function DoctorPage() {
         </nav>
 
         <div className="bg-white border border-slate-200 rounded-3xl shadow-lg p-8 sm:p-10 text-center">
-          <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-sky-600 to-slate-800 border-2 border-sky-500 flex items-center justify-center text-white text-3xl font-black">
-            د.هـ
+          <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-white border-2 border-sky-600 shadow-md flex items-center justify-center overflow-hidden">
+            <img
+              src="/saudi-cytotec-logo-96w.webp"
+              alt="شعار FemSeha — فيم صحة"
+              width={96}
+              height={96}
+              loading="eager"
+              decoding="async"
+              className="w-full h-full object-contain p-1"
+            />
           </div>
           <h1 className="text-3xl font-black text-slate-900 mb-2">{DOCTOR.name}</h1>
-          <p className="text-sky-400 font-bold mb-1">{DOCTOR.title}</p>
+          <p className="text-sky-700 font-bold mb-1">{DOCTOR.title}</p>
           <p className="text-slate-500 text-sm mb-8">{DOCTOR.clinic}</p>
 
           <div className="grid gap-4 sm:grid-cols-2 text-right mb-8">
