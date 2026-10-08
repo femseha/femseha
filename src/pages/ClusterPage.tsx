@@ -116,7 +116,7 @@ export default function ClusterPage() {
                       تواصل عبر واتساب
                     </a>
                   </div>
-                  <img src="/saudi-cytotec-doctor-consultation.webp" alt="استشارة طبية لصحة المرأة عبر واتساب" width={768} height={512} loading="lazy" decoding="async" className="h-full min-h-64 w-full object-cover" />
+                  <img src="/images/seo/saudi-cytotec-doctor-consultation.webp" alt="استشارة طبية لصحة المرأة عبر واتساب" width={768} height={512} loading="lazy" decoding="async" className="h-full min-h-64 w-full object-cover" />
                 </div>
               </section>
             ) : null}
