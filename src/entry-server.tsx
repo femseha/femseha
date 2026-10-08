@@ -77,6 +77,27 @@ export function render(url: string): RenderResult {
         }))
       }
     ];
+  } else if (url === '/طريقة-حساب-عمر-الحمل') {
+    title = 'طريقة حساب عمر الحمل | حاسبة الحمل الدقيقة | د. هيثم الخطيب';
+    description = 'حاسبة الحمل الدقيقة لحساب عمر الحمل وموعد الولادة المتوقع بالأسابيع والأشهر، مع التاريخ الميلادي والهجري وجدول مبسط لمراحل الحمل.';
+    image = 'https://femseha.com/saudi-cytotec-logo.webp';
+    jsonLd = [
+      websiteJsonLd(),
+      doctorJsonLd(),
+      breadcrumbJsonLd([
+        { name: 'الرئيسية', href: '/' },
+        { name: 'حاسبة الحمل الدقيقة', href: '/طريقة-حساب-عمر-الحمل' }
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebApplication',
+        name: 'حاسبة الحمل الدقيقة',
+        applicationCategory: 'HealthApplication',
+        operatingSystem: 'Web',
+        url: 'https://femseha.com/طريقة-حساب-عمر-الحمل',
+        description: 'أداة تثقيفية لحساب عمر الحمل وموعد الولادة المتوقع بالتاريخ الميلادي والهجري.'
+      }
+    ];
   } else if (url === '/articles') {
     title = 'الأدلة الطبية وصحة المرأة | FemSeha';
     description = 'مكتبة FemSeha للأدلة التثقيفية في صحة المرأة والحمل والخصوبة والدورة والصحة الإنجابية.';
