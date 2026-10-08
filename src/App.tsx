@@ -102,7 +102,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased flex flex-col justify-between selection:bg-sky-500 selection:text-white" dir="rtl">
+    <div className="min-h-screen bg-slate-50 text-slate-900 antialiased flex flex-col justify-between selection:bg-sky-500 selection:text-white" dir="rtl">
       <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:right-3 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:font-bold focus:text-slate-950 focus:shadow-lg">تخطي إلى المحتوى الرئيسي</a>
       <ScrollToTop />
 
