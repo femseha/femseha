@@ -59,7 +59,7 @@ export const LIMITS = {
 } as const;
 
 /** المسارات الثابتة القابلة للربط الداخلي (مطابقة لـ generate-sitemap.mjs) */
-export const STATIC_ROUTES = ["/", "/articles", "/doctor", "/consultation", "/medical-disclaimer"];
+export const STATIC_ROUTES = ["/", "/articles", "/طريقة-حساب-عمر-الحمل", "/doctor", "/consultation", "/medical-disclaimer"];
 
 /* ── دوال النص العربي (مطابقة حرفياً لنسخة الخادم) ─────────────────────── */
 
