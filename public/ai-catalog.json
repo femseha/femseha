@@ -9,7 +9,7 @@
     {
       "identifier": "urn:air:femseha.com:website:homepage",
       "displayName": "FemSeha — الموقع الرسمي",
-      "type": "text/html",
+      "type": "text/markdown",
       "url": "https://femseha.com/",
       "description": "الموقع الرسمي لمنصة FemSeha للتثقيف الصحي والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية.",
       "tags": [
@@ -27,8 +27,8 @@
     {
       "identifier": "urn:air:femseha.com:medical:pregnancy-calculator",
       "displayName": "طريقة حساب عمر الحمل",
-      "type": "text/html",
-      "url": "https://femseha.com/طريقة-حساب-عمر-الحمل",
+      "type": "text/markdown",
+      "url": "https://femseha.com/%D8%B7%D8%B1%D9%8A%D9%82%D8%A9-%D8%AD%D8%B3%D8%A7%D8%A8-%D8%B9%D9%85%D8%B1-%D8%A7%D9%84%D8%AD%D9%85%D9%84",
       "description": "حاسبة تعليمية عربية لحساب عمر الحمل وموعد الولادة المتوقع بالتاريخ الميلادي أو الهجري.",
       "tags": [
         "الحمل",
@@ -45,7 +45,7 @@
     {
       "identifier": "urn:air:femseha.com:medical:saudi-cytotec",
       "displayName": "سايتوتك في السعودية",
-      "type": "text/html",
+      "type": "text/markdown",
       "url": "https://femseha.com/cytotec-saudi-arabia",
       "description": "صفحة محورية للمعلومات الطبية والتوعية والخدمات ذات الصلة بسايتوتك في السعودية.",
       "tags": [
@@ -64,7 +64,7 @@
     {
       "identifier": "urn:air:femseha.com:medical:misoprostol",
       "displayName": "معلومات ميسوبروستول",
-      "type": "text/html",
+      "type": "text/markdown",
       "url": "https://femseha.com/misoprostol",
       "description": "معلومات تثقيفية عن ميسوبروستول واستخداماته الطبية والتحذيرات.",
       "tags": [
@@ -82,7 +82,7 @@
     {
       "identifier": "urn:air:femseha.com:service:consultation",
       "displayName": "الاستشارات الطبية",
-      "type": "text/html",
+      "type": "text/markdown",
       "url": "https://femseha.com/consultation",
       "description": "صفحة الاستشارات والتواصل الطبي مع د. هيثم الخطيب.",
       "tags": [
