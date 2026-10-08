@@ -11,7 +11,7 @@
  *      scripts/admin-publish.mjs الطلبات: توليد Gemini (المفتاح GEMINI_API_KEY
  *      يبقى في GitHub Secrets ولا يصل للمتصفح أبداً)، فحوصات الجودة والسلامة
  *      ومنع تنافس الكلمات، ثم الحفظ في src/data/articles.json + sitemap.xml
- *      والرفع إلى main — فينشر Vercel الموقع مباشرة.
+ *      والرفع إلى main — فتلتقط Cloudflare Pages التغيير وتنشر الموقع مباشرة.
  *
  * لا يوجد Review ولا Approval ولا Draft: الطلب يُنفَّذ وينشر آلياً في نفس
  * التشغيل، والنتيجة (نجاح/فشل مع السبب) تُقرأ من المستودع وتُعرض هنا.

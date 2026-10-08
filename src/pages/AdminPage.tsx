@@ -37,7 +37,7 @@ import RequestsPanel from '../components/admin/RequestsPanel';
  * القائمة نفسها: طلب النشر يُحفظ في المستودع ويُشغَّل سير العمل القائم
  * .github/workflows/auto-publish.yml (workflow_dispatch) فينفذ scripts/generate-article.mjs
  * → scripts/admin-publish.mjs التوليدَ والفحوصات والحفظ في src/data/articles.json
- * + public/sitemap.xml ثم الرفع إلى main — وينشر Vercel الموقع.
+ * + public/sitemap.xml ثم الرفع إلى main — وينشر Cloudflare Pages الموقع.
  * مفتاح GEMINI_API_KEY يبقى في GitHub Secrets ولا يصل للمتصفح أبداً.
  */
 const ADMIN_PASSWORD = 'DrHaitham2026!';

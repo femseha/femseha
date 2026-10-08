@@ -57,4 +57,4 @@
 ## دورة النشر الآلي
 
 `auto-publish.yml` → `generate-article.mjs` يضيف مقالاً لـ `articles.json` ويولّد sitemap بالصيغة
-الموحدة → push → Vercel يشغّل `npm run build` (يعيد التوليد ويضمن التطابق) → النشر.
+الموحدة → push → Cloudflare Pages يشغّل `npm run build` (يعيد التوليد ويضمن التطابق) → النشر.

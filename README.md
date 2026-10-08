@@ -11,7 +11,7 @@
   - `src/data/articles.json` — كل المقالات المنشورة (المصدر الوحيد).
   - `src/data/content-map.json` — خطة المحتوى والكلمات المفتاحية (35 موضوعاً مرتباً بأولوية).
   - `src/data/site.ts` — هوية الموقع وبيانات الطبيب والقنوات الرسمية.
-- **النشر:** Vercel (مشروع مرتبط بمستودع GitHub، يبني من `main` عبر `npm run build`).
+- **النشر:** Cloudflare Pages (مرتبط بمستودع GitHub، يبني من `main` عبر `npm run build`).
 
 ## أوامر التشغيل
 
