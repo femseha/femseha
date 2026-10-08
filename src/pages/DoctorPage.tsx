@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { DOCTOR, SITE, WHATSAPP_LINK, NO_SALE_NOTICE } from '../data/site';
+import { DOCTOR, WHATSAPP_LINK, NO_SALE_NOTICE } from '../data/site';
 import { useSeo, doctorJsonLd, websiteJsonLd, breadcrumbJsonLd } from '../lib/seo';
 
 export default function DoctorPage() {
@@ -59,7 +59,7 @@ export default function DoctorPage() {
 
           <div className="bg-sky-50/50 border border-sky-200 rounded-2xl p-5 mb-8 text-right">
             <h2 className="text-sm font-bold text-slate-900 mb-2">رسالة المنصة</h2>
-            <p className="text-sm text-slate-700 leading-relaxed">{SITE.description}</p>
+            <p className="text-sm text-slate-700 leading-relaxed">منصة FemSeha للتثقيف والاستشارات في صحة المرأة والصحة الإنجابية، بإشراف طبي متخصص، مع التركيز على المعلومات الصحية الموثوقة وسلامة المريضة.</p>
           </div>
 
           <div className="bg-amber-50/50 border border-amber-200 rounded-2xl p-4 mb-8 text-sm text-amber-800 font-semibold leading-relaxed">
