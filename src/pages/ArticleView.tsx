@@ -201,8 +201,9 @@ export default function ArticleView() {
 
   // قاعدة الفصل البصري: صورة الهيرو/البانر العامة لا تُعرض أبداً كصورة مقال افتراضية.
   // تُعرض فقط صورة خاصة بالمقال إن كانت موجودة وليست البانر العام.
+  const preferredImage = articleSeoImage(article);
   const normalizedImage = displayArticleImageUrl(article.image);
-  const articleImage = normalizedImage && !isHomepageBanner(normalizedImage) ? normalizedImage : null;
+  const articleImage = preferredImage || (normalizedImage && !isHomepageBanner(normalizedImage) ? normalizedImage : null);
 
   return (
     <div className="bg-slate-50 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
