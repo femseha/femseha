@@ -166,7 +166,7 @@
 
 - **Sitemap:** متطابق 100% بالاتجاهين مع الـ16 URL المنشورة (يتحقق منه Validator آلياً). `lastmod` يطابق publishDate/modifiedDate. لا URLs زائدة ولا ناقصة ولا محجوبة.
 - **Robots:** `Allow: /`، `Disallow: /admin`، `Disallow: /search`، `Sitemap: https://femseha.com/sitemap.xml` — بلا أي حجب للمقالات أو assets. ✔ (لم يتغير — كان سليماً)
-- **Canonical:** ذاتي لكل صفحة، فريد، ولا canonicals عابرة (لا يوجد ما يبررها). `vercel.json` rewrite للـSPA سليم (الملفات الثابتة تُخدم قبل الـrewrite).
+- **Canonical:** ذاتي لكل صفحة، فريد، ولا canonicals عابرة (لا يوجد ما يبررها). `public/_redirects` rewrite للـSPA سليم (الملفات الثابتة تُخدم قبل الـrewrite).
 - **Schema:** ثابت في index.html: WebSite + MedicalOrganization + Physician (JSON صالح). ديناميكي لكل مقال: MedicalWebPage (+dateModified الصادق) + BreadcrumbList + FAQPage (فقط عند وجود FAQ فعلي — الـ11 مقالاً جميعها لديها FAQ حقيقي) + Physician author/reviewedBy + MedicalOrganization publisher. لا Schema وهمي.
 - **H1:** واحد بالضبط في كل صفحة قابلة للفهرسة (يتحقق منه Validator عبر عرض SSR فعلي لكل مسار).
 - **ALT:** كل الصور المعروضة تحمل ALT وصفياً؛ لا صور بلا alt (فحص SSR آلي). صورة المقال تستخدم عنوان المقال كـALT.
