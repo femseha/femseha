@@ -103,6 +103,7 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased flex flex-col justify-between selection:bg-sky-500 selection:text-white" dir="rtl">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:right-3 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:font-bold focus:text-slate-950 focus:shadow-lg">تخطي إلى المحتوى الرئيسي</a>
       <ScrollToTop />
 
       <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md">
@@ -148,7 +149,7 @@ export function App() {
         </div>}
       </header>
 
-      <main className="flex-grow">
+      <main id="main-content" className="flex-grow">
         <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center text-slate-500">جاري تحميل الصفحة…</div>}>
           <Routes>
           <Route path="/" element={<HomePage />} />
