@@ -5,3 +5,4 @@ Disallow: /search?
 Disallow: /admin
 
 Sitemap: https://femseha.com/sitemap.xml
+Sitemap: https://femseha.com/image-sitemap.xml
