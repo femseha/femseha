@@ -1,13 +1,12 @@
-
 import { Link } from 'react-router-dom';
 import { DOCTOR, WHATSAPP_LINK } from '../data/site';
 import { useSeo, websiteJsonLd, breadcrumbJsonLd, doctorJsonLd } from '../lib/seo';
 
 export default function ConsultationPage() {
   useSeo({
-    title: 'الاستشارة الطبية | د. هيثم الخطيب | FemSeha',
+    title: 'الاستشارة الطبية قبل استخدام سايتوتك | ميسوبروستول | FemSeha',
     description:
-      'احجزي استشارتك الطبية مع د. هيثم الخطيب، اختصاصي جراحة النساء والتوليد والعقم، عبر الهاتف أو واتساب بسرية تامة.',
+      'صفحة تثقيفية عن الاستشارة الطبية قبل استخدام سايتوتك (ميسوبروستول)، وما الذي يقيّمه الطبيب، ومتى تكون الحالة طارئة، وكيف تستعدين للاستشارة بسرية.',
     canonicalPath: '/consultation',
     jsonLd: [
       websiteJsonLd(),
@@ -21,93 +20,301 @@ export default function ConsultationPage() {
 
   return (
     <div className="bg-slate-50 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
-      <div className="max-w-3xl mx-auto">
-        {/* بانر استشارة واتساب الأصلي — Header → Banner → Title → Content */}
-        <div className="flex justify-center mb-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex justify-center mb-8">
           <a
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
-            className="block w-full max-w-[500px]"
+            aria-label="طلب استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
+            className="block w-full max-w-[760px]"
           >
             <img
-              src="/images/whatsapp-consultation.webp"
-              alt="استشارة طبية عبر واتساب مع دكتور هيثم الخطيب"
-              width={1024}
-              height={683}
-              loading="lazy"
+              src="/images/seo/saudi-cytotec-doctor-consultation.webp"
+              alt="استشارة طبية حول سايتوتك وميزوبروستول وصحة المرأة"
+              width={1200}
+              height={800}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               className="w-full h-auto rounded-2xl shadow-xl"
             />
           </a>
         </div>
 
-        <nav aria-label="مسار التنقل" className="text-xs text-slate-500 mb-6">
-          <Link to="/" className="hover:text-sky-400">الرئيسية</Link>
+        <nav aria-label="مسار التنقل" className="text-sm text-slate-600 mb-6">
+          <Link to="/" className="hover:text-sky-600">الرئيسية</Link>
           <span className="mx-2">‹</span>
-          <span className="text-slate-700 font-semibold">الاستشارة الطبية</span>
+          <span className="text-slate-800 font-semibold">الاستشارة الطبية</span>
         </nav>
 
-        <section className="bg-gradient-to-b from-white via-sky-50 to-slate-50 border border-sky-200 text-slate-900 rounded-3xl p-8 sm:p-10 text-center shadow-xl mb-8">
-          <h1 className="text-3xl font-black mb-3">الاستشارة الطبية مع {DOCTOR.name}</h1>
-          <p className="text-slate-700 leading-relaxed max-w-xl mx-auto">
-            استشارات طبية تخصصية في صحة المرأة، الحمل، الخصوبة، واضطرابات الدورة الشهرية — بسرية وخصوصية
-            تامة.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 mt-8">
-            <a
-              href={WHATSAPP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold text-sm transition-colors shadow"
-            >
-              💬 استشارة واتساب
-            </a>
-            <a
-              href={DOCTOR.phoneLink}
-              className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl font-bold text-sm transition-colors shadow"
-            >
-              📞 {DOCTOR.phoneDisplay}
-            </a>
-          </div>
-        </section>
-
-        <div className="grid gap-5 sm:grid-cols-2">
-          <div className="bg-white border border-slate-200 rounded-2xl p-6">
-            <h2 className="text-base font-bold text-slate-900 mb-3">ماذا تغطي الاستشارة؟</h2>
-            <ul className="list-disc pr-5 space-y-2 text-sm text-slate-700 leading-relaxed">
-              <li>متابعة الحمل وعلامات الخطر التي تستدعي تقييماً عاجلاً.</li>
-              <li>اضطرابات الدورة الشهرية وتأخرها.</li>
-              <li>الخصوبة وتأخر الإنجاب وخيارات التقييم الأولي.</li>
-              <li>قراءة النتائج والتحاليل ضمن سياقك الصحي.</li>
-              <li>أسئلة عن سلامة الأدوية في الحمل والإرضاع.</li>
-            </ul>
-          </div>
-
-          <div className="bg-white border border-slate-200 rounded-2xl p-6">
-            <h2 className="text-base font-bold text-slate-900 mb-3">كيف تستعدين للاستشارة؟</h2>
-            <ol className="list-decimal pr-5 space-y-2 text-sm text-slate-700 leading-relaxed">
-              <li>جهّزي تاريخك الطبي المختصر والأدوية الحالية.</li>
-              <li>أرفقي نتائج الفحوصات أو تقارير السونار إن وُجدت.</li>
-              <li>دوّني أسئلتك مسبقاً حتى لا يفوتك شيء أثناء الحوار.</li>
-              <li>حدّدي تاريخ أول يوم من آخر دورة شهرية عند الحاجة.</li>
-            </ol>
-          </div>
-
-          <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:col-span-2">
-            <h2 className="text-base font-bold text-slate-900 mb-3">السرية والخصوصية</h2>
-            <p className="text-sm text-slate-700 leading-relaxed">
-              تُعامل جميع التواصلات بسرية تامة. لا نطلب معلومات أكثر مما تحتاجه الحالة، ولا نشارك أي بيانات
-              مع أي جهة.
+        <article className="bg-white border border-slate-200 rounded-3xl shadow-xl overflow-hidden">
+          <header className="bg-gradient-to-b from-white via-sky-50 to-slate-50 p-8 sm:p-10 text-center border-b border-slate-200">
+            <p className="text-sky-700 font-bold text-sm mb-3">استشارة طبية وتثقيف صحي</p>
+            <h1 className="text-3xl sm:text-4xl font-black text-slate-950 leading-tight mb-5">
+              الاستشارة الطبية قبل استخدام حبوب سايتوتك (ميسوبروستول)
+            </h1>
+            <p className="text-slate-800 text-base sm:text-lg leading-loose max-w-3xl mx-auto font-medium">
+              إذا كنتِ تبحثين عن معلومات حول سايتوتك أو ميسوبروستول بسبب وجود حمل أو نزيف أو تأخر في الدورة،
+              فالأهم هو الحصول على تقييم طبي مناسب قبل اتخاذ أي قرار. هذه الصفحة تشرح دور الاستشارة الطبية،
+              وما الذي يحتاج الطبيب إلى معرفته، ولماذا لا ينبغي التعامل مع الدواء باعتباره حلاً واحداً يناسب جميع الحالات.
             </p>
-          </div>
-        </div>
+            <div className="flex flex-wrap justify-center gap-3 mt-8">
+              <a
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-base transition-colors shadow"
+              >
+                💬 طلب استشارة عبر واتساب
+              </a>
+              <a
+                href={DOCTOR.phoneLink}
+                className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl font-bold text-base transition-colors shadow"
+              >
+                📞 {DOCTOR.phoneDisplay}
+              </a>
+            </div>
+          </header>
 
-        <div className="mt-6 border border-slate-200 bg-white rounded-2xl p-4 text-xs leading-relaxed text-slate-700">
-          <strong className="text-slate-900">تنبيه مهم:</strong> الاستشارة عن بُعد لا تغني عن الفحص
-          السريري المباشر عند الحاجة، ولا تصلح للحالات الطارئة. في الحالات الطارئة (نزيف غزير، ألم شديد،
-          إغماء، حمى مرتفعة) توجهي فوراً إلى أقرب قسم طوارئ أو اتصلي بالطوارئ الموحد.
-        </div>
+          <div className="p-7 sm:p-10 space-y-10 text-slate-800 text-base leading-loose font-medium">
+            <section>
+              <h2 className="text-2xl font-black text-slate-950 mb-4">ما المقصود بالاستشارة حول سايتوتك؟</h2>
+              <p className="mb-4">
+                الاستشارة الطبية حول سايتوتك، المعروف باسم ميسوبروستول، ليست مجرد سؤال عن اسم الدواء أو طريقة
+                استخدامه. المقصود هو تقييم الحالة الصحية والسبب الذي يدفع إلى السؤال عن الدواء، ثم تحديد ما إذا
+                كانت هناك حاجة إلى فحص أو تحليل أو تصوير أو متابعة مباشرة. قد يُذكر سايتوتك في سياقات طبية مختلفة،
+                لذلك لا يمكن اعتبار وجود اسم الدواء وحده دليلاً على أن استخدامه مناسب لحالة معينة.
+              </p>
+              <p>
+                الهدف من الاستشارة هو تقليل القرارات العشوائية، والتأكد من أن الأعراض الحالية لا تشير إلى حالة
+                تحتاج إلى رعاية عاجلة، ومراجعة التاريخ الطبي والأدوية والحمل المحتمل والعوامل التي قد تغيّر
+                تقييم الطبيب. وتؤكد الإرشادات الطبية الدولية أن الرعاية المتعلقة بالإجهاض يجب أن تكون مبنية على
+                معلومات سريرية موثوقة وأن تُراعى فيها الظروف الصحية والسياق المحلي والتنظيمي.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-black text-slate-950 mb-4">لماذا يفضّل طلب الاستشارة قبل استخدام ميسوبروستول؟</h2>
+              <p className="mb-4">
+                السبب الأساسي هو أن النزيف أو ألم البطن أو تأخر الدورة لا يثبت وحده طبيعة المشكلة. فقد يكون السبب
+                حملًا مبكرًا، أو فقدان حمل، أو مشكلة في الدورة، أو سببًا آخر يحتاج إلى تقييم مختلف. كما أن الحمل
+                خارج الرحم حالة مهمة يجب عدم تجاهلها؛ لأنه قد يسبب نزيفًا داخليًا إذا حدث تمزق، ولا تعالج هذه
+                الحالة بمجرد التعامل معها كحمل داخل الرحم.
+              </p>
+              <p>
+                لذلك تبدأ الاستشارة الجيدة بالسؤال عن الأعراض، وتاريخ آخر دورة، ونتيجة اختبار الحمل إن وُجدت،
+                وأي تصوير أو تحليل سابق، إضافة إلى العمليات السابقة والأمراض المزمنة والأدوية والحساسيات. وفي
+                بعض الحالات قد يرى الطبيب أن الفحص السريري أو التصوير بالموجات فوق الصوتية أو التحاليل ضرورية
+                قبل الوصول إلى قرار طبي. هذه الخطوة ليست تعقيدًا غير ضروري؛ بل وسيلة لتقليل احتمال اتخاذ قرار
+                غير مناسب بناءً على معلومات ناقصة.
+              </p>
+            </section>
+
+            <section className="bg-amber-50 border border-amber-200 rounded-2xl p-6">
+              <h2 className="text-2xl font-black text-slate-950 mb-4">هل الصفحة تعطي جرعة أو طريقة استخدام سايتوتك؟</h2>
+              <p className="mb-4">
+                لا. هذه الصفحة مخصصة للتثقيف والاستشارة وليست وصفة دوائية أو بروتوكولًا للاستخدام الذاتي. الجرعة
+                وطريقة إعطاء الأدوية وتوقيت استخدامها أمور سريرية تعتمد على الحالة، وعمر الحمل، والتاريخ الصحي،
+                والأدوية الأخرى، وتقييم الطبيب والأنظمة المحلية. لذلك لا ينبغي نسخ تعليمات من منشور أو رسالة أو
+                موقع غير موثوق وتطبيقها على حالة شخصية دون تقييم مناسب.
+              </p>
+              <p>
+                ويمكن خلال الاستشارة شرح المعلومات الطبية ذات الصلة بالحالة بصورة فردية، وبيان متى يلزم الفحص
+                المباشر أو الطوارئ. كما يمكن مناقشة البدائل الطبية المتاحة عندما تكون مناسبة، بدل اختزال القرار
+                كله في اسم دواء واحد.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-black text-slate-950 mb-4">ما المعلومات التي يحتاجها الطبيب أثناء الاستشارة؟</h2>
+              <p className="mb-4">
+                كلما كانت المعلومات التي تقدمينها واضحة، كان من الأسهل تكوين صورة أولية عن الحالة. من المفيد
+                تجهيز تاريخ أول يوم من آخر دورة شهرية، ونتيجة اختبار الحمل إن وُجدت، ووقت إجراء الاختبار، وأي
+                أعراض حالية مثل الألم أو النزيف أو الدوخة أو الحرارة. وإذا كان هناك تقرير سونار أو تحليل حمل أو
+                تقرير من طبيب سابق، فمن المفيد الاحتفاظ به لإرساله أو قراءته أثناء الاستشارة.
+              </p>
+              <p>
+                كذلك ينبغي ذكر أي أدوية تستخدمينها حاليًا، والحساسيات المعروفة، والعمليات السابقة في الرحم أو
+                البطن أو الحوض، وأي حمل خارج الرحم سابق، والأمراض المزمنة أو مشاكل النزيف إن وُجدت. هذه المعلومات
+                قد تبدو شخصية، لكنها مهمة لأن القرار الطبي لا يعتمد على اسم الدواء وحده. وإذا لم تتوفر بعض
+                المعلومات فلا مشكلة؛ اذكري ما تعرفينه بوضوح ولا تخمّني أرقامًا أو تواريخ غير مؤكدة.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-black text-slate-950 mb-4">الاستشارة عند وجود حمل أو شك في الحمل</h2>
+              <p className="mb-4">
+                عند وجود اختبار حمل إيجابي أو شك قوي في الحمل، يكون تحديد وضع الحمل جزءًا مهمًا من التقييم.
+                الأعراض المبكرة قد تتشابه بين حالات مختلفة، والنزيف البسيط لا يعني تلقائيًا أن الحمل انتهى، كما
+                أن غياب النزيف لا يستبعد كل المشكلات. لذلك يقرر الطبيب، حسب الحالة، ما إذا كانت المعلومات المتاحة
+                كافية أو أن هناك حاجة إلى فحص أو تصوير أو متابعة.
+              </p>
+              <p>
+                وتزداد أهمية التقييم عند وجود ألم واضح في جهة واحدة من البطن أو الحوض، أو ألم في الكتف مع ضعف
+                أو دوخة، أو نزيف غير معتاد. هذه العلامات قد تتطلب استبعاد الحمل خارج الرحم أو أسباب أخرى تحتاج
+                إلى رعاية سريعة. وزارة الصحة السعودية تنبه إلى أهمية تقييم الأعراض المرتبطة بالحمل خارج الرحم
+                والنزيف أثناء الحمل، خصوصًا عند ظهور الألم الشديد أو الدوار أو الإغماء.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-black text-slate-950 mb-4">ماذا يحدث خلال الاستشارة عن بُعد؟</h2>
+              <p className="mb-4">
+                تبدأ الاستشارة عادة بفهم سبب التواصل، ثم مراجعة الأعراض والتاريخ الصحي والمعلومات المتاحة عن
+                الحمل. بعد ذلك يمكن للطبيب تحديد ما إذا كانت الحالة مناسبة للتقييم عن بُعد أو تحتاج إلى زيارة
+                مباشرة. الاستشارة عن بُعد مفيدة في شرح التقارير، ترتيب المعلومات، الإجابة عن الأسئلة، وتحديد
+                الخطوة الطبية التالية، لكنها لا تستطيع أن تستبدل الفحص أو التصوير عندما يكونان ضروريين.
+              </p>
+              <p>
+                إذا كانت هناك حالة طارئة، فلا ينبغي انتظار الرد عبر واتساب أو الهاتف. في هذه الحالة تكون الأولوية
+                للوصول إلى أقرب قسم طوارئ أو خدمة إسعاف مناسبة. الهدف من التواصل الطبي هو تسهيل الوصول إلى الرعاية
+                الصحيحة، وليس تأخيرها.
+              </p>
+            </section>
+
+            <section className="bg-sky-50 border border-sky-200 rounded-2xl p-6">
+              <h2 className="text-2xl font-black text-slate-950 mb-4">علامات تستدعي رعاية عاجلة</h2>
+              <ul className="list-disc pr-6 space-y-2">
+                <li>ألم شديد أو مفاجئ في البطن أو الحوض، خصوصًا إذا كان واضحًا في جهة واحدة.</li>
+                <li>نزيف شديد أو متزايد أو مصحوب بضعف واضح.</li>
+                <li>دوخة شديدة أو شعور بقرب الإغماء أو حدوث إغماء.</li>
+                <li>ألم في الكتف مع ألم بطني أو حوضي أو دوخة.</li>
+                <li>حمى أو قشعريرة أو تدهور عام يستدعي تقييمًا طبيًا.</li>
+                <li>أي أعراض تشعرين معها أن حالتك تتدهور بسرعة أو أنك غير آمنة في المنزل.</li>
+              </ul>
+              <p className="mt-4 text-slate-900">
+                وجود واحدة من هذه العلامات لا يعني تشخيصًا محددًا، لكنه يعني أن الانتظار للاستشارة عن بُعد قد لا
+                يكون الخيار المناسب. عند الاشتباه بحالة طارئة، توجهي إلى الرعاية العاجلة مباشرة.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-black text-slate-950 mb-4">هل يمكن أن تكون الاستشارة سرية؟</h2>
+              <p>
+                الخصوصية جزء أساسي من التواصل الطبي، خصوصًا في موضوعات الحمل والصحة الإنجابية. عند إرسال رسالة
+                أو مستند طبي، احرصي على مشاركة المعلومات الضرورية للحالة فقط، وتجنبي نشر بياناتك الشخصية في
+                التعليقات العامة أو المجموعات. ويمكن استخدام القنوات المباشرة المعلنة في هذه الصفحة بدل كتابة
+                تفاصيل حساسة بشكل علني. كما ينبغي معرفة أن التواصل الإلكتروني لا يساوي الفحص الطبي المباشر من
+                حيث القدرة على التقييم، لذلك تبقى حدود الاستشارة عن بُعد مهمة.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-black text-slate-950 mb-4">أسئلة شائعة حول الاستشارة وسايتوتك</h2>
+
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl font-black text-slate-950 mb-2">هل يمكن أن أسأل عن سايتوتك حتى لو لم أكن متأكدة من وجود حمل؟</h3>
+                  <p>
+                    نعم، يمكن أن تبدأ الاستشارة بسؤال عام. لكن تحديد ما إذا كان هناك حمل أصلًا وما وضعه قد يكون
+                    ضروريًا قبل أي قرار علاجي. لذلك من المفيد إحضار نتيجة اختبار الحمل وتاريخ آخر دورة والأعراض
+                    الموجودة إن توفرت.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-black text-slate-950 mb-2">هل يكفي اختبار الحمل المنزلي لاتخاذ قرار طبي؟</h3>
+                  <p>
+                    اختبار الحمل قد يكون معلومة مهمة، لكنه لا يجيب عن كل الأسئلة السريرية. تفسير النتيجة يعتمد
+                    على توقيتها والأعراض والسياق، وقد يحتاج الطبيب إلى معلومات أو فحوص إضافية حسب الحالة.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-black text-slate-950 mb-2">هل النزيف بعد أي دواء يعني أن المشكلة انتهت؟</h3>
+                  <p>
+                    لا يمكن اعتبار النزيف وحده دليلًا كافيًا على اكتمال أي حالة أو استبعاد المضاعفات. استمرار
+                    الأعراض أو شدتها أو ظهور علامات الخطر يستدعي تقييمًا طبيًا، وقد يوصي الطبيب بمتابعة مناسبة.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-black text-slate-950 mb-2">هل يمكن الحصول على الاستشارة عبر واتساب؟</h3>
+                  <p>
+                    يمكن التواصل عبر واتساب لطلب الاستشارة وشرح المشكلة وترتيب الخطوة المناسبة. إذا كانت الحالة
+                    طارئة فلا تنتظري الرد الإلكتروني، بل توجهي إلى الطوارئ مباشرة.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-black text-slate-950 mb-2">هل تقدم الصفحة تعليمات شراء أو توصيل أو استخدام ذاتي؟</h3>
+                  <p>
+                    لا. هدف الصفحة هو التقييم والتثقيف الطبي. أي صرف أو تداول للأدوية يجب أن يكون عبر القنوات
+                    المرخصة ووفق الأنظمة والاشتراطات المحلية والوصفة الطبية عندما تكون مطلوبة. أما الاستخدام
+                    الشخصي فيحتاج إلى قرار طبي مبني على حالة المريضة وليس على إعلان أو منشور عام.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-black text-slate-950 mb-4">مصادر طبية موثوقة</h2>
+              <p className="mb-4">
+                تعتمد المعلومات العامة المتعلقة بالرعاية الطبية على مراجع صحية موثوقة، مع التأكيد على أن الإرشادات
+                قد تختلف حسب البلد والسياق التنظيمي والحالة الفردية. من المصادر المفيدة: منظمة الصحة العالمية
+                في إرشادات الرعاية المتعلقة بالإجهاض، ووزارة الصحة السعودية في صفحات التوعية المتعلقة بالإجهاض
+                والنزيف والحمل خارج الرحم.
+              </p>
+              <ul className="list-disc pr-6 space-y-2">
+                <li>
+                  <a className="text-sky-700 hover:underline" href="https://www.who.int/publications/i/item/9789240104204" target="_blank" rel="noopener noreferrer">
+                    منظمة الصحة العالمية — المبادئ التوجيهية للرعاية المتعلقة بالإجهاض، الطبعة الثانية 2025
+                  </a>
+                </li>
+                <li>
+                  <a className="text-sky-700 hover:underline" href="https://www.moh.gov.sa/healthawareness/educationalcontent/wh/pages/abortion.aspx" target="_blank" rel="noopener noreferrer">
+                    وزارة الصحة السعودية — التوعية الصحية حول الإجهاض
+                  </a>
+                </li>
+                <li>
+                  <a className="text-sky-700 hover:underline" href="https://www.moh.gov.sa/healthawareness/educationalcontent/wh/pages/ectopic-pregnancy.aspx" target="_blank" rel="noopener noreferrer">
+                    وزارة الصحة السعودية — الحمل خارج الرحم
+                  </a>
+                </li>
+                <li>
+                  <a className="text-sky-700 hover:underline" href="https://www.moh.gov.sa/healthawareness/educationalcontent/wh/pages/bleeding-during-pregnancy.aspx" target="_blank" rel="noopener noreferrer">
+                    وزارة الصحة السعودية — النزيف أثناء الحمل
+                  </a>
+                </li>
+              </ul>
+            </section>
+
+            <section className="border-t border-slate-200 pt-8">
+              <h2 className="text-2xl font-black text-slate-950 mb-4">احجزي استشارتك الطبية</h2>
+              <p className="mb-6">
+                إذا كان لديك سؤال عن سايتوتك أو ميسوبروستول، أو لديك نتيجة اختبار حمل، أو تعانين من نزيف أو ألم
+                أو اضطراب في الدورة، يمكنك تجهيز المعلومات المتاحة والتواصل مع د. هيثم الخطيب لمراجعة الحالة
+                وتحديد الخطوة المناسبة. الاستشارة لا تعني أن استخدام دواء معين سيكون مناسبًا؛ بل تعني أن القرار
+                يبدأ من فهم الحالة وتقييم عوامل السلامة.
+              </p>
+
+              <div className="flex flex-wrap justify-center gap-3">
+                <a
+                  href={WHATSAPP_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-7 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-black text-base shadow"
+                >
+                  💬 تواصل عبر واتساب
+                </a>
+                <a
+                  href={DOCTOR.phoneLink}
+                  className="px-7 py-3.5 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl font-black text-base shadow"
+                >
+                  📞 {DOCTOR.phoneDisplay}
+                </a>
+              </div>
+            </section>
+
+            <div className="border border-slate-300 bg-slate-50 rounded-2xl p-5 text-sm leading-loose text-slate-800">
+              <strong className="text-slate-950">تنبيه طبي مهم:</strong> المحتوى في هذه الصفحة تثقيفي ولا
+              يُعد وصفة أو تشخيصًا فرديًا ولا يغني عن الفحص المباشر عند الحاجة. لا تستخدمي أي دواء اعتمادًا على
+              محتوى الإنترنت وحده. عند وجود ألم شديد، نزيف شديد، دوخة أو إغماء، ألم كتف، حرارة مرتفعة، أو تدهور
+              سريع في الحالة، توجهي إلى أقرب قسم طوارئ أو خدمة إسعاف مناسبة دون انتظار الاستشارة عن بُعد.
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   );
