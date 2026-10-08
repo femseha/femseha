@@ -37,8 +37,8 @@ export const IMAGE_SEO_OVERRIDES: Record<string, ImageSeoOverride> = {
     imageAlt: "استشارة طبية حول علامات الخطر أثناء الحمل",
   },
   "home-pregnancy-test-accuracy": {
-    image: "/images/seo/saudi-medical-cytotec-consultation.webp",
-    imageAlt: "استشارة طبية حول اختبار الحمل وتفسير النتائج",
+    image: "/images/seo/saudi-womens-health-medical-consultation.webp",
+    imageAlt: "استشارة طبية حول الحمل وصحة المرأة",
   },
   "early-pregnancy-symptoms-guide": {
     image: "/images/seo/saudi-womens-health-medical-consultation.webp",
