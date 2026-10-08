@@ -161,6 +161,17 @@ export default function ClusterPage() {
             </div>
           </section>
         ) : null}
+        {page.externalLinks?.length ? (
+          <section className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-9 shadow-sm">
+            <h2 className="text-2xl font-extrabold text-slate-900">مصادر رسمية وموثوقة</h2>
+            <p className="mt-3 text-slate-600 leading-7">روابط خارجية مختارة للتوسع والتحقق من المعلومات الطبية والتنظيمية. عند تعارض أي معلومة منشورة على الإنترنت مع مصدر رسمي حديث، تكون الأولوية للمصدر الرسمي الساري.</p>
+            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
+              {page.externalLinks.map((x) => (
+                <a key={x.href} href={x.href} target="_blank" rel="noopener noreferrer" className="rounded-xl border border-slate-200 bg-slate-50 p-4 font-bold text-slate-700 hover:border-sky-400">{x.label}</a>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
           <h2 className="text-xl font-extrabold text-slate-900">مصادر ومواقع مرتبطة بالموضوع</h2>
