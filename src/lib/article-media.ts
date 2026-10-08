@@ -2,7 +2,7 @@ import { SITE } from '../data/site';
 
 /**
  * مسار التخزين داخل المستودع يختلف عمداً عن مسار الويب:
- * كل ما تحت public/ يُخدَّم من جذر الموقع في Vite/Vercel.
+ * كل ما تحت public/ يُخدَّم من جذر الموقع في Vite/Cloudflare Pages.
  */
 export const ARTICLE_UPLOAD_REPO_DIR = 'public/images/uploads';
 export const ARTICLE_UPLOAD_PUBLIC_DIR = '/images/uploads';
