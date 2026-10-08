@@ -40,6 +40,9 @@ function ArticleRoute() {
   if (slug && consolidatedSlugs.has(slug)) {
     return <Navigate replace to={SAUDI_CYTOTEC_ROUTE} />;
   }
+  if (slug === 'ectopic-pregnancy-symptoms-and-dangers') {
+    return <Navigate replace to="/articles/ectopic-pregnancy-abortion-medicines-saudi" />;
+  }
   return <ArticleView />;
 }
 
@@ -52,7 +55,7 @@ const TOPIC_LINKS = [
   { name: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' },
   { name: 'معلومات ميسوبروستول', href: '/misoprostol' },
   { name: 'سلامة الإجهاض الدوائي', href: '/articles/danger-signs-after-medical-abortion-saudi' },
-  { name: 'الحمل خارج الرحم', href: '/articles/ectopic-pregnancy-symptoms-and-dangers' },
+  { name: 'الحمل خارج الرحم', href: '/articles/ectopic-pregnancy-abortion-medicines-saudi' },
   { name: 'دليل السلامة والطوارئ', href: '/articles/pregnancy-danger-signs-emergency' },
   { name: 'الأسئلة الشائعة', href: '/articles' },
 ];
@@ -74,7 +77,7 @@ const FOOTER_TOPIC_LINKS = [
   { label: 'سايتوتك في السعودية', href: '/cytotec-saudi-arabia' },
   { label: 'معلومات ميسوبروستول', href: '/misoprostol' },
   { label: 'سلامة الإجهاض الدوائي', href: '/articles/danger-signs-after-medical-abortion-saudi' },
-  { label: 'الحمل خارج الرحم', href: '/articles/ectopic-pregnancy-symptoms-and-dangers' },
+  { label: 'الحمل خارج الرحم', href: '/articles/ectopic-pregnancy-abortion-medicines-saudi' },
   { label: 'دليل السلامة والطوارئ', href: '/articles/pregnancy-danger-signs-emergency' },
   { label: 'الأسئلة الشائعة', href: '/articles' },
   { label: 'اتصل بنا', href: '/consultation' },
