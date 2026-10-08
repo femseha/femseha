@@ -17,7 +17,7 @@ execFileSync(process.execPath, [resolve(root, 'node_modules/vite/bin/vite.js'), 
 const server = await import(pathToFileURL(join(ssrDir, 'entry-server.js')).href);
 const template = readFileSync(join(distDir, 'index.html'), 'utf8');
 const urls = [...readFileSync(sitemapPath, 'utf8').matchAll(/<loc>(.*?)<\/loc>/g)]
-  .map((m) => new URL(m[1]).pathname)
+  .map((m) => decodeURIComponent(new URL(m[1]).pathname))
   .filter((path) => path && !path.includes(':') && !path.endsWith('.xml'));
 
 const escapeHtml = (value) => String(value)
