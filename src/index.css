@@ -7,14 +7,28 @@ html {
 
 body {
   margin: 0;
-  font-family: "Noto Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif, "Apple Color Emoji",
+  font-family: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   direction: rtl;
   color-scheme: light;
   background-color: var(--color-slate-50);
   color: var(--color-slate-900);
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Cairo", "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+h1 { font-weight: 700; }
+h2, h3 { font-weight: 700; }
+
+button, a, nav, summary {
+  font-family: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
 }
 
 ::selection {
