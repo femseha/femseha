@@ -22,6 +22,7 @@ import DisclaimerPage from './pages/DisclaimerPage';
 import AdminPage from '@entry/AdminPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ClusterPage from './pages/ClusterPage';
+import PregnancyCalculatorPage from './pages/PregnancyCalculatorPage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -153,6 +154,7 @@ export function App() {
         <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center text-slate-500">جاري تحميل الصفحة…</div>}>
           <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/طريقة-حساب-عمر-الحمل" element={<PregnancyCalculatorPage />} />
           <Route path="/articles" element={<ArticlesPage />} />
           <Route path="/articles/:slug" element={<ArticleRoute />} />
           <Route path="/cytotec-saudi-arabia" element={<ClusterPage />} />
