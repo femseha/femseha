@@ -5,7 +5,7 @@ import App from './App';
 import { SITE, DOCTOR } from './data/site';
 import { CLUSTER_PAGES } from './data/cluster-pages';
 import { getArticleBySlug } from './data/articles';
-import { articleJsonLd, breadcrumbJsonLd, doctorJsonLd, organizationJsonLd, websiteJsonLd } from './lib/seo';
+import { articleJsonLd, articleSeoImage, breadcrumbJsonLd, doctorJsonLd, organizationJsonLd, websiteJsonLd } from './lib/seo';
 
 export type RenderResult = {
   html: string;
@@ -13,6 +13,7 @@ export type RenderResult = {
   description: string;
   canonical: string;
   type: string;
+  image?: string;
   jsonLd: object[];
 };
 
@@ -28,12 +29,14 @@ export function render(url: string): RenderResult {
   let description = SITE.description;
   let canonical = url === '/' ? SITE.url : `${SITE.url}${url.replace(/\/$/, '')}`;
   let type = 'website';
+  let image: string | undefined;
   let jsonLd: object[] = [websiteJsonLd()];
 
   if (article) {
     title = `${article.title} | FemSeha`;
     description = article.summary.slice(0, 160);
     type = 'article';
+    image = articleSeoImage(article) || undefined;
     jsonLd = [
       websiteJsonLd(),
       articleJsonLd(article),
@@ -57,6 +60,7 @@ export function render(url: string): RenderResult {
   } else if (clusterPage) {
     title = clusterPage.title;
     description = clusterPage.description;
+    image = clusterPage.image ? new URL(clusterPage.image, SITE.url).href : undefined;
     jsonLd = [
       websiteJsonLd(),
       breadcrumbJsonLd([
@@ -107,5 +111,5 @@ export function render(url: string): RenderResult {
     </React.StrictMode>
   );
 
-  return { html, title: cleanBrand(title), description: cleanBrand(description), canonical, type, jsonLd };
+  return { html, title: cleanBrand(title), description: cleanBrand(description), canonical, type, image, jsonLd };
 }

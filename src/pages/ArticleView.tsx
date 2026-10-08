@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { articles, getArticleBySlug, relatedArticles } from '../data/articles';
 import { DOCTOR, WHATSAPP_LINK } from '../data/site';
-import { useSeo, articleJsonLd, breadcrumbJsonLd, websiteJsonLd } from '../lib/seo';
+import { useSeo, articleJsonLd, articleSeoImage, breadcrumbJsonLd, websiteJsonLd } from '../lib/seo';
 import { normalizeArticleImageUrl, preferredWebpImageUrl } from '../lib/article-media';
 import { classifyArticleHref, tokenizeInlineMarkdown } from '../lib/article-markdown';
 import NotFoundPage from './NotFoundPage';
@@ -156,6 +156,7 @@ export default function ArticleView() {
   useSeo({
     title: article ? `${article.title} | سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب` : 'المقال غير متوفر | سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب',
     description: article ? article.summary.slice(0, 160) : undefined,
+    image: article ? articleSeoImage(article) || undefined : undefined,
     // slug غير صحيح = soft-404: يُعرض محتوى 404 مع noindex وبلا canonical،
     // ولا يسقط أبداً إلى مقال آخر (لا fallback لأول مقال).
     canonicalPath: article ? `/articles/${article.slug}` : undefined,
@@ -252,16 +253,20 @@ export default function ArticleView() {
         </div>
 
         {articleImage && (
-          <img
-            src={preferredWebpImageUrl(articleImage)}
-            loading="lazy"
-            decoding="async"
-            onError={(event) => {
-              if (event.currentTarget.src !== articleImage) event.currentTarget.src = articleImage;
-            }}
-            alt={article.imageAlt?.trim() || article.title}
-            className="w-full h-64 sm:h-80 object-cover rounded-2xl mb-8"
-          />
+          <figure className="mb-8">
+            <img
+              src={preferredWebpImageUrl(articleImage)}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              onError={(event) => {
+                if (event.currentTarget.src !== articleImage) event.currentTarget.src = articleImage;
+              }}
+              alt={article.imageAlt?.trim() || article.title}
+              title={article.imageAlt?.trim() || article.title}
+              className="w-full h-64 sm:h-80 object-cover rounded-2xl"
+            />
+          </figure>
         )}
 
         <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-4 text-base">

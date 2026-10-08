@@ -7,7 +7,7 @@ import { SITE } from '../data/site';
 export const ARTICLE_UPLOAD_REPO_DIR = 'public/images/uploads';
 export const ARTICLE_UPLOAD_PUBLIC_DIR = '/images/uploads';
 
-const SAFE_IMAGE_EXT_RE = /\.(?:avif|gif|jpe?g|png|webp)$/i;
+const SAFE_IMAGE_EXT_RE = /\.(?:avif|gif|jpe?g|png|webp|svg)$/i;
 const UNSAFE_PATH_RE = /(^|[\\/])\.{1,2}(?=[\\/?#]|$)|%(?:2e|2f|5c)/i;
 const CONTROL_CHAR_RE = /[\u0000-\u001f\u007f]/;
 

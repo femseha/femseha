@@ -31,6 +31,7 @@ const jsonForScript = (value) => JSON.stringify(value).replaceAll('<', '\\u003c'
 
 for (const url of [...new Set(urls)]) {
   const result = server.render(url);
+  const preferredImage = result.image || 'https://femseha.com/banner.webp';
   const head = [
     `<title>${escapeHtml(result.title)}</title>`,
     `<meta name="description" content="${escapeHtml(result.description)}" />`,
@@ -41,11 +42,12 @@ for (const url of [...new Set(urls)]) {
     `<meta property="og:url" content="${escapeHtml(result.canonical)}" />`,
     `<meta property="og:site_name" content="FemSeha | فيم صحة" />`,
     `<meta property="og:locale" content="ar_SA" />`,
-    `<meta property="og:image" content="https://femseha.com/banner.webp" />`,
+    `<meta name="robots" content="index, follow, max-image-preview:large" />`,
+    `<meta property="og:image" content="${escapeHtml(preferredImage)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${escapeHtml(result.title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(result.description)}" />`,
-    `<meta name="twitter:image" content="https://femseha.com/banner.webp" />`,
+    `<meta name="twitter:image" content="${escapeHtml(preferredImage)}" />`,
     ...result.jsonLd.map((item) => `<script type="application/ld+json">${jsonForScript(item)}</script>`)
   ].join('\n');
 
