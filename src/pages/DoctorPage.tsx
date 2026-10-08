@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { DOCTOR, SITE, WHATSAPP_LINK, NO_SALE_NOTICE } from '../data/site';
+import { DOCTOR, WHATSAPP_LINK, NO_SALE_NOTICE } from '../data/site';
 import { useSeo, doctorJsonLd, websiteJsonLd, breadcrumbJsonLd } from '../lib/seo';
 
 export default function DoctorPage() {
