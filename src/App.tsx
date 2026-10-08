@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Routes, Route, Link, NavLink, Navigate, useLocation, useParams } from 'react-router-dom';
 import { DOCTOR, WHATSAPP_LINK } from './data/site';
 import { SAUDI_CYTOTEC_ROUTE } from './data/seo-quality';
@@ -26,9 +26,16 @@ import PregnancyCalculatorPage from './pages/PregnancyCalculatorPage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
+  const firstRender = useRef(true);
+
   useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, [pathname]);
+
   return null;
 }
 
