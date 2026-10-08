@@ -136,6 +136,52 @@ button, a, nav, summary {
   font-weight: 700;
 }
 
+
+#main-content h1 {
+  font-size: 32px !important;
+  line-height: 1.35 !important;
+}
+
+#main-content h2 {
+  font-size: 27px !important;
+  line-height: 1.45 !important;
+}
+
+#main-content h3 {
+  font-size: 21px !important;
+  line-height: 1.5 !important;
+}
+
+#main-content a:not(.text-xs),
+#main-content button,
+#main-content summary {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+@media (max-width: 639px) {
+  #main-content h1 {
+    font-size: 27px !important;
+    line-height: 1.4 !important;
+  }
+
+  #main-content h2 {
+    font-size: 24px !important;
+    line-height: 1.5 !important;
+  }
+
+  #main-content h3 {
+    font-size: 19px !important;
+    line-height: 1.55 !important;
+  }
+
+  #main-content a:not(.text-xs),
+  #main-content button,
+  #main-content summary {
+    font-size: 16.5px;
+  }
+}
+
 @media (max-width: 639px) {
   body { font-size: 16.5px; }
   #main-content { font-size: 17px; line-height: 1.85; }
