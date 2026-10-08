@@ -31,6 +31,29 @@ button, a, nav, summary {
   font-family: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
 }
 
+/* ── فرض هوية الخط على محتوى الموقع والمقالات أيضاً ──
+   Tailwind Typography (.prose) يعرّف عائلة خط مستقلة للمحتوى،
+   لذلك يجب تثبيت Tajawal للنص وCairo للعناوين داخل المقالات. */
+.prose {
+  font-family: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.prose :where(p, li, blockquote, figcaption, dt, dd, table, td, th) {
+  font-family: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+.prose :where(h1, h2, h3, h4, h5, h6) {
+  font-family: "Cairo", "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.prose :where(a, strong, b, button, summary) {
+  font-family: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
 ::selection {
   background-color: var(--color-sky-500);
   color: #fff;
