@@ -270,7 +270,7 @@ export default function ArticleView() {
           </figure>
         )}
 
-        <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-4 text-base">
+        <div className="prose prose-slate max-w-none text-slate-800 leading-relaxed space-y-4 text-base">
           <p className="font-semibold text-slate-800 text-lg leading-relaxed bg-sky-50 p-4 rounded-2xl border-r-4 border-sky-500">
             {article.summary}
           </p>
@@ -289,7 +289,7 @@ export default function ArticleView() {
               {article.faq.map((f, i) => (
                 <div key={i} className="border border-slate-200 bg-slate-50 rounded-2xl p-4">
                   <h3 className="font-bold text-slate-900 text-sm mb-2">{f.q}</h3>
-                  <p className="text-sm text-slate-700 leading-relaxed">{f.a}</p>
+                  <p className="text-base text-slate-800 leading-relaxed font-medium">{f.a}</p>
                 </div>
               ))}
             </div>
