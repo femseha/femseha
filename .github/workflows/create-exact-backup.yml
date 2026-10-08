@@ -1,0 +1,26 @@
+name: Create exact backup ZIP
+
+on:
+  push:
+    branches:
+      - backup-b7cda799-2026-10-08
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact repository snapshot
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create ZIP
+        run: |
+          git archive --format=zip --output=femseha-b7cda799-2026-10-08.zip HEAD
+
+      - name: Upload backup ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: femseha-b7cda799-2026-10-08
+          path: femseha-b7cda799-2026-10-08.zip
+          if-no-files-found: error
