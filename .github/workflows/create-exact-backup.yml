@@ -9,14 +9,14 @@ jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout exact repository snapshot
+      - name: Checkout repository history
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Create ZIP
+      - name: Create ZIP from exact production commit
         run: |
-          git archive --format=zip --output=femseha-b7cda799-2026-10-08.zip HEAD
+          git archive --format=zip --output=femseha-b7cda799-2026-10-08.zip b7cda799481b20a19b8bdd27289cba295a2568bd
 
       - name: Upload backup ZIP
         uses: actions/upload-artifact@v4
