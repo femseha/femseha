@@ -132,6 +132,8 @@ export function generateSitemap() {
   const problems = assertNoForbiddenUrls(xml, siteUrl);
   if (problems.length) throw new Error(problems.join("\n"));
   fs.writeFileSync(SITEMAP_PATH, xml, "utf8");
+  // Publish a second stable endpoint in case the CDN/security layer treats /sitemap.xml differently.
+  fs.writeFileSync(path.join(ROOT, "public", "sitemap-index.xml"), xml, "utf8");
   return { count: STATIC_INDEXABLE.length + articles.length, contentCount: articles.length, siteUrl };
 }
 
