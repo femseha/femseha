@@ -73,7 +73,6 @@ const FOOTER_MAIN_LINKS = [
   { label: 'الرئيسية', href: '/', accent: false },
   { label: 'من نحن', href: '/doctor', accent: false },
   { label: 'عن دكتور هيثم الخطيب', href: '/doctor', accent: false },
-  { label: 'الاستشارات الطبية', href: '/consultation', accent: true },
   { label: 'صحة المرأة', href: '/articles/pcos-symptoms-fertility-treatment', accent: false },
   { label: 'الصحة الإنجابية', href: '/articles/ovulation-calculation-guide', accent: false },
   { label: 'الحمل والولادة', href: '/articles/pregnancy-danger-signs-emergency', accent: false },
@@ -134,7 +133,6 @@ export function App() {
             <nav className="hidden 2xl:flex items-center gap-3 font-medium text-xs whitespace-nowrap">
               <NavLink to="/" className="text-slate-200 hover:text-sky-400 transition-colors">الرئيسية</NavLink>
               <NavLink to="/doctor" className="text-slate-200 hover:text-sky-400 transition-colors">عن دكتور هيثم الخطيب</NavLink>
-              <NavLink to="/consultation" className="text-slate-200 hover:text-sky-400 transition-colors">الاستشارات الطبية</NavLink>
               <div className="relative">
                 <button type="button" onClick={() => setTopicsOpen((v) => !v)} onMouseEnter={() => setTopicsOpen(true)} className="flex items-center gap-1.5 text-slate-200 hover:text-sky-400 transition-colors py-2"><span>أقسام التوعية</span><ChevronDownIcon className="w-4 h-4 text-sky-400" /></button>
                 {topicsOpen && <div onMouseLeave={() => setTopicsOpen(false)} className="absolute top-full right-0 w-72 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl py-3 px-2 grid grid-cols-1 gap-1 z-50 animate-in fade-in duration-200">{TOPIC_LINKS.map((item) => <Link key={item.href + item.name} to={item.href} onClick={closeMenus} className="px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-sky-950 hover:text-sky-300 rounded-lg transition-colors flex items-center justify-between"><span>{item.name}</span><span className="text-slate-600 text-[10px]">←</span></Link>)}</div>}
@@ -142,7 +140,6 @@ export function App() {
               <NavLink to="/cytotec-saudi-arabia" className="text-slate-200 hover:text-sky-400 transition-colors">دليل سايتوتك</NavLink>
               <NavLink to="/products" className="text-slate-200 hover:text-sky-400 transition-colors">المنتجات</NavLink>
               <NavLink to="/pharmacies" className="text-slate-200 hover:text-sky-400 transition-colors">الصيدليات المرخصة</NavLink>
-              <NavLink to="/order" className="text-slate-200 hover:text-sky-400 transition-colors">الطلب والتوصيل</NavLink>
               <NavLink to="/articles" className="text-slate-200 hover:text-sky-400 transition-colors">المقالات الطبية</NavLink>
               <NavLink to="/طريقة-حساب-عمر-الحمل" className="text-slate-200 hover:text-sky-400 transition-colors">حاسبة عمر الحمل</NavLink>
               <NavLink to="/consultation" className="text-slate-200 hover:text-sky-400 transition-colors">اتصل بنا</NavLink>
@@ -156,11 +153,9 @@ export function App() {
         {mobileMenuOpen && <div className="2xl:hidden bg-slate-950 border-b border-slate-800 px-4 pt-3 pb-6 space-y-3">
           <Link to="/" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">الرئيسية</Link>
           <Link to="/doctor" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">عن دكتور هيثم الخطيب</Link>
-          <Link to="/consultation" onClick={closeMenus} className="block py-2 text-amber-400 font-bold text-base">الاستشارات الطبية</Link>
           <Link to="/cytotec-saudi-arabia" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">دليل سايتوتك في السعودية</Link>
           <Link to="/products" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">المنتجات</Link>
           <Link to="/pharmacies" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">الصيدليات المرخصة</Link>
-          <Link to="/order" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">الطلب والتوصيل</Link>
           <Link to="/articles" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">المقالات الطبية</Link>
           <Link to="/طريقة-حساب-عمر-الحمل" onClick={closeMenus} className="block py-2 text-sky-300 hover:text-sky-200 font-bold text-base">طريقة حساب عمر الحمل</Link>
           <div className="pt-2 pb-1 border-t border-slate-800"><p className="text-xs font-bold text-sky-400 mb-2">أقسام التوعية والصحة:</p><div className="grid grid-cols-2 gap-2 text-xs">{TOPIC_LINKS.map((item) => <Link key={item.href + item.name} to={item.href} onClick={closeMenus} className="p-2 bg-slate-900 rounded text-slate-300 hover:text-sky-300">{item.name}</Link>)}</div></div>
