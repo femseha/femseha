@@ -5,7 +5,7 @@ import { useSeo, doctorJsonLd, websiteJsonLd, breadcrumbJsonLd } from '../lib/se
 
 export default function DoctorPage() {
   useSeo({
-    title: `عن الطبيب | ${DOCTOR.name} | FemSeha`,
+    title: `عن الطبيب | ${DOCTOR.name} | سايتوتيك - السعودية`,
     description: `${DOCTOR.name} — ${DOCTOR.title}. ${DOCTOR.experience}. استشارات طبية تخصصية في صحة المرأة والتوليد والعقم.`,
     canonicalPath: '/doctor',
     jsonLd: [
@@ -31,7 +31,7 @@ export default function DoctorPage() {
           <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-white border-2 border-sky-600 shadow-md flex items-center justify-center overflow-hidden">
             <img
               src="/%D8%AD%D8%A8%D9%88%D8%A8%20%D8%A5%D8%AC%D9%87%D8%A7%D8%B6%20%D8%A7%D9%84%D8%AD%D9%85%D9%84.png"
-              alt="شعار FemSeha — فيم صحة"
+              alt="شعار سايتوتيك - السعودية — السعودية"
               width={96}
               height={96}
               loading="eager"
@@ -59,7 +59,7 @@ export default function DoctorPage() {
 
           <div className="bg-sky-50/50 border border-sky-200 rounded-2xl p-5 mb-8 text-right">
             <h2 className="text-sm font-bold text-slate-900 mb-2">رسالة المنصة</h2>
-            <p className="text-sm text-slate-700 leading-relaxed">منصة FemSeha للتثقيف والاستشارات في صحة المرأة والصحة الإنجابية، بإشراف طبي متخصص، مع التركيز على المعلومات الصحية الموثوقة وسلامة المريضة.</p>
+            <p className="text-sm text-slate-700 leading-relaxed">منصة سايتوتيك - السعودية للتثقيف والاستشارات في صحة المرأة والصحة الإنجابية، بإشراف طبي متخصص، مع التركيز على المعلومات الصحية الموثوقة وسلامة المريضة.</p>
           </div>
 
           <div className="bg-amber-50/50 border border-amber-200 rounded-2xl p-4 mb-8 text-sm text-amber-800 font-semibold leading-relaxed">
