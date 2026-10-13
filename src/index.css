@@ -213,26 +213,16 @@ button, a, nav, summary {
   }
 }
 
-/* Lighthouse mobile accessibility fixes: readable accent colors and touch targets. */
-#main-content .bg-white .text-amber-400,
-#main-content .bg-amber-50.text-amber-400 {
-  color: #b45309 !important;
-}
+/* Lighthouse accessibility: ensure accent text/icons meet contrast on light surfaces. */
+.text-amber-400 { color: #92400e !important; }
+.text-sky-400 { color: #075985 !important; }
+.text-rose-400 { color: #9f1239 !important; }
+.text-emerald-400 { color: #047857 !important; }
 
-#main-content .bg-rose-50.text-rose-400 {
-  color: #be123c !important;
-}
-
-#main-content .bg-sky-50.text-sky-400,
-#main-content .bg-white .text-sky-400 {
-  color: #0369a1 !important;
-}
-
-/* Give compact topic chips and list links a comfortable mobile tap area. */
+/* Compact links need comfortable touch targets on mobile. */
 #main-content .home-page .flex.flex-wrap.gap-2 a,
 #main-content .home-page .space-y-2 li a {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
 }
-
