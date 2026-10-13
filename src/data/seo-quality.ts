@@ -17,8 +17,8 @@ export function normalizeArabicArtifacts(text: string): string {
     .replace(/([\u0600-\u06FF])W(?=[\u0600-\u06FF])/g, '$1و')
     .replace(/([\u0600-\u06FF])m(?=[\u0600-\u06FF])/g, '$1م')
     .replace(/([\u0600-\u06FF])m(?=\s|$|[،,.!?؛:])/g, '$1م')
-    .replace(/منصة\s+فصيحة(?:\s+الطبية)?/g, 'منصة FemSeha')
-    .replace(/فصيحة الطبية/g, 'FemSeha الطبية');
+    .replace(/منصة\s+فصيحة(?:\s+الطبية)?/g, 'موقع سايتوتيك - السعودية')
+    .replace(/فصيحة الطبية/g, 'سايتوتيك - السعودية');
 }
 
 /** إزالة الفقرات المتطابقة المكررة مع الإبقاء على أول نسخة فقط. */
