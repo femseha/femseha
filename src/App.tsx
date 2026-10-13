@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Routes, Route, Link, NavLink, Navigate, useLocation, useParams } from 'react-router-dom';
 import { DOCTOR, WHATSAPP_LINK } from './data/site';
 import { SAUDI_CYTOTEC_ROUTE } from './data/seo-quality';
@@ -19,7 +19,7 @@ import ArticleView from '@entry/ArticleView';
 import DoctorPage from './pages/DoctorPage';
 import ConsultationPage from './pages/ConsultationPage';
 import DisclaimerPage from './pages/DisclaimerPage';
-import AdminPage from '@entry/AdminPage';
+import AdminPage from './pages/AdminPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ClusterPage from './pages/ClusterPage';
 import PregnancyCalculatorPage from './pages/PregnancyCalculatorPage';
@@ -161,8 +161,7 @@ export function App() {
       </header>
 
       <main id="main-content" className="flex-grow">
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center text-slate-500">جاري تحميل الصفحة…</div>}>
-          <Routes>
+        <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/طريقة-حساب-عمر-الحمل" element={<PregnancyCalculatorPage />} />
           <Route path="/articles" element={<ArticlesPage />} />
@@ -199,8 +198,7 @@ export function App() {
           <Route path="/medical-disclaimer" element={<DisclaimerPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </Suspense>
+        </Routes>
       </main>
 
       <footer className="bg-slate-950 text-slate-300 border-t border-slate-800 pt-16 pb-12">
