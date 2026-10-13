@@ -35,8 +35,8 @@ const CITIES = [
 
 const FAQS = [
   {
-    q: 'ما هي الخدمات التي تقدمها منصة FemSeha؟',
-    a: 'FemSeha هي منصة طبية متخصصة في التثقيف الصحي والاستشارات الطبية المتعلقة بصحة المرأة والصحة الإنجابية، تحت إشراف دكتور هيثم الخطيب.',
+    q: 'ما هي الخدمات التي تقدمها منصة سايتوتيك - السعودية؟',
+    a: 'سايتوتيك - السعودية هي منصة طبية متخصصة في التثقيف الصحي والاستشارات الطبية المتعلقة بصحة المرأة والصحة الإنجابية، تحت إشراف دكتور هيثم الخطيب.',
   },
   {
     q: 'كيف تضمنون سرية الاستشارة الطبية؟',
@@ -72,12 +72,12 @@ export default function HomePage() {
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="استشارة طبية نسائية متخصصة - FemSeha"
+            aria-label="استشارة طبية نسائية متخصصة - سايتوتيك - السعودية"
           >
             <img
               src="/images/dr-haitham-hero-1408w.webp"
               srcSet="/images/dr-haitham-hero-768w.webp 768w, /images/dr-haitham-hero-1200w.webp 1200w, /images/dr-haitham-hero-1408w.webp 1408w"
-              alt="دكتور هيثم الخطيب - استشارات طبية نسائية متخصصة - FemSeha"
+              alt="دكتور هيثم الخطيب - استشارات طبية نسائية متخصصة - سايتوتيك - السعودية"
               width={1408}
               height={768}
               fetchPriority="high"
@@ -190,7 +190,7 @@ export default function HomePage() {
                 رؤيتنا ورسالتنا في التوعية الصحية والاستشارات الطبية
               </h2>
               <p className="text-slate-600 text-sm leading-relaxed">
-                منصة <strong>FemSeha</strong> بإشراف <strong>دكتور هيثم الخطيب</strong> هي منصة متخصصة في التثقيف الصحي والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية بالمملكة العربية السعودية والخليج العربي.
+                منصة <strong>سايتوتيك - السعودية</strong> بإشراف <strong>دكتور هيثم الخطيب</strong> هي منصة متخصصة في التثقيف الصحي والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية بالمملكة العربية السعودية والخليج العربي.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs">
                 <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
@@ -240,7 +240,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">المحاور التوعوية والاستشارية الرئيسية</h2>
-          <p className="text-slate-500 text-sm max-w-2xl mx-auto">تغطي FemSeha أهم الجوانب الصحية والإنجابية التي تهم المرأة مع توفير معلومات طبية مبسطة.</p>
+          <p className="text-slate-500 text-sm max-w-2xl mx-auto">تغطي سايتوتيك - السعودية أهم الجوانب الصحية والإنجابية التي تهم المرأة مع توفير معلومات طبية مبسطة.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-md hover:border-sky-600 transition-colors space-y-4 flex flex-col justify-between">
@@ -379,7 +379,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="my-8 p-6 bg-white text-slate-800 border-r-4 border-sky-500 rounded-xl shadow-md">
           <div className="flex items-center gap-2 mb-2 text-sky-700 font-bold text-base"><ShieldAlertIcon className="w-5 h-5 shrink-0" /><h3>إخلاء مسؤولية طبية</h3></div>
-          <p className="text-slate-600 text-xs md:text-sm leading-relaxed">إخلاء مسؤولية: المحتوى المنشور في FemSeha مخصص للتثقيف والتوعية الصحية والاستشارات الطبية، ولا يُعد بديلاً عن التشخيص أو التقييم الطبي المباشر. تختلف الحالات الطبية من شخص لآخر، ويُنصح بمراجعة الطبيب المختص عند الحاجة. وفي الحالات الطارئة، يجب طلب الرعاية الطبية العاجلة.</p>
+          <p className="text-slate-600 text-xs md:text-sm leading-relaxed">إخلاء مسؤولية: المحتوى المنشور في سايتوتيك - السعودية مخصص للتثقيف والتوعية الصحية والاستشارات الطبية، ولا يُعد بديلاً عن التشخيص أو التقييم الطبي المباشر. تختلف الحالات الطبية من شخص لآخر، ويُنصح بمراجعة الطبيب المختص عند الحاجة. وفي الحالات الطارئة، يجب طلب الرعاية الطبية العاجلة.</p>
         </div>
       </section>
     </div>
