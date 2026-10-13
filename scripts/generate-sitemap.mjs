@@ -132,8 +132,9 @@ export function generateSitemap() {
   const problems = assertNoForbiddenUrls(xml, siteUrl);
   if (problems.length) throw new Error(problems.join("\n"));
   fs.writeFileSync(SITEMAP_PATH, xml, "utf8");
-  // Publish a second stable endpoint in case the CDN/security layer treats /sitemap.xml differently.
-  fs.writeFileSync(path.join(ROOT, "public", "sitemap-index.xml"), xml, "utf8");
+  // Publish a valid sitemap index that references the canonical page sitemap and image sitemap.
+  const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${siteUrl}/sitemap.xml</loc></sitemap>\n  <sitemap><loc>${siteUrl}/image-sitemap.xml</loc></sitemap>\n</sitemapindex>\n`;
+  fs.writeFileSync(path.join(ROOT, "public", "sitemap-index.xml"), sitemapIndex, "utf8");
   return { count: STATIC_INDEXABLE.length + articles.length, contentCount: articles.length, siteUrl };
 }
 
