@@ -146,7 +146,7 @@ export default function HomePage() {
               <div className="bg-gradient-to-b from-white to-slate-50 p-6 sm:p-8 rounded-2xl border border-sky-200 shadow-2xl space-y-6">
                 <div className="flex items-center gap-4 border-b border-slate-200 pb-5">
                   <img
-                    src="/%D8%AD%D8%A8%D9%88%D8%A8%20%D8%A5%D8%AC%D9%87%D8%A7%D8%B6%20%D8%A7%D9%84%D8%AD%D9%85%D9%84.png"
+                    src="/images/uploads/%D8%A7%D8%AF%D9%88%D9%8A%D8%A9%20%D8%A7%D8%AC%D9%87%D8%A7%D8%B6%20%D8%A7%D9%84%D8%AD%D9%85%D9%84.png"
                     alt="شعار موقع سايتوتك في السعودية"
                     width={64}
                     height={64}
