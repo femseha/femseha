@@ -5,9 +5,9 @@ import { useSeo, websiteJsonLd } from '../lib/seo';
 
 export default function DisclaimerPage() {
   useSeo({
-    title: 'إخلاء المسؤولية الطبية | FemSeha',
+    title: 'إخلاء المسؤولية الطبية | سايتوتيك - السعودية',
     description:
-      'إخلاء المسؤولية الطبية في FemSeha: المحتوى تثقيفي عام بإشراف د. هيثم الخطيب ولا يغني عن التقييم الطبي المباشر.',
+      'إخلاء المسؤولية الطبية في سايتوتيك - السعودية: المحتوى تثقيفي عام بإشراف د. هيثم الخطيب ولا يغني عن التقييم الطبي المباشر.',
     canonicalPath: '/medical-disclaimer',
     jsonLd: [websiteJsonLd()]
   });
