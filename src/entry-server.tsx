@@ -33,7 +33,7 @@ export function render(url: string): RenderResult {
   let jsonLd: object[] = [websiteJsonLd()];
 
   if (article) {
-    title = `${article.title} | FemSeha`;
+    title = `${article.title} | سايتوتيك - السعودية`;
     description = article.summary.slice(0, 160);
     type = 'article';
     image = articleSeoImage(article) || undefined;
@@ -99,25 +99,25 @@ export function render(url: string): RenderResult {
       }
     ];
   } else if (url === '/articles') {
-    title = 'الأدلة الطبية وصحة المرأة | FemSeha';
-    description = 'مكتبة FemSeha للأدلة التثقيفية في صحة المرأة والحمل والخصوبة والدورة والصحة الإنجابية.';
+    title = 'الأدلة الطبية وصحة المرأة | سايتوتيك - السعودية';
+    description = 'مكتبة سايتوتيك - السعودية للأدلة التثقيفية في صحة المرأة والحمل والخصوبة والدورة والصحة الإنجابية.';
   } else if (url === '/doctor') {
-    title = `عن الطبيب | ${DOCTOR.name} | FemSeha`;
+    title = `عن الطبيب | ${DOCTOR.name} | سايتوتيك - السعودية`;
     description = `${DOCTOR.name} — ${DOCTOR.title}. ${DOCTOR.experience}. استشارات طبية تخصصية في صحة المرأة والتوليد والعقم.`;
     jsonLd = [websiteJsonLd(), organizationJsonLd(), doctorJsonLd(), breadcrumbJsonLd([
       { name: 'الرئيسية', href: '/' },
       { name: 'عن الطبيب', href: '/doctor' }
     ])];
   } else if (url === '/consultation') {
-    title = `الاستشارة الطبية | ${DOCTOR.name} | FemSeha`;
+    title = `الاستشارة الطبية | ${DOCTOR.name} | سايتوتيك - السعودية`;
     description = `احجزي استشارتك الطبية مع ${DOCTOR.name} في صحة المرأة والتوليد والعقم.`;
     jsonLd = [websiteJsonLd(), doctorJsonLd(), breadcrumbJsonLd([
       { name: 'الرئيسية', href: '/' },
       { name: 'الاستشارة الطبية', href: '/consultation' }
     ])];
   } else if (url === '/medical-disclaimer') {
-    title = 'إخلاء المسؤولية الطبية | FemSeha';
-    description = 'إخلاء المسؤولية الطبية لمنصة FemSeha: المحتوى تثقيفي عام بإشراف طبي ولا يغني عن التقييم الطبي المباشر.';
+    title = 'إخلاء المسؤولية الطبية | سايتوتيك - السعودية';
+    description = 'إخلاء المسؤولية الطبية لموقع سايتوتيك - السعودية: المحتوى تثقيفي عام بإشراف طبي ولا يغني عن التقييم الطبي المباشر.';
     jsonLd = [websiteJsonLd(), breadcrumbJsonLd([
       { name: 'الرئيسية', href: '/' },
       { name: 'إخلاء المسؤولية الطبية', href: '/medical-disclaimer' }
