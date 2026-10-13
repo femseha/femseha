@@ -97,16 +97,16 @@ export default function HomePage() {
             <div className="lg:col-span-7 space-y-6 text-right">
               <div className="inline-flex items-center gap-2 bg-sky-100 border border-sky-200 text-sky-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-inner">
                 <ShieldCheckIcon className="w-4 h-4 text-emerald-400" />
-                <span>FemSeha — منصة التثقيف والاستشارات الطبية</span>
+                <span>سايتوتيك - السعودية | معلومات الدواء والصرف النظامي</span>
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
-                سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب
+                سايتوتيك - السعودية | معلومات سايتوتك وميزوبروستول
               </h1>
               <p className="text-lg sm:text-xl text-slate-700 font-normal leading-relaxed">
                 سايتوتك في السعودية وCytotec وMisoprostol، مع معلومات طبية موثوقة، استشارات متخصصة، ومسار واضح للطلب والتوصيل عبر القنوات المرخصة.
               </p>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl">
-                منصة متخصصة في التثقيف الصحي والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية مع دكتور هيثم الخطيب.
+                معلومات طبية عن سايتوتك والميزوبروستول، مع توضيح الاستخدامات والمخاطر وكيفية التحقق من قنوات الصرف المرخصة في السعودية.
               </p>
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                 <a
@@ -162,7 +162,7 @@ export default function HomePage() {
                 </div>
                 <div className="space-y-3 text-xs leading-relaxed text-slate-600">
                   <p>
-                    تهدف منصة <strong>FemSeha</strong> إلى توفير التثقيف الصحي والمعلومات الطبية المبسطة في مجالات الحمل واضطرابات الدورة والخصوبة وسلامة الأدوية.
+                    يهدف موقع <strong>سايتوتيك - السعودية</strong> إلى تقديم معلومات دوائية واضحة عن سايتوتك والميزوبروستول، وإرشاد الزائر إلى التحقق من التسجيل والصرف والتوصيل عبر القنوات المرخصة وفق الأنظمة.
                   </p>
                 </div>
                 <a
@@ -184,7 +184,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-4">
               <div className="inline-block text-xs font-bold text-sky-700 bg-sky-50 border border-sky-200 px-3 py-1 rounded-full">
-                عن FemSeha ودكتور هيثم الخطيب
+                عن سايتوتيك - السعودية ودكتور هيثم الخطيب
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
                 رؤيتنا ورسالتنا في التوعية الصحية والاستشارات الطبية
