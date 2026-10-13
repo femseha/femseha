@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Routes, Route, Link, NavLink, Navigate, useLocation, useParams } from 'react-router-dom';
 import { DOCTOR, WHATSAPP_LINK } from './data/site';
 import { SAUDI_CYTOTEC_ROUTE } from './data/seo-quality';
@@ -14,15 +14,15 @@ import {
   MessageCircleIcon,
 } from './components/Icons';
 import HomePage from './pages/HomePage';
-import ArticlesPage from '@entry/ArticlesPage';
-import ArticleView from '@entry/ArticleView';
-import DoctorPage from './pages/DoctorPage';
-import ConsultationPage from './pages/ConsultationPage';
-import DisclaimerPage from './pages/DisclaimerPage';
-import AdminPage from '@entry/AdminPage';
-import NotFoundPage from './pages/NotFoundPage';
-import ClusterPage from './pages/ClusterPage';
-import PregnancyCalculatorPage from './pages/PregnancyCalculatorPage';
+const ArticlesPage = lazy(() => import('@entry/ArticlesPage'));
+const ArticleView = lazy(() => import('@entry/ArticleView'));
+const DoctorPage = lazy(() => import('./pages/DoctorPage'));
+const ConsultationPage = lazy(() => import('./pages/ConsultationPage'));
+const DisclaimerPage = lazy(() => import('./pages/DisclaimerPage'));
+const AdminPage = lazy(() => import('@entry/AdminPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const ClusterPage = lazy(() => import('./pages/ClusterPage'));
+const PregnancyCalculatorPage = lazy(() => import('./pages/PregnancyCalculatorPage'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
