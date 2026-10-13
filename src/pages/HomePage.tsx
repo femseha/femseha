@@ -206,7 +206,7 @@ export default function HomePage() {
             <div className="lg:col-span-4 flex justify-center">
               <Link
                 to="/doctor"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-bold px-6 py-3.5 rounded-xl shadow transition-colors text-sm"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-sky-700 hover:bg-sky-800 text-white font-bold px-6 py-3.5 rounded-xl shadow transition-colors text-sm"
               >
                 <span>تعرف أكثر على دكتور هيثم الخطيب</span>
                 <ChevronLeftIcon className="w-4 h-4" />
@@ -330,7 +330,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-br from-white via-sky-50 to-white border border-sky-200 rounded-2xl p-8 shadow-xl">
           <div className="max-w-3xl space-y-4 text-right">
-            <div className="inline-flex items-center gap-1.5 text-emerald-400 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold"><MapPinIcon className="w-4 h-4" /><span>المملكة العربية السعودية — السوق الأساسي</span></div>
+            <div className="inline-flex items-center gap-1.5 text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold"><MapPinIcon className="w-4 h-4" /><span>المملكة العربية السعودية — السوق الأساسي</span></div>
             <h2 className="text-2xl font-black text-slate-900">تثقيف صحي واستشارات للنساء في المملكة</h2>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">نقدم محتوى تثقيفياً واستشارات طبية للنساء في مختلف مناطق المملكة مع دكتور هيثم الخطيب.</p>
             <div className="flex flex-wrap gap-2 pt-2 text-xs font-semibold text-slate-700">{CITIES.map(([city, href]) => <Link key={href} to={href} className="bg-white/90 border border-slate-300/80 px-3 py-1.5 rounded-lg text-sky-700 hover:border-sky-400 hover:text-sky-800">{city}</Link>)}</div>
@@ -350,7 +350,7 @@ export default function HomePage() {
           <h2 className="text-2xl font-bold text-slate-900">هل لديك استفسار صحي؟</h2>
           <p className="text-slate-600 text-sm leading-relaxed max-w-xl mx-auto">يمكنك التواصل مع دكتور هيثم الخطيب للحصول على توجيه واستشارة طبية متخصصة حول صحة المرأة والصحة الإنجابية.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition-colors"><MessageCircleIcon className="w-4 h-4" /><span>تواصل عبر واتساب</span></a>
+            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-6 py-3 rounded-xl text-sm transition-colors"><MessageCircleIcon className="w-4 h-4" /><span>تواصل عبر واتساب</span></a>
             <Link to="/consultation" className="inline-flex items-center gap-2 bg-white hover:bg-slate-100 text-slate-800 font-bold px-6 py-3 rounded-xl border border-slate-300 text-sm transition-colors">صفحة الاستشارات</Link>
           </div>
         </div>
