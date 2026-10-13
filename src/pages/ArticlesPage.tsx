@@ -42,8 +42,9 @@ export default function ArticlesPage() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10">
           <span className="text-xs font-bold text-sky-700 bg-sky-50 border border-sky-200 px-3 py-1 rounded-full">مكتبة طبية بإشراف طبي</span>
-          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mt-3 mb-3">الموسوعة التوعوية لصحة المرأة والصحة الإنجابية</h1>
-          <p className="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base">مقالات وأدلة تثقيفية في صحة المرأة والحمل والدورة والخصوبة، بإشراف د. هيثم الخطيب.</p>
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mt-3 mb-3">ماهي ادوية اجهاض الحمل</h1>
+          <p className="text-slate-600 max-w-3xl mx-auto text-sm sm:text-base leading-7">يُعرف الإجهاض الدوائي بأنه إنهاء الحمل باستخدام الأدوية. ويُستخدم طبيًا دواء الميفيبريستون لإيقاف استمرار الحمل، ويُستخدم الميزوبروستول لتحفيز انقباضات الرحم والمساعدة على إخراج أنسجة الحمل. ويُعرف الميزوبروستول تجاريًا باسم سايتوتك في بعض الأسواق. تختلف الملاءمة والمخاطر حسب الحالة، لذلك يلزم الرجوع إلى مختص صحي موثوق وعدم استخدام الأدوية دون تقييم طبي.</p>
+          <img src="/images/uploads/ماهي-ادوية-اجهاض-الحمل.png" alt="ماهي ادوية اجهاض الحمل — معلومات طبية وتوعية عبر واتساب" width="1200" height="678" className="w-full max-w-5xl mx-auto mt-6 rounded-2xl shadow-sm object-cover" fetchPriority="high" />
         </div>
 
         <section className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-7 mb-8" aria-labelledby="saudi-medication-focus">
