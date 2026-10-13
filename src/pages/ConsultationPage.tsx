@@ -4,7 +4,7 @@ import { useSeo, websiteJsonLd, breadcrumbJsonLd, doctorJsonLd } from '../lib/se
 
 export default function ConsultationPage() {
   useSeo({
-    title: 'الاستشارة الطبية قبل استخدام سايتوتك | ميسوبروستول | FemSeha',
+    title: 'الاستشارة الطبية قبل استخدام سايتوتك | ميسوبروستول | سايتوتيك - السعودية',
     description:
       'صفحة تثقيفية عن الاستشارة الطبية قبل استخدام سايتوتك (ميسوبروستول)، وما الذي يقيّمه الطبيب، ومتى تكون الحالة طارئة، وكيف تستعدين للاستشارة بسرية.',
     canonicalPath: '/consultation',
