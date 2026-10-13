@@ -1,3 +1,2 @@
-import { lazy } from "react";
-const ArticleView = lazy(() => import("./ArticleView"));
+import ArticleView from "./ArticleView";
 export default ArticleView;
