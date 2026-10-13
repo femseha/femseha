@@ -131,7 +131,7 @@ export function App() {
             </Link>
 
             <nav className="hidden lg:flex items-center gap-6 font-medium text-sm">
-              <NavLink to="/" className="text-slate-200 hover:text-sky-400 transition-colors">الرئيسية</NavLink>
+              <NavLink to="/" className="text-slate-200 hover:text-sky-400 transition-colors ml-3 xl:ml-5">الرئيسية</NavLink>
               <NavLink to="/doctor" className="text-slate-200 hover:text-sky-400 transition-colors">عن دكتور هيثم الخطيب</NavLink>
               <div className="relative">
                 <button type="button" onClick={() => setTopicsOpen((v) => !v)} onMouseEnter={() => setTopicsOpen(true)} className="flex items-center gap-1.5 text-slate-200 hover:text-sky-400 transition-colors py-2"><span>أقسام التوعية</span><ChevronDownIcon className="w-4 h-4 text-sky-400" /></button>
