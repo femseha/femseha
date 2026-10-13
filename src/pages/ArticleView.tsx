@@ -154,7 +154,7 @@ export default function ArticleView() {
   const article = getArticleBySlug(slug);
 
   useSeo({
-    title: article ? `${article.title} | سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب` : 'المقال غير متوفر | سايتوتك في السعودية (Pfizer) | دكتور هيثم الخطيب',
+    title: article ? `${article.title} | سايتوتيك - السعودية | معلومات طبية` : 'المقال غير متوفر | سايتوتيك - السعودية | معلومات طبية',
     description: article ? article.summary.slice(0, 160) : undefined,
     image: article ? articleSeoImage(article) || undefined : undefined,
     // slug غير صحيح = soft-404: يُعرض محتوى 404 مع noindex وبلا canonical،
