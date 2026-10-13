@@ -1,24 +1,24 @@
 {
   "specVersion": "1.0",
   "host": {
-    "displayName": "FemSeha | فيم صحة",
+    "displayName": "سايتوتيك - السعودية",
     "documentationUrl": "https://femseha.com/",
     "logoUrl": "https://femseha.com/saudi-cytotec-logo.webp"
   },
   "entries": [
     {
       "identifier": "urn:air:femseha.com:website:homepage",
-      "displayName": "FemSeha — الموقع الرسمي",
+      "displayName": "سايتوتيك - السعودية — الموقع الرسمي",
       "type": "text/html",
       "url": "https://femseha.com/",
-      "description": "الموقع الرسمي لمنصة FemSeha للتثقيف الصحي والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية.",
+      "description": "الموقع الرسمي لموقع سايتوتيك - السعودية للتثقيف الصحي والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية.",
       "tags": [
-        "FemSeha",
+        "سايتوتيك - السعودية",
         "صحة المرأة",
         "السعودية"
       ],
       "representativeQueries": [
-        "ما هو موقع FemSeha؟",
+        "ما هو موقع سايتوتيك - السعودية؟",
         "أين أجد معلومات صحة المرأة في السعودية؟"
       ],
       "version": "1.0",
