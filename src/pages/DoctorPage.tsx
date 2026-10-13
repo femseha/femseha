@@ -30,7 +30,7 @@ export default function DoctorPage() {
         <div className="bg-white border border-slate-200 rounded-3xl shadow-lg p-8 sm:p-10 text-center">
           <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-white border-2 border-sky-600 shadow-md flex items-center justify-center overflow-hidden">
             <img
-              src="/saudi-cytotec-logo-96w.webp"
+              src="/%D8%AD%D8%A8%D9%88%D8%A8%20%D8%A5%D8%AC%D9%87%D8%A7%D8%B6%20%D8%A7%D9%84%D8%AD%D9%85%D9%84.png"
               alt="شعار FemSeha — فيم صحة"
               width={96}
               height={96}
