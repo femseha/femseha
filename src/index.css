@@ -227,11 +227,21 @@ button, a, nav, summary {
   align-items: center;
 }
 
-/* PageSpeed: ensure flagged source/article links have comfortable mobile touch targets. */
-#main-content a[href="https://www.sfda.gov.sa/"],
-#main-content a[href="/articles/delayed-period-causes-besides-pregnancy"] {
-  display: inline-flex;
+/* PageSpeed: make the two flagged links distinct, comfortably sized mobile targets. */
+#main-content a[href="https://www.sfda.gov/"] {
+  display: flex;
   align-items: center;
-  min-height: 44px;
-  padding-block: 8px;
+  width: fit-content;
+  min-height: 48px;
+  margin-block: 4px;
+  padding-block: 10px;
+}
+
+#main-content a[href="/articles/delayed-period-causes-besides-pregnancy"] {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 48px;
+  margin-block: 6px;
+  padding-block: 10px;
 }
