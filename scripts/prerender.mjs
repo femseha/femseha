@@ -40,7 +40,7 @@ for (const url of [...new Set(urls)]) {
     `<meta property="og:title" content="${escapeHtml(result.title)}" />`,
     `<meta property="og:description" content="${escapeHtml(result.description)}" />`,
     `<meta property="og:url" content="${escapeHtml(result.canonical)}" />`,
-    `<meta property="og:site_name" content="FemSeha | فيم صحة" />`,
+    `<meta property="og:site_name" content="سايتوتيك - السعودية" />`,
     `<meta property="og:locale" content="ar_SA" />`,
     `<meta name="robots" content="index, follow, max-image-preview:large" />`,
     `<meta property="og:image" content="${escapeHtml(preferredImage)}" />`,
