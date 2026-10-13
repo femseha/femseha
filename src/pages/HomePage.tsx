@@ -356,6 +356,26 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="التواصل عبر واتساب">
+        <a
+          href={WHATSAPP_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-700"
+          aria-label="التواصل عبر واتساب للاستفسار الطبي"
+        >
+          <img
+            src="/images/uploads/%D8%A3%D8%AF%D9%88%D9%8A%D8%A9%20%D8%A5%D8%AC%D9%87%D8%A7%D8%B6%20%D8%A7%D9%84%D8%AD%D9%85%D9%84.png"
+            alt="أدوية إجهاض الحمل — التواصل عبر واتساب للاستفسار الطبي"
+            width="1586"
+            height="992"
+            loading="lazy"
+            decoding="async"
+            className="block w-full h-auto"
+          />
+        </a>
+      </section>
+
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="my-8 p-6 bg-white text-slate-800 border-r-4 border-sky-500 rounded-xl shadow-md">
           <div className="flex items-center gap-2 mb-2 text-sky-700 font-bold text-base"><ShieldAlertIcon className="w-5 h-5 shrink-0" /><h3>إخلاء مسؤولية طبية</h3></div>
