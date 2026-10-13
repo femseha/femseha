@@ -130,7 +130,7 @@ export function App() {
               <div><span className="block text-xl font-black tracking-tight text-white group-hover:text-sky-300 transition-colors">سايتوتيك</span><span className="block text-xs text-sky-300 font-semibold tracking-wide">السعودية</span></div>
             </Link>
 
-            <nav className="hidden 2xl:flex items-center gap-3 font-medium text-xs whitespace-nowrap">
+            <nav className="hidden lg:flex items-center gap-6 font-medium text-sm">
               <NavLink to="/" className="text-slate-200 hover:text-sky-400 transition-colors">الرئيسية</NavLink>
               <NavLink to="/doctor" className="text-slate-200 hover:text-sky-400 transition-colors">عن دكتور هيثم الخطيب</NavLink>
               <div className="relative">
@@ -145,12 +145,12 @@ export function App() {
               <NavLink to="/consultation" className="text-slate-200 hover:text-sky-400 transition-colors">اتصل بنا</NavLink>
             </nav>
 
-            <div className="hidden 2xl:flex items-center gap-3"><a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2 text-sm"><HeartIcon className="w-4 h-4 fill-slate-950 text-slate-950" /><span>تواصل مع دكتور هيثم الخطيب</span></a></div>
-            <div className="2xl:hidden flex items-center"><button type="button" onClick={() => setMobileMenuOpen((v) => !v)} className="p-2 text-slate-300 hover:text-white focus:outline-none" aria-label="القائمة" aria-expanded={mobileMenuOpen}>{mobileMenuOpen ? <XIcon /> : <MenuIcon />}</button></div>
+            <div className="hidden sm:flex items-center gap-3"><a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2 text-sm"><HeartIcon className="w-4 h-4 fill-slate-950 text-slate-950" /><span>تواصل مع دكتور هيثم الخطيب</span></a></div>
+            <div className="lg:hidden flex items-center"><button type="button" onClick={() => setMobileMenuOpen((v) => !v)} className="p-2 text-slate-300 hover:text-white focus:outline-none" aria-label="القائمة" aria-expanded={mobileMenuOpen}>{mobileMenuOpen ? <XIcon /> : <MenuIcon />}</button></div>
           </div>
         </div>
 
-        {mobileMenuOpen && <div className="2xl:hidden bg-slate-950 border-b border-slate-800 px-4 pt-3 pb-6 space-y-3">
+        {mobileMenuOpen && <div className="lg:hidden bg-slate-950 border-b border-slate-800 px-4 pt-3 pb-6 space-y-3">
           <Link to="/" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">الرئيسية</Link>
           <Link to="/doctor" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">عن دكتور هيثم الخطيب</Link>
           <Link to="/cytotec-saudi-arabia" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">دليل سايتوتك في السعودية</Link>
