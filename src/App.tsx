@@ -138,7 +138,6 @@ export function App() {
                 {topicsOpen && <div onMouseLeave={() => setTopicsOpen(false)} className="absolute top-full right-0 w-72 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl py-3 px-2 grid grid-cols-1 gap-1 z-50 animate-in fade-in duration-200">{TOPIC_LINKS.map((item) => <Link key={item.href + item.name} to={item.href} onClick={closeMenus} className="px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-sky-950 hover:text-sky-300 rounded-lg transition-colors flex items-center justify-between"><span>{item.name}</span><span className="text-slate-600 text-[10px]">←</span></Link>)}</div>}
               </div>
               <NavLink to="/cytotec-saudi-arabia" className="text-slate-200 hover:text-sky-400 transition-colors">دليل سايتوتك</NavLink>
-              <NavLink to="/products" className="text-slate-200 hover:text-sky-400 transition-colors">المنتجات</NavLink>
               <NavLink to="/pharmacies" className="text-slate-200 hover:text-sky-400 transition-colors">الصيدليات المرخصة</NavLink>
               <NavLink to="/articles" className="text-slate-200 hover:text-sky-400 transition-colors">المقالات الطبية</NavLink>
               <NavLink to="/طريقة-حساب-عمر-الحمل" className="text-slate-200 hover:text-sky-400 transition-colors">حاسبة عمر الحمل</NavLink>
@@ -154,7 +153,6 @@ export function App() {
           <Link to="/" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">الرئيسية</Link>
           <Link to="/doctor" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">عن دكتور هيثم الخطيب</Link>
           <Link to="/cytotec-saudi-arabia" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">دليل سايتوتك في السعودية</Link>
-          <Link to="/products" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">المنتجات</Link>
           <Link to="/pharmacies" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">الصيدليات المرخصة</Link>
           <Link to="/articles" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">المقالات الطبية</Link>
           <Link to="/طريقة-حساب-عمر-الحمل" onClick={closeMenus} className="block py-2 text-sky-300 hover:text-sky-200 font-bold text-base">طريقة حساب عمر الحمل</Link>
