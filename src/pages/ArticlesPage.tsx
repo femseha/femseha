@@ -9,9 +9,9 @@ export default function ArticlesPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   useSeo({
-    title: 'الأدلة الطبية وصحة المرأة | FemSeha',
+    title: 'سايتوتيك - السعودية | المقالات والمعلومات الطبية',
     description:
-      'مكتبة FemSeha للأدلة التثقيفية في صحة المرأة والحمل والخصوبة والأدوية، مع تركيز على المعلومات الطبية الآمنة والمراجع الرسمية.',
+      'مقالات ومعلومات طبية عن سايتوتك والميزوبروستول، الاستخدامات المعتمدة، التحذيرات، ومتطلبات الصرف عبر القنوات المرخصة في السعودية.',
     canonicalPath: '/articles',
     jsonLd: [
       websiteJsonLd(),
