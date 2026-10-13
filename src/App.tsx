@@ -119,16 +119,16 @@ export function App() {
       <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md">
         <div className="bg-gradient-to-r from-sky-900 via-teal-900 to-slate-900 text-slate-200 text-xs py-1.5 px-4 text-center border-b border-sky-800/40">
           <div className="max-w-7xl mx-auto flex items-center justify-between font-medium">
-            <div className="flex items-center gap-2"><span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /><span>FemSeha — استشارات وتثقيف صحي بالمملكة العربية السعودية</span></div>
+            <div className="flex items-center gap-2"><span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /><span>سايتوتيك - السعودية | معلومات الدواء والصرف النظامي</span></div>
             <div className="hidden md:flex items-center gap-4 text-sky-200"><span className="flex items-center gap-1"><ShieldCheckIcon className="w-3.5 h-3.5 text-sky-400" />تثقيف واستشارات طبية متخصصة</span><a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="text-amber-300 font-bold hover:underline ltr">{DOCTOR.phoneDisplay}</a></div>
           </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            <Link to="/" className="flex items-center gap-3 group" aria-label="FemSeha — الرئيسية">
+            <Link to="/" className="flex items-center gap-3 group" aria-label="سايتوتيك - السعودية — الرئيسية">
               <img src="/%D8%AD%D8%A8%D9%88%D8%A8%20%D8%A5%D8%AC%D9%87%D8%A7%D8%B6%20%D8%A7%D9%84%D8%AD%D9%85%D9%84.png" alt="شعار موقع سايتوتك في السعودية" width={48} height={48} className="w-12 h-12 rounded-xl shadow-lg group-hover:scale-105 transition-transform" />
-              <div><span className="block text-2xl font-black tracking-tight text-white group-hover:text-sky-300 transition-colors">FemSeha</span><span className="block text-xs text-sky-300 font-semibold tracking-wide">فيم صحة</span></div>
+              <div><span className="block text-xl font-black tracking-tight text-white group-hover:text-sky-300 transition-colors">سايتوتيك</span><span className="block text-xs text-sky-300 font-semibold tracking-wide">السعودية</span></div>
             </Link>
 
             <nav className="hidden lg:flex items-center gap-6 font-medium text-sm">
@@ -139,7 +139,11 @@ export function App() {
                 <button type="button" onClick={() => setTopicsOpen((v) => !v)} onMouseEnter={() => setTopicsOpen(true)} className="flex items-center gap-1.5 text-slate-200 hover:text-sky-400 transition-colors py-2"><span>أقسام التوعية</span><ChevronDownIcon className="w-4 h-4 text-sky-400" /></button>
                 {topicsOpen && <div onMouseLeave={() => setTopicsOpen(false)} className="absolute top-full right-0 w-72 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl py-3 px-2 grid grid-cols-1 gap-1 z-50 animate-in fade-in duration-200">{TOPIC_LINKS.map((item) => <Link key={item.href + item.name} to={item.href} onClick={closeMenus} className="px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-sky-950 hover:text-sky-300 rounded-lg transition-colors flex items-center justify-between"><span>{item.name}</span><span className="text-slate-600 text-[10px]">←</span></Link>)}</div>}
               </div>
-              <NavLink to="/articles" className="text-slate-200 hover:text-sky-400 transition-colors">الموسوعة الطبية</NavLink>
+              <NavLink to="/cytotec-saudi-arabia" className="text-slate-200 hover:text-sky-400 transition-colors">دليل سايتوتك</NavLink>
+              <NavLink to="/products" className="text-slate-200 hover:text-sky-400 transition-colors">المنتجات</NavLink>
+              <NavLink to="/pharmacies" className="text-slate-200 hover:text-sky-400 transition-colors">الصيدليات المرخصة</NavLink>
+              <NavLink to="/order" className="text-slate-200 hover:text-sky-400 transition-colors">الطلب والتوصيل</NavLink>
+              <NavLink to="/articles" className="text-slate-200 hover:text-sky-400 transition-colors">المقالات الطبية</NavLink>
               <NavLink to="/طريقة-حساب-عمر-الحمل" className="text-slate-200 hover:text-sky-400 transition-colors">حاسبة عمر الحمل</NavLink>
               <NavLink to="/consultation" className="text-slate-200 hover:text-sky-400 transition-colors">اتصل بنا</NavLink>
             </nav>
@@ -153,7 +157,11 @@ export function App() {
           <Link to="/" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">الرئيسية</Link>
           <Link to="/doctor" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">عن دكتور هيثم الخطيب</Link>
           <Link to="/consultation" onClick={closeMenus} className="block py-2 text-amber-400 font-bold text-base">الاستشارات الطبية</Link>
-          <Link to="/articles" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">الموسوعة الطبية</Link>
+          <Link to="/cytotec-saudi-arabia" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">دليل سايتوتك في السعودية</Link>
+          <Link to="/products" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">المنتجات</Link>
+          <Link to="/pharmacies" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">الصيدليات المرخصة</Link>
+          <Link to="/order" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">الطلب والتوصيل</Link>
+          <Link to="/articles" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-base">المقالات الطبية</Link>
           <Link to="/طريقة-حساب-عمر-الحمل" onClick={closeMenus} className="block py-2 text-sky-300 hover:text-sky-200 font-bold text-base">طريقة حساب عمر الحمل</Link>
           <div className="pt-2 pb-1 border-t border-slate-800"><p className="text-xs font-bold text-sky-400 mb-2">أقسام التوعية والصحة:</p><div className="grid grid-cols-2 gap-2 text-xs">{TOPIC_LINKS.map((item) => <Link key={item.href + item.name} to={item.href} onClick={closeMenus} className="p-2 bg-slate-900 rounded text-slate-300 hover:text-sky-300">{item.name}</Link>)}</div></div>
           <div className="pt-2 border-t border-slate-800 flex flex-col gap-2"><Link to="/consultation" onClick={closeMenus} className="block py-2 text-slate-200 hover:text-sky-400 font-semibold text-sm">اتصل بنا</Link><a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="w-full bg-amber-500 text-slate-950 font-bold py-3 rounded-xl text-center shadow flex items-center justify-center gap-2"><PhoneIcon className="w-4 h-4" /><span>تواصل عبر واتساب</span></a></div>
@@ -205,21 +213,21 @@ export function App() {
 
       <footer className="bg-slate-950 text-slate-300 border-t border-slate-800 pt-16 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="my-8 p-6 bg-slate-900 text-slate-100 border-r-4 border-sky-500 rounded-xl shadow-md mb-12"><div className="flex items-center gap-2 mb-2 text-sky-300 font-bold text-base"><ShieldAlertIcon className="w-5 h-5 shrink-0" /><h3>إخلاء مسؤولية طبية</h3></div><p className="text-slate-300 text-xs md:text-sm leading-relaxed">إخلاء مسؤولية: المحتوى المنشور في FemSeha مخصص للتثقيف والتوعية الصحية والاستشارات الطبية، ولا يُعد بديلاً عن التشخيص أو التقييم الطبي المباشر. تختلف الحالات الطبية من شخص لآخر، ويُنصح بمراجعة الطبيب المختص عند الحاجة. وفي الحالات الطارئة، يجب طلب الرعاية الطبية العاجلة.</p></div>
+          <div className="my-8 p-6 bg-slate-900 text-slate-100 border-r-4 border-sky-500 rounded-xl shadow-md mb-12"><div className="flex items-center gap-2 mb-2 text-sky-300 font-bold text-base"><ShieldAlertIcon className="w-5 h-5 shrink-0" /><h3>إخلاء مسؤولية طبية</h3></div><p className="text-slate-300 text-xs md:text-sm leading-relaxed">إخلاء مسؤولية: المحتوى المنشور في سايتوتيك - السعودية مخصص للتثقيف والتوعية الصحية والاستشارات الطبية، ولا يُعد بديلاً عن التشخيص أو التقييم الطبي المباشر. تختلف الحالات الطبية من شخص لآخر، ويُنصح بمراجعة الطبيب المختص عند الحاجة. وفي الحالات الطارئة، يجب طلب الرعاية الطبية العاجلة.</p></div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
             <div>
-              <div className="flex items-center gap-3 mb-4"><img src="/%D8%AD%D8%A8%D9%88%D8%A8%20%D8%A5%D8%AC%D9%87%D8%A7%D8%B6%20%D8%A7%D9%84%D8%AD%D9%85%D9%84.png" alt="شعار موقع سايتوتك في السعودية" width={40} height={40} loading="lazy" decoding="async" className="w-10 h-10 rounded-lg shadow" /><div><span className="block text-xl font-bold text-white">FemSeha</span><span className="block text-xs text-sky-400 font-semibold">فيم صحة</span></div></div>
-              <p className="text-xs leading-relaxed text-slate-300 mb-4">منصة <strong>FemSeha</strong> برعاية <strong>دكتور هيثم الخطيب</strong> للتثقيف والاستشارات المتعلقة بصحة المرأة والصحة الإنجابية في المملكة العربية السعودية.</p>
+              <div className="flex items-center gap-3 mb-4"><img src="/%D8%AD%D8%A8%D9%88%D8%A8%20%D8%A5%D8%AC%D9%87%D8%A7%D8%B6%20%D8%A7%D9%84%D8%AD%D9%85%D9%84.png" alt="شعار موقع سايتوتك في السعودية" width={40} height={40} loading="lazy" decoding="async" className="w-10 h-10 rounded-lg shadow" /><div><span className="block text-lg font-bold text-white">سايتوتيك - السعودية</span></div></div>
+              <p className="text-xs leading-relaxed text-slate-300 mb-4">منصة <strong>سايتوتيك - السعودية</strong> للمعلومات الطبية حول سايتوتك والميزوبروستول، والتحقق من قنوات الصرف المرخصة وفق الأنظمة.</p>
               <div className="space-y-2 text-xs text-slate-300"><p className="flex items-center gap-2"><PhoneIcon className="w-4 h-4 text-emerald-400 shrink-0" /><span className="dir-ltr font-bold text-emerald-300">{DOCTOR.phoneDisplay}</span></p><p className="flex items-center gap-2"><MapPinIcon className="w-4 h-4 text-sky-400 shrink-0" /><span>المملكة العربية السعودية (السوق الأساسي)</span></p><p className="flex items-center gap-2"><ShieldCheckIcon className="w-4 h-4 text-sky-400 shrink-0" /><span>تثقيف واستشارات طبية متخصصة</span></p></div>
             </div>
 
             <div><h4 className="text-white font-bold text-sm mb-4 border-r-2 border-sky-500 pr-2">أقسام الموقع الرئيسية</h4><ul className="space-y-2 text-xs font-medium">{FOOTER_MAIN_LINKS.map((l) => <li key={l.label + l.href}><Link to={l.href} className={`hover:text-sky-300 transition-colors ${l.accent ? 'text-amber-400' : ''}`}>{l.label}</Link></li>)}</ul></div>
             <div><h4 className="text-white font-bold text-sm mb-4 border-r-2 border-amber-500 pr-2">مواضيع التوعية والسلامة</h4><ul className="space-y-2 text-xs font-medium">{FOOTER_TOPIC_LINKS.map((l) => <li key={l.label + l.href}><Link to={l.href} className="hover:text-amber-300 transition-colors">{l.label}</Link></li>)}</ul></div>
-            <div><h4 className="text-white font-bold text-sm mb-4 border-r-2 border-emerald-500 pr-2">تغطية المملكة العربية السعودية</h4><p className="text-xs text-slate-300 mb-3 leading-relaxed">تستهدف منصة FemSeha تزويد النساء والمرضى بالاستشارات والمعرفة الصحية التخصصية في مختلف مدن ومناطق المملكة:</p><div className="flex flex-wrap gap-1.5 text-[11px]">{CITIES.map(([city, href]) => <Link key={href} to={href} className="bg-slate-900 border border-slate-800 text-slate-300 px-2 py-0.5 rounded hover:text-sky-300">{city}</Link>)}</div><div className="mt-4 pt-3 border-t border-slate-900 text-center"><Link to="/consultation" className="text-xs text-sky-400 hover:underline font-semibold">صفحة الاستشارات والتواصل</Link></div></div>
+            <div><h4 className="text-white font-bold text-sm mb-4 border-r-2 border-emerald-500 pr-2">تغطية المملكة العربية السعودية</h4><p className="text-xs text-slate-300 mb-3 leading-relaxed">يستهدف الموقع الباحثين عن معلومات دوائية موثوقة وقنوات صرف مرخصة في مدن المملكة، دون افتراض توافر الدواء في كل مدينة أو فرع:</p><div className="flex flex-wrap gap-1.5 text-[11px]">{CITIES.map(([city, href]) => <Link key={href} to={href} className="bg-slate-900 border border-slate-800 text-slate-300 px-2 py-0.5 rounded hover:text-sky-300">{city}</Link>)}</div><div className="mt-4 pt-3 border-t border-slate-900 text-center"><Link to="/consultation" className="text-xs text-sky-400 hover:underline font-semibold">صفحة الاستشارات والتواصل</Link></div></div>
           </div>
 
-          <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-300"><p>© 2026 FemSeha | فيم صحة — جميع الحقوق محفوظة.</p><div className="flex items-center gap-4 text-slate-400"><Link to="/medical-disclaimer" className="hover:underline">إخلاء المسؤولية</Link><span>•</span><Link to="/privacy" className="hover:underline">سياسة الخصوصية</Link><span>•</span><Link to="/terms" className="hover:underline">شروط الاستخدام</Link><span>•</span><Link to="/sales-policy" className="hover:underline">سياسة البيع</Link><span>•</span><Link to="/delivery-policy" className="hover:underline">سياسة التوصيل</Link><span>•</span><Link to="/admin" className="hover:underline text-slate-300">لوحة التحكم</Link></div></div>
+          <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-300"><p>© 2026 سايتوتيك - السعودية — جميع الحقوق محفوظة.</p><div className="flex items-center gap-4 text-slate-400"><Link to="/medical-disclaimer" className="hover:underline">إخلاء المسؤولية</Link><span>•</span><Link to="/privacy" className="hover:underline">سياسة الخصوصية</Link><span>•</span><Link to="/terms" className="hover:underline">شروط الاستخدام</Link><span>•</span><Link to="/sales-policy" className="hover:underline">سياسة البيع</Link><span>•</span><Link to="/delivery-policy" className="hover:underline">سياسة التوصيل</Link><span>•</span><Link to="/admin" className="hover:underline text-slate-300">لوحة التحكم</Link></div></div>
         </div>
 </footer>
 
