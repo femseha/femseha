@@ -49,8 +49,8 @@ export default function AdminPage() {
   const [password, setPassword] = useState('');
 
   useSeo({
-    title: 'لوحة الإدارة | FemSeha',
-    description: 'لوحة إدارة المحتوى لمنصة FemSeha.',
+    title: 'لوحة الإدارة | سايتوتيك - السعودية',
+    description: 'لوحة إدارة المحتوى لمنصة سايتوتيك - السعودية.',
     // مسار داخلي غير عام — لا يُفهرس ولا يُحمل بـ canonical يشير لصفحة عامة
     robots: 'noindex, nofollow',
     noCanonical: true
