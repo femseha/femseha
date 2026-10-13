@@ -131,8 +131,7 @@ export function App() {
             </Link>
 
             <nav className="hidden lg:flex items-center gap-6 font-medium text-sm">
-              <NavLink to="/" className="text-slate-200 hover:text-sky-400 transition-colors ml-3 xl:ml-5">الرئيسية</NavLink>
-              <NavLink to="/doctor" className="text-slate-200 hover:text-sky-400 transition-colors">عن دكتور هيثم الخطيب</NavLink>
+              <NavLink to="/" className="text-white bg-sky-700/40 border border-sky-400/50 rounded-lg px-3 py-2 font-extrabold text-sm shadow-sm hover:bg-sky-700/60 transition-colors ml-6 xl:ml-8 shrink-0">الرئيسية</NavLink>
               <div className="relative">
                 <button type="button" onClick={() => setTopicsOpen((v) => !v)} onMouseEnter={() => setTopicsOpen(true)} className="flex items-center gap-1.5 text-slate-200 hover:text-sky-400 transition-colors py-2"><span>أقسام التوعية</span><ChevronDownIcon className="w-4 h-4 text-sky-400" /></button>
                 {topicsOpen && <div onMouseLeave={() => setTopicsOpen(false)} className="absolute top-full right-0 w-72 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl py-3 px-2 grid grid-cols-1 gap-1 z-50 animate-in fade-in duration-200">{TOPIC_LINKS.map((item) => <Link key={item.href + item.name} to={item.href} onClick={closeMenus} className="px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-sky-950 hover:text-sky-300 rounded-lg transition-colors flex items-center justify-between"><span>{item.name}</span><span className="text-slate-600 text-[10px]">←</span></Link>)}</div>}
