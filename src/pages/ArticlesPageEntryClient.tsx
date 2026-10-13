@@ -1,3 +1,2 @@
-import { lazy } from "react";
-const ArticlesPage = lazy(() => import("./ArticlesPage"));
+import ArticlesPage from "./ArticlesPage";
 export default ArticlesPage;
