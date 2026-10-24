@@ -29,7 +29,7 @@ const STATIC_INDEXABLE = [
   "/", "/articles", "/cytotec-saudi-arabia", "/misoprostol", "/products", "/order", "/delivery", "/pharmacies",
   "/cytotec-uae", "/cytotec-kuwait", "/cytotec-bahrain",
   "/cytotec-riyadh", "/cytotec-jeddah", "/cytotec-makkah", "/cytotec-madinah", "/cytotec-dammam", "/cytotec-khobar",
-  "/cytotec-taif", "/cytotec-tabuk", "/cytotec-abha", "/cytotec-jazan", "/cytotec-buraydah", "/cytotec-ahsa", "/cytotec-khamis-mushait",
+  "/cytotec-taif", "/cytotec-tabuk", "/cytotec-abha", "/cytotec-jazan", "/cytotec-buraydah", "/cytotec-ahsa", "/cytotec-khamis-mushait", "/cytotec-qatif", "/cytotec-hail", "/cytotec-najran", "/cytotec-al-baha", "/cytotec-sakaka", "/cytotec-arar",
   "/doctor", "/consultation", "/privacy", "/terms", "/sales-policy", "/delivery-policy", "/medical-disclaimer"
 ];
 const NON_INDEXABLE = ["/admin"];
