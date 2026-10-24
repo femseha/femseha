@@ -63,7 +63,7 @@ if (!errors) ok(`App.tsx routes سليمة (${declared.length})`);
 
 section("robots.txt");
 const robots = read("public/robots.txt");
-for (const rule of ["Allow: /", "Disallow: /admin", "Disallow: /search", `Sitemap: ${SITE_URL}/sitemap.xml`]) if (!robots.split("\n").some((l) => l.trim() === rule)) err(`robots: قاعدة مفقودة: ${rule}`);
+for (const rule of ["Allow: /", "Disallow: /admin", "Disallow: /search", `Sitemap: ${SITE_URL}/sitemap-index.xml`]) if (!robots.split("\n").some((l) => l.trim() === rule)) err(`robots: قاعدة مفقودة: ${rule}`);
 for (const u of locs) {
   const p = new URL(u).pathname;
   for (const line of robots.split("\n")) {
