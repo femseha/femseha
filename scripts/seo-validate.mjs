@@ -164,7 +164,7 @@ for (const u of locSet) if (!expected.has(u)) warn(`sitemap: URL إضافي غي
 ok(`sitemap URLs=${locs.length}`);
 
 section("robots.txt");
-if (!/Sitemap:\s*https:\/\/femseha\.com\/sitemap\.xml/i.test(robotsTxt)) err("robots.txt لا يشير إلى sitemap.xml");
+if (!/Sitemap:\s*https:\/\/femseha\.com\/sitemap-index\.xml/i.test(robotsTxt)) err("robots.txt لا يشير إلى sitemap-index.xml");
 if (!/Disallow:\s*\/admin/i.test(robotsTxt)) warn("robots.txt لا يحجب /admin");
 if (!/Disallow:\s*\/search/i.test(robotsTxt)) warn("robots.txt لا يحجب /search");
 ok("تم فحص robots.txt");
