@@ -193,6 +193,11 @@ export function App() {
           <Route path="/cytotec-ahsa" element={<ClusterPage />} />
           <Route path="/cytotec-khamis-mushait" element={<ClusterPage />} />
           <Route path="/cytotec-qatif" element={<ClusterPage />} />
+          <Route path="/cytotec-hail" element={<ClusterPage />} />
+          <Route path="/cytotec-najran" element={<ClusterPage />} />
+          <Route path="/cytotec-al-baha" element={<ClusterPage />} />
+          <Route path="/cytotec-sakaka" element={<ClusterPage />} />
+          <Route path="/cytotec-arar" element={<ClusterPage />} />
           <Route path="/privacy" element={<ClusterPage />} />
           <Route path="/terms" element={<ClusterPage />} />
           <Route path="/sales-policy" element={<ClusterPage />} />
