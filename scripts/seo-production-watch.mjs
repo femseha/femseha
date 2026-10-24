@@ -17,6 +17,9 @@ const CRITICAL_PATHS = [
   "/articles/abortion-medicines-kuwait-medical-guide",
   "/articles/abortion-regulations-uae-medical-guide",
   "/articles/abortion-regulations-qatar-medical-guide",
+  // URLs flagged by Search Console for redirect errors; monitor without changing their slugs.
+  "/articles/thyroid-and-menstrual-cycle",
+  "/articles/morning-sickness-vs-hyperemesis",
 ];
 
 const timeoutMs = 20_000;
@@ -61,6 +64,15 @@ function hasNoindex(html) {
 console.log("FemSeha SEO Guardian — production check");
 console.log(`Site: ${SITE}`);
 
+// Confirm the www hostname resolves and redirects to the preferred canonical host.
+try {
+  const { response } = await fetchText("https://www.femseha.com/");
+  if (response.url !== `${SITE}/`) error(`www host did not finish at ${SITE}/ (final URL: ${response.url})`);
+  else ok("www host redirects to the preferred canonical host");
+} catch (err) {
+  error(`www host request failed: ${err.message}`);
+}
+
 let sitemap;
 try {
   sitemap = await fetchText(`${SITE}/sitemap.xml`);
@@ -87,6 +99,7 @@ for (const path of CRITICAL_PATHS) {
       error(`${path}: HTTP ${response.status}`);
       continue;
     }
+    if (response.url !== url) error(`${path}: unexpected redirect to ${response.url}`);
     const expectedCanonical = `${SITE}${path === "/" ? "/" : path}`;
     const canonical = canonicalFrom(body);
     if (canonical !== expectedCanonical) error(`${path}: canonical is ${canonical || "missing"}`);

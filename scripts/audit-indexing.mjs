@@ -38,7 +38,9 @@ for (const u of locs) {
   let url;
   try { url = new URL(u); } catch { err(`sitemap: URL غير صالح: ${u}`); continue; }
   if (url.origin !== SITE_URL) err(`sitemap: origin غير صحيح: ${u}`);
-  const p = url.pathname;
+  let p;
+  try { p = decodeURIComponent(url.pathname); }
+  catch { err(`sitemap: ترميز مسار غير صالح: ${u}`); p = url.pathname; }
   for (const bad of FORBIDDEN_PATHS) if (p === bad || p.startsWith(`${bad}/`)) err(`sitemap: مسار محجوب: ${u}`);
   if (/(^|\/)(?:test|staging|stag|demo|tmp|dead|copy)(?:\/|$)/i.test(p)) err(`sitemap: مسار اختباري/ميت: ${u}`);
   if (url.search || url.hash) err(`sitemap: URL يحتوي query/hash: ${u}`);

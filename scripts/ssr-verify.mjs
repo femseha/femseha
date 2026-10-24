@@ -75,13 +75,13 @@ for (const route of ROUTES) {
 // فحوصات محتوى أساسية متوافقة مع النصوص الحالية، دون ربط الاختبار بعبارات قديمة.
 const home = renderRoute('/');
 const checks = [
-  ['الصفحة الرئيسية تعرض اسم المنصة', home.includes('FemSeha')],
+  ['الصفحة الرئيسية تعرض اسم المنصة', home.includes('سايتوتيك - السعودية')],
   ['الصفحة الرئيسية تعرض المقالات', home.includes('/articles')],
   ['الصفحة الرئيسية تعرض محور سايتوتك السعودي', home.includes('سايتوتك في السعودية')],
   ['روابط المقالات موجودة', home.includes('/cytotec-saudi-arabia')]
 ];
 const articlesPage = renderRoute('/articles');
-checks.push(['صفحة الأدلة تعرض عنوان المكتبة', articlesPage.includes('الموسوعة التوعوية لصحة المرأة والصحة الإنجابية')]);
+checks.push(['صفحة الأدلة تعرض عنوان المكتبة', articlesPage.includes('المقالات والأدلة الطبية لصحة المرأة')]);
 checks.push(['صفحة الأدلة تعرض شارة المكتبة', articlesPage.includes('مكتبة طبية بإشراف طبي')]);
 
 const targetArticle = articles.find((item) => item.slug === 'cytotec-misoprostol-saudi-riyadh-guide');
