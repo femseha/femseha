@@ -99,6 +99,7 @@ for (const path of CRITICAL_PATHS) {
       error(`${path}: HTTP ${response.status}`);
       continue;
     }
+    if (response.url !== url) error(`${path}: unexpected redirect to ${response.url}`);
     const expectedCanonical = `${SITE}${path === "/" ? "/" : path}`;
     const canonical = canonicalFrom(body);
     if (canonical !== expectedCanonical) error(`${path}: canonical is ${canonical || "missing"}`);
