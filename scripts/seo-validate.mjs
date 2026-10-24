@@ -29,7 +29,7 @@ const STATIC_INDEXABLE = [
   "/", "/articles", "/cytotec-saudi-arabia", "/misoprostol", "/products", "/order", "/delivery", "/pharmacies",
   "/cytotec-uae", "/cytotec-kuwait", "/cytotec-bahrain",
   "/cytotec-riyadh", "/cytotec-jeddah", "/cytotec-makkah", "/cytotec-madinah", "/cytotec-dammam", "/cytotec-khobar",
-  "/cytotec-taif", "/cytotec-tabuk", "/cytotec-abha", "/cytotec-jazan", "/cytotec-buraydah", "/cytotec-ahsa", "/cytotec-khamis-mushait",
+  "/cytotec-taif", "/cytotec-tabuk", "/cytotec-abha", "/cytotec-jazan", "/cytotec-buraydah", "/cytotec-ahsa", "/cytotec-khamis-mushait", "/cytotec-qatif", "/cytotec-hail", "/cytotec-najran", "/cytotec-al-baha", "/cytotec-sakaka", "/cytotec-arar",
   "/doctor", "/consultation", "/privacy", "/terms", "/sales-policy", "/delivery-policy", "/medical-disclaimer"
 ];
 const NON_INDEXABLE = ["/admin"];
@@ -70,6 +70,24 @@ const keywordEntries = Array.isArray(keywordMapRaw) ? keywordMapRaw : keywordMap
 const sitemapXml = read("public/sitemap.xml");
 const robotsTxt = read("public/robots.txt");
 const routeSet = new Set([...STATIC_INDEXABLE, ...effectiveArticles.map((a) => `/articles/${a.slug}`), ...NON_INDEXABLE]);
+const cityRoutes = [
+  "/cytotec-riyadh", "/cytotec-jeddah", "/cytotec-makkah", "/cytotec-madinah", "/cytotec-dammam",
+  "/cytotec-khobar", "/cytotec-taif", "/cytotec-tabuk", "/cytotec-abha", "/cytotec-jazan",
+  "/cytotec-buraydah", "/cytotec-ahsa", "/cytotec-khamis-mushait", "/cytotec-qatif",
+  "/cytotec-hail", "/cytotec-najran", "/cytotec-al-baha", "/cytotec-sakaka", "/cytotec-arar"
+];
+const appRoutesSource = read("src/App.tsx");
+const clusterSource = read("src/data/cluster-pages.ts");
+const sitemapGeneratorSource = read("scripts/generate-sitemap.mjs");
+for (const route of cityRoutes) {
+  if (!STATIC_INDEXABLE.includes(route)) err(`city route missing from STATIC_INDEXABLE: ${route}`);
+  if (!appRoutesSource.includes(`path="${route}"`)) err(`city route missing from React Router: ${route}`);
+  if (!sitemapGeneratorSource.includes(`path: "${route}"`)) err(`city route missing from sitemap generator: ${route}`);
+  const slug = route.replace("/cytotec-", "");
+  if (!clusterSource.includes(`['${slug}'`)) err(`city route missing from cluster pages: ${route}`);
+}
+ok(`city routes cross-check=${cityRoutes.length}`);
+
 ok(`articles=${effectiveArticles.length}, keywordMap=${keywordEntries.length}, sourceFiles=${DATA_FILES.length}`);
 
 section("المقالات: البيانات الفعلية بعد تطبيق overrides");
