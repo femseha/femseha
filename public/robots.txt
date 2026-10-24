@@ -3,6 +3,12 @@ Allow: /
 Disallow: /admin
 Disallow: /search
 
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
 Sitemap: https://femseha.com/sitemap.xml
 Sitemap: https://femseha.com/sitemap-index.xml
 Sitemap: https://femseha.com/image-sitemap.xml
