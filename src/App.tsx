@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Routes, Route, Link, NavLink, Navigate, useLocation, useParams } from 'react-router-dom';
 import { DOCTOR, WHATSAPP_LINK } from './data/site';
 import { SAUDI_CYTOTEC_ROUTE } from './data/seo-quality';
@@ -14,15 +14,15 @@ import {
   MessageCircleIcon,
 } from './components/Icons';
 import HomePage from './pages/HomePage';
-import ArticlesPage from '@entry/ArticlesPage';
-import ArticleView from '@entry/ArticleView';
-import DoctorPage from './pages/DoctorPage';
-import ConsultationPage from './pages/ConsultationPage';
-import DisclaimerPage from './pages/DisclaimerPage';
-import AdminPage from './pages/AdminPage';
-import NotFoundPage from './pages/NotFoundPage';
-import ClusterPage from './pages/ClusterPage';
-import PregnancyCalculatorPage from './pages/PregnancyCalculatorPage';
+const ArticlesPage = lazy(() => import('@entry/ArticlesPage'));
+const ArticleView = lazy(() => import('@entry/ArticleView'));
+const DoctorPage = lazy(() => import('./pages/DoctorPage'));
+const ConsultationPage = lazy(() => import('./pages/ConsultationPage'));
+const DisclaimerPage = lazy(() => import('./pages/DisclaimerPage'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const ClusterPage = lazy(() => import('./pages/ClusterPage'));
+const PregnancyCalculatorPage = lazy(() => import('./pages/PregnancyCalculatorPage'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -165,6 +165,7 @@ export function App() {
       </header>
 
       <main id="main-content" className="flex-grow">
+        <Suspense fallback={<div className="min-h-[40vh] flex items-center justify-center text-slate-600" role="status">جارٍ تحميل الصفحة…</div>}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/طريقة-حساب-عمر-الحمل" element={<PregnancyCalculatorPage />} />
@@ -208,6 +209,7 @@ export function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        </Suspense>
       </main>
 
       <footer className="bg-slate-950 text-slate-300 border-t border-slate-800 pt-16 pb-12">
