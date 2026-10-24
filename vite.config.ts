@@ -9,7 +9,7 @@ export default defineConfig(({ isSsrBuild }) => {
   return ({
   plugins: [react(), tailwindcss()],
   build: {
-    target: 'es2022'
+    target: 'esnext'
   },
   resolve: {
     alias: [
