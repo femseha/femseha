@@ -148,11 +148,11 @@ export default function HomePage() {
                   <img
                     src="/images/uploads/%D8%A7%D8%AF%D9%88%D9%8A%D8%A9%20%D8%A7%D8%AC%D9%87%D8%A7%D8%B6%20%D8%A7%D9%84%D8%AD%D9%85%D9%84.png"
                     alt="شعار موقع سايتوتك في السعودية"
-                    width={64}
+                    width={40}
                     height={64}
                     loading="lazy"
                     decoding="async"
-                    className="w-16 h-16 rounded-2xl shadow-lg shrink-0"
+                    className="w-10 h-16 rounded-xl shadow-lg shrink-0 object-cover"
                   />
                   <div>
                     <h2 className="text-xl font-bold text-slate-900">دكتور هيثم الخطيب</h2>
