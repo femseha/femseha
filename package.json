@@ -21,7 +21,8 @@
     "test:retry": "node scripts/test-gemini-retry.mjs",
     "test:manual-json": "node scripts/test-admin-manual-json.mjs",
     "test:phase1": "node scripts/test-article-publishing-phase1.mjs",
-    "test": "npm run test:retry && npm run test:manual-json && npm run admin:selftest && npm run test:phase1"
+    "test": "npm run test:retry && npm run test:manual-json && npm run admin:selftest && npm run test:phase1",
+    "verify:release": "npm run typecheck && npm run seo:validate && npm run seo:audit && npm run seo:ssr"
   },
   "dependencies": {
     "clsx": "2.1.1",
