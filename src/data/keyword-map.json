@@ -4,7 +4,7 @@
     "updatedAt": "2026-10-24",
     "purpose": "خريطة نوايا البحث والـURL canonical للموقع. لا ندّعي أحجام بحث دون بيانات GSC أو أداة كلمات مفتاحية؛ الأولوية مبنية على النية، الصلة، والقيمة التجارية/المعلوماتية الظاهرة في نتائج البحث.",
     "rule": "كل نية رئيسية لها URL واحد. الكلمات العربية والإنجليزية والأخطاء الإملائية تُخدم داخل الصفحة المناسبة دون إنشاء صفحات مكررة.",
-    "changeNote": "تحسين المحتوى الصحي المحلي للمدن السعودية وإضافة حائل ونجران والباحة وسكاكا وعرعر؛ الصفحات توعوية ولا تدعي توفر الدواء."
+    "changeNote": "إضافة نوايا بحث توعوية لعبارتي حبوب إجهاض الحمل وأدوية إجهاض الحمل لصفحات دول الخليج المتاحة وصفحات المدن السعودية الحالية؛ دون ادعاء التوافر أو البيع."
   },
   "clusters": {
     "saudi_pillar": {
@@ -105,7 +105,9 @@
           "سايتوتك المدينة",
           "سايتوتك الدمام",
           "سايتوتك الخبر",
-          "سايتوتك تبوك"
+          "سايتوتك تبوك",
+          "حبوب إجهاض الحمل في السعودية",
+          "أدوية إجهاض الحمل في السعودية"
         ]
       },
       "uae": {
@@ -116,7 +118,9 @@
           "Cytotec in UAE",
           "Misoprostol UAE",
           "سايتوتك دبي",
-          "سايتوتك أبوظبي"
+          "سايتوتك أبوظبي",
+          "حبوب إجهاض الحمل في الإمارات",
+          "أدوية إجهاض الحمل في الإمارات"
         ]
       },
       "kuwait": {
@@ -126,7 +130,9 @@
           "سايتوتك الكويت",
           "Cytotec in Kuwait",
           "Misoprostol Kuwait",
-          "سايتوتك الكويت صيدلية"
+          "سايتوتك الكويت صيدلية",
+          "حبوب إجهاض الحمل في الكويت",
+          "أدوية إجهاض الحمل في الكويت"
         ]
       },
       "bahrain": {
@@ -136,7 +142,9 @@
           "سايتوتك البحرين",
           "Cytotec in Bahrain",
           "Misoprostol Bahrain",
-          "سايتوتك المنامة"
+          "سايتوتك المنامة",
+          "حبوب إجهاض الحمل في البحرين",
+          "أدوية إجهاض الحمل في البحرين"
         ]
       }
     },
@@ -745,6 +753,285 @@
       "targetUrl": "/cytotec-arar",
       "priority": "MEDIUM",
       "action": "صفحة المدينة الجديدة — معلومات صحية محلية"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في السعودية",
+      "searchIntent": "معلوماتي/صحي",
+      "country": "SA",
+      "currentUrl": "/cytotec-saudi-arabia",
+      "targetUrl": "/cytotec-saudi-arabia",
+      "priority": "MEDIUM",
+      "action": "تضمين العبارة في الصفحة التوعوية مع معلومات طبية موثوقة وتحذير من الاستخدام دون إشراف مختص؛ لا ادعاء بالتوافر أو البيع"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في الإمارات",
+      "searchIntent": "معلوماتي/صحي",
+      "country": "UAE",
+      "currentUrl": "/cytotec-uae",
+      "targetUrl": "/cytotec-uae",
+      "priority": "MEDIUM",
+      "action": "تضمين العبارة في الصفحة التوعوية مع معلومات طبية موثوقة وتحذير من الاستخدام دون إشراف مختص؛ لا ادعاء بالتوافر أو البيع"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في الإمارات",
+      "searchIntent": "معلوماتي/صحي",
+      "country": "UAE",
+      "currentUrl": "/cytotec-uae",
+      "targetUrl": "/cytotec-uae",
+      "priority": "MEDIUM",
+      "action": "تضمين العبارة في الصفحة التوعوية مع معلومات طبية موثوقة وتحذير من الاستخدام دون إشراف مختص؛ لا ادعاء بالتوافر أو البيع"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في الكويت",
+      "searchIntent": "معلوماتي/صحي",
+      "country": "KUWAIT",
+      "currentUrl": "/cytotec-kuwait",
+      "targetUrl": "/cytotec-kuwait",
+      "priority": "MEDIUM",
+      "action": "تضمين العبارة في الصفحة التوعوية مع معلومات طبية موثوقة وتحذير من الاستخدام دون إشراف مختص؛ لا ادعاء بالتوافر أو البيع"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في الكويت",
+      "searchIntent": "معلوماتي/صحي",
+      "country": "KUWAIT",
+      "currentUrl": "/cytotec-kuwait",
+      "targetUrl": "/cytotec-kuwait",
+      "priority": "MEDIUM",
+      "action": "تضمين العبارة في الصفحة التوعوية مع معلومات طبية موثوقة وتحذير من الاستخدام دون إشراف مختص؛ لا ادعاء بالتوافر أو البيع"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في البحرين",
+      "searchIntent": "معلوماتي/صحي",
+      "country": "BAHRAIN",
+      "currentUrl": "/cytotec-bahrain",
+      "targetUrl": "/cytotec-bahrain",
+      "priority": "MEDIUM",
+      "action": "تضمين العبارة في الصفحة التوعوية مع معلومات طبية موثوقة وتحذير من الاستخدام دون إشراف مختص؛ لا ادعاء بالتوافر أو البيع"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في البحرين",
+      "searchIntent": "معلوماتي/صحي",
+      "country": "BAHRAIN",
+      "currentUrl": "/cytotec-bahrain",
+      "targetUrl": "/cytotec-bahrain",
+      "priority": "MEDIUM",
+      "action": "تضمين العبارة في الصفحة التوعوية مع معلومات طبية موثوقة وتحذير من الاستخدام دون إشراف مختص؛ لا ادعاء بالتوافر أو البيع"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في الرياض",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-riyadh",
+      "targetUrl": "/cytotec-riyadh",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في الرياض",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-riyadh",
+      "targetUrl": "/cytotec-riyadh",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في جدة",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-jeddah",
+      "targetUrl": "/cytotec-jeddah",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في جدة",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-jeddah",
+      "targetUrl": "/cytotec-jeddah",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في مكة",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-makkah",
+      "targetUrl": "/cytotec-makkah",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في مكة",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-makkah",
+      "targetUrl": "/cytotec-makkah",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في المدينة",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-madinah",
+      "targetUrl": "/cytotec-madinah",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في المدينة",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-madinah",
+      "targetUrl": "/cytotec-madinah",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في الدمام",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-dammam",
+      "targetUrl": "/cytotec-dammam",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في الدمام",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-dammam",
+      "targetUrl": "/cytotec-dammam",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في الخبر",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-khobar",
+      "targetUrl": "/cytotec-khobar",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في الخبر",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-khobar",
+      "targetUrl": "/cytotec-khobar",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في تبوك",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-tabuk",
+      "targetUrl": "/cytotec-tabuk",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في تبوك",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-tabuk",
+      "targetUrl": "/cytotec-tabuk",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في حائل",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-hail",
+      "targetUrl": "/cytotec-hail",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في حائل",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-hail",
+      "targetUrl": "/cytotec-hail",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في نجران",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-najran",
+      "targetUrl": "/cytotec-najran",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في نجران",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-najran",
+      "targetUrl": "/cytotec-najran",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في الباحة",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-al-baha",
+      "targetUrl": "/cytotec-al-baha",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في الباحة",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-al-baha",
+      "targetUrl": "/cytotec-al-baha",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في سكاكا",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-sakaka",
+      "targetUrl": "/cytotec-sakaka",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في سكاكا",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-sakaka",
+      "targetUrl": "/cytotec-sakaka",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "حبوب إجهاض الحمل في عرعر",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-arar",
+      "targetUrl": "/cytotec-arar",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "أدوية إجهاض الحمل في عرعر",
+      "searchIntent": "معلوماتي/صحي محلي",
+      "country": "SA",
+      "currentUrl": "/cytotec-arar",
+      "targetUrl": "/cytotec-arar",
+      "priority": "MEDIUM",
+      "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
     }
   ]
 }
