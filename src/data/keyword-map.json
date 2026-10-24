@@ -4,7 +4,7 @@
     "updatedAt": "2026-10-24",
     "purpose": "خريطة نوايا البحث والـURL canonical للموقع. لا ندّعي أحجام بحث دون بيانات GSC أو أداة كلمات مفتاحية؛ الأولوية مبنية على النية، الصلة، والقيمة التجارية/المعلوماتية الظاهرة في نتائج البحث.",
     "rule": "كل نية رئيسية لها URL واحد. الكلمات العربية والإنجليزية والأخطاء الإملائية تُخدم داخل الصفحة المناسبة دون إنشاء صفحات مكررة.",
-    "changeNote": "تحديث خريطة الكلمات المحلية: ربط كلمات المدن بصفحات المدن القائمة بدل توجيهها كلها إلى صفحة السعودية المحورية."
+    "changeNote": "تحسين المحتوى الصحي المحلي للمدن السعودية وإضافة حائل ونجران والباحة وسكاكا وعرعر؛ الصفحات توعوية ولا تدعي توفر الدواء."
   },
   "clusters": {
     "saudi_pillar": {
@@ -700,6 +700,51 @@
       "targetUrl": "/cytotec-bahrain",
       "priority": "HIGH",
       "action": "صفحة الدولة"
+    },
+    {
+      "keyword": "سايتوتك حائل",
+      "searchIntent": "محلي/معلوماتي",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-hail",
+      "targetUrl": "/cytotec-hail",
+      "priority": "MEDIUM",
+      "action": "صفحة المدينة الجديدة — معلومات صحية محلية"
+    },
+    {
+      "keyword": "سايتوتك نجران",
+      "searchIntent": "محلي/معلوماتي",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-najran",
+      "targetUrl": "/cytotec-najran",
+      "priority": "MEDIUM",
+      "action": "صفحة المدينة الجديدة — معلومات صحية محلية"
+    },
+    {
+      "keyword": "سايتوتك الباحة",
+      "searchIntent": "محلي/معلوماتي",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-al-baha",
+      "targetUrl": "/cytotec-al-baha",
+      "priority": "MEDIUM",
+      "action": "صفحة المدينة الجديدة — معلومات صحية محلية"
+    },
+    {
+      "keyword": "سايتوتك سكاكا",
+      "searchIntent": "محلي/معلوماتي",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-sakaka",
+      "targetUrl": "/cytotec-sakaka",
+      "priority": "MEDIUM",
+      "action": "صفحة المدينة الجديدة — معلومات صحية محلية"
+    },
+    {
+      "keyword": "سايتوتك عرعر",
+      "searchIntent": "محلي/معلوماتي",
+      "country": "SAUDI",
+      "currentUrl": "/cytotec-arar",
+      "targetUrl": "/cytotec-arar",
+      "priority": "MEDIUM",
+      "action": "صفحة المدينة الجديدة — معلومات صحية محلية"
     }
   ]
 }
