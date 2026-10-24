@@ -98,7 +98,11 @@ const FOOTER_TOPIC_LINKS = [
 ];
 
 const CITIES = [
-  ['الرياض','/cytotec-riyadh'],['جدة','/cytotec-jeddah'],['مكة المكرمة','/cytotec-makkah'],['المدينة المنورة','/cytotec-madinah'],['الدمام','/cytotec-dammam'],['الخبر','/cytotec-khobar'],['الطائف','/cytotec-taif'],['تبوك','/cytotec-tabuk'],['أبها','/cytotec-abha'],['جازان','/cytotec-jazan'],['بريدة','/cytotec-buraydah'],['الأحساء','/cytotec-ahsa'],['خميس مشيط','/cytotec-khamis-mushait'],['القطيف','/cytotec-qatif']
+  ['الرياض','/cytotec-riyadh'],['جدة','/cytotec-jeddah'],['مكة المكرمة','/cytotec-makkah'],['المدينة المنورة','/cytotec-madinah'],
+  ['الدمام','/cytotec-dammam'],['الخبر','/cytotec-khobar'],['الطائف','/cytotec-taif'],['تبوك','/cytotec-tabuk'],
+  ['أبها','/cytotec-abha'],['جازان','/cytotec-jazan'],['بريدة','/cytotec-buraydah'],['الأحساء','/cytotec-ahsa'],
+  ['خميس مشيط','/cytotec-khamis-mushait'],['القطيف','/cytotec-qatif'],['حائل','/cytotec-hail'],
+  ['نجران','/cytotec-najran'],['الباحة','/cytotec-al-baha'],['سكاكا','/cytotec-sakaka'],['عرعر','/cytotec-arar']
 ];
 
 export function App() {
