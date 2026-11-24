@@ -30,7 +30,7 @@ const escapeHtml = (value) => String(value)
 const jsonForScript = (value) => JSON.stringify(value).replaceAll('<', '\\u003c');
 
 for (const url of [...new Set(urls)]) {
-  const result = server.render(url);
+  const result = await server.render(url);
   const preferredImage = result.image || 'https://femseha.com/banner.webp';
   const head = [
     `<title>${escapeHtml(result.title)}</title>`,
@@ -53,7 +53,9 @@ for (const url of [...new Set(urls)]) {
 
   const html = template
     .replace(/<title>[\s\S]*?<\/title>/i, '')
-    .replace(/<link rel="canonical"[^>]*>/i, '')
+    .replace(/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>\s*/gi, '')
+    .replace(/<meta\b(?=[^>]*\b(?:name|property)=["'](?:description|robots|keywords|og:[^"']+|twitter:[^"']+)["'])[^>]*>\s*/gi, '')
+    .replace(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>[\s\S]*?<\/script>\s*/gi, '')
     .replace(/<div id="root"><\/div>/i, `<div id="root">${result.html}</div>`)
     .replace('</head>', `${head}\n</head>`);
 
