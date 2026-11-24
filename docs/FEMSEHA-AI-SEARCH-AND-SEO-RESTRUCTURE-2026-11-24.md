@@ -157,3 +157,9 @@ No content, URL, indexability, canonical, sitemap, or deployment change should b
 - «حبوب سايتوتك للبيع في السعودية» appeared across several article and city URLs with low impressions and no clicks in the observed rows. This suggests scattered targeting/cannibalization; the neutral /pharmacies page is now the intended answer for availability/pharmacy intent, while existing high-performing pages remain unchanged.
 - The filtered query set returned 90 clicks and 392 impressions in the 180-day window; this is a query-filtered subset, not the whole property's totals.
 - These figures are GSC search rows, not evidence of real-world medicine availability or pharmacy inventory.
+
+## Dependency security finding (requires a separate compatibility change)
+- The CI production dependency audit reports two moderate advisories in react-router 6.30.6: an open-redirect issue involving backslashes and a server-side hydration constructor-injection issue (GHSA-wrjc-x8rr-h8h6 and GHSA-337j-9hxr-rhxg).
+- npm audit reports the available fix as react-router-dom 7.18.6, which is a major-version change. This PR does not force-upgrade the router because a major routing change can affect route matching, redirects, SSR, and hydration.
+- Treat the dependency finding as unresolved, not as a clean security audit. A separate tested upgrade should cover BrowserRouter/StaticRouter behavior, redirects, all route URLs, prerendered HTML, and hydration before release.
+- The production dependency audit command is currently configured with --audit-level=high, so it exits successfully while still printing these moderate advisories. The full npm install also reports additional development-dependency advisories; inspect the full npm audit report before a security-only release.
