@@ -40,6 +40,16 @@ export default function ClusterPage() {
         url: `${SITE.url}${page.path}`,
         primaryImageOfPage: new URL(page.image, SITE.url).href
       }] : []),
+      ...(page.path === '/abortion-pills-saudi-arabia' ? [{
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: page.h1,
+        description: page.description,
+        inLanguage: 'ar',
+        mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE.url}${page.path}` },
+        author: { '@type': 'Organization', name: SITE.name },
+        publisher: { '@type': 'Organization', name: SITE.name }
+      }] : []),
       breadcrumbJsonLd([
         { name: 'الرئيسية', href: '/' },
         ...(page.breadcrumb || []).map((x, index) => ({
