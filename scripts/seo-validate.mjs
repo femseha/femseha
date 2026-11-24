@@ -44,7 +44,16 @@ const rawArticles = DATA_FILES.flatMap((file) => {
   const value = json(file);
   return Array.isArray(value) ? value : [];
 });
-const unique = rawArticles.filter((a, i, list) => list.findIndex((x) => x.slug === a.slug) === i);
+const rawSlugSources = new Map();
+for (const article of rawArticles) {
+  if (rawSlugSources.has(article.slug)) {
+    err(`duplicate raw article slug: ${article.slug} (also found in ${rawSlugSources.get(article.slug)})`);
+  } else {
+    rawSlugSources.set(article.slug, 'article source files');
+  }
+}
+// Do not silently deduplicate: after the raw-source check, the full source list is authoritative.
+const unique = rawArticles;
 const faqBySlug = json("src/data/seo-supporting-faq.json");
 const clusterBySlug = json("src/data/seo-cluster-links.json");
 const pillarOverrides = json("src/data/seo-pillar-overrides.json");
