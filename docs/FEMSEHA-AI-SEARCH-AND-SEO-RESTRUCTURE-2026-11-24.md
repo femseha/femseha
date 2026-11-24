@@ -138,3 +138,14 @@ No content, URL, indexability, canonical, sitemap, or deployment change should b
 - Keep one canonical target per genuine search intent; allow spelling variants such as سايتوتك/سايتوتيك to resolve to the same page when intent is identical.
 - Separate purchase/availability queries from transactional supply. Answer them with verified legal/dispensing information and official regulator links, never unsupported stock or delivery claims.
 - After review, create Qatar, Oman, and Muscat pages only if they contain distinct local information, official sources, and a qualified review date. They are not published or added to the sitemap in this PR.
+
+## Dedicated page fixes for commercial-intent routes
+- Search Console exact-page checks for /products, /order, /delivery, and /pharmacies returned zero clicks and zero impressions for both 25 Oct–21 Nov 2026 and 26 May–21 Nov 2026.
+- Based on that history, these four existing URLs now have dedicated, neutral, non-transactional content instead of falling back to the Saudi pillar. URLs and sitemap membership were preserved.
+- /products explains brand/generic names, registration checks, and source verification.
+- /order explains the difference between seeking medical care and ordering a medicine; it explicitly states that the site does not confirm sales, supply, or availability.
+- /delivery explains dispensing, prescription, licensing, storage, and delivery caveats without promising a delivery service.
+- /pharmacies explains how to verify pharmacy licensing and medicine registration; it explicitly does not claim stock at any chain or branch.
+- Purchase-intent and pharmacy-availability keywords now point to the neutral /pharmacies page; order-related queries point to /order; delivery queries point to /delivery. Search-intent labels are normalized per page.
+- The keyword-map validator now flags distinct search intents mapped to one URL, rather than warning for every spelling variant or synonym. The pregnancy calculator route was added to the static indexable route list because it already exists in the app and sitemap.
+- All four route changes preserve existing paths; no redirect, noindex, sitemap removal, or canonical change was made.
