@@ -48,7 +48,7 @@ for (const u of locs) {
 }
 for (const a of articles) {
   const expected = a.modifiedDate || a.publishDate;
-  const re = new RegExp(`<loc>${SITE_URL}/articles/${a.slug}</loc>\\s*<lastmod>([^<]+)</lastmod>`);
+  const re = new RegExp(`<loc>${SITE_URL}/articles/${a.slug}/</loc>\\s*<lastmod>([^<]+)</lastmod>`);
   const m = committedXml.match(re);
   if (!m) err(`sitemap: lastmod مفقود/مقال مفقود: ${a.slug}`);
   else if (m[1] !== expected) err(`sitemap: lastmod غير صحيح لـ ${a.slug}: ${m[1]} ≠ ${expected}`);
