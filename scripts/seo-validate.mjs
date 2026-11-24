@@ -144,7 +144,7 @@ ok("تم فحص المحتوى الفعلي");
 
 section("keyword-map");
 const kwSeen = new Map();
-const targetMap = new Map();
+const targetIntents = new Map();
 const forbiddenMetrics = ["impressions", "clicks", "ctr", "position", "currentPosition"];
 for (const k of keywordEntries) {
   const label = k.keyword || "(بدون keyword)";
@@ -155,9 +155,13 @@ for (const k of keywordEntries) {
   if (kwSeen.has(k.keyword) && kwSeen.get(k.keyword) !== k.targetUrl) warn(`keyword-map: تنافس محتمل للكلمة "${k.keyword}" بين ${kwSeen.get(k.keyword)} و ${k.targetUrl}`);
   kwSeen.set(k.keyword, k.targetUrl);
   if (k.targetUrl) {
-    if (targetMap.has(k.targetUrl)) warn(`keyword-map: ${k.targetUrl} يستهدف بأكثر من كلمة — راجع اختلاف الزاوية`);
-    targetMap.set(k.targetUrl, k.keyword);
+    const intents = targetIntents.get(k.targetUrl) || new Set();
+    intents.add(k.searchIntent);
+    targetIntents.set(k.targetUrl, intents);
   }
+}
+for (const [targetUrl, intents] of targetIntents) {
+  if (intents.size > 1) warn(`keyword-map: ${targetUrl} يستهدف نوايا بحث مختلفة (${[...intents].join(" / ")}) — راجع الفصل أو التمييز`);
 }
 ok("تم فحص keyword-map");
 
