@@ -142,3 +142,23 @@ The completed CI run at commit `c6cdb803a425f2523f4085e5cb0c25a02b1d9591` passed
 - 1 warning was a validator inventory omission for the Arabic pregnancy-age calculator route; that route has now been added to the validator's static route list. A fresh CI run is pending for the latest commit.
 
 The dependency audit still reports 5 total vulnerabilities (1 low, 2 moderate, 2 high); the production-only audit reports 2 moderate React Router advisories. This is not a clean dependency audit. No forced major-version upgrade was made.
+
+
+## Final CI verification for current branch head
+
+Latest branch head at this verification: `4e71bd5c3313f1f79b4148521413869e9e3fc001`.
+
+Both GitHub audit workflows completed successfully:
+- TypeScript typecheck: passed.
+- SEO validation: passed with 0 errors and 44 warnings.
+- Indexing audit: passed with 0 errors and 0 warnings.
+- SSR verification: passed.
+- Production Vite build: passed.
+- Prerender: 89 of 89 sitemap routes rendered.
+- Saudi Cytotec cluster audit: passed.
+
+The 44 remaining SEO warnings are actionable editorial/intent items: 29 articles still lack structured `sources` metadata, and 15 URL targets combine distinct search-intent labels. They were left for manual review rather than auto-changing medical references or splitting pages without evidence.
+
+The production-only dependency audit still reports two moderate React Router advisories; the full dependency report lists five vulnerabilities (1 low, 2 moderate, 2 high). No forced major-version dependency upgrade was made.
+
+This CI success does not authorize merge or deployment. PR #76 remains Draft.
