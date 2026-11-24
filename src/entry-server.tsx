@@ -1,5 +1,6 @@
 import React from 'react';
-import { renderToString } from 'react-dom/server';
+import { renderToPipeableStream } from 'react-dom/server';
+import { Writable } from 'node:stream';
 import { StaticRouter } from 'react-router-dom/server';
 import App from './App';
 import { SITE, DOCTOR } from './data/site';
@@ -19,7 +20,7 @@ export type RenderResult = {
 
 const cleanBrand = (value: string) => value;
 
-export function render(url: string): RenderResult {
+export async function render(url: string): Promise<RenderResult> {
   const articleMatch = url.match(/^\/articles\/([^/]+)\/?$/);
   const article = articleMatch ? getArticleBySlug(articleMatch[1]) : undefined;
   const normalizedUrl = url === '/' ? '/' : url.replace(/\/$/, '');
@@ -27,7 +28,8 @@ export function render(url: string): RenderResult {
 
   let title = SITE.title;
   let description = SITE.description;
-  let canonical = url === '/' ? SITE.url : `${SITE.url}${url.replace(/\/$/, '')}`;
+  const canonicalPath = url === '/' ? '' : (url.startsWith('/') ? url : `/${url}`);
+  let canonical = `${SITE.url}${!canonicalPath || canonicalPath.endsWith('/') ? canonicalPath : `${canonicalPath}/`}`;
   let type = 'website';
   let image: string | undefined;
   let jsonLd: object[] = [websiteJsonLd()];
@@ -124,13 +126,37 @@ export function render(url: string): RenderResult {
     ])];
   }
 
-  const html = renderToString(
-    <React.StrictMode>
-      <StaticRouter location={url}>
-        <App />
-      </StaticRouter>
-    </React.StrictMode>
-  );
+  const html = await new Promise<string>((resolve, reject) => {
+    let renderError: unknown;
+    const chunks: Buffer[] = [];
+    const stream = renderToPipeableStream(
+      <React.StrictMode>
+        <StaticRouter location={url}>
+          <App />
+        </StaticRouter>
+      </React.StrictMode>,
+      {
+        onAllReady() {
+          if (renderError) return reject(renderError);
+          const output = new Writable({
+            write(chunk, _encoding, callback) {
+              chunks.push(Buffer.from(chunk));
+              callback();
+            }
+          });
+          output.once('error', reject);
+          output.once('finish', () => resolve(Buffer.concat(chunks).toString('utf8')));
+          stream.pipe(output);
+        },
+        onShellError(error) {
+          reject(error);
+        },
+        onError(error) {
+          renderError ||= error;
+        }
+      }
+    );
+  });
 
   return { html, title: cleanBrand(title), description: cleanBrand(description), canonical, type, image, jsonLd };
 }
