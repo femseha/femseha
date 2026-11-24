@@ -114,7 +114,7 @@ function urlBlock({ loc, lastmod, changefreq, priority }) { return ["  <url>", `
 
 export function buildSitemapXml(articles, siteUrl = readSiteUrl()) {
   const contentDate = latestContentDate(articles);
-  const blocks = [...STATIC_INDEXABLE.map((s) => urlBlock({ loc: s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path}`, lastmod: s.lastmod === "content" ? contentDate : false, changefreq: s.changefreq, priority: s.priority })), ...articles.map((a) => urlBlock({ loc: `${siteUrl}/articles/${a.slug}`, lastmod: articleLastmod(a), changefreq: "monthly", priority: "0.7" }))];
+  const blocks = [...STATIC_INDEXABLE.map((s) => urlBlock({ loc: s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path === "/" ? "/" : `${s.path}/`}`, lastmod: s.lastmod === "content" ? contentDate : false, changefreq: s.changefreq, priority: s.priority })), ...articles.map((a) => urlBlock({ loc: `${siteUrl}/articles/${a.slug}/`, lastmod: articleLastmod(a), changefreq: "monthly", priority: "0.7" }))];
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${blocks.join("\n")}\n</urlset>\n`;
 }
 
