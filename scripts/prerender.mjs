@@ -52,10 +52,10 @@ for (const url of [...new Set(urls)]) {
   ].join('\n');
 
   if (/<!--\$!-->/.test(result.html)) {
-    throw new Error(\`SSR left a Suspense fallback in \${url}; refusing to publish incomplete HTML.\`);
+    throw new Error("SSR left a Suspense fallback in " + url + "; refusing to publish incomplete HTML.");
   }
   if (!/<h1\b/i.test(result.html)) {
-    throw new Error(\`SSR output has no H1 for \${url}; refusing to publish incomplete HTML.\`);
+    throw new Error("SSR output has no H1 for " + url + "; refusing to publish incomplete HTML.");
   }
 
   const cleanTemplate = template
@@ -66,8 +66,8 @@ for (const url of [...new Set(urls)]) {
     .replace(/<script\s+type="application\/ld\+json">[\s\S]*?<\/script>/gi, '');
 
   const html = cleanTemplate
-    .replace(/<div id="root"><\/div>/i, \`<div id="root">\${result.html}</div>\`)
-    .replace('</head>', \`\${head}\\n</head>\`);
+    .replace(/<div id="root"><\/div>/i, '<div id="root">' + result.html + '</div>')
+    .replace('</head>', head + '\n</head>');
 
   const output = url === '/' ? join(distDir, 'index.html') : join(distDir, url.replace(/^\//, ''), 'index.html');
   mkdirSync(dirname(output), { recursive: true });
