@@ -68,7 +68,7 @@ const ROUTES = [
 for (const route of ROUTES) {
   try {
     const html = renderRoute(route);
-    const hasRealHeading = /<h1\\b/i.test(html);
+    const hasRealHeading = /<h1\b/i.test(html);
     const hasNoSuspenseFallback = !html.includes('جارٍ تحميل الصفحة');
     const ok = typeof html === 'string' && html.length > 400 && hasNoSuspenseFallback && (route === '/admin' || hasRealHeading);
     if (!ok) failures++;
