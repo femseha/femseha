@@ -22,12 +22,12 @@
       "@entry/ArticlesPage": ["src/pages/ArticlesPageEntryServer.tsx"],
       "@entry/ArticleView": ["src/pages/ArticleViewEntryServer.tsx"],
       "@entry/AdminPage": ["src/pages/AdminPageEntryServer.tsx"],
-      "@entry/DoctorPage": ["src/pages/DoctorPageEntry.tsx"],
-      "@entry/ConsultationPage": ["src/pages/ConsultationPageEntry.tsx"],
-      "@entry/DisclaimerPage": ["src/pages/DisclaimerPageEntry.tsx"],
-      "@entry/NotFoundPage": ["src/pages/NotFoundPageEntry.tsx"],
-      "@entry/ClusterPage": ["src/pages/ClusterPageEntry.tsx"],
-      "@entry/PregnancyCalculatorPage": ["src/pages/PregnancyCalculatorPageEntry.tsx"]
+      "@entry/DoctorPage": ["src/pages/DoctorPageEntryServer.tsx"],
+      "@entry/ConsultationPage": ["src/pages/ConsultationPageEntryServer.tsx"],
+      "@entry/DisclaimerPage": ["src/pages/DisclaimerPageEntryServer.tsx"],
+      "@entry/NotFoundPage": ["src/pages/NotFoundPageEntryServer.tsx"],
+      "@entry/ClusterPage": ["src/pages/ClusterPageEntryServer.tsx"],
+      "@entry/PregnancyCalculatorPage": ["src/pages/PregnancyCalculatorPageEntryServer.tsx"]
     },
 
     /* Linting */
