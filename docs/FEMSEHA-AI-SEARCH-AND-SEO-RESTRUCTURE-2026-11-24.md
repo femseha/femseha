@@ -149,3 +149,11 @@ No content, URL, indexability, canonical, sitemap, or deployment change should b
 - Purchase-intent and pharmacy-availability keywords now point to the neutral /pharmacies page; order-related queries point to /order; delivery queries point to /delivery. Search-intent labels are normalized per page.
 - The keyword-map validator now flags distinct search intents mapped to one URL, rather than warning for every spelling variant or synonym. The pregnancy calculator route was added to the static indexable route list because it already exists in the app and sitemap.
 - All four route changes preserve existing paths; no redirect, noindex, sitemap removal, or canonical change was made.
+
+## Search Console query-to-page evidence (2026-05-26 to 2026-11-21)
+- The query «سايتوتيك في السعودية» generated 60 clicks / 104 impressions to the homepage, 18 / 25 to /delivery-policy/, 16 / 22 to /cytotec-riyadh/, 12 / 15 to /sales-policy/, and 11 / 12 to /cytotec-saudi-arabia/.
+- Preserve the homepage, /delivery-policy/, /sales-policy/, and currently visible country/city pages: they already receive organic clicks for this query. This PR does not rewrite those ranking policy pages or the homepage.
+- «سايتوتك الامارات» generated 86 impressions and 0 clicks for /cytotec-uae/ (average position about 19.5) in the same window. This is a CTR and relevance opportunity, but the page should be reviewed before editing.
+- «حبوب سايتوتك للبيع في السعودية» appeared across several article and city URLs with low impressions and no clicks in the observed rows. This suggests scattered targeting/cannibalization; the neutral /pharmacies page is now the intended answer for availability/pharmacy intent, while existing high-performing pages remain unchanged.
+- The filtered query set returned 90 clicks and 392 impressions in the 180-day window; this is a query-filtered subset, not the whole property's totals.
+- These figures are GSC search rows, not evidence of real-world medicine availability or pharmacy inventory.
