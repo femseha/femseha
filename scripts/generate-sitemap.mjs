@@ -22,6 +22,7 @@ export const STATIC_INDEXABLE = [
   { path: "/", priority: "1.0", changefreq: "daily", lastmod: "content" },
   { path: "/articles", priority: "0.9", changefreq: "daily", lastmod: "content" },
   { path: "/cytotec-saudi-arabia", priority: "1.0", changefreq: "weekly", lastmod: false },
+  { path: "/abortion-pills-saudi-arabia", priority: "0.9", changefreq: "weekly", lastmod: false },
   { path: "/misoprostol", priority: "0.9", changefreq: "weekly", lastmod: false },
   { path: "/products", priority: "0.8", changefreq: "weekly", lastmod: false },
   { path: "/order", priority: "0.8", changefreq: "weekly", lastmod: false },

@@ -40,11 +40,21 @@ export default function ClusterPage() {
         url: `${SITE.url}${page.path}`,
         primaryImageOfPage: new URL(page.image, SITE.url).href
       }] : []),
+      ...(page.path === '/abortion-pills-saudi-arabia' ? [{
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: page.h1,
+        description: page.description,
+        inLanguage: 'ar',
+        mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE.url}${page.path}` },
+        author: { '@type': 'Organization', name: SITE.name },
+        publisher: { '@type': 'Organization', name: SITE.name }
+      }] : []),
       breadcrumbJsonLd([
         { name: 'الرئيسية', href: '/' },
         ...(page.breadcrumb || []).map((x, index) => ({
           name: x,
-          href: index === 0 && x === 'سايتوتك في السعودية' && page.path !== '/cytotec-saudi-arabia' ? '/cytotec-saudi-arabia' : page.path
+          href: page.path === '/abortion-pills-saudi-arabia' && x === 'الدليل الطبي' ? '/articles' : index === 0 && x === 'سايتوتك في السعودية' && page.path !== '/cytotec-saudi-arabia' ? '/cytotec-saudi-arabia' : page.path
         }))
       ]),
       faqJsonLd(page.faqs)
@@ -57,7 +67,7 @@ export default function ClusterPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-400/10 px-4 py-2 text-xs font-bold text-sky-200 mb-5">
-              سايتوتيك - السعودية | د. هيثم الخطيب
+              {page.path === '/abortion-pills-saudi-arabia' ? 'دليل معلوماتي — المراجعة الطبية معلّقة قبل النشر' : 'سايتوتيك - السعودية | د. هيثم الخطيب'}
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">{page.h1}</h1>
             <p className="mt-5 text-base sm:text-lg leading-8 text-slate-200">{page.intro}</p>

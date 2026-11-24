@@ -25,6 +25,7 @@ const ROUTES = [
   '/',
   '/articles',
   '/cytotec-saudi-arabia',
+  '/abortion-pills-saudi-arabia',
   '/misoprostol',
   '/products',
   '/order',
