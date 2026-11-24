@@ -65,12 +65,18 @@ const ROUTES = [
   '/صفحة-غير-موجودة'
 ];
 
+const redirectRoutes = new Set(['/articles/cytotec-misoprostol-saudi-riyadh-guide']);
+
 for (const route of ROUTES) {
   try {
     const html = renderRoute(route);
-    const ok = typeof html === 'string' && html.length > 400;
+    const hasRealHeading = /<h1\b/i.test(html);
+    const hasNoSuspenseFallback = !html.includes('جارٍ تحميل الصفحة');
+    const requiresHeading = route !== '/admin' && !redirectRoutes.has(route);
+    const ok = typeof html === 'string' && html.length > 400 && hasNoSuspenseFallback && (!requiresHeading || hasRealHeading);
     if (!ok) failures++;
-    console.log(`${ok ? 'PASS' : 'FAIL'}  ${route}  (${html.length} محارف)`);
+    const reason = !hasNoSuspenseFallback ? 'Suspense fallback rendered' : requiresHeading && !hasRealHeading ? 'missing H1' : '';
+    console.log(`${ok ? 'PASS' : 'FAIL'}  ${route}  (${html.length} محارف) ${reason}`);
   } catch (e) {
     failures++;
     console.log(`ERROR ${route}  →  ${e.message}`);

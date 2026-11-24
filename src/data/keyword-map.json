@@ -153,7 +153,7 @@
   "keywords": [
     {
       "keyword": "سايتوتك في السعودية",
-      "searchIntent": "سايتوتك في السعودية",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "SA",
       "currentUrl": "/cytotec-saudi-arabia",
       "targetUrl": "/cytotec-saudi-arabia",
@@ -162,7 +162,7 @@
     },
     {
       "keyword": "سايتوتك السعودية",
-      "searchIntent": "سايتوتك في السعودية",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "SA",
       "currentUrl": "/cytotec-saudi-arabia",
       "targetUrl": "/cytotec-saudi-arabia",
@@ -171,7 +171,7 @@
     },
     {
       "keyword": "Cytotec in Saudi Arabia",
-      "searchIntent": "سايتوتك في السعودية",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "SA",
       "currentUrl": "/cytotec-saudi-arabia",
       "targetUrl": "/cytotec-saudi-arabia",
@@ -180,7 +180,7 @@
     },
     {
       "keyword": "Cytotec Saudi Arabia",
-      "searchIntent": "سايتوتك في السعودية",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "SA",
       "currentUrl": "/cytotec-saudi-arabia",
       "targetUrl": "/cytotec-saudi-arabia",
@@ -189,7 +189,7 @@
     },
     {
       "keyword": "حبوب سايتوتك في السعودية",
-      "searchIntent": "سايتوتك في السعودية",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "SA",
       "currentUrl": "/cytotec-saudi-arabia",
       "targetUrl": "/cytotec-saudi-arabia",
@@ -198,7 +198,7 @@
     },
     {
       "keyword": "حبوب اجهاض سايتوتك",
-      "searchIntent": "سايتوتك في السعودية",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "SA",
       "currentUrl": "/cytotec-saudi-arabia",
       "targetUrl": "/cytotec-saudi-arabia",
@@ -207,7 +207,7 @@
     },
     {
       "keyword": "ميسوبروستول في السعودية",
-      "searchIntent": "سايتوتك في السعودية",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "SA",
       "currentUrl": "/cytotec-saudi-arabia",
       "targetUrl": "/cytotec-saudi-arabia",
@@ -216,7 +216,7 @@
     },
     {
       "keyword": "Misoprostol Saudi Arabia",
-      "searchIntent": "سايتوتك في السعودية",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "SA",
       "currentUrl": "/cytotec-saudi-arabia",
       "targetUrl": "/cytotec-saudi-arabia",
@@ -225,7 +225,7 @@
     },
     {
       "keyword": "أدوية إجهاض الحمل في السعودية",
-      "searchIntent": "سايتوتك في السعودية",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "SA",
       "currentUrl": "/cytotec-saudi-arabia",
       "targetUrl": "/cytotec-saudi-arabia",
@@ -234,7 +234,7 @@
     },
     {
       "keyword": "حبوب الإجهاض في السعودية",
-      "searchIntent": "سايتوتك في السعودية",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "SA",
       "currentUrl": "/cytotec-saudi-arabia",
       "targetUrl": "/cytotec-saudi-arabia",
@@ -243,7 +243,7 @@
     },
     {
       "keyword": "منتجات سايتوتك",
-      "searchIntent": "تجاري/استفسار",
+      "searchIntent": "معلوماتي/دوائي",
       "country": "SA",
       "currentUrl": "/products",
       "targetUrl": "/products",
@@ -252,16 +252,16 @@
     },
     {
       "keyword": "سايتوتك للبيع في السعودية",
-      "searchIntent": "تجاري/استفسار",
+      "searchIntent": "معلوماتي/التحقق من الصيدليات والتوفر",
       "country": "SA",
       "currentUrl": "/products",
-      "targetUrl": "/products",
+      "targetUrl": "/pharmacies",
       "priority": "HIGH",
       "action": "صفحة المنتجات"
     },
     {
       "keyword": "الاستفسار عن سايتوتك",
-      "searchIntent": "تجاري/استفسار",
+      "searchIntent": "معلوماتي/دوائي",
       "country": "SA",
       "currentUrl": "/products",
       "targetUrl": "/products",
@@ -270,16 +270,16 @@
     },
     {
       "keyword": "توافر سايتوتك",
-      "searchIntent": "تجاري/استفسار",
+      "searchIntent": "معلوماتي/التحقق من الصيدليات والتوفر",
       "country": "SA",
       "currentUrl": "/products",
-      "targetUrl": "/products",
+      "targetUrl": "/pharmacies",
       "priority": "HIGH",
       "action": "صفحة المنتجات"
     },
     {
       "keyword": "طلب سايتوتك",
-      "searchIntent": "تجاري/طلب",
+      "searchIntent": "معلوماتي/الوصول إلى رعاية مرخصة",
       "country": "SA",
       "currentUrl": "/order",
       "targetUrl": "/order",
@@ -288,7 +288,7 @@
     },
     {
       "keyword": "كيفية طلب سايتوتك",
-      "searchIntent": "تجاري/طلب",
+      "searchIntent": "معلوماتي/الوصول إلى رعاية مرخصة",
       "country": "SA",
       "currentUrl": "/order",
       "targetUrl": "/order",
@@ -297,7 +297,7 @@
     },
     {
       "keyword": "شراء سايتوتك في السعودية",
-      "searchIntent": "تجاري/طلب",
+      "searchIntent": "معلوماتي/الوصول إلى رعاية مرخصة",
       "country": "SA",
       "currentUrl": "/order",
       "targetUrl": "/order",
@@ -306,7 +306,7 @@
     },
     {
       "keyword": "سايتوتك واتساب",
-      "searchIntent": "تجاري/طلب",
+      "searchIntent": "معلوماتي/الوصول إلى رعاية مرخصة",
       "country": "SA",
       "currentUrl": "/order",
       "targetUrl": "/order",
@@ -315,7 +315,7 @@
     },
     {
       "keyword": "طلب ميسوبروستول",
-      "searchIntent": "تجاري/طلب",
+      "searchIntent": "معلوماتي/الوصول إلى رعاية مرخصة",
       "country": "SA",
       "currentUrl": "/order",
       "targetUrl": "/order",
@@ -324,7 +324,7 @@
     },
     {
       "keyword": "توصيل سايتوتك في السعودية",
-      "searchIntent": "تجاري/توصيل",
+      "searchIntent": "معلوماتي/متطلبات الصرف والتوصيل",
       "country": "SA",
       "currentUrl": "/delivery",
       "targetUrl": "/delivery",
@@ -333,7 +333,7 @@
     },
     {
       "keyword": "توصيل سايتوتك الرياض",
-      "searchIntent": "تجاري/توصيل",
+      "searchIntent": "معلوماتي/متطلبات الصرف والتوصيل",
       "country": "SA",
       "currentUrl": "/delivery",
       "targetUrl": "/delivery",
@@ -342,7 +342,7 @@
     },
     {
       "keyword": "توصيل سايتوتك جدة",
-      "searchIntent": "تجاري/توصيل",
+      "searchIntent": "معلوماتي/متطلبات الصرف والتوصيل",
       "country": "SA",
       "currentUrl": "/delivery",
       "targetUrl": "/delivery",
@@ -351,7 +351,7 @@
     },
     {
       "keyword": "توصيل سايتوتك مكة",
-      "searchIntent": "تجاري/توصيل",
+      "searchIntent": "معلوماتي/متطلبات الصرف والتوصيل",
       "country": "SA",
       "currentUrl": "/delivery",
       "targetUrl": "/delivery",
@@ -360,7 +360,7 @@
     },
     {
       "keyword": "توصيل سايتوتك الدمام",
-      "searchIntent": "تجاري/توصيل",
+      "searchIntent": "معلوماتي/متطلبات الصرف والتوصيل",
       "country": "SA",
       "currentUrl": "/delivery",
       "targetUrl": "/delivery",
@@ -369,7 +369,7 @@
     },
     {
       "keyword": "توصيل ميسوبروستول",
-      "searchIntent": "تجاري/توصيل",
+      "searchIntent": "معلوماتي/متطلبات الصرف والتوصيل",
       "country": "SA",
       "currentUrl": "/delivery",
       "targetUrl": "/delivery",
@@ -378,7 +378,7 @@
     },
     {
       "keyword": "صيدليات سايتوتك",
-      "searchIntent": "تجاري/صيدليات",
+      "searchIntent": "معلوماتي/التحقق من الصيدليات والتوفر",
       "country": "SA",
       "currentUrl": "/pharmacies",
       "targetUrl": "/pharmacies",
@@ -387,7 +387,7 @@
     },
     {
       "keyword": "سايتوتك من الصيدلية",
-      "searchIntent": "تجاري/صيدليات",
+      "searchIntent": "معلوماتي/التحقق من الصيدليات والتوفر",
       "country": "SA",
       "currentUrl": "/pharmacies",
       "targetUrl": "/pharmacies",
@@ -396,7 +396,7 @@
     },
     {
       "keyword": "سايتوتك النهدي",
-      "searchIntent": "تجاري/صيدليات",
+      "searchIntent": "معلوماتي/التحقق من الصيدليات والتوفر",
       "country": "SA",
       "currentUrl": "/pharmacies",
       "targetUrl": "/pharmacies",
@@ -405,7 +405,7 @@
     },
     {
       "keyword": "سايتوتك السعودية صيدلية",
-      "searchIntent": "تجاري/صيدليات",
+      "searchIntent": "معلوماتي/التحقق من الصيدليات والتوفر",
       "country": "SA",
       "currentUrl": "/pharmacies",
       "targetUrl": "/pharmacies",
@@ -414,7 +414,7 @@
     },
     {
       "keyword": "ميسوبروستول صيدلية السعودية",
-      "searchIntent": "تجاري/صيدليات",
+      "searchIntent": "معلوماتي/التحقق من الصيدليات والتوفر",
       "country": "SA",
       "currentUrl": "/pharmacies",
       "targetUrl": "/pharmacies",
@@ -423,7 +423,7 @@
     },
     {
       "keyword": "ميسوبروستول",
-      "searchIntent": "معلوماتي",
+      "searchIntent": "معلوماتي/المادة الفعالة",
       "country": "GLOBAL",
       "currentUrl": "/misoprostol",
       "targetUrl": "/misoprostol",
@@ -432,7 +432,7 @@
     },
     {
       "keyword": "معلومات ميسوبروستول",
-      "searchIntent": "معلوماتي",
+      "searchIntent": "معلوماتي/المادة الفعالة",
       "country": "GLOBAL",
       "currentUrl": "/misoprostol",
       "targetUrl": "/misoprostol",
@@ -441,7 +441,7 @@
     },
     {
       "keyword": "Misoprostol",
-      "searchIntent": "معلوماتي",
+      "searchIntent": "معلوماتي/المادة الفعالة",
       "country": "GLOBAL",
       "currentUrl": "/misoprostol",
       "targetUrl": "/misoprostol",
@@ -450,7 +450,7 @@
     },
     {
       "keyword": "Cytotec Misoprostol",
-      "searchIntent": "معلوماتي",
+      "searchIntent": "معلوماتي/المادة الفعالة",
       "country": "GLOBAL",
       "currentUrl": "/misoprostol",
       "targetUrl": "/misoprostol",
@@ -459,7 +459,7 @@
     },
     {
       "keyword": "سايتوتك وميسوبروستول",
-      "searchIntent": "معلوماتي",
+      "searchIntent": "معلوماتي/المادة الفعالة",
       "country": "GLOBAL",
       "currentUrl": "/misoprostol",
       "targetUrl": "/misoprostol",
@@ -468,7 +468,7 @@
     },
     {
       "keyword": "ميفيبريستون وميسوبروستول",
-      "searchIntent": "معلوماتي",
+      "searchIntent": "معلوماتي/المادة الفعالة",
       "country": "GLOBAL",
       "currentUrl": "/misoprostol",
       "targetUrl": "/misoprostol",
@@ -477,7 +477,7 @@
     },
     {
       "keyword": "الآثار الجانبية لميسوبروستول",
-      "searchIntent": "معلوماتي",
+      "searchIntent": "معلوماتي/المادة الفعالة",
       "country": "GLOBAL",
       "currentUrl": "/misoprostol",
       "targetUrl": "/misoprostol",
@@ -486,7 +486,7 @@
     },
     {
       "keyword": "ما هو ميسوبروستول",
-      "searchIntent": "معلوماتي",
+      "searchIntent": "معلوماتي/المادة الفعالة",
       "country": "GLOBAL",
       "currentUrl": "/misoprostol",
       "targetUrl": "/misoprostol",
@@ -495,7 +495,7 @@
     },
     {
       "keyword": "سايتوتك في السعودية",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-saudi-arabia",
       "targetUrl": "/cytotec-saudi-arabia",
@@ -504,7 +504,7 @@
     },
     {
       "keyword": "سايتوتك الرياض",
-      "searchIntent": "محلي/معلوماتي",
+      "searchIntent": "معلوماتي/صحي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-riyadh",
       "targetUrl": "/cytotec-riyadh",
@@ -513,7 +513,7 @@
     },
     {
       "keyword": "سايتوتك جدة",
-      "searchIntent": "محلي/معلوماتي",
+      "searchIntent": "معلوماتي/صحي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-jeddah",
       "targetUrl": "/cytotec-jeddah",
@@ -522,7 +522,7 @@
     },
     {
       "keyword": "سايتوتك مكة",
-      "searchIntent": "محلي/معلوماتي",
+      "searchIntent": "معلوماتي/صحي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-makkah",
       "targetUrl": "/cytotec-makkah",
@@ -531,7 +531,7 @@
     },
     {
       "keyword": "سايتوتك المدينة",
-      "searchIntent": "محلي/معلوماتي",
+      "searchIntent": "معلوماتي/صحي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-madinah",
       "targetUrl": "/cytotec-madinah",
@@ -540,7 +540,7 @@
     },
     {
       "keyword": "سايتوتك الدمام",
-      "searchIntent": "محلي/معلوماتي",
+      "searchIntent": "معلوماتي/صحي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-dammam",
       "targetUrl": "/cytotec-dammam",
@@ -549,7 +549,7 @@
     },
     {
       "keyword": "سايتوتك الخبر",
-      "searchIntent": "محلي/معلوماتي",
+      "searchIntent": "معلوماتي/صحي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-khobar",
       "targetUrl": "/cytotec-khobar",
@@ -558,7 +558,7 @@
     },
     {
       "keyword": "سايتوتك تبوك",
-      "searchIntent": "محلي/معلوماتي",
+      "searchIntent": "معلوماتي/صحي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-tabuk",
       "targetUrl": "/cytotec-tabuk",
@@ -567,7 +567,7 @@
     },
     {
       "keyword": "سايتوتك في الإمارات",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "UAE",
       "currentUrl": "/cytotec-uae",
       "targetUrl": "/cytotec-uae",
@@ -576,7 +576,7 @@
     },
     {
       "keyword": "سايتوتك الإمارات",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "UAE",
       "currentUrl": "/cytotec-uae",
       "targetUrl": "/cytotec-uae",
@@ -585,7 +585,7 @@
     },
     {
       "keyword": "Cytotec in UAE",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "UAE",
       "currentUrl": "/cytotec-uae",
       "targetUrl": "/cytotec-uae",
@@ -594,7 +594,7 @@
     },
     {
       "keyword": "Misoprostol UAE",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "UAE",
       "currentUrl": "/cytotec-uae",
       "targetUrl": "/cytotec-uae",
@@ -603,7 +603,7 @@
     },
     {
       "keyword": "سايتوتك دبي",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "UAE",
       "currentUrl": "/cytotec-uae",
       "targetUrl": "/cytotec-uae",
@@ -612,7 +612,7 @@
     },
     {
       "keyword": "سايتوتك أبوظبي",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "UAE",
       "currentUrl": "/cytotec-uae",
       "targetUrl": "/cytotec-uae",
@@ -621,7 +621,7 @@
     },
     {
       "keyword": "سايتوتك في الكويت",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "KUWAIT",
       "currentUrl": "/cytotec-kuwait",
       "targetUrl": "/cytotec-kuwait",
@@ -630,7 +630,7 @@
     },
     {
       "keyword": "سايتوتك الكويت",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "KUWAIT",
       "currentUrl": "/cytotec-kuwait",
       "targetUrl": "/cytotec-kuwait",
@@ -639,7 +639,7 @@
     },
     {
       "keyword": "Cytotec in Kuwait",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "KUWAIT",
       "currentUrl": "/cytotec-kuwait",
       "targetUrl": "/cytotec-kuwait",
@@ -648,7 +648,7 @@
     },
     {
       "keyword": "Misoprostol Kuwait",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "KUWAIT",
       "currentUrl": "/cytotec-kuwait",
       "targetUrl": "/cytotec-kuwait",
@@ -657,7 +657,7 @@
     },
     {
       "keyword": "سايتوتك الكويت صيدلية",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "KUWAIT",
       "currentUrl": "/cytotec-kuwait",
       "targetUrl": "/cytotec-kuwait",
@@ -666,7 +666,7 @@
     },
     {
       "keyword": "سايتوتك في البحرين",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "BAHRAIN",
       "currentUrl": "/cytotec-bahrain",
       "targetUrl": "/cytotec-bahrain",
@@ -675,7 +675,7 @@
     },
     {
       "keyword": "سايتوتك البحرين",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "BAHRAIN",
       "currentUrl": "/cytotec-bahrain",
       "targetUrl": "/cytotec-bahrain",
@@ -684,7 +684,7 @@
     },
     {
       "keyword": "Cytotec in Bahrain",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "BAHRAIN",
       "currentUrl": "/cytotec-bahrain",
       "targetUrl": "/cytotec-bahrain",
@@ -693,7 +693,7 @@
     },
     {
       "keyword": "Misoprostol Bahrain",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "BAHRAIN",
       "currentUrl": "/cytotec-bahrain",
       "targetUrl": "/cytotec-bahrain",
@@ -702,7 +702,7 @@
     },
     {
       "keyword": "سايتوتك المنامة",
-      "searchIntent": "محلي/معلوماتي وتجاري",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "BAHRAIN",
       "currentUrl": "/cytotec-bahrain",
       "targetUrl": "/cytotec-bahrain",
@@ -711,7 +711,7 @@
     },
     {
       "keyword": "سايتوتك حائل",
-      "searchIntent": "محلي/معلوماتي",
+      "searchIntent": "معلوماتي/صحي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-hail",
       "targetUrl": "/cytotec-hail",
@@ -720,7 +720,7 @@
     },
     {
       "keyword": "سايتوتك نجران",
-      "searchIntent": "محلي/معلوماتي",
+      "searchIntent": "معلوماتي/صحي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-najran",
       "targetUrl": "/cytotec-najran",
@@ -729,7 +729,7 @@
     },
     {
       "keyword": "سايتوتك الباحة",
-      "searchIntent": "محلي/معلوماتي",
+      "searchIntent": "معلوماتي/صحي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-al-baha",
       "targetUrl": "/cytotec-al-baha",
@@ -738,7 +738,7 @@
     },
     {
       "keyword": "سايتوتك سكاكا",
-      "searchIntent": "محلي/معلوماتي",
+      "searchIntent": "معلوماتي/صحي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-sakaka",
       "targetUrl": "/cytotec-sakaka",
@@ -747,7 +747,7 @@
     },
     {
       "keyword": "سايتوتك عرعر",
-      "searchIntent": "محلي/معلوماتي",
+      "searchIntent": "معلوماتي/صحي محلي",
       "country": "SAUDI",
       "currentUrl": "/cytotec-arar",
       "targetUrl": "/cytotec-arar",
@@ -756,7 +756,7 @@
     },
     {
       "keyword": "حبوب إجهاض الحمل في السعودية",
-      "searchIntent": "معلوماتي/صحي",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "SA",
       "currentUrl": "/cytotec-saudi-arabia",
       "targetUrl": "/cytotec-saudi-arabia",
@@ -765,7 +765,7 @@
     },
     {
       "keyword": "حبوب إجهاض الحمل في الإمارات",
-      "searchIntent": "معلوماتي/صحي",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "UAE",
       "currentUrl": "/cytotec-uae",
       "targetUrl": "/cytotec-uae",
@@ -774,7 +774,7 @@
     },
     {
       "keyword": "أدوية إجهاض الحمل في الإمارات",
-      "searchIntent": "معلوماتي/صحي",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "UAE",
       "currentUrl": "/cytotec-uae",
       "targetUrl": "/cytotec-uae",
@@ -783,7 +783,7 @@
     },
     {
       "keyword": "حبوب إجهاض الحمل في الكويت",
-      "searchIntent": "معلوماتي/صحي",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "KUWAIT",
       "currentUrl": "/cytotec-kuwait",
       "targetUrl": "/cytotec-kuwait",
@@ -792,7 +792,7 @@
     },
     {
       "keyword": "أدوية إجهاض الحمل في الكويت",
-      "searchIntent": "معلوماتي/صحي",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "KUWAIT",
       "currentUrl": "/cytotec-kuwait",
       "targetUrl": "/cytotec-kuwait",
@@ -801,7 +801,7 @@
     },
     {
       "keyword": "حبوب إجهاض الحمل في البحرين",
-      "searchIntent": "معلوماتي/صحي",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "BAHRAIN",
       "currentUrl": "/cytotec-bahrain",
       "targetUrl": "/cytotec-bahrain",
@@ -810,7 +810,7 @@
     },
     {
       "keyword": "أدوية إجهاض الحمل في البحرين",
-      "searchIntent": "معلوماتي/صحي",
+      "searchIntent": "معلوماتي/تنظيمي محلي",
       "country": "BAHRAIN",
       "currentUrl": "/cytotec-bahrain",
       "targetUrl": "/cytotec-bahrain",
@@ -1032,6 +1032,15 @@
       "targetUrl": "/cytotec-arar",
       "priority": "MEDIUM",
       "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "سايتوتيك في السعودية",
+      "searchIntent": "معلوماتي/تثقيفي عام",
+      "country": "SA",
+      "currentUrl": "/",
+      "targetUrl": "/",
+      "priority": "HIGH",
+      "action": "الحفاظ على الصفحة الرئيسية كوجهة أساسية وفق بيانات Search Console"
     }
   ]
 }
