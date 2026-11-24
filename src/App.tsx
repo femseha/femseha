@@ -172,6 +172,7 @@ export function App() {
           <Route path="/articles" element={<ArticlesPage />} />
           <Route path="/articles/:slug" element={<ArticleRoute />} />
           <Route path="/cytotec-saudi-arabia" element={<ClusterPage />} />
+          <Route path="/abortion-pills-saudi-arabia" element={<ClusterPage />} />
           <Route path="/misoprostol" element={<ClusterPage />} />
           <Route path="/products" element={<ClusterPage />} />
           <Route path="/order" element={<ClusterPage />} />
