@@ -54,7 +54,7 @@ export default function ClusterPage() {
         { name: 'الرئيسية', href: '/' },
         ...(page.breadcrumb || []).map((x, index) => ({
           name: x,
-          href: index === 0 && x === 'سايتوتك في السعودية' && page.path !== '/cytotec-saudi-arabia' ? '/cytotec-saudi-arabia' : page.path
+          href: page.path === '/abortion-pills-saudi-arabia' && x === 'الدليل الطبي' ? '/articles' : index === 0 && x === 'سايتوتك في السعودية' && page.path !== '/cytotec-saudi-arabia' ? '/cytotec-saudi-arabia' : page.path
         }))
       ]),
       faqJsonLd(page.faqs)
