@@ -121,7 +121,7 @@ export function buildSitemapXml(articles, siteUrl = readSiteUrl()) {
 export function assertNoForbiddenUrls(xml, siteUrl) {
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
   const problems = [];
-  const allowed = new Set([...STATIC_INDEXABLE.map((s) => (s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path}`)), ...locs.filter((u) => u.startsWith(`${siteUrl}/articles/`))]);
+  const allowed = new Set([...STATIC_INDEXABLE.map((s) => (s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path.replace(/\/?$/, "/")}`)), ...locs.filter((u) => u.startsWith(`${siteUrl}/articles/`))]);
   for (const u of locs) {
     const p = new URL(u).pathname;
     for (const bad of FORBIDDEN_PATHS) if (p === bad || p.startsWith(`${bad}/`)) problems.push(`مسار محجوب في sitemap: ${u}`);
