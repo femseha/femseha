@@ -19,7 +19,14 @@ const server = await createServer({
 let failures = 0;
 const { renderRoute } = await server.ssrLoadModule('/scripts/ssr-entry.tsx');
 const { articles } = await server.ssrLoadModule('/src/data/articles.ts');
-const articleRoutes = articles.map((article) => `/articles/${article.slug}`);
+// These legacy slugs intentionally redirect to the Saudi pillar and are excluded from the sitemap.
+const REDIRECT_ONLY_SLUGS = new Set([
+  'cytotec-misoprostol-saudi-riyadh-guide',
+  'cytotec-in-saudi-arabia-medical-info-risks'
+]);
+const articleRoutes = articles
+  .filter((article) => !REDIRECT_ONLY_SLUGS.has(article.slug))
+  .map((article) => `/articles/${article.slug}`);
 
 const ROUTES = [
   '/',
