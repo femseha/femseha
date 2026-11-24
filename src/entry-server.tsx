@@ -28,7 +28,8 @@ export function render(url: string): RenderResult {
 
   let title = SITE.title;
   let description = SITE.description;
-  let canonical = url === '/' ? `${SITE.url}/` : `${SITE.url}${url.startsWith('/') ? url : `/${url}`}`.replace(/\/?$/, '/');
+  const canonicalPath = url === '/' ? '' : (url.startsWith('/') ? url : `/${url}`);
+  let canonical = `${SITE.url}${!canonicalPath || canonicalPath.endsWith('/') ? canonicalPath : `${canonicalPath}/`}`;
   let type = 'website';
   let image: string | undefined;
   let jsonLd: object[] = [websiteJsonLd()];
