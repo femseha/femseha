@@ -17,6 +17,12 @@ export interface SeoProps {
 
 const cleanBrand = (value?: string) => value || "";
 
+function canonicalForPath(path: string) {
+  if (!path || path === "/") return `${SITE.url}/`;
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  return `${SITE.url}${normalized.replace(/\\/?$/, "/")}`;
+}
+
 function upsertMeta(attr: "name" | "property", key: string, content: string) {
   let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
   if (!el) {
@@ -41,7 +47,7 @@ export function useSeo(props: SeoProps = {}) {
   const { title, description, canonicalPath, canonicalUrl, jsonLd, keywords, image, type, robots, noCanonical } = props;
 
   useEffect(() => {
-    const url = canonicalUrl || (canonicalPath ? `${SITE.url}${canonicalPath}` : SITE.url);
+    const url = canonicalUrl || (canonicalPath ? canonicalForPath(canonicalPath) : `${SITE.url}/`);
     const safeTitle = cleanBrand(title || SITE.title);
     const safeDescription = cleanBrand(description || SITE.description);
     const ogImage = image || `${SITE.url}/banner.webp`;
