@@ -17,6 +17,12 @@ export interface SeoProps {
 
 const cleanBrand = (value?: string) => value || "";
 
+function canonicalizeUrl(value: string) {
+  const url = new URL(value, SITE.url);
+  if (url.pathname !== "/" && !url.pathname.endsWith("/")) url.pathname += "/";
+  return url.href;
+}
+
 function upsertMeta(attr: "name" | "property", key: string, content: string) {
   let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
   if (!el) {
@@ -41,7 +47,7 @@ export function useSeo(props: SeoProps = {}) {
   const { title, description, canonicalPath, canonicalUrl, jsonLd, keywords, image, type, robots, noCanonical } = props;
 
   useEffect(() => {
-    const url = canonicalUrl || (canonicalPath ? `${SITE.url}${canonicalPath}` : SITE.url);
+    const url = canonicalizeUrl(canonicalUrl || (canonicalPath ? `${SITE.url}${canonicalPath}` : SITE.url));
     const safeTitle = cleanBrand(title || SITE.title);
     const safeDescription = cleanBrand(description || SITE.description);
     const ogImage = image || `${SITE.url}/banner.webp`;
@@ -126,7 +132,7 @@ export function breadcrumbJsonLd(crumbs: { name: string; href: string }[]) {
       "@type": "ListItem",
       position: i + 1,
       name: c.name,
-      item: `${SITE.url}${c.href}`
+      item: canonicalizeUrl(`${SITE.url}${c.href}`)
     }))
   };
 }
@@ -162,7 +168,7 @@ export function articleJsonLd(article?: {
 }) {
   if (!article) return {};
 
-  const articleUrl = `${SITE.url}/articles/${article.slug || ""}`;
+  const articleUrl = canonicalizeUrl(`${SITE.url}/articles/${article.slug || ""}`);
   const keyword = cleanBrand(article.primaryKeyword);
   const image = articleSeoImage(article);
   const keywords = [article.primaryKeyword, ...(article.secondaryKeywords || [])].filter(Boolean).join(", ");
