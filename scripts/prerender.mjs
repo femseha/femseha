@@ -51,23 +51,23 @@ for (const url of [...new Set(urls)]) {
     ...result.jsonLd.map((item) => `<script type="application/ld+json">${jsonForScript(item)}</script>`)
   ].join('\n');
 
-  if (/<!--\\$!-->/.test(result.html)) {
-    throw new Error(`SSR left a Suspense fallback in ${url}; refusing to publish incomplete HTML.`);
+  if (/<!--\$!-->/.test(result.html)) {
+    throw new Error(\`SSR left a Suspense fallback in \${url}; refusing to publish incomplete HTML.\`);
   }
-  if (!/<h1\\b/i.test(result.html)) {
-    throw new Error(`SSR output has no H1 for ${url}; refusing to publish incomplete HTML.`);
+  if (!/<h1\b/i.test(result.html)) {
+    throw new Error(\`SSR output has no H1 for \${url}; refusing to publish incomplete HTML.\`);
   }
 
   const cleanTemplate = template
-    .replace(/<title>[\\s\\S]*?<\\/title>/gi, '')
-    .replace(/<meta\\s+name="description"[^>]*>/gi, '')
-    .replace(/<link\\s+rel="canonical"[^>]*>/gi, '')
-    .replace(/<meta\\s+(?:property="og:[^"]+"|name="twitter:[^"]+"|name="robots")[^>]*>/gi, '')
-    .replace(/<script\\s+type="application\\/ld\\+json">[\\s\\S]*?<\\/script>/gi, '');
+    .replace(/<title>[\s\S]*?<\/title>/gi, '')
+    .replace(/<meta\s+name="description"[^>]*>/gi, '')
+    .replace(/<link\s+rel="canonical"[^>]*>/gi, '')
+    .replace(/<meta\s+(?:property="og:[^"]+"|name="twitter:[^"]+"|name="robots")[^>]*>/gi, '')
+    .replace(/<script\s+type="application\/ld\+json">[\s\S]*?<\/script>/gi, '');
 
   const html = cleanTemplate
-    .replace(/<div id="root"><\\/div>/i, `<div id="root">${result.html}</div>`)
-    .replace('</head>', `${head}\\n</head>`);
+    .replace(/<div id="root"><\/div>/i, \`<div id="root">\${result.html}</div>\`)
+    .replace('</head>', \`\${head}\\n</head>\`);
 
   const output = url === '/' ? join(distDir, 'index.html') : join(distDir, url.replace(/^\//, ''), 'index.html');
   mkdirSync(dirname(output), { recursive: true });
