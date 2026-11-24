@@ -26,7 +26,7 @@ const DATA_FILES = [
   ...Array.from({ length: 11 }, (_, i) => `src/data/seo-content-batch-${String(i + 1).padStart(2, "0")}.json`),
 ];
 const STATIC_INDEXABLE = [
-  "/", "/articles", "/cytotec-saudi-arabia", "/misoprostol", "/products", "/order", "/delivery", "/pharmacies",
+  "/", "/articles", "/طريقة-حساب-عمر-الحمل", "/cytotec-saudi-arabia", "/misoprostol", "/products", "/order", "/delivery", "/pharmacies",
   "/cytotec-uae", "/cytotec-kuwait", "/cytotec-bahrain",
   "/cytotec-riyadh", "/cytotec-jeddah", "/cytotec-makkah", "/cytotec-madinah", "/cytotec-dammam", "/cytotec-khobar",
   "/cytotec-taif", "/cytotec-tabuk", "/cytotec-abha", "/cytotec-jazan", "/cytotec-buraydah", "/cytotec-ahsa", "/cytotec-khamis-mushait", "/cytotec-qatif", "/cytotec-hail", "/cytotec-najran", "/cytotec-al-baha", "/cytotec-sakaka", "/cytotec-arar",
@@ -146,8 +146,10 @@ for (const k of keywordEntries) {
   if (kwSeen.has(k.keyword) && kwSeen.get(k.keyword) !== k.targetUrl) warn(`keyword-map: تنافس محتمل للكلمة "${k.keyword}" بين ${kwSeen.get(k.keyword)} و ${k.targetUrl}`);
   kwSeen.set(k.keyword, k.targetUrl);
   if (k.targetUrl) {
-    if (targetMap.has(k.targetUrl)) warn(`keyword-map: ${k.targetUrl} يستهدف بأكثر من كلمة — راجع اختلاف الزاوية`);
-    targetMap.set(k.targetUrl, k.keyword);
+    if (!targetMap.has(k.targetUrl)) targetMap.set(k.targetUrl, new Set());
+    const intents = targetMap.get(k.targetUrl);
+    if (intents.size && !intents.has(k.searchIntent)) warn(`keyword-map: ${k.targetUrl} يستهدف أكثر من نية بحث — راجع فصل الصفحات`);
+    intents.add(k.searchIntent);
   }
 }
 ok("تم فحص keyword-map");
