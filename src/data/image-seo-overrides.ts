@@ -21,8 +21,8 @@ export const IMAGE_SEO_OVERRIDES: Record<string, ImageSeoOverride> = {
     imageAlt: "حبوب إجهاض الحمل في السعودية: معلومات طبية ومخاطر الاستخدام دون إشراف",
   },
   "gulf-misoprostol-faq": {
-    image: "/images/seo/cytotec-saudi-arabia-misoprostol-medical-guide.svg",
-    imageAlt: "الأسئلة الشائعة عن سايتوتك وميزوبروستول والمعلومات الطبية في دول الخليج",
+    image: "/images/dr-haitham-hero-1200w.webp",
+    imageAlt: "صورة الطبيب المشرف على المحتوى الطبي في FemSeha",
   },
   "danger-signs-after-medical-abortion-saudi": {
     image: "/images/seo/cytotec-medical-safety-warning-saudi.webp",
