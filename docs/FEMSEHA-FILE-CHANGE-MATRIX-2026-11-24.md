@@ -7,7 +7,7 @@
 | SSR routing | `src/App.tsx`, `src/entry-server.tsx` | Replaced lazy route imports/Suspense with eager route imports; homepage canonical now ends in slash | High; needs fresh SSR/build run |
 | Cluster routing | `src/pages/ClusterPage.tsx` | Removed unrelated Saudi-page fallback for unknown routes | High; unknown cluster paths now return Not Found |
 | Cluster content | `src/data/cluster-pages.ts` | Added independent informational content for `/misoprostol`, `/products`, `/order`, `/delivery`, and `/pharmacies` | High; clinical/legal review still needed |
-| Duplicate source data | `src/data/seo-content-batch-05.json`, `-06.json`, `-07.json`, `docs/duplicate-article-content-archive-2026-11-24.json` | Archived all seven duplicate records and removed only the redundant batch copies; retained original effective article records | High; static source verification shows 52 records / 52 unique slugs |
+| Duplicate source data | `src/data/seo-content-batch-03.json`, `src/data/seo-content-batch-05.json`, `-06.json`, `-07.json`, `docs/duplicate-article-content-archive-2026-11-24.json` | Archived all seven duplicate records and removed only the redundant batch copies; retained original effective article records | High; static source verification shows 52 records / 52 unique slugs |
 | Article loading | `src/data/articles.ts` | Fail fast on duplicate slugs rather than silently deduplicating | High; fresh CI pending |
 | Sitemap generation | `scripts/generate-sitemap.mjs` | Fail fast on duplicate slugs rather than warning and skipping | High; 89 current sitemap URLs preserved in source |
 | SEO validation | `scripts/seo-validate.mjs` | Check raw slugs before effective-article processing | Medium; fresh CI pending |
