@@ -39,9 +39,15 @@ const allArticles = [
   ...(seoContentBatch11 as ArticleRecord[]),
 ];
 
-const uniqueArticles = allArticles.filter((article, index, list) => list.findIndex((item) => item.slug === article.slug) === index);
+const seenArticleSlugs = new Set<string>();
+for (const article of allArticles) {
+  if (seenArticleSlugs.has(article.slug)) {
+    throw new Error(`Duplicate article slug detected: ${article.slug}. Resolve the source records before building.`);
+  }
+  seenArticleSlugs.add(article.slug);
+}
 
-export const articles: ArticleRecord[] = uniqueArticles.map((article) => {
+export const articles: ArticleRecord[] = allArticles.map((article) => {
   const faq = faqBySlug[article.slug]; const clusterLinks = clusterLinksBySlug[article.slug];
   const override = pillarOverrides[article.slug]; const legacyOverride = legacyOverrides[article.title]; const contentOverride = contentOverrides[article.slug]; const gulfOverride = seoGulfPillarOverrides[article.slug];
   const withFaq = !faq || article.faq?.length ? article : { ...article, faq };

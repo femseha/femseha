@@ -16,6 +16,23 @@
       "pregnancy-danger-signs-emergency",
       "pregnancy-bleeding-first-trimester",
       "gestational-diabetes-guide"
+    ],
+    "sources": [
+      {
+        "publisher": "World Health Organization (WHO)",
+        "title": "Pre-eclampsia",
+        "url": "https://www.who.int/news-room/fact-sheets/detail/pre-eclampsia"
+      },
+      {
+        "publisher": "American College of Obstetricians and Gynecologists (ACOG)",
+        "title": "Preeclampsia and High Blood Pressure During Pregnancy",
+        "url": "https://www.acog.org/womens-health/faqs/preeclampsia-and-high-blood-pressure-during-pregnancy"
+      },
+      {
+        "publisher": "NHS",
+        "title": "Pre-eclampsia",
+        "url": "https://www.nhs.uk/conditions/pre-eclampsia/"
+      }
     ]
   }
 ]

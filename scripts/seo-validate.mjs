@@ -26,7 +26,7 @@ const DATA_FILES = [
   ...Array.from({ length: 11 }, (_, i) => `src/data/seo-content-batch-${String(i + 1).padStart(2, "0")}.json`),
 ];
 const STATIC_INDEXABLE = [
-  "/", "/articles", "/cytotec-saudi-arabia", "/misoprostol", "/products", "/order", "/delivery", "/pharmacies",
+  "/طريقة-حساب-عمر-الحمل", "/", "/articles", "/cytotec-saudi-arabia", "/misoprostol", "/products", "/order", "/delivery", "/pharmacies",
   "/cytotec-uae", "/cytotec-kuwait", "/cytotec-bahrain",
   "/cytotec-riyadh", "/cytotec-jeddah", "/cytotec-makkah", "/cytotec-madinah", "/cytotec-dammam", "/cytotec-khobar",
   "/cytotec-taif", "/cytotec-tabuk", "/cytotec-abha", "/cytotec-jazan", "/cytotec-buraydah", "/cytotec-ahsa", "/cytotec-khamis-mushait", "/cytotec-qatif", "/cytotec-hail", "/cytotec-najran", "/cytotec-al-baha", "/cytotec-sakaka", "/cytotec-arar",
@@ -44,7 +44,16 @@ const rawArticles = DATA_FILES.flatMap((file) => {
   const value = json(file);
   return Array.isArray(value) ? value : [];
 });
-const unique = rawArticles.filter((a, i, list) => list.findIndex((x) => x.slug === a.slug) === i);
+const rawSlugSources = new Map();
+for (const article of rawArticles) {
+  if (rawSlugSources.has(article.slug)) {
+    err(`duplicate raw article slug: ${article.slug} (also found in ${rawSlugSources.get(article.slug)})`);
+  } else {
+    rawSlugSources.set(article.slug, 'article source files');
+  }
+}
+// Do not silently deduplicate: after the raw-source check, the full source list is authoritative.
+const unique = rawArticles;
 const faqBySlug = json("src/data/seo-supporting-faq.json");
 const clusterBySlug = json("src/data/seo-cluster-links.json");
 const pillarOverrides = json("src/data/seo-pillar-overrides.json");
@@ -135,7 +144,7 @@ ok("تم فحص المحتوى الفعلي");
 
 section("keyword-map");
 const kwSeen = new Map();
-const targetMap = new Map();
+const targetIntents = new Map();
 const forbiddenMetrics = ["impressions", "clicks", "ctr", "position", "currentPosition"];
 for (const k of keywordEntries) {
   const label = k.keyword || "(بدون keyword)";
@@ -146,9 +155,13 @@ for (const k of keywordEntries) {
   if (kwSeen.has(k.keyword) && kwSeen.get(k.keyword) !== k.targetUrl) warn(`keyword-map: تنافس محتمل للكلمة "${k.keyword}" بين ${kwSeen.get(k.keyword)} و ${k.targetUrl}`);
   kwSeen.set(k.keyword, k.targetUrl);
   if (k.targetUrl) {
-    if (targetMap.has(k.targetUrl)) warn(`keyword-map: ${k.targetUrl} يستهدف بأكثر من كلمة — راجع اختلاف الزاوية`);
-    targetMap.set(k.targetUrl, k.keyword);
+    const intents = targetIntents.get(k.targetUrl) || new Set();
+    intents.add(k.searchIntent);
+    targetIntents.set(k.targetUrl, intents);
   }
+}
+for (const [targetUrl, intents] of targetIntents) {
+  if (intents.size > 1) warn(`keyword-map: ${targetUrl} يستهدف نوايا بحث مختلفة (${[...intents].join(" / ")}) — راجع الفصل أو التمييز`);
 }
 ok("تم فحص keyword-map");
 

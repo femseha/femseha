@@ -27,7 +27,7 @@ export function render(url: string): RenderResult {
 
   let title = SITE.title;
   let description = SITE.description;
-  let canonical = url === '/' ? SITE.url : `${SITE.url}${url.replace(/\/$/, '')}`;
+  let canonical = url === '/' ? `${SITE.url}/` : `${SITE.url}${url.replace(/\/$/, '')}`;
   let type = 'website';
   let image: string | undefined;
   let jsonLd: object[] = [websiteJsonLd()];

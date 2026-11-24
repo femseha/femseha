@@ -97,8 +97,7 @@ export function loadArticles() {
   for (const [sourceArticles, sourceLabel] of sources) {
     for (const a of sourceArticles) {
       if (seen.has(a.slug)) {
-        console.warn(`⚠ slug مكرر — سيتم استخدام النسخة الأولى: ${a.slug} (${seen.get(a.slug)}؛ تم تجاهل ${sourceLabel})`);
-        continue;
+        throw new Error(`slug مكرر يمنع توليد sitemap: ${a.slug} موجود في ${seen.get(a.slug)} و${sourceLabel}`);
       }
       seen.set(a.slug, sourceLabel);
       articles.push(a);

@@ -19,7 +19,14 @@ const server = await createServer({
 let failures = 0;
 const { renderRoute } = await server.ssrLoadModule('/scripts/ssr-entry.tsx');
 const { articles } = await server.ssrLoadModule('/src/data/articles.ts');
-const articleRoutes = articles.map((article) => `/articles/${article.slug}`);
+// These legacy slugs intentionally redirect to the Saudi pillar and are excluded from the sitemap.
+const REDIRECT_ONLY_SLUGS = new Set([
+  'cytotec-misoprostol-saudi-riyadh-guide',
+  'cytotec-in-saudi-arabia-medical-info-risks'
+]);
+const articleRoutes = articles
+  .filter((article) => !REDIRECT_ONLY_SLUGS.has(article.slug))
+  .map((article) => `/articles/${article.slug}`);
 
 const ROUTES = [
   '/',
@@ -68,9 +75,11 @@ const ROUTES = [
 for (const route of ROUTES) {
   try {
     const html = renderRoute(route);
-    const ok = typeof html === 'string' && html.length > 400;
+    const h1Count = (html.match(/<h1(?:\s|>)/gi) || []).length;
+    const hasSuspenseFallback = html.includes('جارٍ تحميل الصفحة');
+    const ok = typeof html === 'string' && html.length > 400 && h1Count === 1 && !hasSuspenseFallback;
     if (!ok) failures++;
-    console.log(`${ok ? 'PASS' : 'FAIL'}  ${route}  (${html.length} محارف)`);
+    console.log(`${ok ? 'PASS' : 'FAIL'}  ${route}  (${html.length} محارف، H1=${h1Count}${hasSuspenseFallback ? '، Suspense fallback' : ''})`);
   } catch (e) {
     failures++;
     console.log(`ERROR ${route}  →  ${e.message}`);
@@ -95,6 +104,10 @@ checks.push(['صفحة السعودية المحورية تعرض العنوان
 checks.push(['الصفحة المحورية تعرض تنبيه السلامة الطبية', article.includes('المحتوى الطبي للتثقيف العام')]);
 checks.push(['الصفحة المحورية تعرض الاستشارات', article.includes('الاستشارات الطبية')]);
 checks.push(['الصفحة المحورية تعرض الروابط الداخلية', article.includes('استكشف المحاور المرتبطة')]);
+
+const misoprostol = renderRoute('/misoprostol');
+checks.push(['صفحة الميزوبروستول لها محتوى مستقل', misoprostol.includes('الميزوبروستول (Misoprostol): دليل طبي مستقل')]);
+checks.push(['صفحة الميزوبروستول لا تعرض عنوان السعودية بدلًا منها', !misoprostol.includes('<h1 class="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">سايتوتك في السعودية</h1>')]);
 
 const doctor = renderRoute('/doctor');
 checks.push(['صفحة الطبيب تعرض الاسم', doctor.includes('د. هيثم الخطيب')]);

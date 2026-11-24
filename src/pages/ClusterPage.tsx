@@ -3,6 +3,7 @@ import { useSeo, breadcrumbJsonLd } from '../lib/seo';
 import { DOCTOR, WHATSAPP_LINK, SITE } from '../data/site';
 import { CLUSTER_PAGES, type ClusterPageData } from '../data/cluster-pages';
 import { coverageForPath } from '../data/gulf-coverage';
+import NotFoundPage from './NotFoundPage';
 
 function faqJsonLd(items: { q: string; a: string }[]) {
   return {
@@ -16,14 +17,19 @@ function faqJsonLd(items: { q: string; a: string }[]) {
   };
 }
 
-function getPage(pathname: string): ClusterPageData {
+function getPage(pathname: string): ClusterPageData | undefined {
   const normalized = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
-  return CLUSTER_PAGES[normalized] || CLUSTER_PAGES['/cytotec-saudi-arabia'];
+  return CLUSTER_PAGES[normalized];
 }
 
 export default function ClusterPage() {
   const { pathname } = useLocation();
   const page = getPage(pathname);
+  if (!page) return <NotFoundPage />;
+  return <ClusterPageContent page={page} pathname={pathname} />;
+}
+
+function ClusterPageContent({ page, pathname }: { page: ClusterPageData; pathname: string }) {
   const geographicCoverage = coverageForPath(pathname);
 
   useSeo({
