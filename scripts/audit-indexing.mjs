@@ -31,7 +31,7 @@ section("قواعد sitemap");
 const locs = [...committedXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
 const locSet = new Set(locs);
 if (locs.length !== locSet.size) err("sitemap: URLs مكررة");
-const expectedUrls = new Set(indexableRoutes.map((r) => r === "/" ? `${SITE_URL}/` : `${SITE_URL}${r}`));
+const expectedUrls = new Set(indexableRoutes.map((r) => r === "/" ? `${SITE_URL}/` : `${SITE_URL}${r === "/" ? "/" : `${r}/`}`));
 for (const u of expectedUrls) if (!locSet.has(u)) err(`sitemap: URL مفقود: ${u}`);
 for (const u of locSet) if (!expectedUrls.has(u)) err(`sitemap: URL غير معروف: ${u}`);
 for (const u of locs) {
@@ -48,7 +48,7 @@ for (const u of locs) {
 }
 for (const a of articles) {
   const expected = a.modifiedDate || a.publishDate;
-  const re = new RegExp(`<loc>${SITE_URL}/articles/${a.slug}</loc>\\s*<lastmod>([^<]+)</lastmod>`);
+  const re = new RegExp(`<loc>${SITE_URL}/articles/${a.slug}/</loc>\\s*<lastmod>([^<]+)</lastmod>`);
   const m = committedXml.match(re);
   if (!m) err(`sitemap: lastmod مفقود/مقال مفقود: ${a.slug}`);
   else if (m[1] !== expected) err(`sitemap: lastmod غير صحيح لـ ${a.slug}: ${m[1]} ≠ ${expected}`);

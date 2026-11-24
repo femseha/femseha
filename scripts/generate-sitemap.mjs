@@ -114,14 +114,14 @@ function urlBlock({ loc, lastmod, changefreq, priority }) { return ["  <url>", `
 
 export function buildSitemapXml(articles, siteUrl = readSiteUrl()) {
   const contentDate = latestContentDate(articles);
-  const blocks = [...STATIC_INDEXABLE.map((s) => urlBlock({ loc: s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path}`, lastmod: s.lastmod === "content" ? contentDate : false, changefreq: s.changefreq, priority: s.priority })), ...articles.map((a) => urlBlock({ loc: `${siteUrl}/articles/${a.slug}`, lastmod: articleLastmod(a), changefreq: "monthly", priority: "0.7" }))];
+  const blocks = [...STATIC_INDEXABLE.map((s) => urlBlock({ loc: s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path}/`, lastmod: s.lastmod === "content" ? contentDate : false, changefreq: s.changefreq, priority: s.priority })), ...articles.map((a) => urlBlock({ loc: `${siteUrl}/articles/${a.slug}/`, lastmod: articleLastmod(a), changefreq: "monthly", priority: "0.7" }))];
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${blocks.join("\n")}\n</urlset>\n`;
 }
 
 export function assertNoForbiddenUrls(xml, siteUrl) {
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
   const problems = [];
-  const allowed = new Set([...STATIC_INDEXABLE.map((s) => (s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path}`)), ...locs.filter((u) => u.startsWith(`${siteUrl}/articles/`))]);
+  const allowed = new Set([...STATIC_INDEXABLE.map((s) => (s.path === "/" ? `${siteUrl}/` : `${siteUrl}${s.path}/`)), ...locs.filter((u) => u.startsWith(`${siteUrl}/articles/`))]);
   for (const u of locs) {
     const p = new URL(u).pathname;
     for (const bad of FORBIDDEN_PATHS) if (p === bad || p.startsWith(`${bad}/`)) problems.push(`مسار محجوب في sitemap: ${u}`);

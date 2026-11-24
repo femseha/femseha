@@ -68,7 +68,7 @@ const ROUTES = [
 
 for (const route of ROUTES) {
   try {
-    const html = renderRoute(route);
+    const html = await renderRoute(route);
     const ok = typeof html === 'string' && html.length > 400;
     if (!ok) failures++;
     console.log(`${ok ? 'PASS' : 'FAIL'}  ${route}  (${html.length} محارف)`);
@@ -79,37 +79,37 @@ for (const route of ROUTES) {
 }
 
 // فحوصات محتوى أساسية متوافقة مع النصوص الحالية، دون ربط الاختبار بعبارات قديمة.
-const home = renderRoute('/');
+const home = await renderRoute('/');
 const checks = [
   ['الصفحة الرئيسية تعرض اسم المنصة', home.includes('سايتوتيك - السعودية')],
   ['الصفحة الرئيسية تعرض المقالات', home.includes('/articles')],
   ['الصفحة الرئيسية تعرض محور سايتوتك السعودي', home.includes('سايتوتك في السعودية')],
   ['روابط المقالات موجودة', home.includes('/cytotec-saudi-arabia')]
 ];
-const articlesPage = renderRoute('/articles');
+const articlesPage = await renderRoute('/articles');
 checks.push(['صفحة الأدلة تعرض عنوان المكتبة', articlesPage.includes('المقالات والأدلة الطبية لصحة المرأة')]);
 checks.push(['صفحة الأدلة تعرض شارة المكتبة', articlesPage.includes('مكتبة طبية بإشراف طبي')]);
 
 const targetArticle = articles.find((item) => item.slug === 'cytotec-misoprostol-saudi-riyadh-guide');
-const article = renderRoute('/cytotec-saudi-arabia');
+const article = await renderRoute('/cytotec-saudi-arabia');
 checks.push(['صفحة السعودية المحورية تعرض العنوان', article.includes('سايتوتك في السعودية')]);
 checks.push(['الصفحة المحورية تعرض تنبيه السلامة الطبية', article.includes('المحتوى الطبي للتثقيف العام')]);
 checks.push(['الصفحة المحورية تعرض الاستشارات', article.includes('الاستشارات الطبية')]);
 checks.push(['الصفحة المحورية تعرض الروابط الداخلية', article.includes('استكشف المحاور المرتبطة')]);
 
-const doctor = renderRoute('/doctor');
+const doctor = await renderRoute('/doctor');
 checks.push(['صفحة الطبيب تعرض الاسم', doctor.includes('د. هيثم الخطيب')]);
 checks.push(['صفحة الطبيب تعرض الاختصاص', doctor.includes('جراحة النساء والتوليد')]);
 
-const notFound = renderRoute('/صفحة-غير-موجودة');
+const notFound = await renderRoute('/صفحة-غير-موجودة');
 checks.push(['صفحة 404 تعمل', notFound.includes('الصفحة غير موجودة')]);
-const invalidArticle = renderRoute('/articles/مقال-غير-موجود-اختبار');
+const invalidArticle = await renderRoute('/articles/مقال-غير-موجود-اختبار');
 checks.push(['slug غير صحيح يعرض 404 (منع soft-404)', invalidArticle.includes('الصفحة غير موجودة')]);
 checks.push([
   'slug غير صحيح لا يسقط إلى مقال آخر (لا fallback لأول مقال)',
   !targetArticle?.title || !invalidArticle.includes(targetArticle.title)
 ]);
-const admin = renderRoute('/admin');
+const admin = await renderRoute('/admin');
 checks.push(['لوحة الإدارة تعرض تسجيل الدخول', admin.includes('لوحة الإدارة والتحكم')]);
 
 for (const [name, ok] of checks) {
