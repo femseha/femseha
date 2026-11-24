@@ -20,7 +20,7 @@ export type RenderResult = {
 
 const cleanBrand = (value: string) => value;
 
-export function render(url: string): RenderResult {
+export async function render(url: string): Promise<RenderResult> {
   const articleMatch = url.match(/^\/articles\/([^/]+)\/?$/);
   const article = articleMatch ? getArticleBySlug(articleMatch[1]) : undefined;
   const normalizedUrl = url === '/' ? '/' : url.replace(/\/$/, '');
