@@ -126,3 +126,15 @@ No content, URL, indexability, canonical, sitemap, or deployment change should b
 - GitHub file writes succeeded on this branch.
 - Automated tests/build/typecheck have not yet been run in a repository runtime. Do not mark this PR as passing until CI or a local release verification confirms it.
 - No content page, URL, canonical, robots policy, sitemap membership, or production deployment was changed in this work.
+
+## Content-source and intent audit from CI
+- The successful SEO validator run reported 29 articles without structured medical-source references. Added source arrays for those 29 articles in the SEO content override layer without rewriting their body text. The next CI run must confirm the warnings were removed and the URLs remain valid.
+- The same validator reported repeated keyword-map target warnings. These are not automatically errors: several pages legitimately cover spelling variants and close synonyms. However, the current map mixes informational, local, and commercial intents on some URLs.
+- High-priority example: /products, /order, /delivery, and /pharmacies appear in the keyword map as sales/order/delivery/pharmacy intent routes, while the earlier route audit found these paths lack dedicated cluster-page mappings and may fall back to the Saudi pillar. Do not delete, redirect, noindex, or remove them from the sitemap yet. First inspect their GSC history and backlinks, then decide whether to consolidate these intents into a dedicated neutral regulatory/medicine-access page.
+- The prior validator also flagged one sitemap URL not represented in the article source list: /طريقة-حساب-عمر-الحمل. Check whether it is an intended static route or a stale sitemap entry before changing the sitemap.
+- Adding source references is not equivalent to clinical review. A qualified reviewer must verify that every cited source supports the actual visible claims, and country-specific legal claims must be checked against current official law.
+
+## AI citation quality next steps
+- Keep one canonical target per genuine search intent; allow spelling variants such as سايتوتك/سايتوتيك to resolve to the same page when intent is identical.
+- Separate purchase/availability queries from transactional supply. Answer them with verified legal/dispensing information and official regulator links, never unsupported stock or delivery claims.
+- After review, create Qatar, Oman, and Muscat pages only if they contain distinct local information, official sources, and a qualified review date. They are not published or added to the sitemap in this PR.
