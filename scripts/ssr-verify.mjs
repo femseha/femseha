@@ -68,9 +68,12 @@ const ROUTES = [
 for (const route of ROUTES) {
   try {
     const html = renderRoute(route);
-    const ok = typeof html === 'string' && html.length > 400;
+    const hasRealHeading = /<h1\\b/i.test(html);
+    const hasNoSuspenseFallback = !html.includes('جارٍ تحميل الصفحة');
+    const ok = typeof html === 'string' && html.length > 400 && hasNoSuspenseFallback && (route === '/admin' || hasRealHeading);
     if (!ok) failures++;
-    console.log(`${ok ? 'PASS' : 'FAIL'}  ${route}  (${html.length} محارف)`);
+    const reason = !hasNoSuspenseFallback ? 'Suspense fallback rendered' : !hasRealHeading && route !== '/admin' ? 'missing H1' : '';
+    console.log(`${ok ? 'PASS' : 'FAIL'}  ${route}  (${html.length} محارف) ${reason}`);
   } catch (e) {
     failures++;
     console.log(`ERROR ${route}  →  ${e.message}`);
