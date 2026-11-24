@@ -104,3 +104,40 @@ C. Verify live HTTP behavior for slash/no-slash variants and compare redirects/c
 D. Review article-by-article source validity, image existence and alt text, author/reviewer evidence, and medically sensitive claims.
 E. Check internal links and outbound source links for 404s, redirects, stale pages, and relevance.
 F. Compare route inventory and sitemap membership against production before any approval.
+
+
+## Fresh Google Search Console evidence (retrieved 2026-11-24)
+
+Property: `sc-domain:femseha.com`. Search Console data is settled through 2026-11-22; the performance comparison below uses 2026-10-25 to 2026-11-21 against 2026-09-27 to 2026-10-24.
+
+| Metric | Current 28 days | Previous 28 days | Change |
+|---|---:|---:|---:|
+| Clicks | 128 | 55 | +73 |
+| Impressions | 3,771 | 887 | +2,884 |
+| CTR | 3.39% | 6.20% | -2.81 percentage points |
+| Average position | 10.94 | 18.02 | Improved by 7.08 positions |
+
+The site is gaining visibility and clicks, while CTR is falling. Avoid broad title or URL changes; inspect individual query/page pairs before editing pages that already rank.
+
+### Sitemap and URL inspection
+- Google Search Console reports `sitemap.xml`: 89 submitted URLs, 0 warnings, 0 errors.
+- `image-sitemap.xml`: 9 submitted image mappings, 0 warnings, 0 errors.
+- In the 28-day window, 20 of the 89 sitemap URLs received impressions. This is a lower bound on indexed URLs, not Google's total index count.
+- The stored latest inspection set contains 90 URLs: 79 PASS and 11 NEUTRAL.
+- 84 of 90 inspected URLs have a Google-selected canonical with a trailing slash while the user-declared canonical omits it.
+- The five inspected URLs `/misoprostol/`, `/products/`, `/order/`, `/delivery/`, and `/pharmacies/` still show the old Saudi pillar as Google's selected canonical in production inspections. This is consistent with the fallback code on production; the draft branch now gives each route independent content. Re-inspection is required after an approved deployment.
+
+**Canonical decision is intentionally pending:** the draft currently declares a trailing slash only for the homepage and no trailing slash for non-root pages, matching the existing sitemap. The GSC evidence shows a broad mismatch with Google's selected canonical. Changing the canonical policy and sitemap to trailing slashes would change the preferred URL variant across most routes. No such mass change has been made because it requires explicit owner approval and careful redirect planning.
+
+### Page-level opportunities and pages to protect
+- `/articles/subchorionic-hematoma-pregnancy-guide/`: 2,287 impressions, 9 clicks, 0.39% CTR, average position 7.46. This is the clearest CTR review candidate; inspect its title, snippet, and query alignment before changing it.
+- `/articles/abortion-regulations-bahrain-medical-guide/`: 254 impressions, 22 clicks, 8.66% CTR, average position 7.57. Protect its current content and ranking signals.
+- `/cytotec-saudi-arabia/`: 42 impressions, 18 clicks, 42.86% CTR, average position 34.02. Low volume and a high CTR do not justify a broad rewrite.
+
+### Remaining SEO validator warnings
+The completed CI run at commit `c6cdb803a425f2523f4085e5cb0c25a02b1d9591` passed TypeScript, SEO validation, indexing audit, SSR verification, production build, and the Saudi cluster audit. SEO validation reported zero errors and 45 warnings:
+- 29 articles lacked a structured `sources` array. Some contain inline links; the remaining claims and sources need article-by-article verification.
+- 15 URL targets in the keyword map combine distinct `searchIntent` labels. These need manual intent review, not automatic splitting.
+- 1 warning was a validator inventory omission for the Arabic pregnancy-age calculator route; that route has now been added to the validator's static route list. A fresh CI run is pending for the latest commit.
+
+The dependency audit still reports 5 total vulnerabilities (1 low, 2 moderate, 2 high); the production-only audit reports 2 moderate React Router advisories. This is not a clean dependency audit. No forced major-version upgrade was made.
