@@ -85,6 +85,7 @@ Both identified code issues were corrected in later commits. A fresh completed C
 - `src/pages/ClusterPage.tsx`
 - `src/data/cluster-pages.ts`
 - `src/data/articles.ts`
+- `src/data/seo-content-batch-03.json`
 - `src/data/seo-content-batch-05.json`
 - `src/data/seo-content-batch-06.json`
 - `src/data/seo-content-batch-07.json`
