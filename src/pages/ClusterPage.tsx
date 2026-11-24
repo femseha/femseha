@@ -67,7 +67,7 @@ export default function ClusterPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-400/10 px-4 py-2 text-xs font-bold text-sky-200 mb-5">
-              {page.path === '/abortion-pills-saudi-arabia' ? 'دليل معلوماتي — المراجعة الطبية معلّقة قبل النشر' : 'سايتوتيك - السعودية | د. هيثم الخطيب'}
+              {page.path === '/abortion-pills-saudi-arabia' ? 'دليل معلوماتي — لم تكتمل المراجعة الطبية' : 'سايتوتيك - السعودية | د. هيثم الخطيب'}
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">{page.h1}</h1>
             <p className="mt-5 text-base sm:text-lg leading-8 text-slate-200">{page.intro}</p>
@@ -221,7 +221,7 @@ export default function ClusterPage() {
 
         <section className="text-center text-xs text-slate-700 leading-7">
           <p>المحتوى الطبي للتثقيف العام ولا يحل محل تقييم الطبيب. المعلومات التجارية تخضع للتوفر الفعلي والأنظمة والاشتراطات المعمول بها.</p>
-          <p className="mt-1">المراجعة الطبية: {DOCTOR.name} — {DOCTOR.profession}</p>
+          {page.path === '/abortion-pills-saudi-arabia' ? <p className="mt-1">المراجعة الطبية: لم تكتمل بعد؛ يُرجى الرجوع إلى المصادر الرسمية ومقدم رعاية صحية مرخص.</p> : <p className="mt-1">المراجعة الطبية: {DOCTOR.name} — {DOCTOR.profession}</p>}
         </section>
       </div>
     </article>
