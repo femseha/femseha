@@ -27,27 +27,27 @@ export default defineConfig(({ isSsrBuild }) => {
       },
       {
         find: '@entry/DoctorPage',
-        replacement: fileURLToPath(new URL('./src/pages/DoctorPageEntry.tsx', import.meta.url))
+        replacement: fileURLToPath(new URL(useServerEntries ? './src/pages/DoctorPageEntryServer.tsx' : './src/pages/DoctorPageEntryClient.tsx', import.meta.url))
       },
       {
         find: '@entry/ConsultationPage',
-        replacement: fileURLToPath(new URL('./src/pages/ConsultationPageEntry.tsx', import.meta.url))
+        replacement: fileURLToPath(new URL(useServerEntries ? './src/pages/ConsultationPageEntryServer.tsx' : './src/pages/ConsultationPageEntryClient.tsx', import.meta.url))
       },
       {
         find: '@entry/DisclaimerPage',
-        replacement: fileURLToPath(new URL('./src/pages/DisclaimerPageEntry.tsx', import.meta.url))
+        replacement: fileURLToPath(new URL(useServerEntries ? './src/pages/DisclaimerPageEntryServer.tsx' : './src/pages/DisclaimerPageEntryClient.tsx', import.meta.url))
       },
       {
         find: '@entry/NotFoundPage',
-        replacement: fileURLToPath(new URL('./src/pages/NotFoundPageEntry.tsx', import.meta.url))
+        replacement: fileURLToPath(new URL(useServerEntries ? './src/pages/NotFoundPageEntryServer.tsx' : './src/pages/NotFoundPageEntryClient.tsx', import.meta.url))
       },
       {
         find: '@entry/ClusterPage',
-        replacement: fileURLToPath(new URL('./src/pages/ClusterPageEntry.tsx', import.meta.url))
+        replacement: fileURLToPath(new URL(useServerEntries ? './src/pages/ClusterPageEntryServer.tsx' : './src/pages/ClusterPageEntryClient.tsx', import.meta.url))
       },
       {
         find: '@entry/PregnancyCalculatorPage',
-        replacement: fileURLToPath(new URL('./src/pages/PregnancyCalculatorPageEntry.tsx', import.meta.url))
+        replacement: fileURLToPath(new URL(useServerEntries ? './src/pages/PregnancyCalculatorPageEntryServer.tsx' : './src/pages/PregnancyCalculatorPageEntryClient.tsx', import.meta.url))
       },
       {
         find: '@',
