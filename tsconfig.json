@@ -21,7 +21,13 @@
       "@/*": ["src/*"],
       "@entry/ArticlesPage": ["src/pages/ArticlesPageEntryServer.tsx"],
       "@entry/ArticleView": ["src/pages/ArticleViewEntryServer.tsx"],
-      "@entry/AdminPage": ["src/pages/AdminPageEntryServer.tsx"]
+      "@entry/AdminPage": ["src/pages/AdminPageEntryServer.tsx"],
+      "@entry/DoctorPage": ["src/pages/DoctorPageEntry.tsx"],
+      "@entry/ConsultationPage": ["src/pages/ConsultationPageEntry.tsx"],
+      "@entry/DisclaimerPage": ["src/pages/DisclaimerPageEntry.tsx"],
+      "@entry/NotFoundPage": ["src/pages/NotFoundPageEntry.tsx"],
+      "@entry/ClusterPage": ["src/pages/ClusterPageEntry.tsx"],
+      "@entry/PregnancyCalculatorPage": ["src/pages/PregnancyCalculatorPageEntry.tsx"]
     },
 
     /* Linting */
