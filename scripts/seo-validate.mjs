@@ -158,7 +158,7 @@ const locSet = new Set(locs);
 if (locs.length !== locSet.size) err("sitemap يحتوي URLs مكررة");
 const sitemapExcluded = new Set(["cytotec-misoprostol-saudi-riyadh-guide", "cytotec-in-saudi-arabia-medical-info-risks"]);
 const expectedArticles = effectiveArticles.filter((a) => !sitemapExcluded.has(a.slug) && a.primaryKeyword !== "حبوب سايتوتك في السعودية");
-const expected = new Set([...STATIC_INDEXABLE, ...expectedArticles.map((a) => `/articles/${a.slug}`)].map((r) => r === "/" ? `${SITE_URL}/` : `${SITE_URL}${r}`));
+const expected = new Set([...STATIC_INDEXABLE, ...expectedArticles.map((a) => `/articles/${a.slug}`)].map((r) => r === "/" ? `${SITE_URL}/` : `${SITE_URL}${r.endsWith("/") ? r : `${r}/`}`));
 for (const u of expected) if (!locSet.has(u)) err(`sitemap: URL منشور مفقود: ${u}`);
 for (const u of locSet) if (!expected.has(u)) warn(`sitemap: URL إضافي غير معروف لمصدر المقالات: ${u}`);
 ok(`sitemap URLs=${locs.length}`);
