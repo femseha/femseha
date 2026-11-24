@@ -68,7 +68,7 @@ const ROUTES = [
 for (const route of ROUTES) {
   try {
     const html = renderRoute(route);
-    const h1Count = (html.match(/<h1(?:\\s|>)/gi) || []).length;
+    const h1Count = (html.match(/<h1(?:\s|>)/gi) || []).length;
     const hasSuspenseFallback = html.includes('جارٍ تحميل الصفحة');
     const ok = typeof html === 'string' && html.length > 400 && h1Count === 1 && !hasSuspenseFallback;
     if (!ok) failures++;
