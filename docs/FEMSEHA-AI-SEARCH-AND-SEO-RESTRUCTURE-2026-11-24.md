@@ -100,3 +100,29 @@ No content, URL, indexability, canonical, sitemap, or deployment change should b
 3. Country-specific regulatory claims have current official sources and review dates.
 4. Automated SSR/metadata/canonical tests pass.
 5. The user explicitly approves the final Draft PR for merge/deploy separately.
+
+## Work completed in this Draft PR on 2026-11-24
+- Added SSR-aware entry wrappers for DoctorPage, ConsultationPage, DisclaimerPage, NotFoundPage, ClusterPage, and PregnancyCalculatorPage; App now imports route entry modules rather than wrapping these routes directly in React.lazy. Existing ArticlesPage, ArticleView, and AdminPage aliases remain intact.
+- Added a reusable prerender HTML metadata cleanup helper. It removes template-level title, description, robots, canonical, Open Graph, Twitter, and JSON-LD metadata before route-specific metadata is injected.
+- Added a Node regression test for duplicate prerender metadata and included it in the test and release verification scripts.
+- Strengthened the SSR route verifier to flag unresolved Suspense fallback text and missing H1 headings on public routes.
+- Updated public/llms.txt with source discovery guidance, core page links, Gulf/city coverage links, and explicit cautions against inferring pharmacy stock or legal availability from a city page.
+
+## Cloudflare protection review and action
+- Zone plan observed: Free Website.
+- Existing custom WAF rule remains active to block sensitive-file and common CMS exploit probes.
+- Browser Integrity Check (browser_check) is enabled; zone security level is medium; minimum TLS is 1.2; HTTPS redirect is enabled.
+- Added a custom Managed Challenge rule in the existing custom firewall ruleset:
+  - Ref: challenge_empty_user_agent
+  - Expression: (http.user_agent eq "" and not cf.client.bot)
+  - Action: Managed Challenge
+  - Intent: challenge requests with an empty User-Agent while exempting verified bots.
+- This does not block VPN users as a category. VPN/proxy use alone is not reliable evidence of fraud, and blanket VPN blocking can exclude genuine readers and legitimate crawlers.
+- The older zone rate-limits endpoint returned HTTP 410 (deprecated), and the current zone had no http_ratelimit entrypoint ruleset when queried. Do not claim a rate-limit policy is active. Check current Free-plan dashboard availability before creating a rate rule.
+- Bot Fight Mode was previously reported as enabled in the earlier review, but the current zone-settings API does not expose a readable bot_fight_mode setting. Verify its toggle in Cloudflare Dashboard > Security > Settings > Bot traffic before relying on it.
+- Review Security Events after the challenge rule has accumulated traffic. If legitimate monitoring or readers are challenged, adjust the rule rather than adding broad country or VPN blocks.
+
+## Validation status
+- GitHub file writes succeeded on this branch.
+- Automated tests/build/typecheck have not yet been run in a repository runtime. Do not mark this PR as passing until CI or a local release verification confirms it.
+- No content page, URL, canonical, robots policy, sitemap membership, or production deployment was changed in this work.
