@@ -1032,6 +1032,15 @@
       "targetUrl": "/cytotec-arar",
       "priority": "MEDIUM",
       "action": "تغطية توعوية محلية فقط؛ تجنب ادعاءات التوافر أو البيع، وأضف مصادر صحية موثوقة"
+    },
+    {
+      "keyword": "سايتوتيك في السعودية",
+      "searchIntent": "معلوماتي/تثقيفي عام",
+      "country": "SA",
+      "currentUrl": "/",
+      "targetUrl": "/",
+      "priority": "HIGH",
+      "action": "الحفاظ على الصفحة الرئيسية كوجهة أساسية وفق بيانات Search Console"
     }
   ]
 }
