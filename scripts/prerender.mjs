@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { injectRouteHead } from './prerender-html.mjs';
 
 const root = process.cwd();
 const distDir = resolve(root, 'dist');
@@ -51,11 +52,8 @@ for (const url of [...new Set(urls)]) {
     ...result.jsonLd.map((item) => `<script type="application/ld+json">${jsonForScript(item)}</script>`)
   ].join('\n');
 
-  const html = template
-    .replace(/<title>[\s\S]*?<\/title>/i, '')
-    .replace(/<link rel="canonical"[^>]*>/i, '')
-    .replace(/<div id="root"><\/div>/i, `<div id="root">${result.html}</div>`)
-    .replace('</head>', `${head}\n</head>`);
+  const bodyWithRoute = template.replace(/<div id="root"><\/div>/i, `<div id="root">${result.html}</div>`);
+  const html = injectRouteHead(bodyWithRoute, head);
 
   const output = url === '/' ? join(distDir, 'index.html') : join(distDir, url.replace(/^\//, ''), 'index.html');
   mkdirSync(dirname(output), { recursive: true });
