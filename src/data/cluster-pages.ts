@@ -1,3 +1,5 @@
+import abortionPillsSaudiPage from './abortion-pills-saudi-page';
+
 export type ClusterSection = {
   heading: string;
   paragraphs: string[];
@@ -449,5 +451,7 @@ for (const [slug, name, spelling] of [
 ] as const) {
   pages['/cytotec-' + slug] = cityPage(slug, name, spelling);
 }
+
+pages[abortionPillsSaudiPage.path] = abortionPillsSaudiPage;
 
 export const CLUSTER_PAGES = pages;
