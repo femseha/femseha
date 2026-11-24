@@ -26,6 +26,30 @@ export default defineConfig(({ isSsrBuild }) => {
         replacement: fileURLToPath(new URL(useServerEntries ? './src/pages/AdminPageEntryServer.tsx' : './src/pages/AdminPageEntryClient.tsx', import.meta.url))
       },
       {
+        find: '@entry/DoctorPage',
+        replacement: fileURLToPath(new URL('./src/pages/DoctorPageEntry.tsx', import.meta.url))
+      },
+      {
+        find: '@entry/ConsultationPage',
+        replacement: fileURLToPath(new URL('./src/pages/ConsultationPageEntry.tsx', import.meta.url))
+      },
+      {
+        find: '@entry/DisclaimerPage',
+        replacement: fileURLToPath(new URL('./src/pages/DisclaimerPageEntry.tsx', import.meta.url))
+      },
+      {
+        find: '@entry/NotFoundPage',
+        replacement: fileURLToPath(new URL('./src/pages/NotFoundPageEntry.tsx', import.meta.url))
+      },
+      {
+        find: '@entry/ClusterPage',
+        replacement: fileURLToPath(new URL('./src/pages/ClusterPageEntry.tsx', import.meta.url))
+      },
+      {
+        find: '@entry/PregnancyCalculatorPage',
+        replacement: fileURLToPath(new URL('./src/pages/PregnancyCalculatorPageEntry.tsx', import.meta.url))
+      },
+      {
         find: '@',
         replacement: fileURLToPath(new URL('./src', import.meta.url))
       }
